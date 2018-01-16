@@ -1,5 +1,4 @@
 # function to simulate predicted values
-
 simulate_predictions = function(model, data, nsim = 1000, contrast='z_relative_mob', 
                                random = 'q_mob') {
     
@@ -36,29 +35,3 @@ simulate_predictions = function(model, data, nsim = 1000, contrast='z_relative_m
     return(melt(t, id.vars = c('q', contrast)))
 }
 
-# first difference function
-first_difference = function(simulated_data, value_variable, constrast_variable, 
-                            simulation_index, group_variable) {
-    output = data.table()
-    gr = simulated_data[, unique(get(group_variable))]
-    for (g in gr) { 
-        diff = simulated_data[get(group_variable)==g, 
-                     .(q=g, diff = diff(get(value_variable))), by=.(sim=get(simulation_index))]
-        output = rbind(output, diff )
-    }
-    return(output)
-}
-
-# btw grouups
-
-first_difference_between_groups = function(data, contrast = 'z_gini', group = 'q', model = 'm1') {
-    c = gtools::combinations(n = 4, r = 2, v = c(1:4), repeats.allowed = FALSE)
-    t = list()
-    for (i in 1:nrow(c)) {
-        a = data[get(group) == c[i,1] & get(contrast) == 1, value] - data[get(group) == c[i,1] & get(contrast) == 0, value]
-        b = data[get(group) == c[i,2] & get(contrast) == 1, value] - data[get(group) == c[i,2] & get(contrast) == 0, value]
-        varname = paste0(c[i,1], '-', c[i,2]) 
-        t[[i]] = data.table(type =contrast,  contrast = varname, model = model, values = (a - b))
-    }
-    return(rbindlist(t))
-}

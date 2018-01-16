@@ -1,7 +1,4 @@
-# import dependencies
-import numpy as np 
-
-# functions
+# missing data
 def missing_data(df): 
     m = df.isnull().sum()/len(df)
     m = m[m>0.00]
@@ -11,6 +8,9 @@ def missing_data(df):
         print('No missing data!')
         
         
+# transform variables
+import numpy as np 
+
 def transform_variables(data, variables, kind='log'):
     d = data.copy()
     for name in variables: 
