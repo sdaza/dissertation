@@ -1,4 +1,5 @@
-simulate_predictions = function(model, data, nsim = 1000, contrast='variable', random_intercept = 'rnd_var') {
+simulate_pred_re = function(model, data, nsim = 1000, contrast='variable', 
+                                random_intercept = 'rnd_var') {
     
     t = data.table()
     # simulate posterior distribution
@@ -10,6 +11,7 @@ simulate_predictions = function(model, data, nsim = 1000, contrast='variable', r
     names_data = names(data)
 
     regex = "^Pred|^obs"
+    
     for (i in random_intercept) {
       regex = paste0(regex, paste0('|^', i))
     }
@@ -52,6 +54,7 @@ simulate_predictions = function(model, data, nsim = 1000, contrast='variable', r
         for (j in 1:N) {
             Ysim[j, 1] <- X[j, ] %*% mt[j,]
         }
+        
         s = data.table(Ysim)
         setnames(s, 'pred')
         s[, sim := i]

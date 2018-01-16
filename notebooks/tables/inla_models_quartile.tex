@@ -1,11 +1,13 @@
-\renewcommand{\arraystretch}{1.6}
+\renewcommand{\arraystretch}{1.2}
 \begin{table}[htp]
-\caption{Life Expectancy (40) Models}
-\begin{center}
-\scalebox{0.65}{
+\begin{threeparttable}
+\caption{Life Expectancy (40) Models\tnote{1}}\label{inla_models}
+\centering
+\setlength{\tabcolsep}{1pt}
+\scriptsize
 \begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }
 \toprule
-& \multicolumn{2}{c}{Baseline} & \multicolumn{2}{c}{Social Indicators} \\
+& \multicolumn{2}{c}{Baseline\tnote{2}} & \multicolumn{2}{c}{Social Indicators\tnote{3}} \\
 & \multicolumn{1}{c}{Women} & \multicolumn{1}{c}{Men} & \multicolumn{1}{c}{Women} & \multicolumn{1}{c}{Men} \\
 \midrule
  \addlinespace[10pt]
@@ -46,9 +48,12 @@ Standardized Gini                              & 0.14            & 0.23         
                                                & [0.04;\ 0.25]   & [0.12;\ 0.34]   & [0.05;\ 0.28]   & [0.09;\ 0.33]   \\
  \addlinespace[5pt]
 \bottomrule
-\multicolumn{5}{l}{\scriptsize{Note: Selected coefficients(mean of marginal posterior distribution). 95\% credibility intervals.}}
 \end{tabular}
-}
-\label{inla_models}
-\end{center}
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item [1] Four separated models (one per income quartile). Selected coefficients, mean of marginal posterior distribution and 95\% credibility intervals in brackets.
+\item [2] Baseline model adjusts for log population and log income.
+\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \% black, log \% hispanic, log unemployment, z-score income segregation, z-score \% uninsured, and z-score medicare expenses.
+\end{tablenotes}
+\end{threeparttable}
 \end{table}
