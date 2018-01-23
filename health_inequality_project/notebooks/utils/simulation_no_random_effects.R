@@ -4,7 +4,7 @@ simulate_pred_no_re = function(model, data, contrast, nsim = 1000) {
     t = data.table()
     # simulate posterior distribution
     sim_data <- inla.posterior.sample(n=nsim, result=model)
-    sim_names <- rownames(simData[[1]]$latent)
+    sim_names <- rownames(sim_data[[1]]$latent)
     beta_names <- rownames(model$summary.fixed) # get name of fixed effects
     
     # names dataset 
