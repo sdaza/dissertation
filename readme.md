@@ -18,3 +18,9 @@ To ground this argument, I use two strategies. First, I analyze aggregate and in
 - [Exploratory Data Analysis (EDA) Chetty's data](health_inequality_project/notebooks/eda_chetty.ipynb)
 - [Machine Learning (ML) exploration](health_inequality_project/notebooks/ml_chetty.ipynb)
 - [INLA models](health_inequality_project/notebooks/inla_chetty_quartiles.ipynb)
+
+#### CDC Mortality 
+
+#### ABM
+
+- [Segregation Mechanism](abm/notebooks/segregation.ipynb)
