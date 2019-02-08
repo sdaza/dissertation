@@ -21,8 +21,8 @@ To ground this argument, I use two strategies. First, I analyze aggregate and in
 ### Related projects
 
 - Working Paper: *Addressing the Longevity Gap between the Rich and Poor:The Role of Social Mobility*
- - [Exploratory Data Analysis (EDA) Chetty's data](related_projects/notebooks/eda_chetty.ipynb)
- - [Machine Learning (ML) exploration](related_projects/notebooks/ml_chetty.ipynb)
- - [INLA models](related_projects/notebooks/inla_chetty_quartiles.ipynb)
+ - [Exploratory Data Analysis (EDA) Chetty's data](related_projects/health_inequality_project/notebooks/eda_chetty.ipynb)
+ - [Machine Learning (ML) exploration](related_projects/health_inequeality_project/notebooks/ml_chetty.ipynb)
+ - [INLA models](related_projects/health_inequality_project/notebooks/inla_chetty_quartiles.ipynb)
 
 
