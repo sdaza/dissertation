@@ -7,18 +7,23 @@ My dissertation builds on that small literature and examines the robustness of t
 
 To ground this argument, I use two strategies. First, I analyze aggregate and individual data to assess the magnitude, robustness, and variability of the effects of income mobility, and empirically examine whether some of the potential pathways and mechanisms proposed in the literature are supported by the data. Secondly, building on this evidence, I use a theoretical model to assess the conditions and plausibility of the potential mechanisms involved in the association between income mobility and health. By formulating a generative model, where I precisely define (represent) a set of mechanisms (causal relationships) likely to bring about the observed patterns, I am able to assess the internal consistency of the theory and evaluate its generative sufficiency.
 
-###  Code
+###  Work in progress
 
-1. [Income Mobility, Income Inequality and Mortality in the U.S.](folder)
+#### Aggregate Analysis
 
-### Other
+- [Income Mobility, Income Inequality and Mortality in the U.S. (preprint)](https://osf.io/preprints/socarxiv/gdz2a)
+- [Code](ch02)
+- Unfortunately, the data is restricted.
 
-1. [App with descriptive plots](https://mobility-health.herokuapp.com)
+### Agent-based simulation
 
-2. Notebooks
-    - Health Inequality Project Data
-        - [Exploratory Data Analysis (EDA) Chetty's data](health_inequality_project/notebooks/eda_chetty.ipynb)
-        - [Machine Learning (ML) exploration](health_inequality_project/notebooks/ml_chetty.ipynb)
-        - [INLA models](health_inequality_project/notebooks/inla_chetty_quartiles.ipynb)
-    - Agent-based Modeling
-      - [Segregation Mechanism](abm/notebooks/segregation.ipynb)
+- [Segregation Mechanism](ch04/notebooks/segregation.ipynb)
+
+### Related projects
+
+- Working Paper: *Addressing the Longevity Gap between the Rich and Poor:The Role of Social Mobility*
+ - [Exploratory Data Analysis (EDA) Chetty's data](health_inequality_project/notebooks/eda_chetty.ipynb)
+ - [Machine Learning (ML) exploration](health_inequality_project/notebooks/ml_chetty.ipynb)
+ - [INLA models](health_inequality_project/notebooks/inla_chetty_quartiles.ipynb)
+
+
