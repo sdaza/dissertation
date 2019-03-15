@@ -3,12 +3,12 @@ extract.inla <- function(model, include.dic = FALSE,
     include.waic = FALSE, ...) {
 
 fixed <-  model$summary.fixed
-contrib <- inla.contrib.sd(model)$hyper
+contrib <- bri.hyperpar.summary(model)
 
 coefnames <- c(rownames(fixed), rownames(contrib))
 coef <- c(fixed[, "mean"], contrib[, "mean"])
-ci.low <- c(fixed[, "0.025quant"], contrib[, "2.5%"])
-ci.up <- c(fixed[, "0.975quant"], contrib[, "97.5%"])
+ci.low <- c(fixed[, "0.025quant"], contrib[, "q0.025"])
+ci.up <- c(fixed[, "0.975quant"], contrib[, "q0.975"])
 
 gof <- numeric()
 gof.names <- character()

@@ -127,9 +127,11 @@ tab[, variable := nvars]
 nnames = c('Variable', 'Mean', 'SD', 'Mean', 'SD', 'Mean', 'SD')
 setnames(tab, names(tab), nnames)
 
+total_rows = nrow(tab)
+
 # create latex table
 addtorow = list()
-addtorow$pos = list(-1, 0, 4, total_row)
+addtorow$pos = list(-1, 0, 4, total_rows)
 addtorow$command <- c("\\hline
 \\addlinespace
 & \\multicolumn{2}{c}{Full Sample} & \\multicolumn{2}{c}{Lowest Quartile IRM} & \\multicolumn{2}{c}{Highest Quartile IRM}  \\\\
@@ -149,7 +151,7 @@ Variable & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} & \\multicolumn{1
 \\addlinespace
 ")
 
-total_row = nrow(tab)
+
 caption = 'Mean and Standard Deviation of Outcome and Covariates \\newline by Relative Income Mobility (IRM), N = 1508 counties'
 print(xtable(tab, caption=caption, label='tab:descriptives'),
     caption.placement='top',

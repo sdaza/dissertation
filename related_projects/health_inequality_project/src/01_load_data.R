@@ -110,3 +110,5 @@ df = df[complete.cases(df[, .(crime_rate)])]
 
 # save file
 saveRDS(df, file='related_projects/health_inequality_project/data/le_cov_sel.rds')
+
+# end

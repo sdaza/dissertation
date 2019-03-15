@@ -1,8 +1,8 @@
 ##############################
 # INLA models by quartile
+# relative mobility
 # author: sebastian daza
 ##############################
-
 
 # libraries
 library(INLA)
@@ -10,6 +10,7 @@ library(brinla)
 library(data.table)
 library(ggplot2)
 library(texreg)
+library(stringr)
 
 # functions
 source('related_projects/health_inequality_project/src/utils/extract_inla.R')
@@ -251,10 +252,10 @@ for (i in 1:4) {
 # relative mobility
 
 for (i in 1:4) {
-    cmodels <- rep(c('Women', 'Men'), 2)
+    cmodels <- c('Base Model', 'Base Model + Covariates', 'Base Model', 'Base Model + Covariates')
     models <- list(get(paste0('f1_', i)),
-                   get(paste0('m1_', i)),
                    get(paste0('f2_', i)),
+                   get(paste0('m1_', i)),
                    get(paste0('m2_', i)))
 
     cnames <- list(z_relative_mob = paste0('Q', i))
@@ -279,46 +280,53 @@ for (i in 1:4) {
                 custom.note = "95\\% credibility intervals.")
 
     assign(paste0('tab_', i), t)
+    remove(t)
 }
 
 heading = '\\renewcommand{\\arraystretch}{1.2}\n
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
-\\caption{Life Expectancy (40) Models\\tnote{1}}\\label{inla_models}\n
+\\caption{Estimates of association between life expectancy at age 40
+  \\newline and relative income mobility\\tnote{1} (N = 1508 counties)}\\label{inla_models}\n
 \\centering\n
 \\setlength{\\tabcolsep}{1pt}\n
 \\scriptsize\n
 \\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }\n
-\\toprule\n
-& \\multicolumn{2}{c}{Baseline\\tnote{2}} & \\multicolumn{2}{c}{Social Indicators\\tnote{3}} \\\\\n
-& \\multicolumn{1}{c}{Women} & \\multicolumn{1}{c}{Men} & \\multicolumn{1}{c}{Women} & \\multicolumn{1}{c}{Men} \\\\\n
-\\midrule\n'
+\\hline\n
+\\addlinespace\n
+& \\multicolumn{2}{c}{Women} & \\multicolumn{2}{c}{Men} \\\\
+Income Quartile & \\multicolumn{1}{c}{Base model\\tnote{2}} & \\multicolumn{1}{c}{Additional covariates\\tnote{3}}
+& \\multicolumn{1}{c}{Base model} & \\multicolumn{1}{c}{Additional covariates} \\\\
+\\addlinespace\n
+\\hline'
 
 heading =  gsub("\n\n", "\n", heading)
 
 bottom = '\\addlinespace[5pt]\n
-\\bottomrule\n
-\\end{tabular}
-\n\\begin{tablenotes}[flushleft]\n
+\\hline\n
+\\end{tabular}\n
+\\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
-\\item [1] Four separated models (one per income quartile). Selected coefficients, mean of marginal posterior distribution and 95\\% credibility intervals in brackets.\n
+\\item [1] Four separated models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
 \\item [2] Baseline model adjusts for log population and log income.\n
-\\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \\% black, log \\% hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
-\\end{table}\n'
+\\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
+\\end{table}'
 
 bottom =  gsub("\n\n", "\n", bottom)
 
 sep = NA
 for (i in 1:4) {
-  sep[i] = paste0("\\addlinespace[10pt]\n\\multicolumn{5}{l}{\\textbf{Income Quartile ", i, "}} \\\\\n\\addlinespace[10pt]\n")
+  sep[i] = "\n\\addlinespace\n"
 }
 
 tabs = list(tab_1, tab_2, tab_3, tab_4)
 
 out = list()
 for (i in 1:4) {
-    out[[i]] = gsub('(.+)(Constant.+)(Random.+)', '\\2', tabs[[i]])
+     out[[i]] = strsplit(tabs[[i]], '\\midrule')[[1]][2]
+     out[[i]] = gsub('\n|\n\\\\', '', out[[i]])
 }
+
 
 # export table
 cat(heading,
@@ -327,5 +335,8 @@ cat(heading,
     sep[[3]], out[[3]],
     sep[[4]], out[[4]],
     bottom,
-    file = 'tables/inla_models_quartile.tex')
+    file = 'related_projects/health_inequality_project/output/tables/main_table_inla_models.tex')
 
+# supplementary table with covariates
+
+# end
