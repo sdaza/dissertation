@@ -99,6 +99,7 @@ setnames(mq4_cov, names(mq4_cov), c('variable', 'q4m', 'q4sd'))
 
 tab_cov = merge(merge(total_cov, mq1_cov, on='variable'), mq4_cov, on='variable')
 
+tab_cov = tab_cov[vars]
 
 # final table
 
@@ -128,31 +129,37 @@ setnames(tab, names(tab), nnames)
 
 # create latex table
 addtorow = list()
-addtorow$pos = list(-1, 0, 4)
+addtorow$pos = list(-1, 0, 4, total_row)
 addtorow$command <- c("\\hline
 \\addlinespace
-& \\multicolumn{2}{c}{Full Sample} & \\multicolumn{2}{c}{Q1 IRM} & \\multicolumn{2}{c}{Q4 IRM}  \\\\
+& \\multicolumn{2}{c}{Full Sample} & \\multicolumn{2}{c}{Lowest Quartile IRM} & \\multicolumn{2}{c}{Highest Quartile IRM}  \\\\
 Variable & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} \\\\
- \\addlinespace
- ",
- "\\addlinespace
- & \\multicolumn{6}{l}{\\textit{Outcome}}
- \\addlinespace
- ",
-  "\\addlinespace
- & \\multicolumn{6}{l}{\\textit{Covariates}}
- \\addlinespace
- ")
+\\addlinespace
+",
+"\\addlinespace
+\\multicolumn{7}{l}{\\textit{Outcome}} \\\\
+\\addlinespace
+",
+"\\addlinespace
+\\multicolumn{7}{l}{\\textit{Covariates}} \\\\
+\\addlinespace
+",
+"\\addlinespace
+\\hline
+\\addlinespace
+")
 
 total_row = nrow(tab)
 caption = 'Mean and Standard Deviation of Outcome and Covariates \\newline by Relative Income Mobility (IRM), N = 1508 counties'
 print(xtable(tab, caption=caption, label='tab:descriptives'),
     caption.placement='top',
-    hline.after=c(-1, total_row),
+    hline.after=c(-1),
     size="scriptsize",
     table.placement='htp',
     add.to.row = addtorow,
     include.rownames=FALSE, include.colnames=FALSE,
     file='related_projects/health_inequality_project/output/tables/descriptive.tex')
+
+# end
 
 
