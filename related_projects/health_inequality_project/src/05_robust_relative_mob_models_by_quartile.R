@@ -1,6 +1,7 @@
 ##############################
 # INLA models by quartile
 # relative mobility
+# robust models
 # author: sebastian daza
 ##############################
 
@@ -50,13 +51,17 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # run models per income quartile
 for (i in 1:4) {
+
+    print(paste0(':::: model male quartile ', i))
+
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-       f(state, model = "iid", hyper = pcprior)
-    model = inla(formula, family = "gaussian", data = male[income_qr==i],
+       f(state, model = "iid", hyper=pcprior)
+    model = inla(formula, family = "T", data = male[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          # there is problem with the t-student distribution, force it using cmin=0
+          control.inla = list(h = 0.001),
           verbose = FALSE)
 
     model_name = paste0('m1_', i)
@@ -65,32 +70,6 @@ for (i in 1:4) {
 
 # check
 bri.hyperpar.summary(m1_1)
-
-# create data for prediction
-# all values in their means except for constrast: income mobility
-
-# # 4 quartiles for 2 contrast values
-# nrep = 2
-# relative_mob_pred_data = data.table(
-#     z_relative_mob = c(0.0, 1.0),
-#     z_gini = rep(0, nrep),
-#     log_population = rep(0, nrep),
-#     log_income = rep(0, nrep))
-
-# # simulate values per quartile
-# sim_male_m1 = data.table()
-
-# for (i in 1:4) {
-#     model_name = paste0('m1_', i)
-#     s = simulate_pred_no_re(model=get(model_name),
-#                                           data=relative_mob_pred_data,
-#                                           contrast='z_relative_mob',
-#                                           nsim = 2000)
-#     d = s[, .(q = i, fd = diff(pred)), by = sim][, .(q, fd)]
-#     sim_male_m1 = rbind(sim_male_m1, d)
-# }
-
-# saveRDS(sim_male_m1, file = 'related_projects/health_inequality_project/data/sim_male_m1.rds')
 
 # female
 
@@ -101,13 +80,15 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # run models per income quartile
 for (i in 1:4) {
+
+    print(paste0(':::: female male quartile ', i))
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-       f(state, model = "iid", hyper = pcprior)
-    model = inla(formula, family = "gaussian", data = female[income_qr==i],
+       f(state, model = "iid", hyper=pcprior)
+    model = inla(formula, family = "T", data = female[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h = 0.001),
           verbose = FALSE)
 
     model_name = paste0('f1_', i)
@@ -116,23 +97,6 @@ for (i in 1:4) {
 
 # check
 bri.hyperpar.summary(f1_1)
-
-# # simulate per quartile
-# sim_female_f1 = data.table()
-
-# for (i in 1:4) {
-#     model_name = paste0('f1_', i)
-#     s = simulate_pred_no_re(model=get(model_name),
-#                                           data=relative_mob_pred_data,
-#                                           contrast='z_relative_mob',
-#                                           nsim = 2000)
-#     d = s[, .(q = i, fd = diff(pred)), by = sim][, .(q, fd)]
-#     sim_female_f1 = rbind(sim_female_f1, d)
-#     }
-
-# saveRDS(sim_female_m1, file = 'related_projects/health_inequality_project/data/sim_female_f1.rds')
-
-# adjusting for covariates
 
 # male
 
@@ -147,61 +111,23 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # models per quartile
 for (i in 1:4) {
+
+    print(paste0(':::: model male quartile ', i))
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
         log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
         log_unemployment +  z_uninsured + z_medicare_expenses +
-        f(state, model = "iid", hyper = pcprior)
-    model = inla(formula, family = "gaussian", data = male[income_qr==i],
+        f(state, model = "iid", hyper=pcprior)
+    model = inla(formula, family = "T", data = male[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h = 0.001),
           verbose = FALSE)
 
     model_name = paste0('m2_', i)
     assign(model_name, model)
 
     }
-
-# # create data for predictions
-# nrep =  2 # 2 contrast values
-# relative_mob_pred_data = data.table(
-#     z_relative_mob       = c(0.0, 1.0),
-#     z_gini               = rep(0, nrep),
-#     log_population       = rep(0, nrep),
-#     log_income           = rep(0, nrep),
-#     log_crime_rate       = rep(0, nrep),
-# #     log_poverty          = rep(0, nrep),
-# #     log_mig_inflow       = rep(0, nrep),
-# #     log_mig_outflow      = rep(0, nrep),
-# #     log_foreign          = rep(0, nrep),
-#     log_pct_black        = rep(0, nrep),
-#     log_pct_hispanic     = rep(0, nrep),
-# #     log_house_value      = rep(0, nrep),
-# #     log_local_gov_exp    = rep(0, nrep),
-#     log_unemployment     = rep(0, nrep),
-#     z_segregation_income = rep(0, nrep),
-# #     z_religion           = rep(0, nrep),
-# #     z_labor_force        = rep(0, nrep),
-# #     z_college            = rep(0, nrep),
-# #     z_middle_class       = rep(0, nrep),
-#     z_uninsured          = rep(0, nrep),
-#     z_medicare_expenses  = rep(0, nrep))
-
-# # simulate by quartile
-# sim_male_m2 = data.table()
-
-# for (i in 1:4) {
-#     model_name = paste0('m2_', i)
-#     s = simulate_pred_no_re(model=get(model_name),
-#                                           data=relative_mob_pred_data,
-#                                           contrast='z_relative_mob',
-#                                           nsim = 2000)
-#     d = s[, .(q = i, fd = diff(pred)), by = sim][, .(q, fd)]
-#     sim_male_m2 = rbind(sim_male_m2, d)
-#     }
-
-# saveRDS(sim_male_m2, file = 'related_projects/health_inequality_project/data/sim_male_m2.rds')
 
 # female
 
@@ -215,15 +141,17 @@ sdres <- sd(residuals(lmod))
 pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 for (i in 1:4) {
+
+    print(paste0(':::: model female quartile ', i))
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
         log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
         log_unemployment +  z_uninsured + z_medicare_expenses +
-        f(state, model = "iid", hyper = pcprior)
-    model = inla(formula, family = "gaussian", data = female[income_qr==i],
+        f(state, model = "iid", hyper=pcprior)
+    model = inla(formula, family = "T", data = female[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h = 0.001),
           verbose = FALSE)
 
     model_name = paste0('f2_', i)
@@ -231,24 +159,7 @@ for (i in 1:4) {
 
     }
 
-# # simulate per quartile
-# sim_female_f2 = data.table()
-
-# for (i in 1:4) {
-#     model_name = paste0('f2_', i)
-#     s = simulate_pred_no_re(model=get(model_name),
-#                                           data=relative_mob_pred_data,
-#                                           contrast='z_relative_mob',
-#                                           nsim = 2000)
-#     d = s[, .(q = i, fd = diff(pred)), by = sim][, .(q, fd)]
-#     sim_female_f2 = rbind(sim_female_f2, d)
-#     }
-
-# saveRDS(sim_female_f2, file = 'related_projects/health_inequality_project/data/sim_female_f2.rds')
-
-
 # create tables with results
-
 # relative mobility
 
 for (i in 1:4) {
@@ -284,10 +195,10 @@ for (i in 1:4) {
 }
 
 heading = '\\renewcommand{\\arraystretch}{1.2}\n
-\\setlength{\\tabcolsep}{11pt}
+\\setlength{\\tabcolsep}{11pt}\n
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
-\\caption{Estimates of association between life expectancy at age 40
+\\caption{Estimates of association (robust models) between life expectancy at age 40
   \\newline and relative income mobility\\tnote{1} (N = 1508 counties)}\\label{inla_models}\n
 \\centering\n
 \\scriptsize\n
@@ -307,7 +218,7 @@ bottom = '\\addlinespace[5pt]\n
 \\end{tabular}\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
-\\item [1] Four separated models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
+\\item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
 \\item [2] Baseline model adjusts for log population and log income.\n
 \\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
 \\end{table}'
@@ -335,49 +246,8 @@ cat(heading,
     sep[[3]], out[[3]],
     sep[[4]], out[[4]],
     bottom,
-    file = 'related_projects/health_inequality_project/output/tables/relative_mob_inla_models.tex')
+    file = 'related_projects/health_inequality_project/output/tables/inla_robust_models.tex')
 
 # supplementary table with covariates
-
-cmodels <- c('Women Q1', 'Women Q4', 'Men Q1', 'Men Q4')
-models = list(f2_1, f2_4, m2_1, m2_4)
-
-cnames <- list(
-               z_relative_mob = 'Relative income mobility (z)',
-               z_gini = 'Gini (z)',
-               log_population = 'Log population',
-               log_income = 'Log household income',
-               log_crime_rate = 'Log crime rate',
-               z_segregation_income = 'Income segregation (z)',
-               log_pct_black = 'Log percent Afroamerican',
-               log_pct_hispanic = 'Log percent Hispanic',
-               log_unemployment = 'Log unemployment rate',
-               z_uninsured = 'Percent uninsured (z)',
-               z_medicare_expenses = 'Medicare expenses (z)',
-               "SD for state" = "SD states",
-               "SD for the Gaussian observations" = "SD observations")
-
-texreg(models,
-       include.dic = TRUE, include.waic = TRUE,
-       ci.test = FALSE,
-       float.pos = "htp",
-       caption = "Estimates of association between life expectancy at age 40
-       \\newline and relative income mobility (N = 1508 counties)",
-       booktabs = TRUE,
-       use.packages = FALSE,
-       dcolumn = TRUE,
-       caption.above = TRUE,
-       scalebox = 0.65,
-       label = "inla_models_cov",
-       # sideways = TRUE,
-       digits = 2,
-       custom.model.names = cmodels,
-       custom.coef.map = cnames,
-       groups = list("\\addlinespace\n\\textit{Random Effects}" = c(12:13)),
-       custom.note = "95\\% credibility intervals in brackets. z = standardized values. DIC = Deviance Information Criterion, WAIC = Widely Applicable Information Criterion.",
-       file = 'related_projects/health_inequality_project/output/tables/relative_mob_inla_models_cov.tex')
-
-
-# simulation of counter factual
 
 # end
