@@ -48,7 +48,10 @@ vars = names(m[m>0])
 cov[, c(vars) := lapply(.SD, impute), by=statename, .SDcols=vars]
 
 m = countmis(cov)
+print(m)
 m[m>0]
+
+table(cov[!is.na(crime_rate) , .(statename, county)], useNA='ifany')
 
 # transform variables
 
@@ -89,6 +92,7 @@ cov[, paste0('z_', vars) := lapply(.SD, ztran), .SDcols=vars]
 
 # select complete cases
 cov = cov[complete.cases(cov[, .(relative_mob, absolute_mob, income, gini)])]
+length(unique(cov$county))
 
 # le database
 le = read_stata('related_projects/health_inequality_project/data/cty_leBY_gnd_hhincquartile.dta')
@@ -101,12 +105,18 @@ le = le[, .(county, gender, income_q, le)]
 # merge data bases
 df = merge(le, cov, on='county')
 
+# adjust le values (life expectancy at age 40)
 df[, le := le - 40]
 
 anyDuplicated(df[, .(county, gender, income_q)])
 length(unique(df$county))
 
-df = df[complete.cases(df[, .(crime_rate)])]
+# df = df[complete.cases(df[, .(crime_rate)])]
+
+# print output
+print(paste0('Number of counties: ', length(unique(df$county))))
+print(paste0('Number of states: ', length(unique(df$statename))))
+print(paste0('Number of rows: ', nrow(df)))
 
 # save file
 saveRDS(df, file='related_projects/health_inequality_project/data/le_cov_sel.rds')

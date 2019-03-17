@@ -12,6 +12,7 @@ library(xtable)
 
 # read data
 df = readRDS('related_projects/health_inequality_project/data/le_cov_sel.rds')
+ncounties = length(unique(df$county))
 
 male = df[gender=='M' & income_q %in% c('Q1', 'Q4')]
 
@@ -73,7 +74,7 @@ df[, adjust_relative_mob := (relative_mob * -1)/100]
 names(df)
 
 vars = c('adjust_relative_mob', 'gini', 'income', 'population', 'pct_black',
-         'pct_hispanic', 'crime_rate', 'segregation_income', 'unemployment',
+         'pct_hispanic', 'segregation_income', 'unemployment',
          'uninsured', 'medicare_expenses')
 
 cov_summary = function(x) list(mean = mean(x, na.rm=TRUE),
@@ -116,7 +117,7 @@ nvars = c("Age 40 LE Poorest Income Quartile, Women",
           "Population",
            "Percent Afroamerican",
            "Percent Hispanic",
-           "Crime Rate",
+           # "Crime Rate",
            "Income Segregation",
            "Unemployment Rate",
            "Percent Uninsured",
@@ -152,7 +153,8 @@ Variable & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} & \\multicolumn{1
 ")
 
 
-caption = 'Mean and Standard Deviation of Outcome and Covariates \\newline by Relative Income Mobility (IRM), N = 1508 counties'
+caption = paste0('Mean and Standard Deviation of Outcome and Covariates
+                 \\newline by Relative Income Mobility (IRM), N = ', ncounties, ' counties')
 print(xtable(tab, caption=caption, label='tab:descriptives'),
     caption.placement='top',
     hline.after=c(-1),

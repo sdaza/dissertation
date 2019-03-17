@@ -5,7 +5,9 @@
 ##############################
 
 # libraries
+# This is INLA_18.07.12 built 2018-07-12 11:07:12 UTC.
 library(INLA)
+# https://github.com/julianfaraway/brinla
 library(brinla)
 library(data.table)
 library(ggplot2)
@@ -17,14 +19,17 @@ source('related_projects/health_inequality_project/src/utils/extract_inla.R')
 source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
 # source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
 
+
 # load data
 df = readRDS('related_projects/health_inequality_project/data/le_cov_sel.rds')
+ncounties = length(unique(df$counties))
 
 df[, state := .GRP, by = statename]
 df[, cty := .GRP, by = county]
 df[, income_qr := .GRP, by = income_q]
 
-table(df[, .(income_qr, income_q)]) # ok, right!
+# check grouping variable
+table(df[, .(income_qr, income_q)])
 
 # reverse sign of relative mobility
 df[, z_relative_mob := z_relative_mob * -1.0]
@@ -56,7 +61,7 @@ for (i in 1:4) {
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h=0.001),
           verbose = FALSE)
 
     model_name = paste0('m1_', i)
@@ -107,7 +112,7 @@ for (i in 1:4) {
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h=0.001),
           verbose = FALSE)
 
     model_name = paste0('f1_', i)
@@ -138,7 +143,7 @@ bri.hyperpar.summary(f1_1)
 
 # define PC prior
 lmod <- lm(le ~ z_relative_mob  + z_gini + log_population + log_income +
-           log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
+          z_segregation_income +  log_pct_black + log_pct_hispanic +
            log_unemployment +  z_uninsured + z_medicare_expenses, male)
 
 
@@ -148,14 +153,14 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 # models per quartile
 for (i in 1:4) {
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-        log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
+        z_segregation_income +  log_pct_black + log_pct_hispanic +
         log_unemployment +  z_uninsured + z_medicare_expenses +
         f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = male[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h=0.001),
           verbose = FALSE)
 
     model_name = paste0('m2_', i)
@@ -207,7 +212,7 @@ for (i in 1:4) {
 
 # define PC prior
 lmod <- lm(le ~ z_relative_mob  + z_gini + log_population + log_income +
-       log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
+      z_segregation_income +  log_pct_black + log_pct_hispanic +
        log_unemployment +  z_uninsured + z_medicare_expenses, female)
 
 # pc prior
@@ -216,14 +221,14 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 for (i in 1:4) {
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-        log_crime_rate + z_segregation_income +  log_pct_black + log_pct_hispanic +
+        z_segregation_income +  log_pct_black + log_pct_hispanic +
         log_unemployment +  z_uninsured + z_medicare_expenses +
         f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = female[income_qr==i],
 #           control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-#           control.inla = list(strategy ="gaussian"),
+          control.inla = list(h=0.001),
           verbose = FALSE)
 
     model_name = paste0('f2_', i)
@@ -283,12 +288,12 @@ for (i in 1:4) {
     remove(t)
 }
 
-heading = '\\renewcommand{\\arraystretch}{1.2}\n
+heading = paste0('\\renewcommand{\\arraystretch}{1.2}\n
 \\setlength{\\tabcolsep}{11pt}
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
 \\caption{Estimates of association between life expectancy at age 40
-  \\newline and relative income mobility\\tnote{1} (N = 1508 counties)}\\label{inla_models}\n
+  \\newline and relative income mobility\\tnote{1} (N = ', ncounties, ' counties)}\\label{inla_models}\n
 \\centering\n
 \\scriptsize\n
 \\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }\n
@@ -298,7 +303,7 @@ heading = '\\renewcommand{\\arraystretch}{1.2}\n
 Income Quartile & \\multicolumn{1}{c}{Base model\\tnote{2}} & \\multicolumn{1}{c}{Additional covariates\\tnote{3}}
 & \\multicolumn{1}{c}{Base model} & \\multicolumn{1}{c}{Additional covariates} \\\\
 \\addlinespace\n
-\\hline'
+\\hline')
 
 heading =  gsub("\n\n", "\n", heading)
 
@@ -347,7 +352,7 @@ cnames <- list(
                z_gini = 'Gini (z)',
                log_population = 'Log population',
                log_income = 'Log household income',
-               log_crime_rate = 'Log crime rate',
+               # log_crime_rate = 'Log crime rate',
                z_segregation_income = 'Income segregation (z)',
                log_pct_black = 'Log percent Afroamerican',
                log_pct_hispanic = 'Log percent Hispanic',
@@ -361,8 +366,8 @@ texreg(models,
        include.dic = TRUE, include.waic = TRUE,
        ci.test = FALSE,
        float.pos = "htp",
-       caption = "Estimates of association between life expectancy at age 40
-       \\newline and relative income mobility (N = 1508 counties)",
+       caption = paste0("Estimates of association between life expectancy at age 40
+       \\newline and relative income mobility (N = ", ncounties, " counties)",
        booktabs = TRUE,
        use.packages = FALSE,
        dcolumn = TRUE,
@@ -380,4 +385,28 @@ texreg(models,
 
 # simulation of counter factual
 
+# max_mob = max(c(male$z_relative_mob, female$z_relative_mob))
+
+# # male
+
+# vars = c("z_relative_mob","z_gini","log_population","log_income","log_crime_rate",
+#          "z_segregation_income","log_pct_black","log_pct_hispanic",
+#          "log_unemployment","z_uninsured","z_medicare_expenses")
+
+# bottom_male = copy(male[income_qr==1, ..vars])
+# top_male = copy(male[income_qr==4, ..vars])
+
+# sim_male_bottom = simulate_pred_no_re(m2_1, nsim=2000, contrast='z_relative_mob', bottom_male)
+
+# s = simulate_pred_no_re(m2_1,
+# #                                           data=relative_mob_pred_data,
+# #                                           contrast='z_relative_mob',
+# #                                           nsim = 2000)
+
+# names(tabs)
+
+# # simulate values
+# source('utils/simulation_random_intercept.R')
+
+# sim_male_bottom = simulate_pred_no_re(m2_1, nsim=2000, bottom_male)
 # end
