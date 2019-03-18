@@ -12,19 +12,18 @@ cov = read_stata('related_projects/health_inequality_project/data/cty_full_covar
 cov = data.table(cov)
 
 # rename columns
-
 ovars = c('cty', 'county_name', 'cty_pop2000', 'statename', 'stateabbrv', 'pop_density',
           'gini99', 's_rank', 'e_rank_b', 'cs00_seg_inc', 'cs_race_theil_2000', 'hhinc00',
           'poor_share', 'frac_middleclass', 'mig_inflow', 'mig_outflow', 'cs_born_foreign',
           'rel_tot', 'crime_total', 'puninsured2010',  'cs_labforce', 'unemp_rate',
-          'cs_frac_black', 'cs_frac_hisp', 'bmi_obese', 'cur_smoke','exercise_any',
+          'cs_frac_black', 'cs_frac_hisp',
           'median_house_value', 'cs_educ_ba', 'reimb_penroll_adj10', 'subcty_exp_pc')
 
 nvars = c('county', 'county_name', 'population', 'statename', 'stateabbrv', 'density',
           'gini', 'relative_mob', 'absolute_mob', 'segregation_income', 'segregation_race',
           'income', 'poverty', 'middle_class', 'mig_inflow', 'mig_outflow', 'foreign',
           'religion', 'crime_rate', 'uninsured', 'labor_force', 'unemployment', 'pct_black',
-          'pct_hispanic', 'obesity', 'smoking', 'exercise', 'house_value', 'college',
+          'pct_hispanic', 'house_value', 'college',
           'medicare_expenses', 'local_gov_exp')
 
 setnames(cov, ovars, nvars)
@@ -32,12 +31,10 @@ setnames(cov, ovars, nvars)
 cov = cov[, ..nvars]
 
 # missing data
-
 m = countmis(cov)
 m[m>0]
 
 # impute missing by state
-
 impute = function(x) {
      v = median(x, na.rm = TRUE)
      x[is.na(x)] = v
@@ -51,44 +48,7 @@ m = countmis(cov)
 print(m)
 m[m>0]
 
-table(cov[!is.na(crime_rate) , .(statename, county)], useNA='ifany')
-
-# transform variables
-
-logtran = function(x, center=TRUE) {
-     x = ifelse(x <= 0, log(0.1), log(x))
-     if (center) {
-          return(x - mean(x, na.rm=TRUE))
-     }
-     else {
-          return(x)
-     }
-}
-
-ztran  = function(x) {
-     m = mean(x, na.rm=TRUE)
-     sm = sd(x, na.rm=TRUE)
-     z = (x - m) / sm
-     return(z)
-}
-
-# list of variables log (centered)
-
-vars = c('population', 'crime_rate', 'poverty', 'mig_inflow',
-         'mig_outflow', 'foreign', 'pct_black', 'pct_hispanic',
-         'house_value', 'local_gov_exp', 'unemployment', 'income')
-
-
-cov[, paste0('log_', vars) := lapply(.SD, logtran), .SDcols=vars]
-
-# z values
-
-vars = c('gini', 'relative_mob', 'absolute_mob',
-         'middle_class', 'segregation_income', 'religion',
-         'labor_force', 'uninsured', 'medicare_expenses',
-         'college')
-
-cov[, paste0('z_', vars) := lapply(.SD, ztran), .SDcols=vars]
+# table(cov[!is.na(crime_rate) , .(statename, county)], useNA='ifany')
 
 # select complete cases
 cov = cov[complete.cases(cov[, .(relative_mob, absolute_mob, income, gini)])]
@@ -104,14 +64,60 @@ le = le[, .(county, gender, income_q, le)]
 
 # merge data bases
 df = merge(le, cov, on='county')
+dim(df)
 
 # adjust le values (life expectancy at age 40)
 df[, le := le - 40]
+# center
+# df[, le := le - mean(le)]
 
+unique(df$county)
+
+df[county==39051, .(income_q, gender, le, relative_mob)]
+
+# transform variables
+logtran = function(x, center=TRUE) {
+     x = ifelse(x <= 0, log(0.1), log(x))
+     if (center) {
+          return(scale(x, center=TRUE, scale=FALSE))
+     }
+     else {
+          return(x)
+     }
+}
+
+ztran  = function(x) {
+     m = mean(x, na.rm=TRUE)
+     sm = sd(x, na.rm=TRUE)
+     z = (x - m) / sm
+     return(z)
+}
+
+# list of variables log (centered)
+log_vars = c('population', 'poverty', 'mig_inflow',
+         'mig_outflow', 'foreign', 'pct_black', 'pct_hispanic',
+         'house_value', 'local_gov_exp', 'unemployment', 'income')
+
+df[, paste0('log_', log_vars) := lapply(.SD, logtran), .SDcols=vars]
+df[, .(log_income, income)]
+
+# z values
+z_vars = c('gini', 'relative_mob', 'absolute_mob',
+         'middle_class', 'segregation_income', 'religion',
+         'labor_force', 'uninsured', 'medicare_expenses',
+         'college')
+
+df[, paste0('z_', z_vars) := lapply(.SD, scale, center=TRUE, scale=TRUE), .SDcols=vars]
+df[, paste0('z_', z_vars) := lapply(.SD, ztran), .SDcols=vars]
+
+df[, .(relative_mob, z_relative_mob)]
+
+# duplicates
 anyDuplicated(df[, .(county, gender, income_q)])
 length(unique(df$county))
 
-# df = df[complete.cases(df[, .(crime_rate)])]
+list_variables = c(log_vars, z_vars, 'le')
+df = df[complete.cases(df[, ..list_variables])]
 
 # print output
 print(paste0('Number of counties: ', length(unique(df$county))))

@@ -22,7 +22,7 @@ source('related_projects/health_inequality_project/src/utils/simulation_no_rando
 
 # load data
 df = readRDS('related_projects/health_inequality_project/data/le_cov_sel.rds')
-ncounties = length(unique(df$counties))
+ncounties = length(unique(df$county))
 
 df[, state := .GRP, by = statename]
 df[, cty := .GRP, by = county]
@@ -47,7 +47,9 @@ male = df[gender=='M']
 
 # male
 
-lmod = lm(le ~ z_relative_mob  + z_gini + log_population + log_income, male)
+lmod = lm(le ~ z_relative_mob  + z_gini + log_population + log_income
+          # + as.factor(income_qr)
+          , male)
 
 # pc prior
 sdres <- sd(residuals(lmod))
@@ -55,13 +57,14 @@ pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # run models per income quartile
 for (i in 1:4) {
-    formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
+    print(paste0('::::: model male quartile ', i))
+    formula = le ~ z_relative_mob + z_gini + log_population + log_income +
        f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = male[income_qr==i],
-#           control.predictor=list(compute = TRUE),
+          control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-          control.inla = list(h=0.001),
+          control.inla = list(tolerance=1e-6, h=1e-3),
           verbose = FALSE)
 
     model_name = paste0('m1_', i)
@@ -99,20 +102,23 @@ bri.hyperpar.summary(m1_1)
 
 # female
 
-lmod <- lm(le ~ z_relative_mob + z_gini + log_population + log_income, female)
+lmod <- lm(le ~ z_relative_mob + z_gini + log_population + log_income
+           # + as.factor(income_qr)
+           , female)
 
 sdres <- sd(residuals(lmod))
 pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # run models per income quartile
 for (i in 1:4) {
+    print(paste0('::::: model female male quartile ', i))
     formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
        f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = female[income_qr==i],
-#           control.predictor=list(compute = TRUE),
+          control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-          control.inla = list(h=0.001),
+          control.inla = list(tolerance=1e-6, h=1e-3),
           verbose = FALSE)
 
     model_name = paste0('f1_', i)
@@ -143,24 +149,26 @@ bri.hyperpar.summary(f1_1)
 
 # define PC prior
 lmod <- lm(le ~ z_relative_mob  + z_gini + log_population + log_income +
-          z_segregation_income +  log_pct_black + log_pct_hispanic +
-           log_unemployment +  z_uninsured + z_medicare_expenses, male)
-
+          z_segregation_income + log_pct_black + log_pct_hispanic +
+           log_unemployment +  z_uninsured + z_medicare_expenses
+           # + as.factor(income_qr)
+           , male)
 
 sdres <- sd(residuals(lmod))
 pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 # models per quartile
 for (i in 1:4) {
-    formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-        z_segregation_income +  log_pct_black + log_pct_hispanic +
-        log_unemployment +  z_uninsured + z_medicare_expenses +
+    print(paste0('::::: model male adjusted quartile ', i))
+    formula = le ~ z_relative_mob + z_gini + log_population + log_income +
+        z_segregation_income + log_pct_black + log_pct_hispanic +
+        log_unemployment + z_uninsured + z_medicare_expenses +
         f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = male[income_qr==i],
-#           control.predictor=list(compute = TRUE),
+          control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-          control.inla = list(h=0.001),
+          control.inla = list(tolerance=1e-6, h=1e-3),
           verbose = FALSE)
 
     model_name = paste0('m2_', i)
@@ -211,24 +219,27 @@ for (i in 1:4) {
 # female
 
 # define PC prior
-lmod <- lm(le ~ z_relative_mob  + z_gini + log_population + log_income +
-      z_segregation_income +  log_pct_black + log_pct_hispanic +
-       log_unemployment +  z_uninsured + z_medicare_expenses, female)
+lmod <- lm(le ~ z_relative_mob + z_gini + log_population + log_income +
+      z_segregation_income + log_pct_black + log_pct_hispanic +
+       log_unemployment +  z_uninsured + z_medicare_expenses
+       # + as.factor(income_qr)
+       , female)
 
 # pc prior
 sdres <- sd(residuals(lmod))
 pcprior <- list(prec = list(prior="pc.prec", param = c(3*sdres,0.01)))
 
 for (i in 1:4) {
-    formula = le ~ z_relative_mob  + z_gini + log_population + log_income +
-        z_segregation_income +  log_pct_black + log_pct_hispanic +
-        log_unemployment +  z_uninsured + z_medicare_expenses +
+    print(paste0('::::: model female adjusted quartile ', i))
+    formula = le ~ z_relative_mob + z_gini + log_population + log_income +
+        z_segregation_income + log_pct_black + log_pct_hispanic +
+        log_unemployment + z_uninsured + z_medicare_expenses +
         f(state, model = "iid", hyper = pcprior)
     model = inla(formula, family = "gaussian", data = female[income_qr==i],
-#           control.predictor=list(compute = TRUE),
+          control.predictor=list(compute = TRUE),
           control.compute = list(config = TRUE, dic = TRUE,
                                  waic = TRUE, cpo = FALSE),
-          control.inla = list(h=0.001),
+          control.inla = list(tolerance=1e-6, h=1e-3),
           verbose = FALSE)
 
     model_name = paste0('f2_', i)
@@ -367,7 +378,7 @@ texreg(models,
        ci.test = FALSE,
        float.pos = "htp",
        caption = paste0("Estimates of association between life expectancy at age 40
-       \\newline and relative income mobility (N = ", ncounties, " counties)",
+       \\newline and relative income mobility (N = ", ncounties, " counties)"),
        booktabs = TRUE,
        use.packages = FALSE,
        dcolumn = TRUE,
@@ -378,7 +389,7 @@ texreg(models,
        digits = 2,
        custom.model.names = cmodels,
        custom.coef.map = cnames,
-       groups = list("\\addlinespace\n\\textit{Random Effects}" = c(12:13)),
+       groups = list("\\addlinespace\n\\textit{Random Effects}" = c(11:12)),
        custom.note = "95\\% credibility intervals in brackets. z = standardized values. DIC = Deviance Information Criterion, WAIC = Widely Applicable Information Criterion.",
        file = 'related_projects/health_inequality_project/output/tables/relative_mob_inla_models_cov.tex')
 
