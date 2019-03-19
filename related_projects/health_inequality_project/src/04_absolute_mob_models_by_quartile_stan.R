@@ -143,7 +143,7 @@ bottom = '\\addlinespace[5pt]\n
 \\end{tabular}\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
-\\item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
+\\item [1] Four separated models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
 \\item [2] Baseline model adjusts for log population and log income.\n
 \\item [3] Social indicators model adjusts for log population, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
 \\end{table}'

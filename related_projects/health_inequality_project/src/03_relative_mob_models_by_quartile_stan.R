@@ -145,9 +145,9 @@ bottom = '\\addlinespace[5pt]\n
 \\end{tabular}\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
-\\item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
-\\item [2] Baseline model adjusts for log population and log income.\n
-\\item [3] Social indicators model adjusts for log population, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
+\\item [1] Four separated models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
+\\item [2] Baseline models adjust for log population and log income.\n
+\\item [3] Additional covariates model adjusts for log population, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
 \\end{table}'
 
 bottom =  gsub("\n\n", "\n", bottom)
@@ -212,20 +212,21 @@ texreg(models,
        custom.note = "95\\% credibility intervals in brackets. z = standardized values.",
        file = 'related_projects/health_inequality_project/output/tables/stan_relative_mob_models_cov.tex')
 
+
+# predicted values
 # create counterfactual scenarios
 
-options(digits=3)
+specify_decimal = function(x, k) trimws(format(round(x, k), nsmall=k))
 
 # men
 
-# prob male
 # unadjusted
 p_bottom = predict(m1_1, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 p_top = predict(m1_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 
-male_pred_baseline = fixed(quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975)), digits=2)
+male_pred_baseline = specify_decimal(quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
 male_pred_baseline
 
 # counterfactual
@@ -238,50 +239,9 @@ c_bottom = predict(m1_1, newdata=cmale, re_formula = NA,
 c_top = predict(m1_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 
-male_con_baseline = round(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 3)
-male_con_baseline
-
-male_diff_baseline = round(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
-         prob =c(0.025, .5, 0.975)), 3)
-male_diff_baseline
-
-# adjusted
-p_bottom = predict(m2_1, newdata=male[income_qr==1], re_formula = NA,
-        summary=TRUE)
-p_top = predict(m2_4, newdata=male[income_qr==1], re_formula = NA,
-        summary=TRUE)
-
-male_pred_adjusted= quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975))
-male_pred_adjusted
-
-# counterfactual
-cmale = copy(male)
-cmale = cmale[income_qr==1]
-cmale[, z_relative_mob := max(z_relative_mob)]
-
-c_bottom = predict(m2_1, newdata=cmale, re_formula = NA,
-        summary=TRUE)
-c_top = predict(m2_4, newdata=male[income_qr==1], re_formula = NA,
-        summary=TRUE)
-
-male_con_adjusted= round(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 3)
-male_con_baseline
-
-male_diff_adjusted= round(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
-         prob =c(0.025, .5, 0.975)), 3)
-male_diff_adjusted
-
-paste0(
-
-male_row = c(paste0(male_pred_baseline[2], ' [', male_pred_baseline[1], '; ', male_pred_baseline[3], ']'),
-             paste0(male_con_baseline[2], ' [', male_con_baseline[1], '; ', male_con_baseline[3], ']'),
-             paste0(male_diff_baseline[2], ' [', male_diff_baseline[1], '; ', male_diff_baseline[3], ']'),
-             paste0(male_pred_adjusted[2], ' [', male_pred_adjusted[1], '; ', male_pred_adjusted[3], ']'),
-             paste0(male_con_adjusted[2], ' [', male_con_adjusted[1], '; ', male_con_adjusted[3], ']'),
-             paste0(male_diff_adjusted[2], ' [', male_diff_adjusted[1], '; ', male_diff_adjusted[3], ']')
-              )
-male_row = paste0(male_row, collapse = ' & ')
-
+male_con_baseline = specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+male_diff_baseline = specify_decimal(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+         prob =c(0.025, .5, 0.975)), 2)
 
 
 # adjusted
@@ -290,38 +250,156 @@ p_bottom = predict(m2_1, newdata=male[income_qr==1], re_formula = NA,
 p_top = predict(m2_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 
-quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975))
+male_pred_adjusted= specify_decimal(quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
 
 # counterfactual
-cmale = copy(male)
-cmale = cmale[income_qr==1]
-cmale[, z_relative_mob := max(z_relative_mob)]
 
 c_bottom = predict(m2_1, newdata=cmale, re_formula = NA,
         summary=TRUE)
 c_top = predict(m2_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
-quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975))
 
-quantile((p_top[, 1]-p_bottom[, 1]) - (c_top[, 1]-c_bottom[, 1]),
-         prob =c(0.025, .5, 0.975))
+male_con_adjusted= specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+male_con_baseline
+
+male_diff_adjusted= specify_decimal(
+                                    quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+                                     prob =c(0.025, .5, 0.975)), 2)
+
+
+male_row_1 = paste0( c(male_pred_baseline[2], male_con_baseline[2], male_diff_baseline[2],
+                male_pred_adjusted[2], male_con_adjusted[2], male_diff_adjusted[2]),
+               collapse = ' & '
+               )
+
+male_row_2 = paste0( c(paste0('[', male_pred_baseline[1], ';\\ ', male_pred_baseline[3], ']'),
+             paste0('[', male_con_baseline[1], ';\\ ', male_con_baseline[3], ']'),
+             paste0('[', male_diff_baseline[1], ';\\ ', male_diff_baseline[3], ']'),
+             paste0('[', male_pred_adjusted[1], ';\\ ', male_pred_adjusted[3], ']'),
+             paste0('[', male_con_adjusted[1], ';\\ ', male_con_adjusted[3], ']'),
+             paste0('[', male_diff_adjusted[1], ';\\ ', male_diff_adjusted[3], ']')
+             ),
+              collapse = ' & '
+             )
+
+male_row_1 = paste0('Men & ', male_row_1, ' \\\\\n')
+male_row_2 = paste0(' & ', male_row_2, ' \\\\\n')
+
 
 # women
+
+# unadjusted
 p_bottom = predict(f1_1, newdata=female[income_qr==1], re_formula = NA,
         summary=TRUE)
 p_top = predict(f1_4, newdata=female[income_qr==1], re_formula = NA,
         summary=TRUE)
 
-quantile(p_top[,1]-p_bottom[,1], prob = c(0.025, .5, 0.975))
+female_pred_baseline = specify_decimal(quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+female_pred_baseline
 
+# counterfactual
 cfemale = copy(female)
 cfemale = cfemale[income_qr==1]
-cfemale[, z_relative_mob := 5]
+cfemale[, z_relative_mob := max(z_relative_mob)]
 
+c_bottom = predict(f1_1, newdata=cfemale,re_formula = NA,
+        summary=TRUE)
+c_top = predict(f1_4, newdata=female[income_qr==1], re_formula = NA,
+        summary=TRUE)
+
+female_con_baseline = specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+female_diff_baseline = specify_decimal(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+         prob =c(0.025, .5, 0.975)), 2)
+
+
+# adjusted
+p_bottom = predict(f2_1, newdata=female[income_qr==1], re_formula = NA,
+        summary=TRUE)
+p_top = predict(f2_4, newdata=female[income_qr==1], re_formula = NA,
+        summary=TRUE)
+
+female_pred_adjusted= specify_decimal(quantile(p_top[, 1]-p_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+
+# counterfactual
 c_bottom = predict(f2_1, newdata=cfemale, re_formula = NA,
         summary=TRUE)
-c_top = predict(f2_4, newdata=female[income_qr==4], re_formula = NA,
+c_top = predict(f2_4, newdata=female[income_qr==1], re_formula = NA,
         summary=TRUE)
-quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975))
 
-# end
+female_con_adjusted= specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
+female_con_baseline
+
+female_diff_adjusted= specify_decimal(
+                                    quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+                                     prob =c(0.025, .5, 0.975)), 2)
+
+female_row_1 = paste0( c(female_pred_baseline[2], female_con_baseline[2], female_diff_baseline[2],
+                female_pred_adjusted[2], female_con_adjusted[2], female_diff_adjusted[2]),
+               collapse = ' & '
+               )
+
+female_row_2 = paste0( c(paste0('[', female_pred_baseline[1], ';\\ ', female_pred_baseline[3], ']'),
+             paste0('[', female_con_baseline[1], ';\\ ', female_con_baseline[3], ']'),
+             paste0('[', female_diff_baseline[1], ';\\ ', female_diff_baseline[3], ']'),
+             paste0('[', female_pred_adjusted[1], ';\\ ', female_pred_adjusted[3], ']'),
+             paste0('[', female_con_adjusted[1], ';\\ ', female_con_adjusted[3], ']'),
+             paste0('[', female_diff_adjusted[1], ';\\ ', female_diff_adjusted[3], ']')),
+              collapse = ' & '
+             )
+
+female_row_1 = paste0('Women & ', female_row_1, ' \\\\\n')
+female_row_2 = paste0(' & ', female_row_2, ' \\\\\n')
+
+female_row_1
+male_row_1
+# create table
+heading = paste0('\\renewcommand{\\arraystretch}{1.5}\n
+\\setlength{\\tabcolsep}{2pt}\n
+\\begin{table}[htp]\n
+\\begin{threeparttable}\n
+\\caption{Estimated changes in life expectancy gaps between richest and poorest quartiles\\tnote{1}\\newline(N = ', ncounties, ' counties)}\\label{inla_models}\n
+\\centering\n
+\\scriptsize\n
+\\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11}}\n
+\\hline\n
+\\addlinespace\n
+& \\multicolumn{3}{c}{Baseline} & \\multicolumn{3}{c}{Additional covariates} \\\\
+ & \\multicolumn{1}{c}{Actual\\tnote{2}} & \\multicolumn{1}{c}{Counterfactual\\tnote{3}} & \\multicolumn{1}{c}{Difference\\tnote{4}}
+& \\multicolumn{1}{c}{Actual} & \\multicolumn{1}{c}{Counterfactual} & \\multicolumn{1}{c}{Difference} \\\\
+\\addlinespace\n
+\\hline')
+
+heading =  gsub("\n\n", "\n", heading)
+
+bottom = '\\addlinespace[5pt]\n
+\\hline\n
+\\end{tabular}\n
+\\begin{tablenotes}[flushleft]\n
+\\scriptsize\n
+\\item [1] Two separated  models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.
+           Baseline models adjust for log population and log income. Adjusted models adjust for log population, log income, log \\% Black,
+          log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n
+\\item [2] Predicted life expectancy gaps between the richest and poorest income quartiles using actual data.\n
+\\item [3] Predicted gaps under a counterfactual scenario where all counties have same level of income mobility as the best performing county on this measure.\n
+\\item [4] Difference between actual and counterfactual predictions.\n
+\\end{tablenotes}\n
+\\end{threeparttable}\n
+\\end{table}'
+
+bottom =  gsub("\n\n", "\n", bottom)
+
+sep = NA
+for (i in 1:4) {
+  sep[i] = "\n\\addlinespace\n"
+}
+
+tabs = list(female_row_1, female_row_2, male_row_1, male_row_2)
+
+
+# export table
+cat(heading,
+    sep[[1]], tabs[[1]], tabs[[2]],
+    sep[[1]], tabs[[3]], tabs[[4]],
+    bottom,
+    file = 'related_projects/health_inequality_project/output/tables/counterfactual_gender.tex')
+

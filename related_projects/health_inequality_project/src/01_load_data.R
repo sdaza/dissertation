@@ -98,8 +98,7 @@ log_vars = c('population', 'poverty', 'mig_inflow',
          'mig_outflow', 'foreign', 'pct_black', 'pct_hispanic',
          'house_value', 'local_gov_exp', 'unemployment', 'income')
 
-df[, paste0('log_', log_vars) := lapply(.SD, logtran), .SDcols=vars]
-df[, .(log_income, income)]
+df[, paste0('log_', log_vars) := lapply(.SD, logtran), .SDcols=log_vars]
 
 # z values
 z_vars = c('gini', 'relative_mob', 'absolute_mob',
@@ -107,10 +106,7 @@ z_vars = c('gini', 'relative_mob', 'absolute_mob',
          'labor_force', 'uninsured', 'medicare_expenses',
          'college')
 
-df[, paste0('z_', z_vars) := lapply(.SD, scale, center=TRUE, scale=TRUE), .SDcols=vars]
-df[, paste0('z_', z_vars) := lapply(.SD, ztran), .SDcols=vars]
-
-df[, .(relative_mob, z_relative_mob)]
+df[, paste0('z_', z_vars) := lapply(.SD, ztran), .SDcols=z_vars]
 
 # duplicates
 anyDuplicated(df[, .(county, gender, income_q)])
