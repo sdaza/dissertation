@@ -1,0 +1,34 @@
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{11pt}
+\begin{table}[htp]
+\begin{threeparttable}
+\caption{Estimates of association (robust models) between life expectancy at age 40
+  \newline and relative income mobility\tnote{1} (N = 1559 counties)}\label{inla_models}
+\centering
+\scriptsize
+\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }
+\hline
+\addlinespace
+& \multicolumn{2}{c}{Women} & \multicolumn{2}{c}{Men} \\
+Income Quartile & \multicolumn{1}{c}{Base model\tnote{2}} & \multicolumn{1}{c}{Additional covariates\tnote{3}}
+& \multicolumn{1}{c}{Base model} & \multicolumn{1}{c}{Additional covariates} \\
+\addlinespace
+\hline 
+\addlinespace
+ Q1               & 0.42          & 0.36          & 0.57          & 0.45          \\                 & [0.33;\ 0.52] & [0.26;\ 0.47] & [0.48;\ 0.66] & [0.34;\ 0.56] \\ 
+\addlinespace
+ Q2               & 0.30          & 0.16          & 0.44          & 0.25          \\                 & [0.20;\ 0.39] & [0.05;\ 0.26] & [0.35;\ 0.53] & [0.15;\ 0.36] \\ 
+\addlinespace
+ Q3               & 0.18          & 0.01           & 0.36          & 0.15          \\                 & [0.08;\ 0.28] & [-0.11;\ 0.12] & [0.26;\ 0.45] & [0.04;\ 0.26] \\ 
+\addlinespace
+ Q4               & 0.35          & 0.20          & 0.30          & 0.22          \\                 & [0.24;\ 0.46] & [0.06;\ 0.33] & [0.17;\ 0.42] & [0.09;\ 0.36] \\ \addlinespace[5pt]
+\hline
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\% credibility intervals in brackets.
+\item [2] Baseline model adjusts for log population and log income.
+\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \% Black, log \% Hispanic, log unemployment, z-score income segregation, z-score \% uninsured, and z-score Medicare expenses.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
