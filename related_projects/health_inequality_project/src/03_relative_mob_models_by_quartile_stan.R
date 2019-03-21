@@ -13,6 +13,7 @@ library(stringr)
 
 # functions
 source('related_projects/health_inequality_project/src/utils/extract_stan.R')
+source('related_projects/health_inequality_project/src/utils/check_convergence.R')
 # source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
 # source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
 
@@ -44,6 +45,7 @@ for (i in 1:4) {
               (1|state),
               data = male[income_qr==i],
               family = gaussian())
+    check_convergence(fit)
     model_name = paste0('m1_', i)
     assign(model_name, fit)
 }
@@ -56,6 +58,7 @@ for (i in 1:4) {
               (1|state),
               data = female[income_qr==i],
               family = gaussian())
+    check_convergence(fit)
     model_name = paste0('f1_', i)
     assign(model_name, fit)
 }
@@ -70,6 +73,7 @@ for (i in 1:4) {
               (1|state),
               data = male[income_qr==i],
               family = gaussian())
+    check_convergence(fit)
     model_name = paste0('m2_', i)
     assign(model_name, fit)
 }
@@ -83,6 +87,7 @@ for (i in 1:4) {
               (1|state),
               data = female[income_qr==i],
               family = gaussian())
+    check_convergence(fit)
     model_name = paste0('f2_', i)
     assign(model_name, fit)
 }
@@ -126,7 +131,8 @@ heading = paste0('\\renewcommand{\\arraystretch}{1.2}\n
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
 \\caption{Estimates of association between life expectancy at age 40
-  \\newline and relative income mobility\\tnote{1} (N = ', ncounties, ' counties)}\\label{inla_models}\n
+  \\newline and relative income mobility\\tnote{1} (N = ', ncounties, ' counties)}
+  \\label{stan_relative_mob}\n
 \\centering\n
 \\scriptsize\n
 \\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }\n
@@ -146,8 +152,8 @@ bottom = '\\addlinespace[5pt]\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
 \\item [1] Four separated models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
-\\item [2] Baseline models adjust for log population and log income.\n
-\\item [3] Additional covariates model adjusts for log population, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
+\\item [2] Baseline models adjust for log county population size and log income.\n
+\\item [3] Additional covariates models adjust for log county population size, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
 \\end{table}'
 
 bottom =  gsub("\n\n", "\n", bottom)
@@ -181,7 +187,7 @@ models = list(f2_1, f2_4, m2_1, m2_4)
 cnames <- list(
                z_relative_mob = 'Relative income mobility (z)',
                z_gini = 'Gini (z)',
-               log_population = 'Log population',
+               log_population = 'Log of county population size',
                log_income = 'Log household income',
                # log_crime_rate = 'Log crime rate',
                z_segregation_income = 'Income segregation (z)',
@@ -203,13 +209,13 @@ texreg(models,
        dcolumn = TRUE,
        caption.above = TRUE,
        scalebox = 0.65,
-       label = "inla_models_cov",
+       label = "stan_relative_mob_cov",
        # sideways = TRUE,
        digits = 2,
        custom.model.names = cmodels,
        custom.coef.map = cnames,
        groups = list("\\addlinespace\n\\textit{Random Effects}" = 11),
-       custom.note = "95\\% credibility intervals in brackets. z = standardized values.",
+       custom.note = "Each column corresponds to an estimated model. 95\\% credibility intervals in brackets. Q1 = lowest income quartile, Q4 = highest income quartile, z = standardized values.",
        file = 'related_projects/health_inequality_project/output/tables/stan_relative_mob_models_cov.tex')
 
 
@@ -240,7 +246,7 @@ c_top = predict(m1_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 
 male_con_baseline = specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
-male_diff_baseline = specify_decimal(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+male_diff_baseline = specify_decimal(quantile((p_top[, 1]-p_bottom[, 1]) - (c_top[, 1]-c_bottom[, 1]),
          prob =c(0.025, .5, 0.975)), 2)
 
 
@@ -260,10 +266,9 @@ c_top = predict(m2_4, newdata=male[income_qr==1], re_formula = NA,
         summary=TRUE)
 
 male_con_adjusted= specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
-male_con_baseline
 
 male_diff_adjusted= specify_decimal(
-                                    quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+                                    quantile((p_top[, 1]-p_bottom[, 1])-(c_top[, 1]-c_bottom[, 1]),
                                      prob =c(0.025, .5, 0.975)), 2)
 
 
@@ -308,7 +313,7 @@ c_top = predict(f1_4, newdata=female[income_qr==1], re_formula = NA,
         summary=TRUE)
 
 female_con_baseline = specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = c(0.025, .5, 0.975)), 2)
-female_diff_baseline = specify_decimal(quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+female_diff_baseline = specify_decimal(quantile((p_top[, 1]-p_bottom[, 1]) - (c_top[, 1]-c_bottom[, 1]),
          prob =c(0.025, .5, 0.975)), 2)
 
 
@@ -330,7 +335,7 @@ female_con_adjusted= specify_decimal(quantile(c_top[, 1]-c_bottom[, 1],  prob = 
 female_con_baseline
 
 female_diff_adjusted= specify_decimal(
-                                    quantile((c_top[, 1]-c_bottom[, 1]) -  (p_top[, 1]-p_bottom[, 1]),
+                                    quantile((p_top[, 1]-p_bottom[, 1]) - (c_top[, 1]-c_bottom[, 1]),
                                      prob =c(0.025, .5, 0.975)), 2)
 
 female_row_1 = paste0( c(female_pred_baseline[2], female_con_baseline[2], female_diff_baseline[2],
@@ -357,7 +362,8 @@ heading = paste0('\\renewcommand{\\arraystretch}{1.5}\n
 \\setlength{\\tabcolsep}{2pt}\n
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
-\\caption{Estimated changes in life expectancy gaps between richest and poorest quartiles\\tnote{1}\\newline(N = ', ncounties, ' counties)}\\label{inla_models}\n
+\\caption{Estimated changes in life expectancy gaps between richest and poorest quartiles\\tnote{1}\\newline(N = ', ncounties, ' counties)}
+\\label{stan_counterfactual_gender}\n
 \\centering\n
 \\scriptsize\n
 \\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11}}\n
@@ -376,8 +382,8 @@ bottom = '\\addlinespace[5pt]\n
 \\end{tabular}\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
-\\item [1] Two separated  models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.
-           Baseline models adjust for log population and log income. Adjusted models adjust for log population, log income, log \\% Black,
+\\item [1] Two separated  models (one per income quartile). 95\\% credibility intervals in brackets.
+           Baseline models adjust for log county population sizeand log income. Additional covariates models adjust for log county population size, log income, log \\% Black,
           log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n
 \\item [2] Predicted life expectancy gaps between the richest and poorest income quartiles using actual data.\n
 \\item [3] Predicted gaps under a counterfactual scenario where all counties have same level of income mobility as the best performing county on this measure.\n

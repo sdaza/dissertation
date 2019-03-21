@@ -17,24 +17,23 @@ ncounties = length(unique(df$county))
 male = df[gender=='M' & income_q %in% c('Q1', 'Q4')]
 
 savepdf('related_projects/health_inequality_project/output/plots/sc_male', 15, 12)
-ggplot(male, aes(x=(relative_mob*-1)/100, y=le, group=income_q)) +
+print(ggplot(male, aes(x=(relative_mob*-1)/100, y=le, group=income_q)) +
     geom_point(aes(color=income_q), alpha=0.3) +
     geom_smooth(aes(color=income_q), alpha=0.3,  se = FALSE) +
     theme_classic() +
     theme(text = element_text(size=14), legend.position = "top", legend.title=element_blank()) +
-    labs(x='\nRelative income mobility', y='Life expectancy at age 40\n')
+    labs(x='\nRelative income mobility', y='Life expectancy at age 40\n'))
 dev.off()
-
 
 female = df[gender=='F' & income_q %in% c('Q1', 'Q4')]
 
 savepdf('related_projects/health_inequality_project/output/plots/sc_female', 15, 12)
-ggplot(female, aes(x=(relative_mob*-1)/100, y=le, group=income_q)) +
+print(ggplot(female, aes(x=(relative_mob*-1)/100, y=le, group=income_q)) +
     geom_point(aes(color=income_q), alpha=0.3) +
     geom_smooth(aes(color=income_q), alpha=0.3,  se = FALSE) +
     theme_classic() +
     theme(text = element_text(size=14), legend.position = "top", legend.title=element_blank()) +
-    labs(x='\nRelative income mobility', y='Life expectancy at age 40\n')
+    labs(x='\nRelative income mobility', y='Life expectancy at age 40\n'))
 dev.off()
 
 length(unique(df$county))
@@ -111,10 +110,10 @@ nvars = c("Age 40 LE Poorest Income Quartile, Women",
           "Age 40 LE Richest Income Quartile, Women",
           "Age 40 LE Poorest Income Quartile, Men",
           "Age 40 LE Richest Income Quartile, Men",
-          "Relative Income Mobility (IRM)",
+          "Relative Income Mobility",
           "Gini Coefficient",
           "Average Household Income",
-          "Population",
+          "Population size",
            "Percent Afroamerican",
            "Percent Hispanic",
            # "Crime Rate",
@@ -153,9 +152,9 @@ Variable & \\multicolumn{1}{c}{Mean} & \\multicolumn{1}{c}{SD} & \\multicolumn{1
 ")
 
 
-caption = paste0('Mean and Standard Deviation of Outcome and Covariates
-                 \\newline by Relative Income Mobility (IRM), N = ', ncounties, ' counties')
-print(xtable(tab, caption=caption, label='tab:descriptives'),
+caption = paste0('Mean and standard deviation of outcome and covariates
+                 \\newline by relative income mobility (IRM), N = ', ncounties, ' counties')
+print(xtable(tab, caption=caption, label='descriptives'),
     caption.placement='top',
     hline.after=c(-1),
     size="scriptsize",

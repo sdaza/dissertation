@@ -3,7 +3,8 @@
 \begin{table}[htp]
 \begin{threeparttable}
 \caption{Estimates of association (robust models) between life expectancy at age 40
-  \newline and relative income mobility\tnote{1} (N = 1559 counties)}\label{inla_models}
+  \newline and relative income mobility\tnote{1} (N = 1559 counties)}
+  \label{stan_relative_mob_robust}
 \centering
 \scriptsize
 \begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }
@@ -15,20 +16,20 @@ Income Quartile & \multicolumn{1}{c}{Base model\tnote{2}} & \multicolumn{1}{c}{A
 \addlinespace
 \hline 
 \addlinespace
- Q1               & 0.42          & 0.36          & 0.57          & 0.45          \\                 & [0.33;\ 0.52] & [0.26;\ 0.47] & [0.48;\ 0.66] & [0.34;\ 0.56] \\ 
+ Q1               & 0.35          & 0.30          & 0.47          & 0.37          \\                 & [0.27;\ 0.43] & [0.21;\ 0.39] & [0.39;\ 0.55] & [0.29;\ 0.46] \\ 
 \addlinespace
- Q2               & 0.30          & 0.16          & 0.44          & 0.25          \\                 & [0.20;\ 0.39] & [0.05;\ 0.26] & [0.35;\ 0.53] & [0.15;\ 0.36] \\ 
+ Q2               & 0.24          & 0.13          & 0.36          & 0.21          \\                 & [0.17;\ 0.32] & [0.04;\ 0.22] & [0.29;\ 0.44] & [0.13;\ 0.30] \\ 
 \addlinespace
- Q3               & 0.18          & 0.01           & 0.36          & 0.15          \\                 & [0.08;\ 0.28] & [-0.11;\ 0.12] & [0.26;\ 0.45] & [0.04;\ 0.26] \\ 
+ Q3               & 0.15          & 0.01           & 0.29          & 0.12          \\                 & [0.07;\ 0.24] & [-0.09;\ 0.10] & [0.21;\ 0.38] & [0.03;\ 0.21] \\ 
 \addlinespace
- Q4               & 0.35          & 0.20          & 0.30          & 0.22          \\                 & [0.24;\ 0.46] & [0.06;\ 0.33] & [0.17;\ 0.42] & [0.09;\ 0.36] \\ \addlinespace[5pt]
+ Q4               & 0.29          & 0.16          & 0.25          & 0.19          \\                 & [0.20;\ 0.38] & [0.05;\ 0.27] & [0.14;\ 0.35] & [0.07;\ 0.30] \\ \addlinespace[5pt]
 \hline
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \scriptsize
 \item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\% credibility intervals in brackets.
-\item [2] Baseline model adjusts for log population and log income.
-\item [3] Social indicators model adjusts for log population, log income, log crime rate, log \% Black, log \% Hispanic, log unemployment, z-score income segregation, z-score \% uninsured, and z-score Medicare expenses.
+\item [2] Baseline models adjust for log county population size and log income.
+\item [3] Additional covariates model adjust for county log population size, log income, log \% Black, log \% Hispanic, log unemployment, z-score income segregation, z-score \% uninsured, and z-score Medicare expenses.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

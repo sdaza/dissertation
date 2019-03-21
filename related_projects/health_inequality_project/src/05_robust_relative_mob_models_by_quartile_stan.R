@@ -13,6 +13,7 @@ library(texreg)
 library(stringr)
 
 # functions
+source('related_projects/health_inequality_project/src/utils/check_convergence.R')
 source('related_projects/health_inequality_project/src/utils/extract_stan.R')
 # source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
 # source('related_projects/health_inequality_project/src/utils/simulation_no_random_effects.R')
@@ -44,6 +45,7 @@ for (i in 1:4) {
               (1|state),
               data = male[income_qr==i],
               family = student())
+    check_convergence(fit)
     model_name = paste0('m1_', i)
     assign(model_name, fit)
 }
@@ -70,6 +72,7 @@ for (i in 1:4) {
               (1|state),
               data = male[income_qr==i],
               family = student())
+    check_convergence(fit)
     model_name = paste0('m2_', i)
     assign(model_name, fit)
 }
@@ -83,6 +86,7 @@ for (i in 1:4) {
               (1|state),
               data = female[income_qr==i],
               family = student())
+    check_convergence(fit)
     model_name = paste0('f2_', i)
     assign(model_name, fit)
 }
@@ -124,7 +128,8 @@ heading = paste0('\\renewcommand{\\arraystretch}{1.2}\n
 \\begin{table}[htp]\n
 \\begin{threeparttable}\n
 \\caption{Estimates of association (robust models) between life expectancy at age 40
-  \\newline and relative income mobility\\tnote{1} (N = ', ncounties, ' counties)}\\label{inla_models}\n
+  \\newline and relative income mobility\\tnote{1} (N = ', ncounties, ' counties)}
+  \\label{stan_relative_mob_robust}\n
 \\centering\n
 \\scriptsize\n
 \\begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} }\n
@@ -144,8 +149,8 @@ bottom = '\\addlinespace[5pt]\n
 \\begin{tablenotes}[flushleft]\n
 \\scriptsize\n
 \\item [1] Four separated robust models (one per income quartile). Standardized coefficients and 95\\% credibility intervals in brackets.\n
-\\item [2] Baseline model adjusts for log population and log income.\n
-\\item [3] Social indicators model adjusts for log population, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
+\\item [2] Baseline models adjust for log county population size and log income.\n
+\\item [3] Additional covariates model adjust for county log population size, log income, log \\% Black, log \\% Hispanic, log unemployment, z-score income segregation, z-score \\% uninsured, and z-score Medicare expenses.\n\\end{tablenotes}\n\\end{threeparttable}\n
 \\end{table}'
 
 bottom =  gsub("\n\n", "\n", bottom)

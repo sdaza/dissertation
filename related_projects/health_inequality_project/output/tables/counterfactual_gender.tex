@@ -2,7 +2,8 @@
 \setlength{\tabcolsep}{2pt}
 \begin{table}[htp]
 \begin{threeparttable}
-\caption{Estimated changes in life expectancy gaps between richest and poorest quartiles\tnote{1}\newline(N = 1559 counties)}\label{inla_models}
+\caption{Estimated changes in life expectancy gaps between richest and poorest quartiles\tnote{1}\newline(N = 1559 counties)}
+\label{stan_counterfactual_gender}
 \centering
 \scriptsize
 \begin{tabular}{l D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11} D{.}{.}{5.11}}
@@ -14,19 +15,19 @@
 \addlinespace
 \hline 
 \addlinespace
- Women & 5.48 & 4.29 & -1.20 & 5.45 & 4.39 & -1.04 \\
-  & [5.04;\ 5.98] & [3.46;\ 5.07] & [-1.90;\ -0.57] & [4.44;\ 6.50] & [3.27;\ 5.58] & [-1.64;\ -0.49] \\
+ Women & 5.49 & 4.29 & 1.20 & 5.45 & 4.39 & 1.05 \\
+  & [5.04;\ 5.99] & [3.48;\ 5.08] & [0.57;\ 1.90] & [4.42;\ 6.48] & [3.28;\ 5.58] & [0.49;\ 1.63] \\
  
 \addlinespace
- Men & 8.52 & 6.80 & -1.68 & 8.46 & 7.08 & -1.35 \\
-  & [7.72;\ 9.20] & [5.97;\ 7.77] & [-2.64;\ -0.79] & [6.89;\ 9.75] & [5.61;\ 8.48] & [-2.13;\ -0.64] \\
+ Men & 8.50 & 6.79 & 1.68 & 8.48 & 7.09 & 1.36 \\
+  & [7.73;\ 9.20] & [5.98;\ 7.79] & [0.79;\ 2.61] & [6.90;\ 9.76] & [5.61;\ 8.49] & [0.65;\ 2.12] \\
  \addlinespace[5pt]
 \hline
 \end{tabular}
 \begin{tablenotes}[flushleft]
 \scriptsize
-\item [1] Two separated  models (one per income quartile). Standardized coefficients and 95\% credibility intervals in brackets.
-           Baseline models adjust for log population and log income. Adjusted models adjust for log population, log income, log \% Black,
+\item [1] Two separated  models (one per income quartile). 95\% credibility intervals in brackets.
+           Baseline models adjust for log county population sizeand log income. Additional covariates models adjust for log county population size, log income, log \% Black,
           log \% Hispanic, log unemployment, z-score income segregation, z-score \% uninsured, and z-score Medicare expenses.
 \item [2] Predicted life expectancy gaps between the richest and poorest income quartiles using actual data.
 \item [3] Predicted gaps under a counterfactual scenario where all counties have same level of income mobility as the best performing county on this measure.
