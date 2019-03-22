@@ -121,7 +121,7 @@ df = df[complete.cases(df[, ..list_variables])]
 print(paste0('Number of counties: ', length(unique(df$county))))
 print(paste0('Number of states: ', length(unique(df$statename))))
 print(paste0('Number of rows: ', nrow(df)))
-print(paste0('Proportion population: ', sum(df[gender=='M' & income_q=='Q1', population])/total_population ))
+print(paste0('Proportion population: ', round(sum(df[gender=='M' & income_q=='Q1', population])/total_population, 2)))
 
 # save file
 saveRDS(df, file='related_projects/health_inequality_project/data/le_cov_sel.rds')
