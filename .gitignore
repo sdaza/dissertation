@@ -2,6 +2,7 @@
 
 /ch02/manuscript/
 /ch02/data/
+/ch02/output/*.rds
 
 # chapter 3
 ch03/data/psid/.DS_Store
