@@ -3,6 +3,7 @@
 /ch02/manuscript/
 /ch02/data/
 /ch02/output/*.rds
+/ch02/notebooks
 
 # chapter 3
 ch03/data/psid/.DS_Store
