@@ -14,3 +14,4 @@ related_projects/health_inequality_project/data/.DS_Store
 .Rhistory
 .DS_Store
 .gitignore
+/related_projects
