@@ -3,41 +3,40 @@
 # author: sebastian daza
 ################################
 
-#+ set directory
-# restricted data (not optimal for reproducibility)
-pdata = "/Users/sdaza/Documents/Workplace/Data/mortality/data/"
-
 # libraries
-library(here)
 library(readr)
 library(sdazar)
 library(ggplot2)
 library(ggthemes)
 
-source('src/utils/functions.R')
+# utils
+source("src/utils/utils.R")
 
+# set parameters for plots
 options(repr.plot.width = 5, repr.plot.height = 4)
+
 # read fips codes
-codes = read_csv('data/fips_codes_website.csv')
+codes = read_csv('data/fips_codes.csv')
 codes = data.table(codes)
 codes = codes[, c(1,2,3,6), with = FALSE]
 setnames(codes, c("abr", "state", "county", "name"))
 states = codes[, .N , by = .(abr, state)][, N := NULL]
 
 ####################################
-#+ process population datafile
+# process population datafile
 ####################################
 
 # read population data
 start = c(1,5,7,9,12,14,15,16,17,19)
-lc = c(4,2,2,3,2,1,1,1,2,8)
-end = start + (lc-1)
+lc    = c(4,2,2,3,2,1,1,1,2,8)
+end   = start + (lc-1)
 
-names = c("year", "state", "state_fips", "county_fips", "registry", "race", "origin", "sex", "age", "population")
+names = c("year", "state", "state_fips", "county_fips", "registry",
+          "race", "origin", "sex", "age", "population")
 
 popn = data.table(read_fwf(
-  file = paste0(pdata, "population/us.1990_2015.19ages.adjusted.txt"),
-  fwf_positions(start, end, names)))
+                  file = "data/population/us.1990_2015.19ages.adjusted.txt",
+                  fwf_positions(start, end, names)))
 
 nrow(popn) # 15 million
 
@@ -70,12 +69,12 @@ popn[origin == 0 & race %in% 3:4, nrace := 2] # other
 
 popn[, .N, by = origin][order(origin)]
 popn[, .N, by = nrace][order(nrace)]
-table(popn[, .(origin, nrace)], useNA = "ifany")
+table(popn[, .(origin, nrace)])
 
 names(popn)
 popn = popn[, .(year, state_fips, county_fips, sex, age, nrace, population)]
 setnames(popn, names(popn),
-  c("year", "state", "county", "sex", "age", "race", "pop"))
+         c("year", "state", "county", "sex", "age", "race", "pop"))
 
 # explore
 popn[, .N, by = state][order(state)]
@@ -86,9 +85,7 @@ popn[, .N, by = state][order(state)]
 pop = copy(popn[, .(pop = sum(pop)), by = .(year, state, county, sex, age, race)])
 summary(pop$pop)
 
-#############################
-#+ check counties
-#############################
+# check counties
 
 # load mortality data
 mort = readRDS("output/mortality.rds")
@@ -100,11 +97,11 @@ setkey(pop, state, county)
 
 vstates = sort(unique(mort$state, pop$states))
 length(vstates)
+
 checkCounties(mort, pop, vstates, 'county')
 
-# vstates
+# explore specific cases
 
-#+ explore individual cases
 # mort[state == "02" & county == "232", .N, by = .(year)]
 # mort[state == "02" & county == "105", .N, by = .(year)]
 # mort[state == "02" & county == "230", .N, by = .(year)]
@@ -153,11 +150,11 @@ checkCounties(mort, pop, vstates, 'county')
 # mort[state == "08" & county == "123", .N, by = .(year)]
 
 #########################################
-#+ adjustments
+# adjustments
 #########################################
 
-# Virginia
-#  Effective July 1, 2001, Clifton Forge city, Virginia, formerly an independent
+# virginia
+# effective July 1, 2001, Clifton Forge city, Virginia, formerly an independent
 # city, merged with Alleghany county (FIPS code=51-005).
 mort[state == "51" & county == "560", county := "005"]
 mort[state == "51" & county %in% c("515", "019"), county := "917"]
@@ -175,7 +172,7 @@ pop[state == "08" & county == "913", county := "059"]
 pop[state == "08" & county == "914", county := "123"]
 
 # # old adjustments
-# # Alaska
+# # alaska
 # pop[state == "02" & county %in% c("105", "230"), county := "232"]
 # pop[state == "02" & county %in% c("198"), county := "201"]
 # pop[state == "02" & county %in% c("275", "195"), county := "280"]
@@ -206,20 +203,16 @@ pop[state == "08" & county == "914", county := "123"]
 # mort[county %in% c("232", "201", "280"), .N, by = .(year, county)]
 # pop[county %in% c("232", "201", "280"), .(pop = sum(pop)), by = .(year, county)]
 
-#+ check again
-checkCounties(mort, pop, vstates)
+# check again
+checkCounties(mort, pop, vstates, 'county')
 
 # same number of counties? yes!
-nrow(pop[, .N, by = .(state, county)]) # 3145
-nrow(mort[, .N, by = .(state, county)]) # 3145
+print(paste0('Number of counties population dataset: ', nrow(pop[, .N, by = .(state, county)]))) # 3145
+print(paste0('Number of counties mortality dataset: ', nrow(mort[, .N, by = .(state, county)]))) # 3145
 
-######################################################
-#+ some additional adjustments to the CDC mortality data
-######################################################
+# some additional adjustments to the CDC mortality data
 
-#####################
 # age groups
-#####################
 
 summary(mort$nage) # 4725 cases missing
 values = list(0:4,5:9,10:14,15:19,20:24,25:39,30:34,35:39,40:44,45:49,50:54,
@@ -232,15 +225,12 @@ table(mort$nage > 150)
 # recode age values (inefficient)
 newvalues = seq_along(values) # 17 groups
 for (i in seq_along(values)) {
-      mort[nage %in% values[[i]], gage := newvalues[i]]
+    mort[nage %in% values[[i]], gage := newvalues[i]]
 }
 
 mort[, .N, by = gage][order(gage)] # 4725 missing data
 
-###################
 # race
-###################
-
 # race3 hispanic
 # 1           ...   Mexican
 # 2           ...   Puerto Rican
@@ -268,17 +258,17 @@ mort[, .N, by = causes39][order(causes39)]
 mort[, .N, by = sex][order(sex)]
 
 vars = c("year", "sex", "gage", "race", "causes39", "state",
-          "county")
+         "county")
 
 # only select key variables
 mort = mort[, vars, with = FALSE]
 setnames(mort, names(mort), c("year", "sex", "age", "race", "causes39", "state",
-                            "county"))
+                              "county"))
 
 mort[, .N, by = state][order(state)] # set order by state
 
 # create groups of causes of deaths
-table(mort$causes39, useNA = "ifany")
+table(mort$causes39)
 mort[, cause := as.numeric(causes39)]
 length(unique(mort$cause))
 
@@ -288,7 +278,7 @@ mort[cause %in% c(38:42), ncause := 3] # suicides and accidents
 mort[cause %in% c(37), ncause := 4] # residual
 
 mort[, .N, ncause]
-table(mort$ncause, useNA = "ifany")
+table(mort$ncause)
 
 # define different types of deaths by cause
 mort[, deaths1 := ifelse(ncause == 1, 1, 0)]
@@ -301,26 +291,25 @@ summary(mort$deaths2)
 summary(mort$deaths3)
 summary(mort$deaths4)
 
-# aggregate!
+# aggregate mortality data by cause
 ma = mort[!is.na(age), .(deaths = .N, # individual records (sum)
-                        deaths1 = sum(deaths1),
-                        deaths2 = sum(deaths2),
-                        deaths3 = sum(deaths3),
-                        deaths4 = sum(deaths4)),
-                        .(year, sex, age, race, state, county)]
+                         deaths1 = sum(deaths1),
+                         deaths2 = sum(deaths2),
+                         deaths3 = sum(deaths3),
+                         deaths4 = sum(deaths4)),
+                         .(year, sex, age, race, state, county)]
 
-sum(ma$deaths) # 37062064
+print(paste0('Total number of deaths: ', sum(ma$deaths))) # 37062064
 
-# it should be the same
-sum(ma$deaths) ==  (sum(ma$deaths1) + sum(ma$deaths2) +
+# the sum should be the same as the total number of deaths
+sum(ma$deaths) == (sum(ma$deaths1) + sum(ma$deaths2) +
                     sum(ma$deaths3) + sum(ma$deaths4))
 
-table(ma$sex, useNA = "ifany")
-table(ma$age, useNA = "ifany")
-table(ma$race, useNA = "ifany")
+table(ma$sex)
+table(ma$age)
+table(ma$race)
 
 # crude mortality rate plot by age
-
 plot_data = list()
 
 names(ma)
@@ -329,37 +318,36 @@ table(ma$year)
 female_rates = NULL
 male_rates = NULL
 for (i in 2000:2014) {
-  female_rates = c(female_rates, sum(ma[year==i & sex==2 , deaths]) /
-    sum(as.numeric(pop[year == i & sex==2, as.numeric(pop)])) * 1000 )
-  male_rates = c(male_rates, sum(ma[year==i & sex==1 , deaths]) /
-    sum(as.numeric(pop[year == i & sex==1, as.numeric(pop)])) * 1000 )
-    }
+    female_rates = c(female_rates, sum(ma[year==i & sex==2 , deaths]) /
+        sum(as.numeric(pop[year == i & sex==2, as.numeric(pop)])) * 1000 )
+    male_rates = c(male_rates, sum(ma[year==i & sex==1 , deaths]) /
+        sum(as.numeric(pop[year == i & sex==1, as.numeric(pop)])) * 1000 )
+}
 
 
-df = data.table(
-  year=rep(2000:2014, 2),
-  sex=c(rep(1, length(2000:2014)),rep(2, length(2000:2014))), rates=c(male_rates, female_rates))
-
+df = data.table(year=rep(2000:2014, 2),
+                sex = c(rep(1, length(2000:2014)),
+                        rep(2, length(2000:2014))),
+                rates=c(male_rates, female_rates))
 
 ggplot(df, aes(x=year, y=rates, color=factor(sex, labels=c('Men', 'Women')))) +
- geom_line() + theme_minimal() +
- ylim(0,9) +
- theme(legend.position='top') +
- labs(color='')
+    geom_line() + theme_minimal() +
+    ylim(0,9) +
+    theme(legend.position='top') +
+    labs(color='')
 
-#+ merge data!
+# merge data!
 mort = merge(ma, pop, all = TRUE, by=c("year", "sex", "age", "race",
-                                           "state", "county"))
+                                       "state", "county"))
 
 vars = c("year", "sex", "age", "race", "state", "county")
 anyDuplicated(mort[, vars, with = FALSE])
 
-summary(mort$deaths)
-summary(mort$deaths1)
-summary(mort$deaths2)
-summary(mort$deaths3)
-summary(mort$deaths4)
-
+# summary(mort$deaths)
+# summary(mort$deaths1)
+# summary(mort$deaths2)
+# summary(mort$deaths3)
+# summary(mort$deaths4)
 
 summary(mort$pop) # missing data on pop 6811 cells, or pop = 0
 mort[is.na(pop), pop := 0]
@@ -370,7 +358,6 @@ mort[is.na(deaths1), deaths := 0]
 mort[is.na(deaths2), deaths := 0]
 mort[is.na(deaths3), deaths := 0]
 mort[is.na(deaths4), deaths := 0]
-
 
 summary(mort[pop == 0, deaths]) # 5 max, okey not that much
 nrow(mort[pop == 0 & deaths > 0])
@@ -391,6 +378,9 @@ test[deaths == 1]
 
 sum(test$deaths) # 7061 deaths with population 0 (?)
 remove(test)
+
+# remove temporary files
+unlink('output/mortality.rds')
 
 # save data
 saveRDS(mort, file = 'output/mortality_population.rds')

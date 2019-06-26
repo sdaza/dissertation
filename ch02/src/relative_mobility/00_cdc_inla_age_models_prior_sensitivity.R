@@ -250,7 +250,6 @@ w4 = inla(formula, data = women,
 
 
 # create table
-source('src/utils/extract_inla.R')
 
 cnames = list(
                '(Intercept)' = 'Constant',
@@ -312,7 +311,3 @@ texreg(w_models,
            custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
            Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
             file = "output/w_age_prior_sensitivity.tex")
-
-######################
-# end models
-######################

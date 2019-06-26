@@ -1,6 +1,16 @@
+# chapter 2
 
+/ch02/manuscript/
+/ch02/data/
+
+# chapter 3
+ch03/data/psid/.DS_Store
+
+# related projects
 related_projects/.DS_Store
 related_projects/health_inequality_project/data/.DS_Store
-ch03/data/psid/.DS_Store
+
+
+#  other
 .Rhistory
 .DS_Store

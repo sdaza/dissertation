@@ -11,7 +11,7 @@ library(brinla)
 library(ggplot2)
 library(ggridges)
 library(patchwork)
-library(fmsb) # life table  s
+library(fmsb)
 library(USAboundaries)
 library(maptools)
 library(spdep)

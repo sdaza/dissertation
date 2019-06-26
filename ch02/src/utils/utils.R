@@ -1,16 +1,82 @@
+##########################################
+# CDC mortality - income Mobility paper
+# utilities
+# author: sebastian daza
+##########################################
 
-# CDC Mortality - Income Mobility Paper
-# Functions
-# Author: Sebastian Daza
+
+# libraries
+library(sdazar)
+library(ggplot2)
+library(INLA)
+library(texreg)
+
+# redefine table base function
+table = function (...) base::table(..., useNA = 'ifany')
+
+# function to check counties
+checkCounties = function(dataA, dataB, states, county_var) {
+
+    checkCountiesA = list()
+    checkCountiesB = list()
+
+    for (i in seq_along(vstates)) {
+        a = dataA[state == vstates[i], .N, by = county_var][
+                  order(get(county_var)), get(county_var)]
+        b = dataB[state == vstates[i], .N, by = county_var][
+                  order(get(county_var)), get(county_var)]
+        c = b[which(! b %in% a)] # population
+        d = a[which(! a %in% b)] # mortality
+        if (length(c) > 0) { checkCountiesA[[vstates[i]]] = c }
+        if (length(d) > 0) { checkCountiesB[[vstates[i]]] = d }
+    }
+    print('Counties A')
+    print(checkCountiesA)
+    print('Counties B ')
+    print(checkCountiesB)
+}
 
 
-########################
-# INLA functions
-########################
+# log transformation
+logtrans = function(data, variables, center = TRUE) {
+    data[, (paste0('log_', variables)) := lapply(.SD,
+    function(x) scale(
+          ifelse(x <= 0.0, log(0.001), log(x)),
+          scale = FALSE, center = center)),
+          .SDcols = (variables)
+    ]
+}
 
+# standardization
+zscores  <- function(dat, variables) {
+    for (i in 1:length(variables)) {
+        dat[, paste0("z_", variables[i]) := scale(get(variables[i]))]
+    }
+    return(dat)
+}
+
+# function to check counties
+checkCounties = function(dataA, dataB, states, county_var) {
+
+  checkCountiesA = list()
+  checkCountiesB = list()
+
+  for (i in seq_along(vstates)) {
+        a = dataA[state == vstates[i], .N, by = county_var][order(get(county_var)), get(county_var)]
+        b = dataB[state == vstates[i], .N, by = county_var][
+                order(get(county_var)), get(county_var)]
+        c = b[which(! b %in% a)] # population
+        d = a[which(! a %in% b)] # mortality
+        if (length(c) > 0) { checkCountiesA[[vstates[i]]] = c }
+        if (length(d) > 0) { checkCountiesB[[vstates[i]]] = d }
+  }
+  print('Counties A')
+  print(checkCountiesA)
+  print('Counties B ')
+  print(checkCountiesB)
+}
 
 # plot distribution of fixed-effects
-
 plot_fixed_coeff = function(model, coeff, coeff_labels=NULL, ylimits=NULL,
                             exponential=FALSE,
                             colors=c('#0072B21', '#D55E00', '#a1d99b')) {
@@ -36,18 +102,17 @@ plot_fixed_coeff = function(model, coeff, coeff_labels=NULL, ylimits=NULL,
         scale_color_manual(values=colors) +
         scale_fill_manual(values=colors) +
         theme(axis.text.x = element_text(angle = 0, hjust = 1),
-               legend.position="top",
-               legend.title=element_blank()) +
+              legend.position="top",
+              legend.title=element_blank()) +
         if (!is.null(ylimits)) {scale_x_continuous(limits=ylimits)}
     return(p)
-    }
+}
 
 # plot random effect distributions
-
 plot_random_dist = function(model, terms, term_labels=NULL,
-                ylimits=NULL,
-                exponential=FALSE,
-                colors=c('#0072B2', '#D55E00', '#a1d99b')) {
+                            ylimits=NULL,
+                            exponential=FALSE,
+                            colors=c('#0072B2', '#D55E00', '#a1d99b')) {
 
     output = list()
 
@@ -55,16 +120,13 @@ plot_random_dist = function(model, terms, term_labels=NULL,
 
     regex = paste0(paste0(terms, '$'), collapse='|')
     ef = grep(regex, names(mh), value=TRUE)
-
     for (i in ef) {
-
-      if (exponential) {
+        if (exponential) {
            tp = inla.tmarginal(function(x) exp(1/sqrt(x)),
            mh[[i]])
       } else {
           tp = bri.hyper.sd(mh[[i]])
       }
-
 
       output[[i]] = data.table(term = i, tp)
 
@@ -88,14 +150,13 @@ plot_random_dist = function(model, terms, term_labels=NULL,
         scale_color_manual(values=colors) +
         scale_fill_manual(values=colors) +
         theme(axis.text.x = element_text(angle = 0, hjust = 1),
-               legend.position="top",
-               legend.title=element_blank()) +
+              legend.position="top",
+              legend.title=element_blank()) +
         if (!is.null(ylimits)) {scale_x_continuous(limits=ylimits)}
     return(suppressWarnings(print(p)))
 }
 
 # plot_random_effects_sim
-
 get_coeff_fixed_random_effect = function(sim_data, fixed, random, prob = 0.95) {
 
     if (length(fixed) != length(random)) {
@@ -227,7 +288,6 @@ plot_random_fixed_effects_sim = function(sim_data, fixed=NULL, random=NULL,
 }
 
 # get distribution fixed - random effects
-
 get_dist_fixed_random_effect = function(sim_data, fixed, random) {
 
     if (length(fixed) != length(random)) {
@@ -263,7 +323,6 @@ get_dist_fixed_random_effect = function(sim_data, fixed, random) {
   }
 
 # plot distribution of fixed effects using simulation
-
 get_fixed_sim = function(sim_list,
     coeff=NULL, # max 2
     coeff_labels=NULL,
@@ -320,7 +379,6 @@ plot_fixed_sim = function(data,
   }
 
 # plot distributions random-fixed sim
-
 plot_dist_fixed_random_sim = function(sim_data, fixed, random,
   names_random=NULL, names_group=NULL, exponential=TRUE) {
 
@@ -368,7 +426,6 @@ plot_dist_fixed_random_sim = function(sim_data, fixed, random,
   }
 
 # plot random effects
-
 plot_random_effects = function(model, RE,
                               RE_labels = NULL,
                               x_labels = NULL,
@@ -466,9 +523,7 @@ plot_random_effects = function(model, RE,
 
 
 # plot predicted p-values
-
 hist_pred_pvalues = function(model, outcome, breaks = 10) {
-
     output = NA
 
     for (i in (1:length(outcome))) {
@@ -482,8 +537,6 @@ hist_pred_pvalues = function(model, outcome, breaks = 10) {
 }
 
 # plots LOO
-
-
 plot_loo = function(model) {
 
     hist(model$cpo$pit, breaks = 10,
@@ -501,7 +554,6 @@ plot_loo = function(model) {
 
 
 # compute life expectancy counterfactuals
-
 estimate_le_counterfactuals = function(sim_data,
                       fixed=NULL,
                       random=NULL,
@@ -560,7 +612,6 @@ estimate_le_counterfactuals = function(sim_data,
 
 
 # plot le counterfactuals
-
 plot_le_counterfactuals = function(dt, relative=FALSE,
   x_labels=NULL,
   xlabel='\nLife expectancy at age',
@@ -600,17 +651,58 @@ plot_le_counterfactuals = function(dt, relative=FALSE,
         by = .(age, variable)]
 
   p = ggplot(s, aes(x=age, y=m)) +
-     geom_ribbon(aes(ymin=lo, ymax=hi, group=variable, fill=variable), alpha=0.3)  +
-     geom_point(aes(color=variable), size=0.9, alpha=0.3)  +
-     geom_line(aes(color=variable, group=variable), size = 0.4, alpha=0.3)  +
-     theme_classic() +
-     scale_color_manual(values=c("#0072B2", "#D55E00")) +
-     scale_fill_manual(values=c("#0072B2", "#D55E00")) +
-     labs(x=xlabel, y=ylabel) +
-     geom_hline(yintercept = 0,  size = 0.2, alpha = 0.3, linetype = 2) +
-     theme(axis.text.x = element_text(angle = 40, hjust = 1),
-     legend.position="top",
-     legend.title=element_blank())
+          geom_ribbon(aes(ymin=lo, ymax=hi, group=variable, fill=variable), alpha=0.3)  +
+          geom_point(aes(color=variable), size=0.9, alpha=0.3)  +
+          geom_line(aes(color=variable, group=variable), size = 0.4, alpha=0.3)  +
+          theme_classic() +
+          scale_color_manual(values=c("#0072B2", "#D55E00")) +
+          scale_fill_manual(values=c("#0072B2", "#D55E00")) +
+          labs(x=xlabel, y=ylabel) +
+          geom_hline(yintercept = 0,  size = 0.2, alpha = 0.3, linetype = 2) +
+          theme(axis.text.x = element_text(angle = 40, hjust = 1),
+          legend.position="top",
+          legend.title=element_blank())
 
     return(p)
-  }
+}
+
+# texreg extract inla model
+extract.inla <- function(model, include.dic = FALSE,
+                         include.waic = FALSE, ...) {
+
+    fixed <-  model$summary.fixed
+    contrib <- inla.contrib.sd(model)$hyper
+
+    coefnames <- c(rownames(fixed), rownames(contrib))
+    coef <- c(fixed[, "mean"], contrib[, "mean"])
+    ci.low <- c(fixed[, "0.025quant"], contrib[, "2.5%"])
+    ci.up <- c(fixed[, "0.975quant"], contrib[, "97.5%"])
+
+    gof <- numeric()
+    gof.names <- character()
+    gof.decimal <- logical()
+      if (include.dic == TRUE) {
+        gof <- c(gof, model$dic$dic)
+        gof.names <- c(gof.names, "DIC")
+        gof.decimal <- c(gof.decimal, FALSE)
+      }
+      if (include.waic == TRUE) {
+        gof <- c(gof, model$waic$waic)
+        gof.names <- c(gof.names, "WAIC")
+        gof.decimal <- c(gof.decimal, FALSE)
+      }
+
+    tr <- createTexreg(
+        coef.names = coefnames,
+        coef = coef,
+        ci.low = ci.low,
+        ci.up = ci.up,
+        gof.names = gof.names,
+        gof = gof,
+        gof.decimal = gof.decimal
+      )
+
+    }
+
+setMethod("extract", signature = className("inla", "inla"),
+          definition = extract.inla)

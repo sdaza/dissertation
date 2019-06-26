@@ -1,32 +1,24 @@
 ##############################################
-# co
+# CDC mortality - income mobility paper
+# merge population and mortality data
 # author: sebastian daza
 ##############################################
 
-#+ set directory
-# restricted data (not optimal for reproducibility)
-pdata = "/Users/sdaza/Documents/Workplace/Data/mortality/data/"
 
 # libraries
-library(here)
-library(haven)
-library(readr)
 library(sdazar)
 
 # functions
-source('src/utils/functions.R')
+source('src/utils/utils.R')
 
 # read fips codes
-codes = read_csv('data/fips_codes_website.csv')
+codes = read_csv('data/fips_codes.csv')
 codes = data.table(codes)
 codes = codes[, c(1,2,3,6), with = FALSE]
 setnames(codes, c("abr", "state", "county", "name"))
 states = codes[, .N , by = .(abr, state)][, N := NULL]
 
-####################################
-#+ load data
-####################################
-
+# load data
 mob = readRDS('output/chetty_data.rds')
 mort = readRDS('output/mortality_population.rds')
 
@@ -39,8 +31,7 @@ length(vstates)
 
 checkCounties(mob, mort, vstates, 'fips')
 
-
-#+ adjust some county fips
+# adjust some county fips
 mob[fips == "51560", ] # nothing to do with this
 mob[fips == "51005", ] # remove it also (backwards adjustment)
 
@@ -65,36 +56,33 @@ mort[fips %in% c("02105", "02230"), fips := "02232"]
 mort[fips == "02198", fips := "02201"]
 mort[fips %in% c("02275", "02195"), fips := "02280"]
 
-#+ check counties again
+# check counties again
 checkCounties(mort, mob, vstates, 'fips')
 
-checkCountiesA # 51560 and 51515, 51019
-checkCountiesB # 022332, 08014, 51917
-
+# checkCountiesA: 51560 and 51515, 51019
+# checkCountiesB:022332, 08014, 51917
 
 ##############################################################
-#+ aggregate data (years and counties)
+# aggregate data (years and counties)
 ##############################################################
 mort = mort[, .(deaths = sum(deaths),
-                 deaths1 = sum(deaths1),
-                 deaths2 = sum(deaths2),
-                 deaths3 = sum(deaths3),
-                 deaths4 = sum(deaths4),
-                 pop = sum(pop)),
+                deaths1 = sum(deaths1),
+                deaths2 = sum(deaths2),
+                deaths3 = sum(deaths3),
+                deaths4 = sum(deaths4),
+                pop = sum(pop)),
             by = .(fips, sex, age, race)] # collapse years!
 
 nrow(mort) # 437025
 
-###########################
-#+ merge datasets
-###########################
-
+# merge datasets
 anyDuplicated(mob[, .(fips)])
 
 vars = c("csa", "csa_name", "cbsa", "cbsa_name", "intersects_msa", "state")
 
 names(mob)
 names(mort)
+
 # create merge identifiers
 mort[, mort := 1]
 mob[, mob := 1]
@@ -106,7 +94,7 @@ mort[mort == 1 & is.na(mob), merge := 1]
 mort[mob == 1 & is.na(mort), merge := 2]
 
 # explore some cases
-table(mort$merge, useNA = "ifany")
+table(mort$merge)
 mob[fips == "51019"]
 mob[fips == "51015"]
 
@@ -126,19 +114,20 @@ length(counties) # 2873
 
 anyDuplicated(mort[, .(fips, sex, age, race)]) # ok!
 
-table(mort$sex, useNA = "ifany")
-table(mort$age, useNA = "ifany")
-table(mort$race, useNA = "ifany")
+table(mort$sex)
+table(mort$age)
+table(mort$race)
 
-#+ population greater than 0, match successful, and deaths equal or smaller than population
+# population greater than 0, match successful, and deaths equal or smaller than population
 a = nrow(mort)
 mort = mort[pop > 0 & merge == 3 & pop >= deaths]
 
 b = nrow(mort)
 round(b / a * 100, 1) # 99.6% most of the cases matched!
 
-#######################
-#+ save data
-#######################
+# remove temporary files
+unlink('output/chetty_data.rds')
+unlink('output/mortality_population.rds')
 
+# save data
 saveRDS(mort, file = 'output/cdc_chetty.rds')
