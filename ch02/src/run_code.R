@@ -16,5 +16,7 @@ source("src/load_data/04_merge_mortality_chetty.R")
 source('src/descriptive_table.R')
 
 # relative mobility analysis
+source('src/relative_mobility/00_cdc_inla_age_models_prior_sensitivity.R')
+source('src/relative_mobility/01_cdc_inla_age_models_pcprior_1_10.R')
 
 # absolute mobility analysis

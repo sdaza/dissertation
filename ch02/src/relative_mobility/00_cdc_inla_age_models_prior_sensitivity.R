@@ -1,37 +1,32 @@
-
 ########################################
 # CDC mortality - income mobility
 # prior sensitivy analysis
 # author: Sebastina Daza
 ########################################
 
-
-# R < 00dissertation/ch02/src/00_cdc_inla_age_models_prior_sensitivity.R > 00dissertation/ch02/src/00_cdc_inla_age_models_age_sensitivity.log  --no-save  &
-
 # load libraries
+
+# devtools::install_github("sdaza/sdazar")
 library(sdazar)
+# install.packages("INLA", repos=c(getOption("repos"),
+#                                  INLA = "https://inla.r-inla-download.org/R/stable"),
+#                  dep = TRUE)
+# INLA_19.05.19 built 2019-06-26 15:12:05 UTC.
 library(INLA)
+#install_github("julianfaraway/brinla")
 library(brinla)
-library(ggplot2)
-library(patchwork)
-library(fmsb) # life tables
-# install.packages('USAboundariesData')
+#devtools::install_github("ropensci/USAboundaries")
+#devtools::install_github("ropensci/USAboundariesData")
 library(USAboundaries)
-library(maptools)
-library(spdep)
-library(sp)
 library(texreg)
 
 # utils
 source("src/utils/utils.R")
 
-# plot options
-options(repr.plot.width = 5, repr.plot.height = 4)
-
 # INLA node  options
 (nodes = parallel::detectCores())
 INLA:::inla.dynload.workaround()
-inla.setOption("num.threads", nodes)
+inla.setOption("num.threads", nodes - 7)
 
 # define county graph object for spatial models
 county.adj = 'data/counties.graph'
@@ -128,6 +123,7 @@ dim(women)
 ##############################
 
 # m1 (default)
+print(':::::::: running model 1')
 
 formula = deaths ~  1 + log_population + log_income + z_relative_mob +
           z_gini + z_segregation_income + log_unemployment + log_pct_hispanic +
@@ -156,6 +152,7 @@ w1 = inla(formula, data = women,
           )
 
 # m2 (pc(1, .10)
+print(':::::::: running model 2')
 
 pcprior = list(prec = list(prior="pc.prec",
                            param = c(1, 0.10)))
@@ -187,6 +184,7 @@ w2 = inla(formula, data = women,
           )
 
 # m3 (pc(10, .10))
+print(':::::::: running model 3')
 
 pcprior = list(prec = list(prior="pc.prec",
                param = c(10, 0.10)))
@@ -219,6 +217,7 @@ w3 = inla(formula, data = women,
           )
 
 # m4 (pc(10, 0.01))
+print(':::::::: running model 4')
 
 pcprior = list(prec = list(prior="pc.prec",
                            param = c(10, 0.01)))
@@ -251,6 +250,7 @@ w4 = inla(formula, data = women,
 
 
 # create table
+print(':::::::: creating tables')
 
 cnames = list(
                '(Intercept)' = 'Constant',

@@ -76,6 +76,45 @@ checkCounties = function(dataA, dataB, states, county_var) {
   print(checkCountiesB)
 }
 
+# inla.contrib.sd function contributed by Gianluca Baio
+inla.contrib.sd = function(model, nsamples=1000) {
+    ## Computes the sd for the random effects in an INLA model
+    ## 1. Defines the precision (generates a matrix with bins and
+    ## density on the precision scale)
+    ## 2. Simulates replications from the posterior distributions of
+    ## the quantities of interest
+
+    ## Names of the variables associated with structured effects
+    rand.effs <- names(model$marginals.hyperpar)
+    for (i in 1:length(rand.effs)) {
+        cmd <- paste("prec.marg.",i,"<-model$marginals.hyperpar$'",rand.effs[i],"'",sep="")
+        # marginal distribution of the precision, tau
+        ## Simulation from the posterior marginal distribution for sigma = 1/sqrt(tau)
+        eval(parse(text=cmd))
+        cmd <- paste("sigma.", i,
+                     "<- inla.rmarginal(nsamples,inla.tmarginal(function(x) 1/sqrt(x), prec.marg.",
+                     i,"))",sep="")
+        eval(parse(text=cmd))
+    }
+    ## Outputs of the function
+    mat <- matrix(NA, nsamples, length(rand.effs))
+    for (i in 1:length(rand.effs)) {
+        cmd <- paste("mat[,i] <- sigma.",i,sep="")
+        eval(parse(text=cmd))
+    }
+    names2 <- gsub("Precision","sd",rand.effs)
+    colnames(mat) <- names2
+
+    tab <- matrix(NA,length(rand.effs),4)
+    for (i in 1:length(rand.effs)) {
+        tab[i,] <- c(mean(mat[,i]),sd(mat[,i]),quantile(mat[,i],.025),quantile(mat[,i],.975))
+    }
+    rownames(tab) <- names2
+    colnames(tab) <- c("mean","sd","2.5%","97.5%")
+
+    return (list(samples=mat, hyper=tab))
+}
+
 # plot distribution of fixed-effects
 plot_fixed_coeff = function(model, coeff, coeff_labels=NULL, ylimits=NULL,
                             exponential=FALSE,
