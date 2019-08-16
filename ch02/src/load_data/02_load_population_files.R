@@ -1,16 +1,16 @@
-################################
+########################################
+# CDC mortality - income mobility paper
 # load population county data
 # author: sebastian daza
-################################
+########################################
 
-# libraries
-library(readr)
-library(sdazar)
-library(ggplot2)
-library(ggthemes)
 
 # utils
 source("src/utils/utils.R")
+
+# libraries
+library(readr)
+library(ggthemes)
 
 # set parameters for plots
 options(repr.plot.width = 5, repr.plot.height = 4)
@@ -22,9 +22,8 @@ codes = codes[, c(1,2,3,6), with = FALSE]
 setnames(codes, c("abr", "state", "county", "name"))
 states = codes[, .N , by = .(abr, state)][, N := NULL]
 
-####################################
+
 # process population datafile
-####################################
 
 # read population data
 start = c(1,5,7,9,12,14,15,16,17,19)

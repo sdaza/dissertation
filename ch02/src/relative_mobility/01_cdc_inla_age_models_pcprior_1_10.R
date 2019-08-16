@@ -1,74 +1,30 @@
 ########################################
-# CDC mortality - income mobility
-# main models
-# author: Sebastina Daza
+# CDC mortality - income mobility paper
+# main analysis
+# author: sebastian daza
 ########################################
-
-
-# load libraries
-# devtools::install_github("sdaza/sdazar")
-library(sdazar)
-
-# install.packages("INLA", repos=c(getOption("repos"),
-#                                  INLA = "https://inla.r-inla-download.org/R/stable"),
-#                  dep = TRUE)
-library(INLA)
-
-# devtools::install_github("julianfaraway/brinla")
-library(brinla)
-library(ggplot2)
-
-# devtools::install_github("thomasp85/patchwork")
-library(patchwork)
-
-library(fmsb)
-#devtools::install_github("ropensci/USAboundaries")
-#devtools::install_github("ropensci/USAboundariesData")
-library(USAboundaries)
-
-library(maptools)
-library(spdep)
-library(sp)
-library(texreg)
 
 # utils
 source("src/utils/utils.R")
 
-# INLA node  options
-(nodes = parallel::detectCores())
-INLA:::inla.dynload.workaround()
-inla.setOption("num.threads", nodes - 7)
+# load libraries
+library(ggthemes)
+# devtools::install_github("thomasp85/patchwork")
+library(patchwork)
+library(fmsb)
 
-# define county graph object for spatial models
-county.adj = 'data/counties.graph'
+ # INLA options
+inla.setOption("num.threads", 15)
+inla.setOption(pardiso.license = "../pardiso.lic")
+inla.pardiso.check()
+inla.setOption(short.summary = TRUE)
 
 # read data
-data = readRDS('output/cdc_chetty.rds')
-
-dim(data)
-countmis(data)
-
-# remove missing records
-variables = c('z_relative_mob', 'z_absolute_mob', 'z_gini',
-              'z_medicare_expenses', 'log_unemployment', 'z_uninsured',
-              'log_pct_black', 'log_pct_hispanic')
-
-data = data[complete.cases(data[, variables, with=FALSE])]
-countmis(data)
-
-# get counties, US 2000
-counties = us_counties("2000-07-01")
-length(unique(data$fips)) / length(counties$fips)
-counties = counties[counties$fips %in% unique(data$fips),]
-
-all(as.character(counties$fips) %in% unique(data$fips))
-all(unique(data$fips) %in% as.character(counties$fips))
-
-ordered_fips = as.character(unique(counties$fips))
-length(ordered_fips)
-
-# order data based on counties
-data = data[order(match(fips, ordered_fips))]
+descriptive_info = readRDS('output/descriptive_info.rds')
+data = readRDS(paste0('output/cdc_chetty_',
+                      descriptive_info$number_counties,
+                      '_counties.rds')
+)
 
 # create indicators for county and state
 data[, county_i := .GRP, by = fips]
@@ -77,9 +33,8 @@ data[, state_i := .GRP, by = state]
 length(unique(data[, county_i]))
 
 # aggregate data by gender
-
-male = data[sex==1]
-female = data[sex==2]
+male = data[sex == 1]
+female = data[sex == 2]
 
 amale = male[,
              .(state = first(state),
@@ -101,11 +56,11 @@ afemale = female[,
                    pop = sum(pop)),
                  by = .(age, county)]
 
-male_cov = male[, s := 1:.N, by = .(age, county)][s==1,][
+male_cov = male[, s := 1:.N, by = .(age, county)][s == 1,][
     , c('pop','deaths', 'deaths1', 'deaths2', 'deaths3',
         'deaths4', 'state', 'race', 's', 'sex') := NULL]
 
-female_cov = female[, s := 1:.N, by = .(age, county)][s==1,][
+female_cov = female[, s := 1:.N, by = .(age, county)][s == 1,][
     , c('pop','deaths', 'deaths1', 'deaths2', 'deaths3',
         'deaths4', 'state', 'race', 's', 'sex') := NULL]
 
@@ -140,9 +95,13 @@ e_groups =  c('E(0)','E(5)','E(10)','E(15)','E(20)',
               'E(50)','E(55)','E(60)','E(65)','E(70)',
               'E(75)','E(80)','E(85)')
 
+
 # models
-pcprior = list(prec = list(prior="pc.prec",
-  param = c(1, 0.10)))
+
+# define prior
+pcprior = list(prec = list(prior = "pc.prec",
+                           param = c(1, 0.10)))
+
 
 # baseline (0)
 print(':::::::: running baseline')
@@ -156,14 +115,14 @@ formula = deaths ~  1 + log_population + log_income + z_relative_mob +
 
 m0 = inla(formula, data = men,
           family = 'poisson', E = pop,
-          control.compute = list(dic=TRUE, waic = TRUE, cpo = TRUE),
+          control.compute = list(dic = TRUE, waic = TRUE, cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
-          control.inla = list(strategy = 'gaussian')
+          control.inla = list(strategy = 'gaussian'),
           )
 
 w0 = inla(formula, data = women,
           family = 'poisson', E = pop,
-          control.compute = list(dic=TRUE, waic = TRUE, cpo = TRUE),
+          control.compute = list(dic = TRUE, waic = TRUE, cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
           )
@@ -174,36 +133,6 @@ bri.hyperpar.summary(m0)
 round(w0$summary.fixed, 4)
 bri.hyperpar.summary(w0)
 
-# residuals, cpo, loo
-# m0.resid = bri.Pois.resid(m0, plot = FALSE)
-#
-# savepdf('output/m0_resid_pcprior_1_10')
-# qqnorm(m0.resid$resid)
-# qqline(m0.resid$resid)
-# dev.off()
-#
-# savepdf('output/m0_pred_pvalues_pcprior_1_10')
-# hist_pred_pvalues(m0, men$deaths) # pretty bad
-# dev.off()
-#
-# savepdf('output/m0_cpo_pcprior_1_10')
-# plot_loo(m0)
-# dev.off()
-#
-# w0.resid = bri.Pois.resid(w0, plot = FALSE)
-#
-# savepdf('output/w0_resid_pcprior_1_10')
-# qqnorm(w0.resid$resid)
-# qqline(w0.resid$resid)
-# dev.off()
-#
-# savepdf('output/w0_pred_pvalues_pcprior_1_10')
-# hist_pred_pvalues(w0, women$deaths) # pretty bad
-# dev.off()
-#
-# savepdf('output/w0_cpo_pcprior_1_10')
-# plot_loo(w0)
-# dev.off()
 
 # varying gini and mobility by age (1)
 print(':::::::: varying gini and mobility by age')
@@ -227,7 +156,7 @@ m1 = inla(formula, data = men,
 
 w1 = inla(formula, data = women,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo= TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
@@ -239,122 +168,6 @@ bri.hyperpar.summary(m1)
 round(w1$summary.fixed, 4)
 bri.hyperpar.summary(w1)
 
-# create plots of coefficients
-# sim_m1 = inla.posterior.sample(n=5000, result=m1)
-# sim_w1 = inla.posterior.sample(n=5000, result=w1)
-
-# savepdf('output/m1_coefficients_pcprior_1_10')
-# plot_fixed_coeff(m1, coeff=c('z_relative_mob', 'z_gini'),
-#                  coeff_labels=c('Relative Mobility', 'Gini'),
-#                  exponential=TRUE)
-# dev.off()
-
-# savepdf('output/m1_random_effects__pcprior_1_10')
-# plot_random_dist(m1, terms=c('mob_age', 'gini_age'),
-#                  term_labels=c('Relative Mobility', 'Gini'),
-#                  exponential=FALSE)
-# dev.off()
-#
-# savepdf('output/m1_effects_age_pcprior_1_10')
-# plot_random_fixed_effects_sim(sim_m1, fixed=c('z_relative_mob', 'z_gini'),
-#                               random=c('mob_age', 'gini_age'),
-#                               x_labels=age_groups,
-#                               ylabel='Rate ratio\n',
-#                               xlabel='\nAge group',
-#                               effects_labels = c('Mobility', 'Gini'),
-#                               sorted=FALSE,
-#                               exponential=TRUE)
-# dev.off()
-#
-# savepdf('output/w1_effects_age_pcprior_1_10')
-# plot_random_fixed_effects_sim(sim_w1, fixed=c('z_relative_mob', 'z_gini'),
-#                               random=c('mob_age', 'gini_age'),
-#                               x_labels=age_groups,
-#                               ylabel='Rate ratio\n',
-#                               xlabel='\nAge group',
-#                               effects_labels = c('Mobility', 'Gini'),
-#                               sorted=FALSE,
-#                               exponential=TRUE)
-# dev.off()
-#
-# # life expectancy predictions
-#
-# value_matrix = rbind(
-#                      c(1, 0, 0,   1, 1, 0),
-#                      c(1, 1, 0,   1, 1, 0),
-#                      c(1, 0, 0,   1, 0, 1),
-#                      c(1, 0, 1,   1, 0, 1))
-#
-# rownames(value_matrix) = c('mob_0', 'mob_1', 'gini_0', 'gini_1')
-#
-# les = estimate_le_counterfactuals(sim_m1,
-#                                   fixed = c('z_relative_mob', 'z_gini'),
-#                                   random = c('age', 'mob_age', 'gini_age'),
-#                                   value_matrix = value_matrix)
-#
-# head(les)
-#
-# savepdf('output/m1_le_differences_pcprior_1_10')
-# plot_le_counterfactuals(les, x_labels=e_groups)
-# dev.off()
-#
-# les = estimate_le_counterfactuals(sim_w1,
-#                                   fixed = c('z_relative_mob', 'z_gini'),
-#                                   random= c('age', 'mob_age', 'gini_age'),
-#                                   value_matrix = value_matrix)
-#
-# head(les)
-#
-# savepdf('output/w1_le_differences_pcprior_1_10')
-# plot_le_counterfactuals(les, x_labels=e_groups)
-# dev.off()
-#
-# m1.resid = bri.Pois.resid(m1, plot = FALSE)
-#
-# savepdf('output/m1_resid_pcprior_1_10')
-# qqnorm(m1.resid$resid)
-# qqline(m1.resid$resid)
-# dev.off()
-#
-# savepdf('output/m1_predvalues_pcprior_1_10')
-# hist_pred_pvalues(m1, men$deaths) # pretty bad
-# dev.off()
-#
-# savepdf('output/m1_loo_pcprior_1_10')
-# plot_loo(m1)
-# dev.off()
-#
-# w1.resid = bri.Pois.resid(w1, plot = FALSE)
-#
-# savepdf('output/w1_resid_pcprior_1_10')
-# qqnorm(w1.resid$resid)
-# qqline(w1.resid$resid)
-# dev.off()
-#
-# savepdf('output/w1_predvalues_pcprior_1_10')
-# hist_pred_pvalues(w1, women$deaths) # pretty bad
-# dev.off()
-#
-# savepdf('output/w1_loo_pcprior_1_10')
-# plot_loo(w1)
-# dev.off()
-#
-# # random effects
-# savepdf('output/m1_county_pcprior_1_10')
-# plot_random_effects(m1, 'county_i', exponential=FALSE, sorted=TRUE)
-# dev.off()
-#
-# savepdf('output/m1_state_pcprior_1_10')
-# plot_random_effects(m1, 'state_i', exponential=FALSE, sorted=TRUE)
-# dev.off()
-#
-# savepdf('output/w1_county_pcprior_1_10')
-# plot_random_effects(w1, 'county_i', exponential=FALSE, sorted=TRUE)
-# dev.off()
-#
-# savepdf('output/w1_state_pcprior_1_10')
-# plot_random_effects(w1, 'state_i', exponential=FALSE, sorted=TRUE)
-# dev.off()
 
 # interaction mob x gini (2)
 print(':::::::: interaction mob and gini')
@@ -369,7 +182,7 @@ formula = deaths ~  1 + log_population + log_income + z_relative_mob  * z_gini +
 
 m2 = inla(formula, data = men,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo= TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
@@ -377,7 +190,7 @@ m2 = inla(formula, data = men,
 
 w2 = inla(formula, data = women,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo= TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
@@ -403,7 +216,7 @@ formula = deaths ~  1 + log_population + log_income * z_relative_mob +  z_gini +
 
 m3 = inla(formula, data = men,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo= TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
@@ -411,7 +224,7 @@ m3 = inla(formula, data = men,
 
 w3 = inla(formula, data = women,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo= TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
@@ -439,274 +252,282 @@ formula = deaths ~  1 + log_population + log_income + z_relative_mob +
 
 m4 = inla(formula, data = men,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
-                                 cpo=TRUE),
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
+                                 cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
-          control.inla = list(strategy = 'gaussian')
+          control.inla = list(strategy = 'gaussian'),
           )
 
 w4 = inla(formula, data = women,
           family = 'poisson', E = pop,
-          control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
-                                 cpo=TRUE),
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
+                                 cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
           control.inla = list(strategy = 'gaussian')
           )
 
-# round(m4$summary.fixed, 4)
-# bri.hyperpar.summary(m4)
-#
-# round(w4$summary.fixed, 4)
-# bri.hyperpar.summary(w4)
+round(m4$summary.fixed, 4)
+bri.hyperpar.summary(m4)
 
-# savepdf('output/m2_coefficients')
-# plot_fixed_coeff(m2, coeff=c('z_relative_mob', 'z_gini'),
-#                  coeff_labels=c('Relative Mobility', 'Gini'),
-#                  exponential = TRUE)
-# dev.off()
-#
-# savepdf('output/m2_random_effects')
-# plot_random_dist(m2, terms=c('mob_age', 'gini_age'),
-#                  term_labels=c('Relative Mobility', 'Gini'),
-#                  exponential = FALSE)
-# dev.off()
+round(w4$summary.fixed, 4)
+bri.hyperpar.summary(w4)
 
-# m4.resid = bri.Pois.resid(m4, plot = TRUE)
 
-# savepdf('output/m4_resid_pcprior_1_10')
-# qqnorm(m4.resid$resid)
-# qqline(m4.resid$resid)
-# dev.off()
+# spatial (5)
+print(':::::::: running spatial model')
+
+# specify path of the graph object
+county.adj <- "data/county.graph"
+
+formula = deaths ~  1 + log_population + log_income + z_relative_mob +
+          z_gini + z_segregation_income + log_unemployment + log_pct_hispanic +
+          log_pct_black + z_uninsured + z_medicare_expenses +
+          f(state_i, model = 'iid', hyper = pcprior) +
+          f(county_i, model = 'bym2', graph = county.adj, hyper = pcprior) +
+          f(age, model = 'iid', hyper = pcprior) +
+          f(id, model = 'iid', hyper = pcprior) +
+          f(mob_age, z_relative_mob, model = 'iid', hyper = pcprior) +
+          f(gini_age, z_gini, model = 'iid', hyper = pcprior)
+
+m5 = inla(formula, data = men,
+          family = 'poisson', E = pop,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
+                                 cpo = TRUE),
+          control.predictor = list(link = 1, compute = TRUE),
+          control.inla = list(strategy = 'gaussian'),
+          verbose = TRUE
+          )
+
+w5 = inla(formula, data = women,
+          family = 'poisson', E = pop,
+          control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
+                                 cpo = TRUE),
+          control.predictor = list(link = 1, compute = TRUE),
+          control.inla = list(strategy = 'gaussian')
+          )
+
+round(m5$summary.fixed, 4)
+bri.hyperpar.summary(m5)
+
+round(w5$summary.fixed, 4)
+bri.hyperpar.summary(w5)
+
+# create table with models
+cnames <- list(
+               '(Intercept)' = 'Constant',
+               z_relative_mob = 'Income relative mobility',
+               z_gini = 'Gini',
+               log_income = 'Log income',
+               'z_relative_mob:z_gini' = 'Relative mobility x Gini',
+               'log_income:z_relative_mob' = 'Relative mobility x Log income',
+               'sd for id' = 'SD observations',
+               'sd for age' = 'SD age group',
+               'sd for county_i' = 'SD counties',
+               'Phi for county_i' = 'Phi counties',
+               'sd for state_i' = 'SD states',
+               'sd for mob_age' = 'SD mobility by age',
+               'sd for gini_age' = 'SD gini by age')
+
+
+cmodels <- c('Baseline', 'Varying-Coefficient',
+             'Relative mobility x Gini', 'Relative mobility x Income',
+             'Covariates', 'Spatial')
+
+# men
+m_models <- list(m0,m1,m2,m3,m4,m5)
+
+texreg(m_models,
+       include.dic = TRUE, include.waic = TRUE,
+       ci.test = FALSE,
+       float.pos = "htp",
+       caption = "County Level Poisson Models Relative Mobility \\newline PC Prior $= Pr(\\sigma > 1) < 0.10$, Men, CDC 2000-2014",
+       booktabs = TRUE,
+       use.packages = FALSE,
+       dcolumn = TRUE,
+       caption.above = TRUE,
+       scalebox = 0.65,
+       label = 'tbl:m_age_pcprior_1_10',
+       sideways = TRUE,
+       digits = 2,
+       custom.model.names = cmodels,
+       custom.coef.map = cnames,
+       groups = list("Random Effects" = c(7:13)),
+       custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
+       file = "output/m_age_pcprior_1_10.tex")
+
+# women
+w_models = list(w0,w1,w2,w3,w4,w5)
+
+texreg(w_models,
+       include.dic = TRUE,
+       include.waic = TRUE,
+       ci.test = FALSE,
+       float.pos = "htp",
+       caption = "County Level Poisson Models Relative Mobility \\newline PC prior $= Pr(\\sigma > 1) < 0.10$, Women, CDC 2000-2014",
+       booktabs = TRUE,
+       use.packages = FALSE,
+       dcolumn = TRUE,
+       caption.above = TRUE,
+       scalebox = 0.65,
+       label = 'tbl:w_age_pcprior_1_10',
+       sideways = TRUE,
+       digits = 2,
+       custom.model.names = cmodels,
+       custom.coef.map = cnames,
+       groups = list("Random Effects" = c(7:13)),
+       custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
+       file = "output/w_age_pcprior_1_10.tex"
+)
+
+# remove models
+rm(m0, w0, m1, w1, m2, w2, m3, w3, m5, w5)
+
+
+# create plots
+
+m4.resid = bri.Pois.resid(m4, plot = TRUE)
+savepdf('output/m4_resid_pcprior_1_10')
+    qqnorm(m4.resid$resid)
+    qqline(m4.resid$resid)
+dev.off()
+
+mw.resid = bri.Pois.resid(w4, plot = TRUE)
+savepdf('output/w4_resid_pcprior_1_10')
+    qqnorm(w4.resid$resid)
+    qqline(w4.resid$resid)
+dev.off()
 
 # # savepdf('output/m4_predvalues_pcprior_1_10')
 # # hist_pred_pvalues(m4, men$deaths) # pretty bad
 # # dev.off()
 
-# savepdf('output/m4_loo_pcprior_1_10')
-# plot_loo(m4)
-# dev.off()
-
-# # very slow
-# # m4.cpo = inla.cpo(m4)
-# w4.resid = bri.Pois.resid(w4, plot = FALSE)
-
-# savepdf('output/w4_resid_pcprior_1_10')
-# qqnorm(w4.resid$resid)
-# qqline(w4.resid$resid)
-# dev.off()
-
 # # savepdf('output/w4_predvalues_pcprior_1_10')
-# # hist_pred_pvalues(w4, women$deaths)
+# # hist_pred_pvalues(w4, men$deaths) # pretty bad
 # # dev.off()
 
-# savepdf('output/w4_loo_pcprior_1_10')
-# plot_loo(w4)
-# dev.off()
+savepdf('output/m4_loo_pcprior_1_10')
+    print(plot_loo(m4))
+dev.off()
 
+savepdf('output/w4_loo_pcprior_1_10')
+    print(plot_loo(w4))
+dev.off()
+
+# # re-run cpo very slow
+# m4.cpo = inla.cpoinla.cpo(m4)
 # # improve loo (very slow)
-
 # # improved.m4 = inla.cpo(m4)
 # # improved.w4 = inla.cpo(w4)
-# #
 # # savepdf('output/m4_loo_pcprior_1_10')
 # # plot_loo(improved.m4)
 # # dev.off()
-# #
 # # savepdf('output/w4_loo_pcprior_1_10')
 # # plot_loo(improved.w4)
 # # dev.off()
 
-# # coefficient plots
-# savepdf('output/m4_coefficients_age_pcprior_1_10')
-# print(plot_fixed_coeff(m4, coeff = c('z_relative_mob', 'z_gini'),
-#                        coeff_labels=c('Relative Mobility', 'Gini'),
-#                        exponential=TRUE) +
-#       xlim(0.95,1.15) +
-#       ylim(NA, 60) +
-#       xlab('\nPosterior distribution'))
-# dev.off()
+# coefficient plots
+# get warnings because contrains of axis
+savepdf('output/m4_coefficients_age_pcprior_1_10')
+print(
+plot_fixed_coeff(m4, coeff = c('z_relative_mob', 'z_gini'),
+                 coeff_labels = c('Relative Mobility', 'Gini'),
+                 exponential = TRUE)
+                 + xlim(0.95,1.15)
+)
+dev.off()
 
-# savepdf('output/w4_coefficients_age_pcprior_1_10')
-# print(plot_fixed_coeff(w4, coeff = c('z_relative_mob', 'z_gini'),
-#                        coeff_labels = c('Relative Mobility', 'Gini'),
-#                        exponential=TRUE) +
-#       xlim(0.95,1.15) +
-#       ylim(NA, 60) +
-#       xlab('\nPosterior distribution'))
-# dev.off()
+savepdf('output/w4_coefficients_age_pcprior_1_10')
+print(
+plot_fixed_coeff(w4, coeff = c('z_relative_mob', 'z_gini'),
+                 coeff_labels = c('Relative Mobility', 'Gini'),
+                 exponential = TRUE)
+                 + xlim(0.95,1.15)
+)
+dev.off()
 
-# # create simulation for plots
-# sim_m4 = inla.posterior.sample(n=5000, result=m4)
-# sim_w4 = inla.posterior.sample(n=5000, result=w4)
+# create simulation for plots
+sim_m4 = inla.posterior.sample(n = 5000, result = m4)
+sim_w4 = inla.posterior.sample(n = 5000, result = w4)
 
-# savepdf('output/m4_effects_age_pcprior_1_10')
-# plot_random_fixed_effects_sim(sim_m4, fixed=c('z_relative_mob', 'z_gini'),
-#                               random=c('mob_age', 'gini_age'),
-#                               x_labels=age_groups,
-#                               ylabel='Rate ratio\n',
-#                               xlabel='\nAge group',
-#                               effects_labels = c('Relative Mobility', 'Gini'),
-#                               sorted=FALSE,
-#                               exponential=TRUE) + ylim(0.8, 1.3)
-# dev.off()
+# age effects
+savepdf('output/m4_effects_age_pcprior_1_10')
+print(
+plot_random_fixed_effects_sim(sim_m4, fixed = c('z_relative_mob', 'z_gini'),
+                              random = c('mob_age', 'gini_age'),
+                              x_labels = age_groups,
+                              ylabel = 'Rate ratio\n',
+                              xlabel = '\nAge group',
+                              effects_labels = c('Relative Mobility', 'Gini'),
+                              sorted = FALSE,
+                              exponential = TRUE) + ylim(0.8, 1.3)
+)
+dev.off()
 
-# savepdf('output/w4_effects_age_pcprior_1_10')
-# plot_random_fixed_effects_sim(sim_w4, fixed=c('z_relative_mob', 'z_gini'),
-#                               random=c('mob_age', 'gini_age'),
-#                               x_labels=age_groups,
-#                               ylabel='Rate ratio\n',
-#                               xlabel='\nAge group',
-#                               effects_labels = c('Relative Mobility', 'Gini'),
-#                               sorted=FALSE,
-#                               exponential=TRUE) + ylim(0.8, 1.3)
-# dev.off()
+savepdf('output/w4_effects_age_pcprior_1_10')
+print(
+plot_random_fixed_effects_sim(sim_w4, fixed = c('z_relative_mob', 'z_gini'),
+                              random = c('mob_age', 'gini_age'),
+                              x_labels = age_groups,
+                              ylabel = 'Rate ratio\n',
+                              xlabel = '\nAge group',
+                              effects_labels = c('Relative Mobility', 'Gini'),
+                              sorted = FALSE,
+                              exponential = TRUE) + ylim(0.8, 1.3)
+)
+dev.off()
 
-# # life expectancy predictions
-# value_matrix = rbind(
-#                      c(1, 0, 0,   1, 1, 0),
-#                      c(1, 1, 0,   1, 1, 0),
-#                      c(1, 0, 0,   1, 0, 1),
-#                      c(1, 0, 1,   1, 0, 1))
+# life expectancy predictions
+value_matrix = rbind(
+                     c(1, 0, 0,   1, 1, 0),
+                     c(1, 1, 0,   1, 1, 0),
+                     c(1, 0, 0,   1, 0, 1),
+                     c(1, 0, 1,   1, 0, 1))
 
-# rownames(value_matrix) = c('mob_0', 'mob_1', 'gini_0', 'gini_1')
+rownames(value_matrix) = c('mob_0', 'mob_1', 'gini_0', 'gini_1')
 
-# les_m = estimate_le_counterfactuals(sim_m4,
-#                                     fixed = c('z_relative_mob', 'z_gini'),
-#                                     random = c('age', 'mob_age', 'gini_age'),
-#                                     value_matrix = value_matrix)
-
-
-# savepdf('output/m4_le_differences_pcprior_1_10')
-# plot_le_counterfactuals(les_m, x_labels=e_groups,
-#                         name_groups= c('Relative Mobility', 'Gini')) +
-# ylim(-1.6, 0.5)
-# dev.off()
-
-# savepdf('output/m4_le_re_differences_pcprior_1_10')
-# plot_le_counterfactuals(les_m, relative=TRUE,  x_labels=e_groups,
-#                         name_groups=c('Relative Mobility', 'Gini')) +
-# ylim(-0.12, 0.05)
-# dev.off()
-
-# les_w = estimate_le_counterfactuals(sim_w4,
-#                                     fixed = c('z_relative_mob', 'z_gini'),
-#                                     random=c('age', 'mob_age', 'gini_age'),
-#                                     value_matrix = value_matrix)
-
-# head(les_w)
-
-# savepdf('output/w4_le_differences_pcprior_1_10')
-# plot_le_counterfactuals(les_w, x_labels=e_groups,
-#                         name_groups=c('Relative Mobility', 'Gini')) +
-# ylim(-1.6, 0.5)
-# dev.off()
-
-# savepdf('output/w4_le_re_differences_pcprior_1_10')
-# plot_le_counterfactuals(les_w, relative=TRUE,  x_labels=e_groups,
-#                         name_groups=c('Relative Mobility', 'Gini')) +
-# ylim(-0.12, 0.05)
-# dev.off()
+les_m = estimate_le_counterfactuals(sim_m4,
+                                    fixed = c('z_relative_mob', 'z_gini'),
+                                    random = c('age', 'mob_age', 'gini_age'),
+                                    value_matrix = value_matrix)
 
 
-# # spatial (5)
-# print(':::::::: running spatial model')
+savepdf('output/m4_le_differences_pcprior_1_10')
+print(
+plot_le_counterfactuals(les_m, x_labels = e_groups,
+                        name_groups= c('Relative Mobility', 'Gini')) +
+                        ylim(-1.6, 0.5)
+)
+dev.off()
 
-# formula = deaths ~  1 + log_population + log_income + z_relative_mob +
-#           z_gini + z_segregation_income + log_unemployment + log_pct_hispanic +
-#           log_pct_black + z_uninsured + z_medicare_expenses +
-#           f(state_i, model = 'iid', hyper = pcprior) +
-#           f(county_i, model = 'bym2', graph = county.adj, hyper = pcprior) +
-#           f(age, model = 'iid', hyper = pcprior) +
-#           f(id, model = 'iid', hyper = pcprior) +
-#           f(mob_age, z_relative_mob, model = 'iid', hyper = pcprior) +
-#           f(gini_age, z_gini, model = 'iid', hyper = pcprior)
+savepdf('output/m4_le_re_differences_pcprior_1_10')
+print(
+    plot_le_counterfactuals(les_m, relative = TRUE, x_labels = e_groups,
+                            name_groups = c('Relative Mobility', 'Gini')) +
+                            ylim(-0.12, 0.05)
+)
+dev.off()
 
-# m5 = inla(formula, data = men,
-#           family = 'poisson', E = pop,
-#           control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
-#                                  cpo=TRUE),
-#           control.predictor = list(link = 1, compute = TRUE),
-#           control.inla = list(strategy = 'gaussian')
-#           )
+les_w = estimate_le_counterfactuals(sim_w4,
+                                    fixed = c('z_relative_mob', 'z_gini'),
+                                    random = c('age', 'mob_age', 'gini_age'),
+                                    value_matrix = value_matrix)
 
-# w5 = inla(formula, data = women,
-#           family = 'poisson', E = pop,
-#           control.compute = list(config=TRUE, dic=TRUE, waic=TRUE,
-#                                  cpo=TRUE),
-#           control.predictor = list(link = 1, compute = TRUE),
-#           control.inla = list(strategy = 'gaussian')
-#           )
+head(les_w)
 
-# round(m5$summary.fixed, 4)
-# bri.hyperpar.summary(m5)
+savepdf('output/w4_le_differences_pcprior_1_10')
+print(
+plot_le_counterfactuals(les_w, x_labels = e_groups,
+                        name_groups = c('Relative Mobility', 'Gini')) +
+                        ylim(-1.6, 0.5)
+)
+dev.off()
 
-# round(w5$summary.fixed, 4)
-# bri.hyperpar.summary(w5)
-
-# # create table
-# cnames = list(
-#                '(Intercept)' = 'Constant',
-#                z_relative_mob = 'Income relative mobility',
-#                z_gini = 'Gini',
-#                log_income = 'Log income',
-#                'z_relative_mob:z_gini' = 'Relative mobility x Gini',
-#                'log_income:z_relative_mob' = 'Relative mobility x Log income',
-#                'sd for id' = 'SD observations',
-#                'sd for age' = 'SD age group',
-#                'sd for county_i' = 'SD counties',
-#                'Phi for county_i' = 'Phi counties',
-#                'sd for state_i' = 'SD states',
-#                'sd for mob_age' = 'SD mobility by age',
-#                'sd for gini_age' = 'SD gini by age')
-
-
-# cmodels = c('Baseline', 'Varying-Coefficient',
-#             'Relative mobility x Gini', 'Relative mobility x Income',
-#              'Covariates', 'Spatial')
-
-# # men
-# m_models = list(m0,m1,m2,m3,m4,m5)
-
-# texreg(m_models,
-#             include.dic = TRUE, include.waic = TRUE,
-#             ci.test = FALSE,
-#             float.pos = "htp",
-#             caption = "County Level Poisson Models Relative Mobility \\newline PC Prior $= Pr(\\sigma > 1) < 0.10$, Men, CDC 2000-2014",
-#             booktabs = TRUE,
-#             use.packages = FALSE,
-#             dcolumn = TRUE,
-#             caption.above = TRUE,
-#             scalebox = 0.65,
-#             label = 'tbl:m_age_pcprior_1_10',
-#             sideways = TRUE,
-#             digits = 2,
-#             custom.model.names = cmodels,
-#             custom.coef.map = cnames,
-#             groups = list("Random Effects" = c(7:13)),
-#             custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
-#             Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
-#              file = "output/m_age_pcprior_1_10.tex")
-
-# # women
-# w_models = list(w0,w1,w2,w3,w4,w5)
-
-# texreg(w_models,
-#            include.dic = TRUE, include.waic = TRUE,
-#            ci.test = FALSE,
-#            float.pos = "htp",
-#            caption = "County Level Poisson Models Relative Mobility \\newline PC prior $= Pr(\\sigma > 1) < 0.10$, Women, CDC 2000-2014",
-#            booktabs = TRUE,
-#            use.packages = FALSE,
-#            dcolumn = TRUE,
-#            caption.above = TRUE,
-#            scalebox = 0.65,
-#            label = 'tbl:w_age_pcprior_1_10',
-#            sideways = TRUE,
-#            digits = 2,
-#            custom.model.names = cmodels,
-#            custom.coef.map = cnames,
-#            groups = list("Random Effects" = c(7:13)),
-#            custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
-#            Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
-#             file = "output/w_age_pcprior_1_10.tex")
-
+savepdf('output/w4_le_re_differences_pcprior_1_10')
+print(
+plot_le_counterfactuals(les_w, relative = TRUE,  x_labels = e_groups,
+                        name_groups = c('Relative Mobility', 'Gini')) +
+                        ylim(-0.12, 0.05)
+)
+dev.off()

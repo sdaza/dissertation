@@ -1,26 +1,22 @@
-################################
+#######################################
+# CDC mortality - income mobility paper
 # load CDC mortality micro-data
 # author: sebastian daza
-################################
+#######################################
+
 
 # libraries
 library(readr)
 library(sdazar)
 
-#########################
 # read fips codes
-#########################
-
 codes = read_csv('data/fips_codes.csv')
 codes = data.table(codes)
 codes = codes[, c(1,2,3,6), with = FALSE]
 setnames(codes, c("abr", "state", "county", "name"))
 states = codes[, .N , by = .(abr, state)][, N := NULL]
 
-#################################
 # read all mortality data files
-#################################
-
 dict_mort = readRDS('output/dict_mortality_files.rds')
 mort_data = list()
 
@@ -65,10 +61,7 @@ for (f in seq_along(dict_mort)) {
 }
 
 
-###############################
 # combine mortality files
-###############################
-
 print(':::::: Combining files')
 
 mm = rbindlist(mort_data, fill = TRUE)

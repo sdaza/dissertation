@@ -1,18 +1,16 @@
-##############################################
+########################################
 # CDC mortality - income mobility paper
 # process chetty's data
 # author: sebastian daza
-##############################################
+########################################
 
-
-# libraries
-library(sdazar)
-library(ggplot2)
-library(gridExtra)
-library(haven)
 
 # utils
 source("src/utils/utils.R")
+
+# libraries
+library(gridExtra)
+library(haven)
 
 # set plot options
 options(repr.plot.width = 4, repr.plot.height = 3)

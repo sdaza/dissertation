@@ -1,15 +1,14 @@
-##############################################
+########################################
 # CDC mortality - income mobility paper
 # merge population and mortality data
 # author: sebastian daza
-##############################################
+########################################
 
+# utils
+source('src/utils/utils.R')
 
 # libraries
 library(sdazar)
-
-# functions
-source('src/utils/utils.R')
 
 # read fips codes
 codes = read_csv('data/fips_codes.csv')

@@ -1,64 +1,24 @@
 ########################################
-# CDC mortality - income mobility
-# prior sensitivy analysis
-# author: Sebastina Daza
+# CDC mortality - income mobility paper
+# prior sensitivity analysis
+# author: sebastian daza
 ########################################
-
-# load libraries
-
-# devtools::install_github("sdaza/sdazar")
-library(sdazar)
-# install.packages("INLA", repos=c(getOption("repos"),
-#                                  INLA = "https://inla.r-inla-download.org/R/stable"),
-#                  dep = TRUE)
-# INLA_19.05.19 built 2019-06-26 15:12:05 UTC.
-library(INLA)
-#install_github("julianfaraway/brinla")
-library(brinla)
-#devtools::install_github("ropensci/USAboundaries")
-#devtools::install_github("ropensci/USAboundariesData")
-library(USAboundaries)
-library(texreg)
 
 # utils
 source("src/utils/utils.R")
 
-# INLA node  options
-(nodes = parallel::detectCores())
-INLA:::inla.dynload.workaround()
-inla.setOption("num.threads", nodes - 7)
-
-# define county graph object for spatial models
-county.adj = 'data/counties.graph'
+# INLA options
+inla.setOption("num.threads", 15)
+inla.setOption(pardiso.license = "../pardiso.lic")
+inla.pardiso.check()
+inla.setOption(short.summary = TRUE)
 
 # read data
-data = readRDS('output/cdc_chetty.rds')
-
-# explore missing records
-dim(data)
-countmis(data)
-
-# remove missing records
-variables = c('z_relative_mob', 'z_absolute_mob', 'z_gini',
-              'z_medicare_expenses', 'log_unemployment', 'z_uninsured',
-              'log_pct_black', 'log_pct_hispanic')
-
-data = data[complete.cases(data[, variables, with=FALSE])]
-countmis(data)
-
-# get counties, US 2000
-counties = us_counties("2000-07-01")
-length(unique(data$fips)) / length(counties$fips)
-counties = counties[counties$fips %in% unique(data$fips),]
-
-all(as.character(counties$fips) %in% unique(data$fips))
-all(unique(data$fips) %in% as.character(counties$fips))
-
-ordered_fips = as.character(unique(counties$fips))
-length(ordered_fips)
-
-# order data based on counties
-data = data[order(match(fips, ordered_fips))]
+descriptive_info = readRDS('output/descriptive_info.rds')
+data = readRDS(paste0('output/cdc_chetty_',
+                      descriptive_info$number_counties,
+                      '_counties.rds')
+)
 
 # create indicators for county and state
 data[, county_i := .GRP, by = fips]
@@ -187,7 +147,7 @@ w2 = inla(formula, data = women,
 print(':::::::: running model 3')
 
 pcprior = list(prec = list(prior="pc.prec",
-               param = c(10, 0.10)))
+                           param = c(10, 0.10)))
 
 
 formula = deaths ~  1 + log_population + log_income + z_relative_mob +
@@ -253,16 +213,17 @@ w4 = inla(formula, data = women,
 print(':::::::: creating tables')
 
 cnames = list(
-               '(Intercept)' = 'Constant',
-               z_relative_mob = 'Income relative mobility',
-               z_gini = 'Gini',
-               'sd for id' = 'SD observations',
-               'sd for age' = 'SD age group',
-               'sd for county_i' = 'SD counties',
-               'Phi for county_i' = 'Phi counties',
-               'sd for state_i' = 'SD states',
-               'sd for mob_age' = 'SD mobility by age',
-               'sd for gini_age' = 'SD gini by age')
+              '(Intercept)' = 'Constant',
+              z_relative_mob = 'Income relative mobility',
+              z_gini = 'Gini',
+              'sd for id' = 'SD observations',
+              'sd for age' = 'SD age group',
+              'sd for county_i' = 'SD counties',
+              'Phi for county_i' = 'Phi counties',
+              'sd for state_i' = 'SD states',
+              'sd for mob_age' = 'SD mobility by age',
+              'sd for gini_age' = 'SD gini by age'
+              )
 
 cmodels = c('INLA Default', 'PC(1, .10)', 'PC(10, .10)', 'PC(10, 0.01)')
 
@@ -270,45 +231,47 @@ cmodels = c('INLA Default', 'PC(1, .10)', 'PC(10, .10)', 'PC(10, 0.01)')
 m_models = list(m1,m2,m3,m4)
 
 texreg(m_models,
-            include.dic = TRUE, include.waic = TRUE,
-            ci.test = FALSE,
-            float.pos = "htp",
-            caption = "County Level Poisson Models, Prior Sensitivity, Men, CDC 2000-2014",
-            booktabs = TRUE,
-            use.packages = FALSE,
-            dcolumn = TRUE,
-            caption.above = TRUE,
-            scalebox = 0.65,
-            label = 'tbl:m_age_prior_sensitivity',
-            # sideways = TRUE,
-            digits = 2,
-            custom.model.names = cmodels,
-            custom.coef.map = cnames,
-            groups = list("Random Effects" = c(4:9)),
-            custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
-            Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
-            file = "output/m_age_prior_sensitivity.tex")
+       include.dic = TRUE, include.waic = TRUE,
+       ci.test = FALSE,
+       float.pos = "htp",
+       caption = "County Level Poisson Models, Prior Sensitivity, Men, CDC 2000-2014",
+       booktabs = TRUE,
+       use.packages = FALSE,
+       dcolumn = TRUE,
+       caption.above = TRUE,
+       scalebox = 0.65,
+       label = 'tbl:m_age_prior_sensitivity',
+       # sideways = TRUE,
+       digits = 2,
+       custom.model.names = cmodels,
+       custom.coef.map = cnames,
+       groups = list("Random Effects" = c(4:9)),
+       custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
+       file = "output/m_age_prior_sensitivity.tex"
+       )
 
 
 # women
 w_models = list(w1,w2,w3,w4)
 
 texreg(w_models,
-           include.dic = TRUE, include.waic = TRUE,
-           ci.test = FALSE,
-           float.pos = "htp",
-           caption = "County Level Poisson Models, Prior Sensitivity, Women, CDC 2000-2014",
-           booktabs = TRUE,
-           use.packages = FALSE,
-           dcolumn = TRUE,
-           caption.above = TRUE,
-           scalebox = 0.65,
-           label = 'tbl:w_age_prior_sensitivity',
-           # sideways = TRUE,
-           digits = 2,
-           custom.model.names = cmodels,
-           custom.coef.map = cnames,
-           groups = list("Random Effects" = c(4:9)),
-           custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
-           Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
-            file = "output/w_age_prior_sensitivity.tex")
+       include.dic = TRUE, include.waic = TRUE,
+       ci.test = FALSE,
+       float.pos = "htp",
+       caption = "County Level Poisson Models, Prior Sensitivity, Women, CDC 2000-2014",
+       booktabs = TRUE,
+       use.packages = FALSE,
+       dcolumn = TRUE,
+       caption.above = TRUE,
+       scalebox = 0.65,
+       label = 'tbl:w_age_prior_sensitivity',
+       # sideways = TRUE,
+       digits = 2,
+       custom.model.names = cmodels,
+       custom.coef.map = cnames,
+       groups = list("Random Effects" = c(4:9)),
+       custom.note = "Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \\texttt{log(population)}. 95\\% credibility intervals.",
+       file = "output/w_age_prior_sensitivity.tex")
+
