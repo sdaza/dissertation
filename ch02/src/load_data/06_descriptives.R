@@ -117,6 +117,8 @@ names(tab)
 
 table(tab$N)
 
+
+# create heatmap mobility and inequality
 savepdf('output/heatmap_mob_gini')
 print(
     ggplot(tab, aes(x = q_gini, y = q_relative_mob, fill = N)) +

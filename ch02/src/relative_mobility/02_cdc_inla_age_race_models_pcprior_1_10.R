@@ -8,9 +8,6 @@
 source("src/utils/utils.R")
 
 # load libraries
-library(ggthemes)
-# devtools::install_github("thomasp85/patchwork")
-library(patchwork)
 library(fmsb)
 
 # INLA options
@@ -193,7 +190,7 @@ savepdf('output/m_le_differences_race_mob_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -2.0)
+                    ylim_low = -3.0)
 )
 dev.off()
 
@@ -207,7 +204,7 @@ savepdf('output/m_le_differences_race_gini_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -2.0)
+                    ylim_low = -3.0)
 )
 dev.off()
 
@@ -272,7 +269,7 @@ savepdf('output/w_le_differences_race_mob_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -2.0)
+                    ylim_low = -3.0)
 )
 dev.off()
 
@@ -286,14 +283,14 @@ savepdf('output/w_le_differences_race_gini_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -2.0)
+                    ylim_low = -3.0)
 )
 dev.off()
 
 # relative differences
 les = rbindlist(w_les)
-les[, mob := (mob_1 - mob_0)/mob_0]
-les[, gini := (gini_1 - gini_0)/gini_0]
+les[, mob := (mob_1 - mob_0) / mob_0]
+les[, gini := (gini_1 - gini_0) / gini_0]
 
 s = les[, .(m = median(mob),
             lo = quantile(mob, 0.025),

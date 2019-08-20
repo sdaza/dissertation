@@ -6,7 +6,6 @@
 
 
 # load libraries
-# devtools::install_github("sdaza/sdazar")
 library(sdazar)
 library(ggplot2)
 library(ggthemes)

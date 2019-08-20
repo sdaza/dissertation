@@ -1,19 +1,16 @@
 ##########################################
-# CDC mortality - income Mobility paper
+# CDC mortality - income mobility paper
 # utilities
 # author: sebastian daza
 ##########################################
 
 
 # load libraries
-# devtools::install_github("sdaza/sdazar")
 library(sdazar)
 library(ggplot2)
 library(ggridges)
-# install.packages("INLA", repos = c(getOption("repos"),
-                 # INLA = "https://inla.r-inla-download.org/R/testing"), dep = TRUE)
+library(ggthemes)
 library(INLA)
-# devtools::install_github("julianfaraway/brinla")
 library(brinla)
 library(texreg)
 

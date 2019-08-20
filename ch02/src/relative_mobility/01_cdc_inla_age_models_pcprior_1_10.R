@@ -8,9 +8,6 @@
 source("src/utils/utils.R")
 
 # load libraries
-library(ggthemes)
-# devtools::install_github("thomasp85/patchwork")
-library(patchwork)
 library(fmsb)
 
  # INLA options
@@ -393,7 +390,7 @@ savepdf('output/m4_resid_pcprior_1_10')
     qqline(m4.resid$resid)
 dev.off()
 
-mw.resid = bri.Pois.resid(w4, plot = TRUE)
+w4.resid = bri.Pois.resid(w4, plot = TRUE)
 savepdf('output/w4_resid_pcprior_1_10')
     qqnorm(w4.resid$resid)
     qqline(w4.resid$resid)

@@ -9,7 +9,6 @@
 source("src/utils/utils.R")
 
 # libraries
-library(gridExtra)
 library(haven)
 
 # set plot options
@@ -81,13 +80,6 @@ logtrans(mob, log_variables)
 vars = lookvar(mob, '^log')
 length(vars)
 
-# plot variables
-# for (i in seq_along(vars)) {
-#   p = ggplot(mob, aes_string(vars[i])) + geom_density() + theme_minimal()
-#   assign(paste0('g', i), p)
-# }
-
-# grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12)
 
 # select variables
 subset_vars = c('fips', 'county', 'county_name', 'stateabbrv',
