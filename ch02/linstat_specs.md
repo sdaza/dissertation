@@ -1,4 +1,4 @@
-# Linstat specifications
+# Linstat specifications to run INLA
 
 - Install pacakges `spdep`, `rgdal` and `sf`
 
@@ -16,7 +16,6 @@ linstat> R
 > install.packages("rgdal", configure.args = "--with-gdal-config=/home/s/sdaza//gdal/bin/gdal-config")
 > install.packages("sf", configure.args = "--with-gdal-config=/home/s/sdaza//gdal/bin/gdal-config")
 > install.packages("spdep", configure.args = "--with-gdal-config=/home/s/sdaza//gdal/bin/gdal-config")
-
 ```
 
 - Install INLA in linux
