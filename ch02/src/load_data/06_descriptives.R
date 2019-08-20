@@ -59,11 +59,11 @@ cor(covs[, .(relative_mob, absolute_mob)])
 # summary of values
 summaryfun = function(x) {
     list(N = length(x),
-    Mean = mean(x),
-    Median = median(x),
-    SD = sd(x),
-    Min = min (x),
-    Max = max(x)
+         Mean = mean(x),
+         Median = median(x),
+         SD = sd(x),
+         Min = min (x),
+         Max = max(x)
     )
 }
 
@@ -102,7 +102,7 @@ nrow(cov)
 
 summary(cov[, .(relative_mob, absolute_mob)])
 
-cov[, relative_mob = relative_mob / 100]
+cov[, relative_mob := relative_mob / 100]
 cov[, q_relative_mob := cut(relative_mob, quantile(relative_mob, probs=0:10/10),
                                                    include.lowest = TRUE)]
 

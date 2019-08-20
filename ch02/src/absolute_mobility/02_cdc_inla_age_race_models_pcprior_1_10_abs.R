@@ -30,6 +30,8 @@ data = readRDS(paste0('output/cdc_chetty_',
 # revert absolute mobility sign
 data[, z_absolute_mob := z_absolute_mob * -1]
 
+head(data)
+
 # create indicators for county and state
 data[, county_i := .GRP, by = fips]
 data[, state_i := .GRP, by = state]
@@ -37,10 +39,10 @@ data[, race_i := .GRP, by = race]
 
 table(data$race)
 
-data[race==1, race_i := 1]
-data[race==2, race_i := 4]
-data[race==3, race_i := 2]
-data[race==4, race_i := 3]
+data[race == 1, race_i := 1]
+data[race == 2, race_i := 4]
+data[race == 3, race_i := 2]
+data[race == 4, race_i := 3]
 
 # compute rates just to check
 table(data$race, data$race_i)

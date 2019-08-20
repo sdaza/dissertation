@@ -26,6 +26,8 @@ data = readRDS(paste0('output/cdc_chetty_',
                       '_counties.rds')
 )
 
+head(data)
+
 # revert absolute mobility sign
 data[, z_absolute_mob := z_absolute_mob * -1]
 
@@ -34,6 +36,8 @@ dc = melt(data,
           measure = patterns('^deaths[0-9]'),
           value.name = c('deaths_by_cause'),
           variable.name = 'cause')
+
+dc[is.na(deaths_by_cause), deaths_by_cause := 0]
 
 # create indicators for county and state
 dc[, county_i := .GRP, by = fips]

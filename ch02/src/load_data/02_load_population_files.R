@@ -301,8 +301,9 @@ ma = mort[!is.na(age), .(deaths = .N, # individual records (sum)
 print(paste0('Total number of deaths: ', sum(ma$deaths))) # 37062064
 
 # the sum should be the same as the total number of deaths
-sum(ma$deaths) == (sum(ma$deaths1) + sum(ma$deaths2) +
-                    sum(ma$deaths3) + sum(ma$deaths4))
+print(paste0('Total number of deaths is equal to the sum of deaths by cause: ',
+             (sum(ma$deaths) == (sum(ma$deaths1) + sum(ma$deaths2) +
+              sum(ma$deaths3) + sum(ma$deaths4)))))
 
 table(ma$sex)
 table(ma$age)
@@ -324,16 +325,16 @@ for (i in 2000:2014) {
 }
 
 
-df = data.table(year=rep(2000:2014, 2),
+df = data.table(year = rep(2000:2014, 2),
                 sex = c(rep(1, length(2000:2014)),
                         rep(2, length(2000:2014))),
-                rates=c(male_rates, female_rates))
+                rates =c(male_rates, female_rates))
 
 ggplot(df, aes(x=year, y=rates, color=factor(sex, labels=c('Men', 'Women')))) +
-    geom_line() + theme_minimal() +
-    ylim(0,9) +
-    theme(legend.position='top') +
-    labs(color='')
+       geom_line() + theme_minimal() +
+       ylim(0,9) +
+       theme(legend.position='top') +
+       labs(color='')
 
 # merge data!
 mort = merge(ma, pop, all = TRUE, by=c("year", "sex", "age", "race",

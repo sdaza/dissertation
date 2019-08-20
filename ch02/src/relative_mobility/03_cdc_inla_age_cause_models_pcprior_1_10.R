@@ -30,6 +30,8 @@ dc = melt(data,
           value.name = c('deaths_by_cause'),
           variable.name = 'cause')
 
+dc[is.na(deaths_by_cause), deaths_by_cause := 0]
+
 # create indicators for county and state
 dc[, county_i := .GRP, by = fips]
 dc[, state_i := .GRP, by = state]
@@ -48,6 +50,7 @@ amale = male[,
                pop = sum(pop)),
              by = .(county_i, age, cause_i)]
 
+
 afemale = female[,
                  .(state = first(state),
                    deaths = sum(deaths_by_cause),
@@ -64,6 +67,8 @@ female_cov = female[, s := 1:.N, by = .(cause_i, age, county_i)][s==1,][
 dim(male_cov)
 dim(female_cov)
 
+head(male_cov)
+
 men = merge(amale, male_cov, by = c('age', 'county_i', 'cause_i'))
 women = merge(afemale, female_cov, by = c('age', 'county_i', 'cause_i'))
 
@@ -76,17 +81,16 @@ men[, mob_age := age]
 men[, gini_age := age]
 men[, gini_county := county_i]
 men[, mob_county:= county_i]
-men[, gini_cause := cause_i]
-men[, mob_cause := cause_i]
 
 women[, id := 1:.N]
 women[, mob_age := age]
 women[, gini_age := age]
 women[, gini_county := county_i]
 women[, mob_county:= county_i]
-women[, gini_cause := cause_i]
-women[, mob_cause := cause_i]
 
+
+table(men$cause_i)
+table(women$cause_i)
 
 # models
 pcprior = list(prec = list(prior="pc.prec",
@@ -130,12 +134,15 @@ model_function = function(formula = NULL, data = NULL) {
 # cause 1
 m1 = model_function(formula = formula, data = men[cause_i == 1])
 w1 = model_function(formula = formula, data = women[cause_i == 1])
+
 # cause 2
 m2 = model_function(formula = formula, data = men[cause_i == 2])
 w2 = model_function(formula = formula, data = women[cause_i == 2])
+
 # cause 3
 m3 = model_function(formula = formula, data = men[cause_i == 3])
 w3 = model_function(formula = formula, data = women[cause_i == 3])
+
 # cause 4
 m4 = model_function(formula = formula, data = men[cause_i == 4])
 w4 = model_function(formula = formula, data = women[cause_i == 4])

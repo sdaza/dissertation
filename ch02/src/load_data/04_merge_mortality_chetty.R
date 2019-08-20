@@ -22,6 +22,9 @@ states = codes[, .N , by = .(abr, state)][, N := NULL]
 mob = readRDS('output/chetty_data.rds')
 mort = readRDS('output/mortality_population.rds')
 
+columns = paste0('deaths', 1:4)
+mort[, c(columns) := lapply(.SD, function(x) ifelse(is.na(x), 0, x)), .SDcols = columns]
+
 # some adjustments to compare counties
 mort[, fips := paste0(state, county)]
 mob[, state := substr(fips, 1, 2)]
@@ -128,6 +131,10 @@ round(b / a * 100, 1) # 99.6% most of the cases matched!
 # remove temporary files
 unlink('output/chetty_data.rds')
 unlink('output/mortality_population.rds')
+
+print(paste0('Total number of deaths is equal to the sum of deaths by cause: ',
+             (sum(mort$deaths) == (sum(mort$deaths1) + sum(mort$deaths2) +
+              sum(mort$deaths3) + sum(mort$deaths4)))))
 
 # save data
 saveRDS(mort, file = 'output/cdc_chetty.rds')

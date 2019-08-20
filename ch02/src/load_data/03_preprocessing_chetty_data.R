@@ -50,17 +50,6 @@ vars = c('gini', 'relative_mob', 'absolute_mob', 'population', 'density', 'crime
          'college', 'obesity', 'exercise', 'smoking', 'unemployment',
          'labor_force', 'income',  'segregation_income', 'segregation_race')
 
-# plot variables
-# for (i in seq_along(vars)) {
-#     p = ggplot(mob, aes_string(vars[i])) + geom_density() + theme_minimal()
-#     assign(paste0('g', i), p)
-# }
-
-# options(repr.plot.width = 7, repr.plot.height = 7)
-
-# grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12)
-# grid.arrange(g13, g14, g15, g16, g17, g18, g19, g20, g21, g22, g23, g24, g25, g26, g27)
-
 # transform
 z_variables = c('gini', 'relative_mob', 'absolute_mob',
                 'middle_class', 'religion',  'labor_force', 'uninsured',

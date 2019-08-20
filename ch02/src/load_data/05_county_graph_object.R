@@ -60,9 +60,9 @@ counties = counties[counties$fips %in% unique(data$fips),]
 # create plot of county coverage (map)
 savepdf("output/county_coverage")
 print(ggplot(counties) +
-          geom_sf(colour = 'black', fill = '#addd8e', size = 0.2) +
-          theme_map() +
-          labs(x = NULL, y = NULL)
+      geom_sf(colour = 'black', fill = '#addd8e', size = 0.2) +
+      theme_map() +
+      labs(x = NULL, y = NULL)
 )
 dev.off()
 
