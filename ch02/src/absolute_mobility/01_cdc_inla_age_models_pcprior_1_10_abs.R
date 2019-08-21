@@ -9,9 +9,6 @@
 source("src/utils/utils.R")
 
 # load libraries
-library(ggthemes)
-# devtools::install_github("thomasp85/patchwork")
-library(patchwork)
 library(fmsb)
 
  # INLA options
@@ -298,8 +295,7 @@ m5 = inla(formula, data = men,
           control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
-          control.inla = list(strategy = 'gaussian'),
-          verbose = TRUE
+          control.inla = list(strategy = 'gaussian')
           )
 
 w5 = inla(formula, data = women,

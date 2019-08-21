@@ -34,13 +34,13 @@
 # source('src/load_data/06_descriptives.R')
 
 # # relative mobility analysis
-source('src/relative_mobility/00_cdc_inla_age_models_prior_sensitivity.R')
-source('src/relative_mobility/01_cdc_inla_age_models_pcprior_1_10.R')
-source('src/relative_mobility/02_cdc_inla_age_race_models_pcprior_1_10.R')
-source('src/relative_mobility/03_cdc_inla_age_cause_models_pcprior_1_10.R')
+# source('src/relative_mobility/00_cdc_inla_age_models_prior_sensitivity.R')
+# source('src/relative_mobility/01_cdc_inla_age_models_pcprior_1_10.R')
+# source('src/relative_mobility/02_cdc_inla_age_race_models_pcprior_1_10.R')
+# source('src/relative_mobility/03_cdc_inla_age_cause_models_pcprior_1_10.R')
 
 
 # # absolute mobility analysis
-source('src/relative_mobility/01_cdc_inla_age_models_pcprior_1_10_abs.R')
-source('src/relative_mobility/02_cdc_inla_age_race_models_pcprior_1_10_abs.R')
-source('src/relative_mobility/03_cdc_inla_age_cause_models_pcprior_1_10_abs.R')
+# source('src/absolute_mobility/01_cdc_inla_age_models_pcprior_1_10_abs.R')
+# source('src/absolute_mobility/02_cdc_inla_age_race_models_pcprior_1_10_abs.R')
+source('src/absolute_mobility/03_cdc_inla_age_cause_models_pcprior_1_10_abs.R')

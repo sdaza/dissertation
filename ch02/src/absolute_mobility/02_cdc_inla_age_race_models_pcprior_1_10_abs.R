@@ -9,9 +9,6 @@
 source("src/utils/utils.R")
 
 # load libraries
-library(ggthemes)
-# devtools::install_github("thomasp85/patchwork")
-library(patchwork)
 library(fmsb)
 
 # INLA options

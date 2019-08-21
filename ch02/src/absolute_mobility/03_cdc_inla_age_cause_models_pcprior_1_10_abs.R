@@ -9,9 +9,7 @@
 source('src/utils/utils.R')
 
 # load libraries
-library(patchwork)
 library(fmsb)
-library(stringr)
 
 # INLA options
 inla.setOption("num.threads", 15)

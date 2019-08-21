@@ -291,8 +291,7 @@ m5 = inla(formula, data = men,
           control.compute = list(config = TRUE, dic = TRUE, waic = TRUE,
                                  cpo = TRUE),
           control.predictor = list(link = 1, compute = TRUE),
-          control.inla = list(strategy = 'gaussian'),
-          verbose = TRUE
+          control.inla = list(strategy = 'gaussian')
           )
 
 w5 = inla(formula, data = women,
@@ -425,7 +424,6 @@ dev.off()
 # # dev.off()
 
 # coefficient plots
-# get warnings because contrains of axis
 savepdf('output/m4_coefficients_age_pcprior_1_10')
 print(
 plot_fixed_coeff(m4, coeff = c('z_relative_mob', 'z_gini'),
@@ -480,7 +478,8 @@ value_matrix = rbind(
                      c(1, 0, 0,   1, 1, 0),
                      c(1, 1, 0,   1, 1, 0),
                      c(1, 0, 0,   1, 0, 1),
-                     c(1, 0, 1,   1, 0, 1))
+                     c(1, 0, 1,   1, 0, 1)
+                     )
 
 rownames(value_matrix) = c('mob_0', 'mob_1', 'gini_0', 'gini_1')
 
