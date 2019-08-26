@@ -330,7 +330,7 @@ cmodels <- c('Baseline', 'Varying-Coefficient',
              'Covariates', 'Spatial')
 
 # men
-m_models <- list(m0,m1,m2,m3,m4,m5)
+m_models <- list(m0, m1, m2, m3, m4, m5)
 
 texreg(m_models,
        include.dic = TRUE, include.waic = TRUE,
@@ -353,7 +353,7 @@ texreg(m_models,
        file = "output/m_age_pcprior_1_10.tex")
 
 # women
-w_models = list(w0,w1,w2,w3,w4,w5)
+w_models = list(w0, w1, w2, w3, w4, w5)
 
 texreg(w_models,
        include.dic = TRUE,
@@ -379,7 +379,7 @@ texreg(w_models,
 
 # remove models
 rm(m0, w0, m1, w1, m2, w2, m3, w3, m5, w5)
-
+rm(m_models, w_models)
 
 # create plots
 
@@ -404,11 +404,11 @@ dev.off()
 # # dev.off()
 
 savepdf('output/m4_loo_pcprior_1_10')
-    print(plot_loo(m4))
+    plot_loo(m4)
 dev.off()
 
 savepdf('output/w4_loo_pcprior_1_10')
-    print(plot_loo(w4))
+    plot_loo(w4)
 dev.off()
 
 # # re-run cpo very slow

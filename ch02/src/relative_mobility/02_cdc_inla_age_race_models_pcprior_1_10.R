@@ -190,7 +190,7 @@ savepdf('output/m_le_differences_race_mob_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -3.0)
+                    ylim_low = -2.0)
 )
 dev.off()
 
@@ -204,7 +204,7 @@ savepdf('output/m_le_differences_race_gini_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -3.0)
+                    ylim_low = -2.0)
 )
 dev.off()
 
@@ -269,7 +269,7 @@ savepdf('output/w_le_differences_race_mob_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -3.0)
+                    ylim_low = -2.0)
 )
 dev.off()
 
@@ -283,7 +283,7 @@ savepdf('output/w_le_differences_race_gini_pcprior_1_10')
 print(
 plot_le_differences(s[group %in% c('White', 'African-American')],
                     ylim_hi = 0.35,
-                    ylim_low = -3.0)
+                    ylim_low = -2.0)
 )
 dev.off()
 

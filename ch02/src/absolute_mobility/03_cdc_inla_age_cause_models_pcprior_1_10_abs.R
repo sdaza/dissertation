@@ -158,7 +158,7 @@ plot_fixed_coeff(men_models,
                coeff = c('z_absolute_mob', 'z_gini'),
                coeff_labels = c('absolute Mobility', 'Gini'),
                exponential = TRUE,
-               group_labels = cause_groups) + xlim(.75, 1.5)
+               group_labels = cause_groups) + xlim(.95, 1.35)
 )
 dev.off()
 
@@ -168,6 +168,6 @@ plot_fixed_coeff(women_models,
                coeff = c('z_absolute_mob', 'z_gini'),
                coeff_labels = c('absolute Mobility', 'Gini'),
                exponential = TRUE,
-               group_labels = cause_groups) + xlim(.75, 1.5)
+               group_labels = cause_groups) + xlim(.95, 1.35)
 )
 dev.off()

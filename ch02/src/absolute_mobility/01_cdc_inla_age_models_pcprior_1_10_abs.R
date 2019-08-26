@@ -408,11 +408,11 @@ dev.off()
 # # dev.off()
 
 savepdf('output/m4_loo_pcprior_1_10_abs')
-    print(plot_loo(m4))
+    plot_loo(m4)
 dev.off()
 
 savepdf('output/w4_loo_pcprior_1_10_abs')
-    print(plot_loo(w4))
+    plot_loo(w4)
 dev.off()
 
 # # re-run cpo very slow
