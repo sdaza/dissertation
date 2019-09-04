@@ -156,7 +156,7 @@ savepdf('output/m_cause_dist_pcprior_1_10_abs')
 print(
 plot_fixed_coeff(men_models,
                coeff = c('z_absolute_mob', 'z_gini'),
-               coeff_labels = c('absolute Mobility', 'Gini'),
+               coeff_labels = c('Absolute Mobility', 'Gini'),
                exponential = TRUE,
                group_labels = cause_groups) + xlim(.95, 1.35)
 )
@@ -166,7 +166,7 @@ savepdf('output/w_cause_dist_pcprior_1_10_abs')
 print(
 plot_fixed_coeff(women_models,
                coeff = c('z_absolute_mob', 'z_gini'),
-               coeff_labels = c('absolute Mobility', 'Gini'),
+               coeff_labels = c('Absolute Mobility', 'Gini'),
                exponential = TRUE,
                group_labels = cause_groups) + xlim(.95, 1.35)
 )

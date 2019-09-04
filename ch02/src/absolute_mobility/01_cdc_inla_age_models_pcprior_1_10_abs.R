@@ -519,7 +519,7 @@ head(les_w)
 savepdf('output/w4_le_differences_pcprior_1_10_abs')
 print(
 plot_le_counterfactuals(les_w, x_labels = e_groups,
-                        name_groups = c('Absolute', 'Gini')) +
+                        name_groups = c('Absolute Mobility', 'Gini')) +
                         ylim(-1.6, 0.5)
 )
 dev.off()
@@ -527,7 +527,7 @@ dev.off()
 savepdf('output/w4_le_re_differences_pcprior_1_10_abs')
 print(
 plot_le_counterfactuals(les_w, relative = TRUE,  x_labels = e_groups,
-                        name_groups = c('Absolute', 'Gini')) +
+                        name_groups = c('Absolute Mobility', 'Gini')) +
                         ylim(-0.12, 0.05)
 )
 dev.off()

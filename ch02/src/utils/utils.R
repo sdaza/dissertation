@@ -183,10 +183,7 @@ get_coeff_fixed_random_effect = function(sim_data, fixed, random, prob = 0.95) {
             for (i in 1:nsim) {
              vrandom = selected_names[grep(lfixed, selected_names, invert = TRUE)]
              vfixed = selected_names[grep(lfixed, selected_names, invert = FALSE)]
-             #print(sim_data[[i]]$latent[vfixed,])
-             #print(sim_data[[i]]$latent[vrandom,])
              values[[i]] =  sim_data[[i]]$latent[vfixed,] + sim_data[[i]]$latent[vrandom,]
-             #print(values[i])
         }
 
         sim_coeff = do.call(cbind, values)

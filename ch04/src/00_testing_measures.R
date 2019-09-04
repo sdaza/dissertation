@@ -1,54 +1,89 @@
+###############################
+# income mobility and health
+# testing measures
+# author: sebastian daza
+################################
 
-perc.rank <- function(x) trunc(rank(x)/length(x) * 100)
+# libraries
+library(data.table)
+library(nnet)
+library(texreg)
 
-# sample
-ids <- sample(1:100000, 10000)
+# functions
+sample_based_on_type = function(type) {
+  
+  type_vector = c('type1', 'type2', 'type3')
+  type_probs = list()
+  type_probs[['type1']] = c(0.6, 0.2, 0.2)
+  type_probs[['type2']] = c(0.2, 0.6, 0.2)
+  type_probs[['type3']] = c(0.2, 0.2, 0.6)
+  
+  output = NULL
+  for (i in type) {
+    output = c(output, sample(type_vector, 1, prob = type_probs[[i]]))
+  }
+  return(output)
+}
+
+assign_income_based_on_type = function(type) {
+  
+  output = NULL
+  
+  for (i in type) {
+    type_income = list()
+    
+    type_income[['type1']] = runif(1, 0, 10000)
+    type_income[['type2']] = runif(1, 25000, 45000)
+    type_income[['type3']] = runif(1, 90000, 110000)
+    
+    output = c(output, type_income[[i]])
+  }
+  return(output)
+}
 
 
-# relative mobility
+# Two groups
+# type 1 $90,000 and $110,000 a year
+# type 2$25,000 and $45,000
+# inmobile world
 
-parent <- runif(100000, 5.0, 7.5)
-child <- runif(100000, 5.0, 7.5) + (0.8 * parent)
+nsim = 700 * 3
+type_1_parent = runif(nsim, 0, 15000)
+type_2_parent = runif(nsim, 25000, 45000)
+type_3_parent = runif(nsim, 90000, 110000)
 
-a <- parent[ids]
-b <- child[ids]
-
-
-pa <- perc.rank(a)
-pb <- perc.rank(b)
-
-mean(pa)
-mean(pb)
-
-mob <- cor(pb, pa)
-lm(pb ~ pa)
-mob
+dd = data.table(income_parent = c(type_1_parent, type_2_parent, type_3_parent),
+           type_parent = c(rep('type1', nsim), rep('type2', nsim), rep('type3', nsim)))
 
 
+sample_based_on_type('type3')
+assign_income_based_on_type('type3')
 
-pparent <- perc.rank(parent)
-pchild <- perc.rank(child)
-mean(pparent)
-mean(pchild)
+dd[, type_kid := sample_based_on_type(type_parent)]
+dd[, income_kid := assign_income_based_on_type(type_kid)]
 
-mobtot <- cor(child,parent)
-mobtot
+test <- multinom(type_kid ~ type_parent, data = dd)
 
-mean(pchild[ids][which(pparent[ids] == 25)])
-50 + mobtot * (25 - 50)
+pp = data.table(fitted(test))
+pp = unique(pp)
+pp
 
-pchild[ids]
-m <- lm(pchild ~ pparent)
-coeff <- m$coeff
-coeff
-cor(pchild, pparent)
+cf = coef(test)
+cf
 
-mean(pparent)
-mean(pchild)
+p1 = 1 / (1 + (exp(cf[1,1]) + exp(cf[2,1])))
+prop.table(table(dd[, .(type_parent, type_kid)]), 1)
 
-# absolute mobility
+# check some anylogic output
 
-# mean rank of children (in the national child income distribution) of those children whose parents were at the 25% of the national distribution.
+setwd('/Users/sdaza/Documents/github/dissertation/ch04/models/mob_health_testing/output')
+data = fread('family.csv')
 
-parent_p <- 0.25
+head(data)
 
+prop.table(table(data[generation==1, .(parent_type, kid_type)]), 1)
+table(data[generation==1, parent_type])
+
+# explore income exposure variable 
+setorder(data, -kid_income_exposure)
+head(data)
