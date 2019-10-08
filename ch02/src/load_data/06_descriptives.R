@@ -18,7 +18,7 @@ source("src/utils/utils.R")
 options(repr.plot.width = 5, repr.plot.height = 4) # plot options
 
 # read data
-data = readRDS('output/cdc_chetty.rds')
+data = readRDS("output/cdc_chetty.rds")
 dim(data)
 countmis(data)
 

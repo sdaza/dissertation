@@ -1,13 +1,19 @@
-# chapter 2
 
+# general
+pardiso.lic
+
+# chapter 2
+/ch02/
 /ch02/manuscript/
-/ch02/data/mortality
+/ch02/data/mortatity
 /ch02/data/population
 /ch02/output/*.rds
 /ch02/notebooks
+/ch02/inla
+
 
 # chapter 3
-ch03/data/psid/.DS_Store
+ch03/data/
 
 # related projects
 related_projects/.DS_Store
