@@ -11,9 +11,10 @@ pardiso.lic
 /ch02/notebooks
 /ch02/inla
 
-
 # chapter 3
 ch03/data/
+ch03/src/*.do
+
 
 # related projects
 related_projects/.DS_Store
