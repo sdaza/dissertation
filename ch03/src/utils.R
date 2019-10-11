@@ -28,8 +28,8 @@ fillWithLastValue = function(x) {
 }
 
 renameColumns = function(dat, hash) {
-    oldnames = hash::keys(hash)
-    newnames = hash::values(hash)
+    oldnames = as.vector(hash::keys(hash))
+    newnames = as.vector(hash::values(hash))
 
     if (length(oldnames) != length(newnames)) {
         stop("Vector of names should have the same length")
@@ -37,6 +37,11 @@ renameColumns = function(dat, hash) {
 
     setnames(dat, oldnames, newnames)
 }
+
+apply(expand.grid("test", 1:3, c("a", "b")), 1, paste0, collapse="_")
+
+as.vector(outer("test", 1:3, "_", 1:4, paste0, sep="_"))
+
 
 
 fillMissingColumns = function(dat, expression, expected) {
