@@ -20,9 +20,8 @@ library(ipw)
 source("ch03/src/utils.R")
 
 # read raw data
-dat = fread("ch03/data/nlsy97/individual/20191008_selection.csv")
+dat = fread("ch03/data/nlsy97/household/household_20191011.csv")
 
-# auxiliary functions
 # fine years of panel
 years = c(1997:2011, 2013, 2015)
 
@@ -30,23 +29,46 @@ years = c(1997:2011, 2013, 2015)
 setnames(dat, names(dat), tolower(names(dat)))
 
 # rename demographics
-hash_demographics = hash(
-    "r0000100" = "id",
-    "r0536300" = "sex",
-    "r0536401" = "birth_month",
-    "r0536402" = "birth_year",
-    "r1194000" = "age",
-    "r0538700" = "race",
-    "r0538600" = "hispanic",
-    "r1482600" = "ethnicity",
-    "r1235800" = "type",
-    "r1236201" = "wt",
-    "r1489700" = "stratum",
-    "r1489800" = "cluster"
-)
+renameColumns(dat, hash("r0000100", "id"))
 
-renameColumns(dat, hash_demographics)
+employment = c(
+               paste0("r10", 898:907, "00"),
+               paste0("r240", 32:45, "00"),
+               paste0("r395", 13:25, "00"),
+               paste0("r517", 50:61, "00")
+               )
 
+new_employment = NULL
+num_columns = list(
+                   seq_along(898:907),
+                   seq_along(32:45),
+                   seq_along(13:25),
+                   seq_along(50:61)
+                   )
+
+for (i in seq_along(years[1:4])) {
+    new_employment = c(new_employment,
+                       apply(expand.grid("employment",
+                                         as.character(num_columns[[i]]),
+                                         years[i]),
+                             1,
+                             paste0,
+                             collapse = "_")
+                       )
+}
+
+renameColumns(dat, hash(employment, new_employment))
+
+
+test = melt(dat,
+     id.vars = 'id',
+     measure = patterns("^employment_"),
+     value.name = c("test")
+    )
+
+table(test$test)
+
+length(898:907)
 dat[, male := ifelse(sex == 1, 1, 0)]
 
 table(dat$age) # from 12 to 16
@@ -188,7 +210,6 @@ renameColumns(dat, hash(ovars, nvars))
 # gender x
 # birth year x
 # optimism x
-# cognitive score
 # marital status at birth
 # mother's age at birth x
 
@@ -209,11 +230,10 @@ renameColumns(dat, hash(ovars, nvars))
 
 # marital status
 # work / hours / hh
-# employment
 # income
+# employment
 # income mobility current county
 # size household
-# cumulative number of county moves
 
 # time invariant
 
@@ -500,7 +520,7 @@ ids = unique(ldat$id)
 ldat[id == sample(id, 1), .(id, age_interview_est, year, weight, height_feet, height_inches)]
 ldat[, bmi := 703 * weight / (height_inches + height_feet * 12) ^ 2]
 summary(ldat[year == 2015, bmi])
-ldat[bmi < 10 | bmi > 35, bmi := NA]
+ldat[bmi < 10 | bmi > 40, bmi := NA]
 # hist(ldat$bmi)
 
 ldat[, age_interview_est2 := age_interview_est ^ 2]
@@ -527,7 +547,7 @@ meth[c("hhsize", "z_relative_mob", "log_income_adj",
        "health", "bmi", "depression", "smoking_ever", "smoking_30")
       ] = c("2l.pmm", "2l.pmm", "2l.pmm", "2lonly.pmm",
             "2lonly.pmm", "2lonly.pmm",
-            "2l.pmm", "2l.norm", "2l.pmm", "2l.pmm", "2l.pmm")
+            "2l.pmm", "2l.pmm", "2l.pmm", "2l.pmm", "2l.pmm")
 
 pred["hhsize",
      c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
@@ -621,7 +641,7 @@ pred["smoking_ever",
         "bmi", "health", "depression", "smoking_30")
      ] = c(-2, 1, 1, 1, 1,
            1, 1, 1, 1, 1, 1,
-           1, 1, 1, 0)
+           1, 1, 1, 1)
 
 pred["smoking_30",
      c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
@@ -631,25 +651,14 @@ pred["smoking_30",
         "bmi", "health", "depression", "smoking_ever")
      ] = c(-2, 1, 1, 1, 1,
            1, 1, 1, 1, 1, 1,
-           1, 1, 1, 0)
+           1, 1, 1, 1)
 
 pred["health",]
 pred["smoking_30",]
 pred["bmi",]
 
-meth
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-           m = 5, maxit = 10)
-
-# explore quality of imputations
-plot(imp, c("bmi", "health"))
-plot(imp, c("depression", "smoking_30", "smoking_ever"))
-plot(imp, c("hhsize", "z_relative_mob", "log_income_adj"))
-plot(imp, c("parent_education", "mother_age_at_birth", "residential_moves_by_12"))
-
-densityplot(imp, ~ bmi + health + depression + smoking_30)
-densityplot(imp, ~ hhsize + z_relative_mob + log_income_adj)
-densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by_12)
+           m = 5, maxit = 5)
 
 # explore first imputation
 # test = data.table(complete(imp, 1))
@@ -671,6 +680,21 @@ densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by
 # setorder(ldat, id, year)
 
 
+# testdat = ldat[complete.cases(ldat[, .(id, imp_s_rank, imp_race, imp_sex, imp_health, imp_income)])]
+
+# # create lag varible
+# # setorder(testdat, id, time)
+# # testdat[, lag_imp_s_rank := shift(imp_s_rank), id]
+# # testdat[, lag_imp_health := shift(imp_health), id]
+# # testdat[, lag_imp_income := shift(imp_income), id]
+
+# fdata = testdat
+# # test = data.table(campaign_long)
+# # table(test$week)
+
+# variables = c("id", "imp_s_rank", "imp_sex", "imp_income", "imp_race")
+# fdata = testdat[complete.cases(testdat[, ..variables])]
+
 # temp = ipwtm(exposure = imp_s_rank,
 #              family = "gaussian",
 #              numerator = ~ as.factor(imp_sex) + as.factor(imp_race),
@@ -689,13 +713,25 @@ densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by
 # last_obs = fdata[, .SD[.N], by=id]
 # last_obs
 
+# ids = unique(last_obs$id)
+# last_obs[id == sample(ids, 1), .(id, year, imp_s_rank, avg_s_rank, time, ipw)]
+
 # m0 = lm(imp_health ~  avg_s_rank + as.factor(imp_sex) + as.factor(imp_race),
 #         weights = last_obs$ipw, data = last_obs)
+# summary(m0)
 
 
 # m0 = lm(imp_health ~ avg_s_rank, data = last_obs)
 # summary(m0)
 
+# require(MASS)
+# require(Hmisc)
+
+# last_obs = last_obs[imp_health > 0][, imp_health := factor(imp_health)]
+# m <- polr(imp_health ~ avg_s_rank, weights = last_obs$ipw, data = last_obs, Hess=TRUE)
+# summary(m)
+
+# –
 
 # length(temp$ipw.weights)
 # finalw = testdat[, .SD[.N], id]
@@ -713,6 +749,13 @@ densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by
 # ldat[, s := 1:.N, id]
 # ldat[, agei := age + s - 1]
 # ldat[id == 10, .(id, year, age, agei)]
+
+# countmis(ldat) # 14%
+
+# add county data
+
+# getting income mobility data
+# get counties from chetty data and fix differences
 
 
 # saveRDS(ldat, 'ch03/output/data/nlsy97_analytic.rd')

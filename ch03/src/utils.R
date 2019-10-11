@@ -15,6 +15,18 @@ impute_locf = function(x) {
     return(output)
 }
 
+fillWithFirstValue = function(x) {
+  fv = head(na.omit(x), 1)
+  x = ifelse(is.na(x), fv, x)
+  return(x)
+}
+
+fillWithLastValue = function(x) {
+  fv = tail(na.omit(x), 1)
+  x = ifelse(is.na(x), fv, x)
+  return(x)
+}
+
 renameColumns = function(dat, hash) {
     oldnames = hash::keys(hash)
     newnames = hash::values(hash)
@@ -46,4 +58,28 @@ get_max = function(x) {
     } else {
         return(max(x))
     }
+}
+
+get_min = function(x) {
+    x = na.omit(x)
+    if (length(x) == 0) {
+        return(NA_real_)
+    } else {
+        return(min(x))
+    }
+}
+
+
+createQuantiles = function(x, groups = 5) {
+    output = cut(x,
+                 breaks = quantile(x, probs = seq(0, 1, by = 1 / groups), na.rm = TRUE),
+                 labels = 1:groups,
+                 include.lowest = TRUE,
+                 right = FALSE)
+    return(output)
+}
+
+reverseScale = function(x) {
+    max_x = get_max(x)
+    return( (max_x - x) + 1 )
 }
