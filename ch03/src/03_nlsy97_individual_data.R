@@ -42,10 +42,13 @@ hash_demographics = hash(
     "r1235800" = "type",
     "r1236201" = "wt",
     "r1489700" = "stratum",
-    "r1489800" = "cluster"
+    "r1489800" = "cluster",
+    "r9829600" = "asvab_score"
 )
 
 renameColumns(dat, hash_demographics)
+
+dat[, asvab_score := replaceMissing(asvab_score) / 1000]
 
 dat[, male := ifelse(sex == 1, 1, 0)]
 
@@ -188,14 +191,14 @@ renameColumns(dat, hash(ovars, nvars))
 # gender x
 # birth year x
 # optimism x
-# cognitive score
+# cognitive score x
 # marital status at birth
 # mother's age at birth x
 
 # base line
 
-# health baseline
-# smoking baseline
+# health baseline x
+# smoking baseline x
 
 # weight at birth
 # education parents x
@@ -207,13 +210,13 @@ renameColumns(dat, hash(ovars, nvars))
 
 # time varying
 
-# marital status
+# marital status x
 # work / hours / hh
-# employment
-# income
-# income mobility current county
-# size household
-# cumulative number of county moves
+# employment x
+# income x
+# income mobility current county x
+# size household x
+# cumulative number of county moves x
 
 # time invariant
 
@@ -265,7 +268,7 @@ columns_expr = c("id", "nres", "interview_month", "interview_year", "income",
                  "shealth", "smoking_ever_", "smoking_30", "^height_feet",
                  "^height_inches", "^weight_", "^hhsize", "type", "wt", "stratum",
                  "cluster", "residential_moves", "mother_age_at_birth",
-                 "mother_highest_grade", "father_highest_grade")
+                 "mother_highest_grade", "father_highest_grade", "asvab_score")
 
 expr = paste0(columns_expr, collapse = "|")
 vars = lookvar(dat, expr)
@@ -332,15 +335,33 @@ setorder(ldat, id, time)
 ldat[is.na(nres), nres := 60]
 ldat[nres == -4, nres := 60]
 
+dim(ldat)
+
+# merge with household info
+hh = readRDS("ch03/output/data/nlsy97_household.rds")
+ldat = merge(ldat, hh, by = c("id", "year"), all.x = TRUE)
+
+ldat[nres > 69, living_any_parent := NA]
+
+ids = unique(ldat$id)
+ldat[id == sample(ids, 1), .(id, year, nres, living_any_parent,
+                             age_interview_est, income, parent_married, parent_employed)]
+
+setorder(ldat, id, year)
+hh_vars = c("living_any_parent", "parent_employed", "parent_married")
+ldat[age_interview_est <= 20, (paste0("imp_", hh_vars)) := lapply(.SD, impute_locf), id, .SDcol = hh_vars]
+ldat[, (paste0("imp_", hh_vars)) := lapply(.SD, impute_locf), id, .SDcol = paste0("imp_", hh_vars)]
+
+
 # merge all values
-loc = readRDS("ch03/output/data/nlsy97_location.rd")
+loc = readRDS("ch03/output/data/nlsy97_location.rds")
 ldat = merge(ldat, loc, by = c("id", "time"), all = TRUE)
 
 # create vector of ids for exploring data
 ids = unique(ldat$id)
 
-ldat[, min_age := get_min(age_interview_est), id]
-ldat[, min_year := get_min(year), id]
+ldat[, min_age := getMin(age_interview_est), id]
+ldat[, min_year := getMin(year), id]
 ldat[, diff_age_12 := min_age - 12]
 
 # ldat[id == 2413]
@@ -363,14 +384,13 @@ ldat = ldat[!(flag12 == 1 & diff_age_12 == 0)]
 baseline_vars = c(paste0("optimism_", 1:4), "age", "residential_moves_by_12",
                   "mother_age_at_birth", "father_highest_grade", "mother_highest_grade",
                   "sex", "race", "hispanic", "ethnicity", "stratum", "type", "wt",
-                  "interview_month", "interview_year",
+                  "interview_month", "interview_year", "asvab_score",
                   "birth_month", "birth_year", "dob", "doi", "mean_interview_month")
 
 ldat[, (baseline_vars) := lapply(.SD, replaceMissing), .SDcol = baseline_vars]
 ldat[, (baseline_vars) := lapply(.SD, fillWithFirstValue), id, .SDcol = baseline_vars]
 
 # income adjustments
-
 cpi = fread("ch03/data/cpi.csv")[, cpi := value / 100][, .(year, cpi)]
 setnames(cpi, "year", "cpi_year")
 
@@ -387,17 +407,11 @@ ldat[, log_income_adj := ifelse(income_adj < 1, log(1), log(income_adj))]
 setorder(ldat, id, time)
 ldat[, lead_year := shift(year, type = "lead"), id]
 ldat[, exposure_time := lead_year - year]
-
-ids = unique(ldat$ids)
-ldat[id == sample(ids, 1), .(id, fips, imp_fips, time,
-                             nres, diff_age_12,
-                             income, income_adj, year, age_interview_est,
-                             health)]
-
-# ldat[id == 1]
+ldat[year == 2015 & is.na(exposure_time), exposure_time := 1]
 
 # exposure?
-exposure_periods = ldat[age_interview_est < 20, .(rows = .N, years = sum(exposure_time)), id]
+exposure_periods = ldat[age_interview_est < 20,
+                        .(rows = .N, years = sum(exposure_time)), id]
 summary(exposure_periods$rows)
 summary(exposure_periods$years)
 
@@ -475,6 +489,9 @@ ldat[, (paste0("rev_", depression_cols_positive)) := lapply(.SD, reverseScale),
 ldat[, depression := apply(.SD, 1, mean, na.rm = TRUE),
      .SDcol = c("rev_dep1", "dep2", "rev_dep3", "dep4", "rev_dep5")]
 
+setorder(ldat, id, depression)
+ldat[year < 2015, depression := impute_locf(depression), .(id)]
+
 ldat[, ethnicity := factor(ethnicity)]
 
 # smoking
@@ -506,213 +523,170 @@ ldat[bmi < 10 | bmi > 35, bmi := NA]
 ldat[, age_interview_est2 := age_interview_est ^ 2]
 
  # multiple imputation
-mm = ldat[, .(id, male, ethnicity, age_interview_est, age_interview_est2,
-              hhsize, z_relative_mob,
+ldat[, max_age_interview_est := getMax(age_interview_est), id]
+mm = ldat[, .(id, year, exposure_time, male, ethnicity, max_age_interview_est,
+              age_interview_est, age_interview_est2,
+              hhsize, z_relative_mob, z_absolute_mob, z_gini,
+              asvab_score,
+              imp_living_any_parent, imp_parent_employed,
+              imp_parent_married,
               log_income_adj, parent_education, mother_age_at_birth,
               residential_moves_by_12,
-              health, bmi, depression, smoking_ever, smoking_30)]
+              health, bmi, depression, smoking_ever, smoking_30,
+              wt, stratum, type)]
 
 ini = mice(mm, maxit = 0)
 pred = ini$pred
 meth = ini$meth
 pred[,] = 0
 
+fx = fluxplot(mm)
+fx
 # exploring some models
 # lm(bmi ~ male + smoking_30, data = ldat)
 
-# set up methods and prediction matrix
-meth[c("hhsize", "z_relative_mob", "log_income_adj",
-       "parent_education", "mother_age_at_birth",
-       "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-      ] = c("2l.pmm", "2l.pmm", "2l.pmm", "2lonly.pmm",
-            "2lonly.pmm", "2lonly.pmm",
-            "2l.pmm", "2l.norm", "2l.pmm", "2l.pmm", "2l.pmm")
+# # set up methods and prediction matrix
 
-pred["hhsize",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "z_relative_mob", "log_income_adj",
-       "parent_education", "mother_age_at_birth", "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1)
+# methods
+methods = hash(
+               "hhsize" = "2l.pmm",
+               "z_relative_mob" = "2l.pmm",
+               "z_absolute_mob" = "2l.pmm",
+               "z_gini" = "2l.pmm",
+               "log_income_adj" = "2l.pmm",
+               "imp_living_any_parent" = "2l.pmm",
+               "imp_parent_employed" = "2l.pmm",
+               "imp_parent_married" = "2l.pmm",
+               "parent_education" = "2lonly.pmm",
+               "mother_age_at_birth" = "2lonly.pmm",
+               "residential_moves_by_12" = "2lonly.pmm",
+               "asvab_score" = "2lonly.pmm",
+               "health" = "2l.pmm",
+               "bmi" = "2l.pmm",
+               "depression" = "2l.pmm",
+               "smoking_ever" = "2l.pmm",
+               "smoking_30" = "2l.pmm"
+               )
 
-pred["z_relative_mob",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "log_income_adj",
-       "parent_education", "mother_age_at_birth", "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1)
+meth[keys(methods)] = values(methods)
+meth
 
-pred["log_income_adj",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "parent_education", "mother_age_at_birth", "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1)
+# predictors
+# I haven't found a better way to do this
 
-pred["parent_education",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "mother_age_at_birth", "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1)
+predictors = hash(
+     "id" = -2,
+     "male" = 1,
+     "ethnicity" = 1,
+     "age_interview_est" = 1,
+     "age_interview_est2" = 1,
+     "z_relative_mob" = 1,
+     "z_absolute_mob" = 1,
+     "z_gini" = 1,
+     "log_income_adj" = 1,
+     "hhsize" = 0,
+     "imp_living_any_parent" = 1,
+     "imp_parent_employed" = 1,
+     "imp_parent_married" = 1,
+     "parent_education" = 1,
+     "mother_age_at_birth" = 1,
+     "residential_moves_by_12" = 1,
+     "asvab_score" = 1,
+     "health" = 1,
+     "bmi" = 1,
+     "depression" = 1,
+     "smoking_ever" = 1,
+     "smoking_30" = 0
+    )
 
-pred["mother_age_at_birth",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "residential_moves_by_12",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1,
-           1, 0, 1, 1, 1)
+pred["hhsize", keys(predictors)] = values(predictors)
 
-pred["residential_moves_by_12",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-       "health", "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-          1, 1, 1, 1, 1,
-          1, 0, 1, 1, 1)
+predictors['z_relative_mob'] = 0
+predictors['hhsize'] = 1
+pred["z_relative_mob", keys(predictors)] = values(predictors)
 
-pred["health",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-        "residential_moves_by_12",
-        "bmi", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1)
+predictors['z_absolute_mob'] = 0
+predictors['z_relative_mob'] = 1
+pred["z_absolute_mob", keys(predictors)] = values(predictors)
 
-pred["bmi",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-       "residential_moves_by_12",
-        "health", "depression", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1)
+predictors['z_gini'] = 0
+predictors['z_absolute_mob'] = 1
+pred["z_gini", keys(predictors)] = values(predictors)
 
-pred["depression",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-       "residential_moves_by_12",
-        "bmi", "health", "smoking_ever", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1)
+predictors['log_income_adj'] = 0
+predictors['z_gini'] = 1
+pred["log_income_adj", keys(predictors)] = values(predictors)
 
-pred["smoking_ever",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-       "residential_moves_by_12",
-        "bmi", "health", "depression", "smoking_30")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1,
-           1, 1, 1, 0)
+predictors['imp_living_any_parent'] = 0
+predictors['log_income_adj'] = 1
+pred["imp_living_any_parent", keys(predictors)] = values(predictors)
 
-pred["smoking_30",
-     c("id", "male", "ethnicity", "age_interview_est", "age_interview_est2",
-       "hhsize", "z_relative_mob",
-       "log_income_adj", "parent_education", "mother_age_at_birth",
-       "residential_moves_by_12",
-        "bmi", "health", "depression", "smoking_ever")
-     ] = c(-2, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1,
-           1, 1, 1, 0)
+predictors["imp_parent_employed"] = 0
+predictors['imp_living_any_parent'] = 1
+pred["imp_parent_employed", keys(predictors)] = values(predictors)
+
+predictors["imp_parent_married"] = 0
+predictors["imp_parent_employed"] = 1
+pred["imp_parent_married", keys(predictors)] = values(predictors)
+
+predictors['parent_education'] = 0
+predictors['imp_parent_married'] = 1
+pred["parent_education", keys(predictors)] = values(predictors)
+
+predictors['mother_age_at_birth'] = 0
+predictors['parent_education'] = 1
+pred["mother_age_at_birth", keys(predictors)] = values(predictors)
+
+predictors['residential_moves_by_12'] = 0
+predictors['mother_age_at_birth'] = 1
+pred["residential_moves_by_12", keys(predictors)] = values(predictors)
+
+
+predictors['asvab_score'] = 0
+predictors['residential_moves_by_12'] = 1
+pred["asvab_score", keys(predictors)] = values(predictors)
+
+predictors['health'] = 0
+predictors['residential_moves_by_12'] = 1
+pred["health", keys(predictors)] = values(predictors)
+
+predictors['depression'] = 0
+predictors['health'] = 1
+pred["depression", keys(predictors)] = values(predictors)
+
+predictors['bmi'] = 0
+predictors['depression'] = 1
+pred["bmi", keys(predictors)] = values(predictors)
+
+predictors['smoking_ever'] = 0
+predictors['smoking_30'] = 0
+predictors['bmi'] = 1
+predictors['depression'] = 1
+pred["smoking_ever", keys(predictors)] = values(predictors)
+pred["smoking_30", keys(predictors)] = values(predictors)
 
 pred["health",]
 pred["smoking_30",]
 pred["bmi",]
+pred["z_absolute_mob",]
 
-meth
+# run imputation
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-           m = 5, maxit = 10)
-
-# explore quality of imputations
-plot(imp, c("bmi", "health"))
-plot(imp, c("depression", "smoking_30", "smoking_ever"))
-plot(imp, c("hhsize", "z_relative_mob", "log_income_adj"))
-plot(imp, c("parent_education", "mother_age_at_birth", "residential_moves_by_12"))
-
-densityplot(imp, ~ bmi + health + depression + smoking_30)
-densityplot(imp, ~ hhsize + z_relative_mob + log_income_adj)
-densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by_12)
-
-# explore first imputation
-# test = data.table(complete(imp, 1))
-# imp_ids = unique(test$id)
-
-# test[id == sample(imp_ids, 1)]
-
-# test[id == 7310]
+           m = 5, maxit = 5)
 
 
+# # head(imp$loggedEvent)
 
-# filter dropout
-# setorder(ldat, id, -year)
-# ldat[, cumresponses := cumsum(response), id]
-# ldat[, maxresponses := max(cumresponses), id]
-# ldat[, dropout := ifelse(cumresponses == 0, 1, 0)]
-# ldat[, dropout := max(dropout), id]
-# # ldat = ldat[cumresponses > 0]
-# setorder(ldat, id, year)
+# # explore quality of imputations
+# plot(imp, c("bmi", "health"))
+# plot(imp, c("depression", "smoking_30", "smoking_ever"))
+# plot(imp, c("hhsize", "z_relative_mob", "log_income_adj"))
+# plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed"))
+# plot(imp, c("parent_education", "mother_age_at_birth", "residential_moves_by_12"))
 
+# densityplot(imp, ~ bmi + health + depression + smoking_30)
+# densityplot(imp, ~ hhsize + z_relative_mob + log_income_adj)
+# densityplot(imp, ~ parent_education + mother_age_at_birth + residential_moves_by_12)
 
-# temp = ipwtm(exposure = imp_s_rank,
-#              family = "gaussian",
-#              numerator = ~ as.factor(imp_sex) + as.factor(imp_race),
-#              denominator = ~ as.factor(imp_sex) + as.factor(imp_race) + imp_income + time,
-#              timevar = time,
-#              type = "all",
-#              corstr = "ar1",
-#              id = id,
-#              data = fdata)
-
-# fdata[, ipw := temp$ipw.weights]
-# exposure = fdata[time < 9, .(avg_s_rank = mean(imp_s_rank, na.rm = TRUE)), id]
-# fdata = merge(fdata, exposure, by = "id")
-# fdata
-
-# last_obs = fdata[, .SD[.N], by=id]
-# last_obs
-
-# m0 = lm(imp_health ~  avg_s_rank + as.factor(imp_sex) + as.factor(imp_race),
-#         weights = last_obs$ipw, data = last_obs)
-
-
-# m0 = lm(imp_health ~ avg_s_rank, data = last_obs)
-# summary(m0)
-
-
-# length(temp$ipw.weights)
-# finalw = testdat[, .SD[.N], id]
-# # recode some variables
-# table(ldat$health)
-# ldat[, health := ifelse(health < 0, NA, health)]
-# table(ldat$health)
-
-# ldat[, male := ifelse(sex == 1, 1, 0)]
-# table(ldat$male)
-# ldat
-
-# # create age variable
-# setkey(ldat, id, year)
-# ldat[, s := 1:.N, id]
-# ldat[, agei := age + s - 1]
-# ldat[id == 10, .(id, year, age, agei)]
-
-
-# saveRDS(ldat, 'ch03/output/data/nlsy97_analytic.rd')
+# # save results of imputation
+# saveRDS(imp, "ch03/output/data/nlsy97_imputation_individual.rds")

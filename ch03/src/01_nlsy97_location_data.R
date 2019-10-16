@@ -68,8 +68,8 @@ lloc[id == sample(unique(lloc$id), 1)]
 
 # test = lloc[, .(moves = max(moves)), id]
 # table(test$moves)
-hist(test$moves)
-prop.table(table(test$moves > 0)) # 62% changes of county at least once
+# hist(test$moves)
+# prop.table(table(test$moves > 0)) # 62% changes of county at least once
 
 
 #####################
@@ -103,4 +103,4 @@ lloc[coding == 1990 & fips == 12086, fips :=  12025]
 lloc[coding == 2000 & fips == 12086, fips :=  12025]
 
 # save rds
-saveRDS(lloc, file = "ch03/output/data/nlsy97_location.rd")
+saveRDS(lloc, file = "ch03/output/data/nlsy97_location.rds")

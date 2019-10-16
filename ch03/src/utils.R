@@ -38,11 +38,6 @@ renameColumns = function(dat, hash) {
     setnames(dat, oldnames, newnames)
 }
 
-apply(expand.grid("test", 1:3, c("a", "b")), 1, paste0, collapse="_")
-
-as.vector(outer("test", 1:3, "_", 1:4, paste0, sep="_"))
-
-
 
 fillMissingColumns = function(dat, expression, expected) {
     varnames = names(dat)
@@ -56,7 +51,7 @@ replaceMissing = function(x) {
     )
 }
 
-get_max = function(x) {
+getMax = function(x) {
     x = na.omit(x)
     if (length(x) == 0) {
         return(NA_real_)
@@ -65,7 +60,7 @@ get_max = function(x) {
     }
 }
 
-get_min = function(x) {
+getMin = function(x) {
     x = na.omit(x)
     if (length(x) == 0) {
         return(NA_real_)
@@ -87,4 +82,24 @@ createQuantiles = function(x, groups = 5) {
 reverseScale = function(x) {
     max_x = get_max(x)
     return( (max_x - x) + 1 )
+}
+
+
+hashHHColumns = function(myhash, years, newheader) {
+
+    old_names = NULL
+    new_names = NULL
+    mkeys = keys(myhash)
+
+    for (i in seq_along(myhash)) {
+
+        header = mkeys[i]
+        vvalues = as.vector(values(myhash[header]))
+        seqvalues = seq(1:length(vvalues))
+
+        old_names = c(old_names, paste0(header, vvalues, "00"))
+        new_names = c(new_names, paste0(newheader, seqvalues, "_", years[i]))
+
+    }
+    return(hash(old_names, new_names))
 }
