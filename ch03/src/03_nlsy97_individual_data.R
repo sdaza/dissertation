@@ -402,7 +402,8 @@ ldat = cpi[ldat]
 
 ldat[income %in% c(-1, -2, -3, -4, -5), income := NA]
 ldat[, income_adj := ifelse(cpi_year <= 2013, income * cpi, income / cpi)]
-ldat[, log_income_adj := ifelse(income_adj < 1, log(1), log(income_adj))]
+ldat[!is.na(income_adj), log_income_adj := scale(ifelse(income_adj < 1, log(1), log(income_adj)), scale = FALSE)]
+# summary(ldat[is.na(log_income_adj), .(income_adj, log_income_adj)])
 
 # compute exposure time
 setorder(ldat, id, time)
@@ -441,9 +442,8 @@ county_vars = hash(
 
 renameColumns(county, county_vars)
 
-county[, log_county_income := scale(log(county_income), scale = FALSE)]
-county[, log_population := scale(log(population), scale = FALSE)]
-county[, log_population := scale(log(population), scale = FALSE)]
+county[, log_county_income := scale(log(county_income))]
+county[, log_population := scale(log(population))]
 
 vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
@@ -565,165 +565,141 @@ mm = ldat[, .(id, year, exposure_time, male, ethnicity, max_age_interview_est,
               health, bmi, depression, smoking_ever, smoking_30,
               wt, stratum, type)]
 
+# center variables
+center_vars = c("hhsize", "asvab_score", "parent_education",
+                "mother_age_at_birth", "residential_moves_by_12",
+                 "age_interview_est", "age_interview_est2")
+mm[, (center_vars) := lapply(.SD, scale), .SDcol = center_vars]
+
+center_vars = c("bmi", "depression",  "smoking_30")
+mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
+
+mm[, health := as.factor(health)]
 
 # independent variable z_relative_mob and z_gini
-
 ini = mice(mm, maxit = 0)
 pred = ini$pred
 meth = ini$meth
 pred[,] = 0
 
-# # fluxplot(mm)
+# fluxplot(mm)
 # # fx = fluxplot(mm)
 
-# # set up methods and prediction matrix
+# set up methods and prediction matrix
 
-# methods = hash(
-#                "hhsize" = "2l.pmm",
-#                "z_relative_mob" = "2l.pmm",
-#                "z_absolute_mob" = "",
-#                "z_gini" = "2l.pmm",
-#                "relative_mob_resid" = "",
-#                "absolute_mob_resid" = "",
-#                "gini_resid" = "",
-#                "q_relative_mob_resid" = "",
-#                "q_absolute_mob_resid" = "",
-#                "q_gini_resid" = "",
-#                "q_relative_mob" = "",
-#                "q_absolute_mob" = "",
-#                "q_gini" = "",
-#                "log_population" = "2l.pmm",
-#                "log_county_income" = "2l.pmm",
-#                "log_income_adj" = "2l.pmm",
-#                "imp_living_any_parent" = "2l.pmm",
-#                "imp_parent_employed" = "2l.pmm",
-#                "imp_parent_married" = "2l.pmm",
-#                "parent_education" = "2lonly.pmm",
-#                "mother_age_at_birth" = "2lonly.pmm",
-#                "residential_moves_by_12" = "2lonly.pmm",
-#                "asvab_score" = "2lonly.pmm",
-#                "health" = "2l.pmm",
-#                "bmi" = "2l.pmm",
-#                "depression" = "2l.pmm",
-#                "smoking_ever" = "2l.pmm",
-#                "smoking_30" = "2l.pmm"
-#                )
+methods = hash(
+               "hhsize" = "2l.pmm",
+               "z_relative_mob" = "2l.pmm",
+               "z_absolute_mob" = "",
+               "z_gini" = "2l.pmm",
+               "relative_mob_resid" = "",
+               "absolute_mob_resid" = "",
+               "gini_resid" = "",
+               "q_relative_mob_resid" = "",
+               "q_absolute_mob_resid" = "",
+               "q_gini_resid" = "",
+               "q_relative_mob" = "",
+               "q_absolute_mob" = "",
+               "q_gini" = "",
+               "log_population" = "2l.pmm",
+               "log_county_income" = "2l.pmm",
+               "log_income_adj" = "2l.pmm",
+               "imp_living_any_parent" = "2l.pmm",
+               "imp_parent_employed" = "2l.pmm",
+               "imp_parent_married" = "2l.pmm",
+               "parent_education" = "2lonly.pmm",
+               "mother_age_at_birth" = "2lonly.pmm",
+               "residential_moves_by_12" = "2lonly.pmm",
+               "asvab_score" = "2lonly.pmm",
+               "health" = "2l.pmm",
+               "bmi" = "2l.pmm",
+               "depression" = "2l.pmm",
+               "smoking_ever" = "2l.pmm",
+               "smoking_30" = "2l.pmm"
+               )
 
-# meth[keys(methods)] = values(methods)
+meth[keys(methods)] = values(methods)
 # meth
 
-# # predictors
+# check the structure is fine
+# str(mm)
 
-# predictors = hash(
-#      "id" = -2,
-#      "male" = 1,
-#      "ethnicity" = 1,
-#      "age_interview_est" = 1,
-#      "age_interview_est2" = 1,
-#      "z_relative_mob" = 1,
-#      "z_absolute_mob" = 0,
-#      "z_gini" = 1,
-#      "relative_mob_resid" = 0,
-#      "absolute_mob_resid" = 0,
-#      "gini_resid" = 0,
-#      "q_relative_mob" = 0,
-#      "q_absolute_mob" = 0,
-#      "q_gini" = 0,
-#      "q_relative_mob_resid" = 0,
-#      "q_absolute_mob_resid" = 0,
-#      "q_gini_resid" = 0,
-#      "log_population" = 1,
-#      "log_county_income" = 1,
-#      "log_income_adj" = 1,
-#      "hhsize" = 0,
-#      "imp_living_any_parent" = 1,
-#      "imp_parent_employed" = 1,
-#      "imp_parent_married" = 1,
-#      "parent_education" = 1,
-#      "mother_age_at_birth" = 1,
-#      "residential_moves_by_12" = 1,
-#      "asvab_score" = 1,
-#      "health" = 1,
-#      "bmi" = 1,
-#      "depression" = 1,
-#      "smoking_ever" = 1,
-#      "smoking_30" = 0
-#     )
+# predictors
 
-# pred["hhsize", keys(predictors)] = values(predictors)
-# pred["hhsize", ]
+predictors = hash(
+     "id" = -2,
+     "male" = 1,
+     "ethnicity" = 1,
+     "age_interview_est" = 1,
+     "age_interview_est2" = 1,
+     "z_relative_mob" = 1,
+     "z_absolute_mob" = 0,
+     "z_gini" = 1,
+     "relative_mob_resid" = 0,
+     "absolute_mob_resid" = 0,
+     "gini_resid" = 0,
+     "q_relative_mob" = 0,
+     "q_absolute_mob" = 0,
+     "q_gini" = 0,
+     "q_relative_mob_resid" = 0,
+     "q_absolute_mob_resid" = 0,
+     "q_gini_resid" = 0,
+     "log_population" = 1,
+     "log_county_income" = 1,
+     "log_income_adj" = 1,
+     "hhsize" = 1,
+     "imp_living_any_parent" = 1,
+     "imp_parent_employed" = 1,
+     "imp_parent_married" = 1,
+     "parent_education" = 1,
+     "mother_age_at_birth" = 1,
+     "residential_moves_by_12" = 1,
+     "asvab_score" = 1,
+     "health" = 1,
+     "bmi" = 1,
+     "depression" = 1,
+     "smoking_ever" = 0,
+     "smoking_30" = 1
+    )
 
-# predictors['z_relative_mob'] = 0
-# predictors['hhsize'] = 1
-# pred["z_relative_mob", keys(predictors)] = values(predictors)
-# pred["z_relative_mob",]
+pred["hhsize", keys(predictors)] = values(predictors)
+pred["z_relative_mob", keys(predictors)] = values(predictors)
+pred["z_gini", keys(predictors)] = values(predictors)
+pred["log_population", keys(predictors)] = values(predictors)
+pred["log_county_income", keys(predictors)] = values(predictors)
+pred["z_gini", keys(predictors)] = values(predictors)
+pred["log_income_adj", keys(predictors)] = values(predictors)
+pred["imp_living_any_parent", keys(predictors)] = values(predictors)
+pred["imp_parent_employed", keys(predictors)] = values(predictors)
+pred["imp_parent_married", keys(predictors)] = values(predictors)
+pred["parent_education", keys(predictors)] = values(predictors)
+pred["mother_age_at_birth", keys(predictors)] = values(predictors)
+pred["residential_moves_by_12", keys(predictors)] = values(predictors)
+pred["asvab_score", keys(predictors)] = values(predictors)
+pred["health", keys(predictors)] = values(predictors)
+pred["depression", keys(predictors)] = values(predictors)
+pred["bmi", keys(predictors)] = values(predictors)
 
-# predictors['z_gini'] = 0
-# predictors['z_relative_mob'] = 1
-# pred["z_gini", keys(predictors)] = values(predictors)
+predictors['smoking_ever'] = 0
+predictors['smoking_30'] = 0
+pred["smoking_ever", keys(predictors)] = values(predictors)
+pred["smoking_30", keys(predictors)] = values(predictors)
 
-# predictors['log_income_adj'] = 0
-# predictors['z_gini'] = 1
-# pred["log_income_adj", keys(predictors)] = values(predictors)
+# set diagonal of matrix to 0
+diag(pred) = 0
 
-# predictors['imp_living_any_parent'] = 0
-# predictors['log_income_adj'] = 1
-# pred["imp_living_any_parent", keys(predictors)] = values(predictors)
+# explore
+pred["health",]
+pred["smoking_30",]
+pred["bmi",]
+pred["z_relative_mob",]
+pred["log_population",]
 
-# predictors["imp_parent_employed"] = 0
-# predictors['imp_living_any_parent'] = 1
-# pred["imp_parent_employed", keys(predictors)] = values(predictors)
+# run imputation
+imp = mice::mice(mm, predictorMatrix = pred, method = meth,
+           m = 5, maxit = 5)
 
-# predictors["imp_parent_married"] = 0
-# predictors["imp_parent_employed"] = 1
-# pred["imp_parent_married", keys(predictors)] = values(predictors)
-
-# predictors['parent_education'] = 0
-# predictors['imp_parent_married'] = 1
-# pred["parent_education", keys(predictors)] = values(predictors)
-
-# predictors['mother_age_at_birth'] = 0
-# predictors['parent_education'] = 1
-# pred["mother_age_at_birth", keys(predictors)] = values(predictors)
-
-# predictors['residential_moves_by_12'] = 0
-# predictors['mother_age_at_birth'] = 1
-# pred["residential_moves_by_12", keys(predictors)] = values(predictors)
-
-# predictors['asvab_score'] = 0
-# predictors['residential_moves_by_12'] = 1
-# pred["asvab_score", keys(predictors)] = values(predictors)
-
-# predictors['health'] = 0
-# predictors['residential_moves_by_12'] = 1
-# pred["health", keys(predictors)] = values(predictors)
-
-# predictors['depression'] = 0
-# predictors['health'] = 1
-# pred["depression", keys(predictors)] = values(predictors)
-
-# predictors['bmi'] = 0
-# predictors['depression'] = 1
-# pred["bmi", keys(predictors)] = values(predictors)
-
-# predictors['smoking_ever'] = 0
-# predictors['smoking_30'] = 0
-# predictors['bmi'] = 1
-# predictors['depression'] = 1
-# pred["smoking_ever", keys(predictors)] = values(predictors)
-# pred["smoking_30", keys(predictors)] = values(predictors)
-
-# pred["health",]
-# pred["smoking_30",]
-# pred["bmi",]
-# pred["z_relative_mob",]
-
-# # run imputation
-# imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-#            m = 5, maxit = 5)
-
-
-
+# explore imputation
 # # head(imp$loggedEvent)
 
 # # explore quality of imputations
