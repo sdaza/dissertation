@@ -7,3 +7,6 @@
 [submodule "ch02/manuscript"]
 	path = ch02/manuscript
 	url = https://git.overleaf.com/5908aa5d4ebb05ab65cad1be
+[submodule "ch03/manuscript"]
+	path = ch03/manuscript
+	url = https://git.overleaf.com/5dae18021e65d00001675eb8
