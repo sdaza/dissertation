@@ -15,7 +15,6 @@ pardiso.lic
 
 # chapter 3
 ch03/data/
-/ch03/manuscript
 ch03/src/*.do
 ch03/output/data/*.rd
 ch03/output/data/*.rds
