@@ -32,12 +32,14 @@ gini_vcov_smoking = list()
 gini_coeff_smoking30 = list()
 gini_vcov_smoking30 = list()
 
-# relative mobility
+# loop to get coefficients
+
 for (i in 1:imp$m) {
 
     print(paste0("::::: imputation: ", i, " :::::"))
     dat = data.table(complete(imp, i))
     setorder(dat, id, year)
+    summary(dat)
     dat[, cum_smoking := cumsum(smoking_ever), id][,
         fsmoking_ever := ifelse(cum_smoking > 0, 1, 0)]
 
@@ -105,7 +107,7 @@ for (i in 1:imp$m) {
                         lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
                         lag_bmi + lag_health + lag_smoking_ever + lag_smoking_30 +
                         log_income_adj + cyear +
-                        lag_z_gini + lag_log_population + lag_log_county_income,
+                        lag_z_relative_mob + lag_log_population + lag_log_county_income,
         timevar = time,
         type = "all",
         corstr = "ar1",
@@ -161,58 +163,114 @@ for (i in 1:imp$m) {
     gini_coeff_depression = c(gini_coeff_depression, list(coefficients(msm_gini_depression)))
     gini_vcov_depression = c(gini_vcov_depression, list(vcov(msm_gini_depression)))
 
+    # health
     msm_rel_mob_health = svyolr(health ~ z_relative_mob_exposure +
-                        male + ethnicity + max_age_interview_est +
-                        parent_education + asvab_score + mother_age_at_birth +
-                        residential_moves_by_12,
-                        design = svy_design_rel_mob)
+                                male + ethnicity + max_age_interview_est +
+                                parent_education + asvab_score + mother_age_at_birth +
+                                residential_moves_by_12,
+                                design = svy_design_rel_mob)
 
     rel_mob_coeff_health = c(rel_mob_coeff_health, list(coefficients(msm_rel_mob_health)))
     rel_mob_vcov_health = c(rel_mob_vcov_health, list(vcov(msm_rel_mob_health)))
 
-
-    msm_gini_health = svyolr(health ~ z_relative_mob_exposure +
-                        male + ethnicity + max_age_interview_est +
-                        parent_education + asvab_score + mother_age_at_birth +
-                        residential_moves_by_12,
-                        design = svy_design_gini)
+    msm_gini_health = svyolr(health ~ z_gini_exposure +
+                             male + ethnicity + max_age_interview_est +
+                             parent_education + asvab_score + mother_age_at_birth +
+                             residential_moves_by_12,
+                             design = svy_design_gini)
 
     gini_coeff_health = c(gini_coeff_health, list(coefficients(msm_gini_health)))
     gini_vcov_health = c(gini_vcov_health, list(vcov(msm_gini_health)))
 
-    msm_smoking = svyglm(smoking_ever ~  z_relative_mob_exposure +
-                     male + ethnicity + max_age_interview_est +
-                     parent_education + asvab_score + mother_age_at_birth +
-                     residential_moves_by_12,
-                     design = sdesign,
-                     family = quasibinomial
-                     )
+    # smoking
+    msm_rel_mob_smoking = svyglm(smoking_ever ~ z_relative_mob_exposure +
+                                 male + ethnicity + max_age_interview_est +
+                                 parent_education + asvab_score + mother_age_at_birth +
+                                 residential_moves_by_12,
+                                 design = svy_design_rel_mob,
+                                 family = quasibinomial
+                                 )
 
-    rel_mob_coeff_smoking = c(rel_mob_coeff_smoking, list(coefficients(msm_smoking)))
-    rel_mob_vcov_smoking = c(rel_mob_vcov_smoking, list(vcov(msm_smoking)))
+    rel_mob_coeff_smoking = c(rel_mob_coeff_smoking, list(coefficients(msm_rel_mob_smoking)))
+    rel_mob_vcov_smoking = c(rel_mob_vcov_smoking, list(vcov(msm_rel_mob_smoking)))
 
-    msm_smoking30 = svyglm(smoking_30 ~  z_relative_mob_exposure +
-                     male + ethnicity + max_age_interview_est +
-                     parent_education + asvab_score + mother_age_at_birth +
-                     residential_moves_by_12,
-                     design = sdesign,
-                     family = poisson
-                     )
+    msm_gini_smoking = svyglm(smoking_ever ~ z_gini_exposure +
+                              male + ethnicity + max_age_interview_est +
+                              parent_education + asvab_score + mother_age_at_birth +
+                              residential_moves_by_12,
+                              design = svy_design_gini,
+                              family = quasibinomial
+                              )
 
-    rel_mob_coeff_smoking30 = c(rel_mob_coeff_smoking30, list(coefficients(msm_smoking30)))
-    rel_mob_vcov_smoking30 = c(rel_mob_vcov_smoking30, list(vcov(msm_smoking30)))
+    gini_coeff_smoking = c(gini_coeff_smoking, list(coefficients(msm_gini_smoking)))
+    gini_vcov_smoking = c(gini_vcov_smoking, list(vcov(msm_gini_smoking)))
+
+    # smoking 30
+    msm_rel_mob_smoking30 = svyglm(smoking_30 ~ z_relative_mob_exposure +
+                                   male + ethnicity + max_age_interview_est +
+                                   parent_education + asvab_score + mother_age_at_birth +
+                                   residential_moves_by_12,
+                                   design = svy_design_rel_mob,
+                                   family = poisson
+                                   )
+
+    rel_mob_coeff_smoking30 = c(rel_mob_coeff_smoking30, list(coefficients(msm_rel_mob_smoking30)))
+    rel_mob_vcov_smoking30 = c(rel_mob_vcov_smoking30, list(vcov(msm_rel_mob_smoking30)))
+
+    msm_gini_smoking30 = svyglm(smoking_30 ~ z_gini_exposure +
+                                   male + ethnicity + max_age_interview_est +
+                                   parent_education + asvab_score + mother_age_at_birth +
+                                   residential_moves_by_12,
+                                   design = svy_design_gini,
+                                   family = poisson
+                                   )
+
+    gini_coeff_smoking30 = c(gini_coeff_smoking30, list(coefficients(msm_gini_smoking30)))
+    gini_vcov_smoking30 = c(gini_vcov_smoking30, list(vcov(msm_gini_smoking30)))
 
 }
 
-rel_mob_results_bmi =  MIcombine(rel_mob_coeff_bmi, rel_mob_vcov_bmi)
+outputs = c("bmi", "depression", "health", "smoking", "smoking30")
+type = c("rel_mob", "gini")
 
-rel_mob_results_depression =  MIcombine(rel_mob_coeff_depression, rel_mob_vcov_depression)
-rel_mob_results_health =  MIcombine(rel_mob_coeff_health, rel_mob_vcov_health)
-rel_mob_results_smoking =  MIcombine(rel_mob_coeff_smoking, rel_mob_vcov_smoking)
-rel_mob_results_smoking30 =  MIcombine(rel_mob_coeff_smoking30, rel_mob_vcov_smoking30)
+for (i in outputs) {
+    for (h in type) {
+        assign(paste0(h, "_results_", i),
+               MIcombine(get(paste0(h, "_coeff_", i)), get(paste0(h, "_vcov_", i)))
+               )
+    }
+}
 
 rel_mob_results_bmi
-rel_mob_results_depression
-rel_mob_results_health
-rel_mob_results_smoking
-rel_mob_results_smoking30
+rel_mob_results_bmi
+
+# create table
+
+library(texreg)
+library(nlme)  #load library for fitting linear mixed effects models
+model <- lme(distance ~ age, data = Orthodont, random = ~ 1)  #estimate model
+coefficient.names <- rownames(summary(model)$tTable)  #extract coefficient names
+coefficients <- summary(model)$tTable[, 1]  #extract coefficient values
+standard.errors <- summary(model)$tTable[, 2]  #extract standard errors
+significance <- summary(model)$tTable[, 5]  #extract p values
+
+lik <- summary(model)$logLik  #extract log likelihood
+aic <- summary(model)$AIC  #extract AIC
+bic <- summary(model)$BIC  #extract BIC
+n <- nobs(model)  #extract number of observations
+gof <- c(aic, bic, lik, n)  #create a vector of GOF statistics
+gof.names <- c("AIC", "BIC", "Log Likelihood", "Num. obs.")  #names of GOFs
+decimal.places <- c(TRUE, TRUE, TRUE, FALSE)  #the last one is a count variable
+
+#create the texreg object
+tr <- createTexreg(
+  coef.names = coefficient.names,
+  coef = coefficients,
+  se = standard.errors,
+  pvalues = significance,
+  gof.names = gof.names,
+  gof = gof,
+  gof.decimal = decimal.places
+)
+
+

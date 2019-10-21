@@ -79,8 +79,9 @@ createQuantiles = function(x, groups = 5) {
     return(output)
 }
 
+
 reverseScale = function(x) {
-    max_x = get_max(x)
+    max_x = getMax(x)
     return( (max_x - x) + 1 )
 }
 
@@ -103,3 +104,10 @@ hashHHColumns = function(myhash, years, newheader) {
     }
     return(hash(old_names, new_names))
 }
+
+getCoefficients = function(micombine, position = 2, coeff = TRUE) {
+    if (coeff) {
+        return ( summary(micombine)$results[position])
+    } else { return ( summary(micombine)$se[position]) }
+}
+

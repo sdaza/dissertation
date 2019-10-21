@@ -15,8 +15,6 @@ library(hash)
 library(mice)
 library(lubridate)
 library(ipw)
-library(modelr)
-
 
 source("ch03/src/utils.R")
 
@@ -402,8 +400,13 @@ ldat = cpi[ldat]
 
 ldat[income %in% c(-1, -2, -3, -4, -5), income := NA]
 ldat[, income_adj := ifelse(cpi_year <= 2013, income * cpi, income / cpi)]
-ldat[!is.na(income_adj), log_income_adj := scale(ifelse(income_adj < 1, log(1), log(income_adj)), scale = FALSE)]
+ldat[income_adj > 0, log_income_adj := log(income_adj)]
+ldat[income_adj == 0, log_income_adj := log(1)]
+ldat[, log_income_adj := scale(log_income_adj)]
+
 # summary(ldat[is.na(log_income_adj), .(income_adj, log_income_adj)])
+
+tt = log(ldat[income_adj > 0, income_adj])
 
 # compute exposure time
 setorder(ldat, id, time)
@@ -543,15 +546,16 @@ ids = unique(ldat$id)
 ldat[id == sample(id, 1), .(id, age_interview_est, year, weight, height_feet, height_inches)]
 ldat[, bmi := 703 * weight / (height_inches + height_feet * 12) ^ 2]
 summary(ldat[year == 2015, bmi])
-ldat[bmi < 10 | bmi > 35, bmi := NA]
+# ldat[bmi < 10 | bmi > 35, bmi := NA]
 # hist(ldat$bmi)
 
-ldat[, age_interview_est2 := age_interview_est ^ 2]
+ldat[, max_age_interview_est := getMax(age_interview_est), id]
+# ldat[, age_interview_est := factor(age_interview_est)]
+ldat[, max_age_intervew_est := factor(max_age_interview_est)]
 
  # multiple imputation
-ldat[, max_age_interview_est := getMax(age_interview_est), id]
 mm = ldat[, .(id, year, exposure_time, male, ethnicity, max_age_interview_est,
-              age_interview_est, age_interview_est2, hhsize,
+              age_interview_est, hhsize,
               z_relative_mob, z_absolute_mob, z_gini,
               relative_mob_resid, absolute_mob_resid, gini_resid,
               q_relative_mob, q_absolute_mob, q_gini,
@@ -567,13 +571,11 @@ mm = ldat[, .(id, year, exposure_time, male, ethnicity, max_age_interview_est,
 
 # center variables
 center_vars = c("hhsize", "asvab_score", "parent_education",
-                "mother_age_at_birth", "residential_moves_by_12",
-                 "age_interview_est", "age_interview_est2")
+                "mother_age_at_birth", "residential_moves_by_12")
 mm[, (center_vars) := lapply(.SD, scale), .SDcol = center_vars]
 
-center_vars = c("bmi", "depression",  "smoking_30")
+center_vars = c("bmi", "depression", "age_interview_est")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
-
 mm[, health := as.factor(health)]
 
 # independent variable z_relative_mob and z_gini
@@ -631,7 +633,6 @@ predictors = hash(
      "male" = 1,
      "ethnicity" = 1,
      "age_interview_est" = 1,
-     "age_interview_est2" = 1,
      "z_relative_mob" = 1,
      "z_absolute_mob" = 0,
      "z_gini" = 1,
@@ -658,8 +659,8 @@ predictors = hash(
      "health" = 1,
      "bmi" = 1,
      "depression" = 1,
-     "smoking_ever" = 0,
-     "smoking_30" = 1
+     "smoking_ever" = 1,
+     "smoking_30" = 0
     )
 
 pred["hhsize", keys(predictors)] = values(predictors)
@@ -672,10 +673,14 @@ pred["log_income_adj", keys(predictors)] = values(predictors)
 pred["imp_living_any_parent", keys(predictors)] = values(predictors)
 pred["imp_parent_employed", keys(predictors)] = values(predictors)
 pred["imp_parent_married", keys(predictors)] = values(predictors)
+
+predictors['age_interview_est'] = 0
 pred["parent_education", keys(predictors)] = values(predictors)
 pred["mother_age_at_birth", keys(predictors)] = values(predictors)
 pred["residential_moves_by_12", keys(predictors)] = values(predictors)
 pred["asvab_score", keys(predictors)] = values(predictors)
+
+predictors['age_interview_est'] = 1
 pred["health", keys(predictors)] = values(predictors)
 pred["depression", keys(predictors)] = values(predictors)
 pred["bmi", keys(predictors)] = values(predictors)
@@ -697,24 +702,31 @@ pred["log_population",]
 
 # run imputation
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-           m = 5, maxit = 5)
+           m = 10, maxit = 10, seed = 123)
 
 # explore imputation
 # # head(imp$loggedEvent)
 
 # # explore quality of imputations
-# plot(imp, c("bmi", "health"))
-# plot(imp, c("depression", "smoking_30", "smoking_ever"))
-# plot(imp, c("z_relative_mob", "z_absolute_mob", "z_gini"))
-# plot(imp, c("hhsize", "log_income_adj"))
-# plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed"))
-# plot(imp, c("parent_education", "mother_age_at_birth"))
-# plot(imp, c("asvab_score", "residential_moves_by_12"))
+savepdf("ch03/output/imp_iterations")
+plot(imp, c("bmi", "health"))
+plot(imp, c("depression", "smoking_30", "smoking_ever"))
+plot(imp, c("z_relative_mob", "z_gini"))
+plot(imp, c("hhsize", "log_income_adj"))
+plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed"))
+plot(imp, c("parent_education", "mother_age_at_birth", "log_population"))
+plot(imp, c("asvab_score", "residential_moves_by_12", "log_county_income"))
+dev.off()
 
-# densityplot(imp, ~ bmi + health + depression + smoking_30)
-# densityplot(imp, ~ hhsize + log_income_adj)
-# densityplot(imp, ~ z_absolute_mob + z_relative_mob + z_gini)
-# densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12)
+savepdf("ch03/output/imp_values")
+densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever)
+densityplot(imp, ~ health)
+densityplot(imp, ~ hhsize + log_income_adj)
+densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed)
+densityplot(imp, ~ z_relative_mob + z_gini)
+densityplot(imp, ~ log_population + log_county_income)
+densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12)
+dev.off()
 
 # # save results of imputation
-# saveRDS(imp, "ch03/output/data/nlsy97_imputation_individual.rds")
+saveRDS(imp, "ch03/output/data/nlsy97_imputation_individual.rds")
