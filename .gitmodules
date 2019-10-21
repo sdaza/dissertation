@@ -1,6 +1,0 @@
-[submodule "ch02/manuscript"]
-	path = ch02/manuscript
-	url = https://git.overleaf.com/5908aa5d4ebb05ab65cad1be
-[submodule "ch01/manuscript"]
-	path = ch01/manuscript
-	url = https://git.overleaf.com/5abbaefd27e6e377749dc48c
