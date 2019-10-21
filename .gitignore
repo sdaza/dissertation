@@ -3,11 +3,9 @@
 pardiso.lic
 
 # chapter 1
-/ch01/manuscript
 
 # chapter 2
 /ch02/data/mortality/
-/ch02/manuscript
 /ch02/data/population/
 /ch02/output/*.rds
 /ch02/notebooks
@@ -20,7 +18,6 @@ ch03/output/data/*.rd
 ch03/output/data/*.rds
 
 # chapter 4
-/ch04/manuscript
 
 # related projects
 related_projects/.DS_Store
