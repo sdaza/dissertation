@@ -3,10 +3,8 @@
 pardiso.lic
 
 # chapter 2
-/ch02/
-/ch02/manuscript/
-/ch02/data/mortatity
-/ch02/data/population
+/ch02/data/mortality/
+/ch02/data/population/
 /ch02/output/*.rds
 /ch02/notebooks
 /ch02/inla

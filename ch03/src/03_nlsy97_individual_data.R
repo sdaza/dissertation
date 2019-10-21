@@ -448,6 +448,7 @@ renameColumns(county, county_vars)
 county[, log_county_income := scale(log(county_income))]
 county[, log_population := scale(log(population))]
 
+
 vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
 
@@ -480,6 +481,8 @@ county = county[, .(cty, statename, county_name,
                     absolute_mob, z_absolute_mob, absolute_mob_resid, q_absolute_mob, q_absolute_mob_resid,
                     log_county_income, log_population
                     )]
+
+county = county[!is.na(relative_mob)]
 
 setnames(county, "cty", "imp_fips")
 dim(ldat)
@@ -584,7 +587,12 @@ pred = ini$pred
 meth = ini$meth
 pred[,] = 0
 
-# fluxplot(mm)
+mm[, max_relative_mob := getMax(z_relative_mob), id]
+dim(mm)
+ids_remove = unique(mm[is.na(max_relative_mob), id])
+length(ids_remove)
+
+fluxplot(mm)
 # # fx = fluxplot(mm)
 
 # set up methods and prediction matrix
@@ -709,23 +717,23 @@ imp = mice::mice(mm, predictorMatrix = pred, method = meth,
 
 # # explore quality of imputations
 savepdf("ch03/output/imp_iterations")
-plot(imp, c("bmi", "health"))
-plot(imp, c("depression", "smoking_30", "smoking_ever"))
-plot(imp, c("z_relative_mob", "z_gini"))
-plot(imp, c("hhsize", "log_income_adj"))
-plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed"))
-plot(imp, c("parent_education", "mother_age_at_birth", "log_population"))
-plot(imp, c("asvab_score", "residential_moves_by_12", "log_county_income"))
+print(plot(imp, c("bmi", "health")))
+print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
+print(plot(imp, c("z_relative_mob", "z_gini")))
+print(plot(imp, c("hhsize", "log_income_adj")))
+print(plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
+print(plot(imp, c("parent_education", "mother_age_at_birth", "log_population")))
+print(plot(imp, c("asvab_score", "residential_moves_by_12", "log_county_income")))
 dev.off()
 
 savepdf("ch03/output/imp_values")
-densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever)
-densityplot(imp, ~ health)
-densityplot(imp, ~ hhsize + log_income_adj)
-densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed)
-densityplot(imp, ~ z_relative_mob + z_gini)
-densityplot(imp, ~ log_population + log_county_income)
-densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12)
+print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
+print(densityplot(imp, ~ health))
+print(densityplot(imp, ~ hhsize + log_income_adj))
+print(densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
+print(densityplot(imp, ~ z_relative_mob + z_gini))
+print(densityplot(imp, ~ log_population + log_county_income))
+print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
 dev.off()
 
 # # save results of imputation

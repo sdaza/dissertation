@@ -107,7 +107,8 @@ hashHHColumns = function(myhash, years, newheader) {
 
 getCoefficients = function(micombine, position = 2, coeff = TRUE) {
     if (coeff) {
-        return ( summary(micombine)$results[position])
+        v = summary(micombine)$results[position]
+        names(v)
     } else { return ( summary(micombine)$se[position]) }
 }
 
