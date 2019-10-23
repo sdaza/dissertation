@@ -1,0 +1,221 @@
+\documentclass[12pt]{report}
+% \usepackage[utf8x]{inputenc}
+\usepackage[subpreambles=false]{standalone}
+\usepackage{import}
+
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+% \usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage[authoryear, sectionbib]{natbib}
+% \usepackage[style=authoryear,backend=biber]{biblatex}
+% \usepackage{bibunits}
+\usepackage{natbib}
+\usepackage{tagging}
+\usepackage{enumerate}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+% \usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{lipsum}
+\usepackage{dcolumn}
+\usepackage{rotating}
+\usepackage{supertabular}
+\usepackage{graphicx}
+\usepackage{ltablex}
+\usepackage{setspace}
+\usepackage{enumitem,kantlipsum}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage[blocks]{authblk}% The option is for block layout
+\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+\usepackage[stable]{footmisc}
+\usepackage{subfiles}
+
+\newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
+
+% \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+
+% \usepackage[capposition=top]{floatrow} % Notes for figures
+% \usepackage[textsize=tiny]{todonotes}
+
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+% caption format
+\usepackage{varwidth}
+\DeclareCaptionFormat{myformat}{%
+  % #1: label (e.g. "Table 1")
+  % #2: separator (e.g. ": ")
+  % #3: caption text
+  \begin{varwidth}{\linewidth}%
+    \centering
+    #1#2#3%
+  \end{varwidth}%
+}
+
+\captionsetup{format=myformat}% global activation
+
+% more on captions
+\setlength{\abovecaptionskip}{5pt}   % 0.5cm as an example
+\setlength{\belowcaptionskip}{5pt}   % 0.5cm as an example
+% \setlength\parskip{11pt}
+%\renewcommand{\sfdefault}{lmss}
+%\renewcommand{\ttdefault}{lmtt}
+
+% citation style
+\setcitestyle{aysep={}}
+
+% tables
+\setlength{\tabcolsep}{1pt}
+\setlength{\defaultaddspace}{.60ex} % space between numbers
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% siunitx
+
+\usepackage{siunitx} % centering in tables
+    \sisetup{
+        detect-mode,
+        tight-spacing        = true,
+        group-digits        = false ,
+        input-signs        = ,
+        input-symbols        = ( ) [ ] - + *,
+        input-open-uncertainty    = ,
+        input-close-uncertainty    = ,
+        table-align-text-post    = false
+        }
+
+% margins
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\footskip}{.7in}
+\setlength\parskip{11pt}
+
+
+% Alter some LaTeX defaults for better treatment of figures:
+\renewcommand{\topfraction}{0.9}  % max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}  % max fraction of floats at bottom
+
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pag es
+\renewcommand{\dbltopfraction}{0.9}    % fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}    % allow minimal text w. figs
+
+\renewcommand{\floatpagefraction}{0.7}    % require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}    % require fuller float pages
+% remember to use [htp] or [htpb] for placement
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\bfseries}
+{\filright
+\LARGE
+\enspace Chapter \thechapter\enspace}
+{100pt}
+{\Large\bfseries\filright}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\itshape}
+% \titleformat*{\paragraph}{\large\bfseries}
+% \titleformat*{\subparagraph}{\large\bfseries}
+
+
+\renewcommand\bibname{\Large{References}}
+
+% tables
+\setlength{\tabcolsep}{10pt}
+\setlength{\defaultaddspace}{.60ex} % space between numbers
+\captionsetup{belowskip=12pt,aboveskip=8pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% start document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% \defaultbibliography{ref}
+% \defaultbibliographystyle{apa}
+
+%TC:ignore
+
+\thispagestyle{empty}
+
+\renewcommand{\baselinestretch}{1}
+
+\vspace*{110pt}
+
+\begin{center}
+\LARGE \textbf{Income Mobility, Mortality and Health} \\
+\bigskip
+
+% \section
+
+\end{center}
+
+\begin{center}
+\normalsize
+Sebastian Daza \\
+\textit{Center for Demography and Ecology \\University of Wisconsin-Madison}\\
+\url{sdaza@ssc.wisc.edu}\\
+\bigskip
+\bigskip
+% dissertation page later
+\today \\
+\bigskip
+\bigskip
+\end{center}
+
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+\tableofcontents
+\listoftables
+\listoffigures
+
+% dedication and acknowledge pages later
+\newpage
+
+% \renewcommand\Authands{ and }
+% \thanks{Incomplete draft. Please do not cite.}
+
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% chapters
+
+\newpage
+
+\import{ch01/manuscript/}{manuscript}
+% \import{manuscript/ch01.tex}
+
+%TC:ignore
+
+\clearpage
+\singlespacing
+\setlength\parskip{11pt}
+\bibliographystyle{apa}
+
+%TC:endignore
+
+\end{document}
