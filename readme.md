@@ -9,14 +9,18 @@ To ground this argument, I use two strategies. First, I analyze aggregate and in
 
 ###  Work in progress
 
-#### Aggregate Analysis
+#### Aggregate analysis
 
 - [Income Mobility, Income Inequality and Mortality in the U.S. (preprint)](https://osf.io/preprints/socarxiv/gdz2a)
 - [Code](ch02)
 
-### Agent-based simulation
+#### Individual analysis
 
-- [Segregation Mechanism](ch04/notebooks/segregation.ipynb)
+- [Code](ch03)
+
+#### Agent-based model
+
+- [Code](ch04)
 
 <!-- ### Related projects
 
