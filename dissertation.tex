@@ -1,19 +1,14 @@
 \documentclass[12pt]{report}
-% \usepackage[utf8x]{inputenc}
-\usepackage[subpreambles=false]{standalone}
+
+\usepackage{standalone}
 \usepackage{import}
 
-\usepackage[T1]{fontenc}
 \usepackage{mathptmx}
 \usepackage{amsmath}
-% \usepackage[fleqn]{amsmath}
 \usepackage{amssymb}
 \usepackage{multirow}
 \usepackage{hyperref}
-\usepackage[authoryear, sectionbib]{natbib}
-% \usepackage[style=authoryear,backend=biber]{biblatex}
-% \usepackage{bibunits}
-\usepackage{natbib}
+
 \usepackage{tagging}
 \usepackage{enumerate}
 \usepackage{longtable}
@@ -22,7 +17,6 @@
 \usepackage{geometry}
 \usepackage{booktabs}
 \usepackage{tabularx}
-% \usepackage{lscape}
 \usepackage{pdflscape}
 \usepackage{lipsum}
 \usepackage{dcolumn}
@@ -35,9 +29,10 @@
 \usepackage{float}
 \usepackage{csquotes}
 \usepackage[blocks]{authblk}% The option is for block layout
-\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+\usepackage{atbegshi} % http://ctan.org/pkg/atbegshi
 \usepackage[stable]{footmisc}
-\usepackage{subfiles}
+
+\usepackage[authoryear, sectionbib]{natbib}
 
 \newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
 
@@ -138,23 +133,18 @@
 % \titleformat*{\paragraph}{\large\bfseries}
 % \titleformat*{\subparagraph}{\large\bfseries}
 
-
-\renewcommand\bibname{\Large{References}}
+% \renewcommand\bibname{\Large{References}}
 
 % tables
 \setlength{\tabcolsep}{10pt}
 \setlength{\defaultaddspace}{.60ex} % space between numbers
 \captionsetup{belowskip=12pt,aboveskip=8pt}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % start document
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-
-% \defaultbibliography{ref}
-% \defaultbibliographystyle{apa}
 
 %TC:ignore
 
@@ -165,7 +155,7 @@
 \vspace*{110pt}
 
 \begin{center}
-\LARGE \textbf{Income Mobility, Mortality and Health} \\
+\LARGE \textbf{Income Mobility, Mortality and Health in the US} \\
 \bigskip
 
 % \section
@@ -207,14 +197,19 @@ Sebastian Daza \\
 \newpage
 
 \import{ch01/manuscript/}{manuscript}
-% \import{manuscript/ch01.tex}
+\import{ch02/manuscript/}{manuscript}
+\import{ch03/manuscript/}{manuscript}
+\import{ch04/manuscript/}{manuscript}
+% \import{ch02/manuscript/}{manuscript}
 
 %TC:ignore
 
 \clearpage
 \singlespacing
-\setlength\parskip{11pt}
+\setlength\parskip{12pt}
+
 \bibliographystyle{apa}
+\bibliography{ref}
 
 %TC:endignore
 

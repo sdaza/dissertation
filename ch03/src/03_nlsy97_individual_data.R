@@ -15,6 +15,7 @@ library(hash)
 library(mice)
 library(lubridate)
 library(ipw)
+library(modelr)
 
 source("ch03/src/utils.R")
 
@@ -482,7 +483,8 @@ county = county[, .(cty, statename, county_name,
                     log_county_income, log_population
                     )]
 
-county = county[!is.na(relative_mob)]
+# remove cases with missing data
+# county = county[!is.na(relative_mob)]
 
 setnames(county, "cty", "imp_fips")
 dim(ldat)
@@ -549,7 +551,8 @@ ids = unique(ldat$id)
 ldat[id == sample(id, 1), .(id, age_interview_est, year, weight, height_feet, height_inches)]
 ldat[, bmi := 703 * weight / (height_inches + height_feet * 12) ^ 2]
 summary(ldat[year == 2015, bmi])
-# ldat[bmi < 10 | bmi > 35, bmi := NA]
+ldat[bmi > 40, bmi := 40]
+ldat[bmi < 15, bmi := 15]
 # hist(ldat$bmi)
 
 ldat[, max_age_interview_est := getMax(age_interview_est), id]
@@ -577,20 +580,16 @@ center_vars = c("hhsize", "asvab_score", "parent_education",
                 "mother_age_at_birth", "residential_moves_by_12")
 mm[, (center_vars) := lapply(.SD, scale), .SDcol = center_vars]
 
-center_vars = c("bmi", "depression", "age_interview_est")
+center_vars = c("bmi", "depression")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
 mm[, health := as.factor(health)]
+mm[, age_interview_est := as.factor(age_interview_est)]
 
 # independent variable z_relative_mob and z_gini
 ini = mice(mm, maxit = 0)
 pred = ini$pred
 meth = ini$meth
 pred[,] = 0
-
-mm[, max_relative_mob := getMax(z_relative_mob), id]
-dim(mm)
-ids_remove = unique(mm[is.na(max_relative_mob), id])
-length(ids_remove)
 
 fluxplot(mm)
 # # fx = fluxplot(mm)
@@ -629,7 +628,7 @@ methods = hash(
                )
 
 meth[keys(methods)] = values(methods)
-# meth
+meth
 
 # check the structure is fine
 # str(mm)
@@ -710,10 +709,13 @@ pred["log_population",]
 
 # run imputation
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-           m = 10, maxit = 10, seed = 123)
+           m = 5, maxit = 10, seed = 123)
 
 # explore imputation
 # # head(imp$loggedEvent)
+
+# # read RDS file
+imp = readRDS("ch03/output/data/nlsy97_imputation_individual.rds")
 
 # # explore quality of imputations
 savepdf("ch03/output/imp_iterations")
