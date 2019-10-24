@@ -33,7 +33,7 @@
 \usepackage[stable]{footmisc}
 
 \usepackage[authoryear, sectionbib]{natbib}
-
+\bibliographystyle{apa}
 \newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
 
 % \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
@@ -100,7 +100,7 @@
 \setlength\oddsidemargin{0in}
 \setlength\evensidemargin{0in}
 \setlength{\footskip}{.7in}
-\setlength\parskip{11pt}
+\setlength\parskip{12pt}
 
 
 % Alter some LaTeX defaults for better treatment of figures:
@@ -123,7 +123,8 @@
 {\normalfont\bfseries}
 {\filright
 \LARGE
-\enspace Chapter \thechapter\enspace}
+% \enspace
+Chapter \thechapter\enspace}
 {100pt}
 {\Large\bfseries\filright}
 
@@ -196,11 +197,12 @@ Sebastian Daza \\
 
 \newpage
 
+\import{ch00/manuscript/}{manuscript}
 \import{ch01/manuscript/}{manuscript}
 \import{ch02/manuscript/}{manuscript}
 \import{ch03/manuscript/}{manuscript}
 \import{ch04/manuscript/}{manuscript}
-% \import{ch02/manuscript/}{manuscript}
+\import{ch05/manuscript/}{manuscript}
 
 %TC:ignore
 
@@ -208,7 +210,6 @@ Sebastian Daza \\
 \singlespacing
 \setlength\parskip{12pt}
 
-\bibliographystyle{apa}
 \bibliography{ref}
 
 %TC:endignore
