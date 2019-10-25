@@ -32,6 +32,13 @@
 \usepackage{atbegshi} % http://ctan.org/pkg/atbegshi
 \usepackage[stable]{footmisc}
 
+\usepackage{tocloft}
+% \setlength{\cftbeforesecskip}{6pt}
+\renewcommand\cftchapafterpnum{\vskip10pt}
+\renewcommand\cftsecafterpnum{\vskip10pt}
+\setlength{\cftbeforesecskip}{6pt}
+% \setlength{\cftbeforesecskip}{6pt}
+
 \usepackage[authoryear, sectionbib]{natbib}
 \bibliographystyle{apa}
 \newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
@@ -153,11 +160,11 @@ Chapter \thechapter\enspace}
 
 \renewcommand{\baselinestretch}{1}
 
-\vspace*{110pt}
+\vspace*{60pt}
 
 \begin{center}
 \LARGE \textbf{Income Mobility, Mortality and Health in the US} \\
-\bigskip
+\vspace*{24pt}
 
 % \section
 
@@ -165,22 +172,47 @@ Chapter \thechapter\enspace}
 
 \begin{center}
 \normalsize
+by \\
+\vspace*{12pt}
 Sebastian Daza \\
 \textit{Center for Demography and Ecology \\University of Wisconsin-Madison}\\
 \url{sdaza@ssc.wisc.edu}\\
-\bigskip
-\bigskip
-% dissertation page later
-\today \\
-\bigskip
-\bigskip
+\vspace*{40pt}
+A dissertation submitted in partial fulfillment of \\
+the requirements for the degree of\\
+\vspace{12pt}
+\textit{Doctor of Philosophy (Sociology)} \\
+\vspace{12pt}
+at the \\
+\vspace{12pt}
+UNIVERSITY OF WISCONSIN‐MADISON \\
+\vspace{12pt}
+2019
 \end{center}
 
-\newpage
+\vspace{60pt}
+\noindent Date of final oral examination: 01/01/2020\\
+\\
+\noindent The dissertation is approved by the following members of the Final Oral Committee:\\
+\\
+\noindent Jenna Nobles, Romnes Professor, Sociology \\
+\noindent Alberto Palloni, Samuel Preston Professor (Emeritus), Sociology\\
+\noindent Christine Schwartz, Achievement Professor, Sociology\\
+\noindent Michal Engelman, Associate Professor, Sociology
+
 \pagenumbering{roman}
 \setcounter{page}{1}
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+ Thanks Mum!
+\end{abstract}
+
+\newpage
 \tableofcontents
+\newpage
 \listoftables
+\newpage
 \listoffigures
 
 % dedication and acknowledge pages later
