@@ -551,8 +551,10 @@ ids = unique(ldat$id)
 ldat[id == sample(id, 1), .(id, age_interview_est, year, weight, height_feet, height_inches)]
 ldat[, bmi := 703 * weight / (height_inches + height_feet * 12) ^ 2]
 summary(ldat[year == 2015, bmi])
+
 ldat[bmi > 40, bmi := 40]
 ldat[bmi < 15, bmi := 15]
+
 # hist(ldat$bmi)
 
 ldat[, max_age_interview_est := getMax(age_interview_est), id]
@@ -713,9 +715,6 @@ imp = mice::mice(mm, predictorMatrix = pred, method = meth,
 
 # explore imputation
 # # head(imp$loggedEvent)
-
-# # read RDS file
-imp = readRDS("ch03/output/data/nlsy97_imputation_individual.rds")
 
 # # explore quality of imputations
 savepdf("ch03/output/imp_iterations")
