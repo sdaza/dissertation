@@ -1083,12 +1083,7 @@ return values[randomIndex];
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[int nagents = 0;
-for (County c : counties) {
-	nagents = nagents + c.people.size();
-}
-
-return nagents;]]></Body>
+					<Body><![CDATA[return (int) sum(counties, c -> c.people.size());]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
