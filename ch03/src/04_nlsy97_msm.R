@@ -53,10 +53,10 @@ for (i in 1:imp$m) {
         .SDcol = paste0("lag_", lag_vars)]
 
     # exposure variables
-    dat[age_interview_est <= 20, total_exposure_time := sum(exposure_time), id]
-    dat[age_interview_est <= 20,
+    dat[as.numeric(age_interview_est) <= 20, total_exposure_time := sum(exposure_time), id]
+    dat[as.numeric(age_interview_est) <= 20,
         z_relative_mob_exposure := sum(z_relative_mob * exposure_time) / sum(exposure_time), id]
-    dat[age_interview_est <= 20,
+    dat[as.numeric(age_interview_est) <= 20,
         z_gini_exposure := sum(z_gini * exposure_time) / sum(exposure_time), id]
 
     dat[, z_relative_mob_exposure := getMax(z_relative_mob_exposure), id]
@@ -66,7 +66,7 @@ for (i in 1:imp$m) {
     dat[, lag_health := factor(lag_health)]
 
     last_wave = dat[year == 2015]
-    dat = dat[age_interview_est <= 20]
+    dat = dat[as.numeric(age_interview_est) <= 20]
 
     dat[, time := 1:.N, id]
     dat[, cyear := year - mean(year)]
@@ -289,5 +289,5 @@ texreg(
     custom.coef.map = cnames,
     # groups = list("Random Effects" = c(4:9)),
     custom.note = "Note: Each row represents a model. ",
-    file = "ch03/output/nlsy97_exposure_models.tex"
+    file = "ch03/manuscript/tables/summary_relative_mob_nlsy97.tex"
 )

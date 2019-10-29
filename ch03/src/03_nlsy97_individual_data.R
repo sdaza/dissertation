@@ -16,6 +16,7 @@ library(mice)
 library(lubridate)
 library(ipw)
 library(modelr)
+library(readxl)
 
 source("ch03/src/utils.R")
 
@@ -435,11 +436,36 @@ ldat[, imp_fips := impute_locf(fips), id]
 
 # get county information
 county = data.table(haven::read_dta("ch02/data/cty_full_covariates.dta"))
+core = data.table(haven::read_dta("ch03/data/income_mob_measures.dta"))
+gini = data.table(read_excel("ch03/data/gini_census.xls", sheet = 2, skip = 2))
+
+setnames(gini,
+         c('StateCounty', 'GINI', 'MEAN...11'),
+         c('fips', 'gini_census', 'income_average')
+         )
+
+gini = gini[, fips := as.numeric(fips)][, .(fips, gini_census, income_average)]
+
+setnames(core, c('county_id', 'gini', 's_rank_8082', 'e_rank_b'),
+               c('fips', 'gini_core', 's_rank_core', 'e_rank_b_core'))
+
+core = core[, .(fips, gini_core, s_rank_core, e_rank_b_core)]
+
+setnames(county, 'cty', 'fips')
+county = merge(county, core, by = "fips", all.x = TRUE)
+county = merge(county, gini, by = "fips", all.x = TRUE)
+
+# countmis(county)
+
+# selection of key variables
+county = county[, .(fips, statename, county_name, gini_census,
+                    s_rank, e_rank_b,
+                    hhinc00, cty_pop2000)]
 
 county_vars = hash(
     "s_rank" = "relative_mob",
     "e_rank_b" = "absolute_mob",
-    "gini99"  = "gini",
+    "gini_census"  = "gini",
     "hhinc00" = "county_income",
     "cty_pop2000" = "population"
 )
@@ -448,7 +474,6 @@ renameColumns(county, county_vars)
 
 county[, log_county_income := scale(log(county_income))]
 county[, log_population := scale(log(population))]
-
 
 vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
@@ -476,25 +501,26 @@ county[, (paste0("q_", vars)) := lapply(.SD, createQuantiles), .SDcol = vars]
 county[, mean(relative_mob, na.rm = TRUE), q_relative_mob]
 county[, mean(absolute_mob, na.rm = TRUE), q_absolute_mob]
 
-county = county[, .(cty, statename, county_name,
+county = county[, .(fips, statename, county_name,
                     gini, z_gini, gini_resid, q_gini, q_gini_resid,
                     relative_mob, z_relative_mob, relative_mob_resid, q_relative_mob, q_relative_mob_resid,
                     absolute_mob, z_absolute_mob, absolute_mob_resid, q_absolute_mob, q_absolute_mob_resid,
                     log_county_income, log_population
                     )]
 
-# remove cases with missing data
-county = county[!is.na(relative_mob)]
-
-setnames(county, "cty", "imp_fips")
-dim(ldat)
-
+setnames(county, "fips", "imp_fips")
 ldat = merge(ldat, county, by = "imp_fips", all.x = TRUE)
-dim(ldat)
 
-remove_ids = unique(ldat[is.na(z_relative_mob), id])
+
 # 75 cases
-length(remove_ids)
+remove_ids = unique(ldat[is.na(z_relative_mob) | is.na(z_gini), id])
+
+print(
+      paste0(
+             "Number of respondents without mob or gini info: ",
+             length(remove_ids)
+             )
+)
 
 ldat = ldat[!(id %in% remove_ids)]
 
@@ -602,7 +628,7 @@ meth = ini$meth
 pred[,] = 0
 
 fluxplot(mm)
-# # fx = fluxplot(mm)
+# fx = fluxplot(mm)
 
 # set up methods and prediction matrix
 
@@ -638,13 +664,11 @@ methods = hash(
                )
 
 meth[keys(methods)] = values(methods)
-meth
 
 # check the structure is fine
 # str(mm)
 
 # predictors
-
 predictors = hash(
      "id" = -2,
      "male" = 1,
@@ -710,12 +734,14 @@ pred["smoking_30", keys(predictors)] = values(predictors)
 # set diagonal of matrix to 0
 diag(pred) = 0
 
+countmis(mm)
 # explore
 pred["health",]
 pred["smoking_30",]
 pred["bmi",]
 pred["z_relative_mob",]
 pred["log_population",]
+pred["asvab_score",]
 
 # run imputation
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
@@ -726,11 +752,11 @@ imp = mice::mice(mm, predictorMatrix = pred, method = meth,
 savepdf("ch03/output/imp_iterations")
 print(plot(imp, c("bmi", "health")))
 print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
-print(plot(imp, c("z_relative_mob", "z_gini")))
+# print(plot(imp, c("z_relative_mob", "z_gini")))
 print(plot(imp, c("hhsize", "log_income_adj")))
 print(plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
-print(plot(imp, c("parent_education", "mother_age_at_birth", "log_population")))
-print(plot(imp, c("asvab_score", "residential_moves_by_12", "log_county_income")))
+print(plot(imp, c("parent_education", "mother_age_at_birth")))
+print(plot(imp, c("asvab_score", "residential_moves_by_12")))
 dev.off()
 
 savepdf("ch03/output/imp_values")
@@ -738,13 +764,11 @@ print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
 print(densityplot(imp, ~ health))
 print(densityplot(imp, ~ hhsize + log_income_adj))
 print(densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
-print(densityplot(imp, ~ z_relative_mob + z_gini))
-print(densityplot(imp, ~ log_population + log_county_income))
+# print(densityplot(imp, ~ z_relative_mob + z_gini))
+# print(densityplot(imp, ~ log_population + log_county_income))
 print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
 dev.off()
 
-bwplot(imp, z_gini)
-bwplot(imp, bmi)
 
 # save results of imputation
 saveRDS(imp, "ch03/output/data/nlsy97_imputation_individual.rds")
