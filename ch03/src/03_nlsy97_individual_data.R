@@ -484,12 +484,19 @@ county = county[, .(cty, statename, county_name,
                     )]
 
 # remove cases with missing data
-# county = county[!is.na(relative_mob)]
+county = county[!is.na(relative_mob)]
 
 setnames(county, "cty", "imp_fips")
 dim(ldat)
+
 ldat = merge(ldat, county, by = "imp_fips", all.x = TRUE)
 dim(ldat)
+
+remove_ids = unique(ldat[is.na(z_relative_mob), id])
+# 75 cases
+length(remove_ids)
+
+ldat = ldat[!(id %in% remove_ids)]
 
 # education parent (max value)
 ldat[, parent_education := pmax(ifelse(father_highest_grade == 95,
@@ -562,7 +569,7 @@ ldat[, max_age_interview_est := getMax(age_interview_est), id]
 ldat[, max_age_intervew_est := factor(max_age_interview_est)]
 
  # multiple imputation
-mm = ldat[, .(id, year, exposure_time, male, ethnicity, max_age_interview_est,
+mm = ldat[, .(id, imp_fips, year, exposure_time, male, ethnicity, max_age_interview_est,
               age_interview_est, hhsize,
               z_relative_mob, z_absolute_mob, z_gini,
               relative_mob_resid, absolute_mob_resid, gini_resid,
@@ -589,6 +596,7 @@ mm[, age_interview_est := as.factor(age_interview_est)]
 
 # independent variable z_relative_mob and z_gini
 ini = mice(mm, maxit = 0)
+head(ini$loggedEvent)
 pred = ini$pred
 meth = ini$meth
 pred[,] = 0
@@ -600,9 +608,9 @@ fluxplot(mm)
 
 methods = hash(
                "hhsize" = "2l.pmm",
-               "z_relative_mob" = "2l.pmm",
+               "z_relative_mob" = "",
                "z_absolute_mob" = "",
-               "z_gini" = "2l.pmm",
+               "z_gini" = "",
                "relative_mob_resid" = "",
                "absolute_mob_resid" = "",
                "gini_resid" = "",
@@ -612,8 +620,8 @@ methods = hash(
                "q_relative_mob" = "",
                "q_absolute_mob" = "",
                "q_gini" = "",
-               "log_population" = "2l.pmm",
-               "log_county_income" = "2l.pmm",
+               "log_population" = "",
+               "log_county_income" = "",
                "log_income_adj" = "2l.pmm",
                "imp_living_any_parent" = "2l.pmm",
                "imp_parent_employed" = "2l.pmm",
@@ -673,11 +681,11 @@ predictors = hash(
     )
 
 pred["hhsize", keys(predictors)] = values(predictors)
-pred["z_relative_mob", keys(predictors)] = values(predictors)
-pred["z_gini", keys(predictors)] = values(predictors)
-pred["log_population", keys(predictors)] = values(predictors)
-pred["log_county_income", keys(predictors)] = values(predictors)
-pred["z_gini", keys(predictors)] = values(predictors)
+# pred["z_relative_mob", keys(predictors)] = values(predictors)
+# pred["z_gini", keys(predictors)] = values(predictors)
+# pred["log_population", keys(predictors)] = values(predictors)
+# pred["log_county_income", keys(predictors)] = values(predictors)
+# pred["z_gini", keys(predictors)] = values(predictors)
 pred["log_income_adj", keys(predictors)] = values(predictors)
 pred["imp_living_any_parent", keys(predictors)] = values(predictors)
 pred["imp_parent_employed", keys(predictors)] = values(predictors)
@@ -711,12 +719,10 @@ pred["log_population",]
 
 # run imputation
 imp = mice::mice(mm, predictorMatrix = pred, method = meth,
-           m = 5, maxit = 10, seed = 123)
+           m = 5, maxit = 5, seed = 123)
 
-# explore imputation
-# # head(imp$loggedEvent)
+# explore quality of imputations
 
-# # explore quality of imputations
 savepdf("ch03/output/imp_iterations")
 print(plot(imp, c("bmi", "health")))
 print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
@@ -737,5 +743,8 @@ print(densityplot(imp, ~ log_population + log_county_income))
 print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
 dev.off()
 
-# # save results of imputation
+bwplot(imp, z_gini)
+bwplot(imp, bmi)
+
+# save results of imputation
 saveRDS(imp, "ch03/output/data/nlsy97_imputation_individual.rds")
