@@ -6,32 +6,28 @@
 ###################################
 
 library(survey)
+library(mice)
 library(mitools)
+library(ipw)
 library(texreg)
+library(data.table)
+library(forcats)
+source("ch03/src/utils.R")
 
 imp = readRDS('ch03/output/data/nlsy97_imputation_individual.rds')
 
-rel_mob_coeff_bmi = list()
-rel_mob_vcov_bmi = list()
-rel_mob_coeff_depression = list()
-rel_mob_vcov_depression = list()
-rel_mob_coeff_health = list()
-rel_mob_vcov_health = list()
-rel_mob_coeff_smoking = list()
-rel_mob_vcov_smoking = list()
-rel_mob_coeff_smoking30 = list()
-rel_mob_vcov_smoking30 = list()
+rel_mob_bmi = list()
+rel_mob_depression = list()
+rel_mob_health = list()
+rel_mob_smoking = list()
+rel_mob_smoking30 = list()
 
-gini_coeff_bmi = list()
-gini_vcov_bmi = list()
-gini_coeff_depression = list()
-gini_vcov_depression = list()
-gini_coeff_health = list()
-gini_vcov_health = list()
-gini_coeff_smoking = list()
-gini_vcov_smoking = list()
-gini_coeff_smoking30 = list()
-gini_vcov_smoking30 = list()
+
+gini_bmi = list()
+gini_depression = list()
+gini_health = list()
+gini_smoking = list()
+gini_smoking30 = list()
 
 
 # loop to get coefficients
@@ -59,17 +55,26 @@ for (i in 1:imp$m) {
     dat[as.numeric(age_interview_est) <= 20,
         z_gini_exposure := sum(z_gini * exposure_time) / sum(exposure_time), id]
 
+    # dat[as.numeric(age_interview_est) < as.numeric(max_age_interview_est), total_exposure_time := sum(exposure_time), id]
+    # dat[as.numeric(age_interview_est) < as.numeric(max_age_interview_est),
+    #     z_relative_mob_exposure := sum(z_relative_mob * exposure_time) / sum(exposure_time), id]
+    # dat[as.numeric(age_interview_est) < as.numeric(max_age_interview_est),
+    #     z_gini_exposure := sum(z_gini * exposure_time) / sum(exposure_time), id]
+
     dat[, z_relative_mob_exposure := getMax(z_relative_mob_exposure), id]
     dat[, z_gini_exposure := getMax(z_gini_exposure), id]
     dat[, max_age_interview_est := factor(max_age_interview_est)]
     dat[, health := factor(health)]
     dat[, lag_health := factor(lag_health)]
 
+    # last wave and exposure datasets
     last_wave = dat[year == 2015]
     dat = dat[as.numeric(age_interview_est) <= 20]
+    # dat = dat[as.numeric(age_interview_est) < as.numeric(max_age_interview_est)]
 
     dat[, time := 1:.N, id]
     dat[, cyear := year - mean(year)]
+    dat[, max_age_interview_est := fct_drop(max_age_interview_est)]
 
     temp_relative_mob = ipwtm(
         exposure = z_relative_mob,
@@ -126,8 +131,8 @@ for (i in 1:imp$m) {
                              residential_moves_by_12,
                              design = svy_design_rel_mob)
 
-    rel_mob_coeff_bmi = c(rel_mob_coeff_bmi, list(coefficients(msm_rel_mob_bmi)))
-    rel_mob_vcov_bmi = c(rel_mob_vcov_bmi, list(vcov(msm_rel_mob_bmi)))
+    rel_mob_bmi[['coeff']] = c(rel_mob_bmi[['coeff']], list(coefficients(msm_rel_mob_bmi)))
+    rel_mob_bmi[['vcov']] = c(rel_mob_bmi[['vcov']], list(vcov(msm_rel_mob_bmi)))
 
     msm_gini_bmi = svyglm(bmi ~ z_gini_exposure +
                           male + ethnicity + max_age_interview_est +
@@ -135,8 +140,8 @@ for (i in 1:imp$m) {
                           residential_moves_by_12,
                           design = svy_design_gini)
 
-    gini_coeff_bmi = c(gini_coeff_bmi, list(coefficients(msm_gini_bmi)))
-    gini_vcov_bmi = c(gini_vcov_bmi, list(vcov(msm_gini_bmi)))
+    gini_bmi[['coeff']] = c(gini_bmi[['coeff']], list(coefficients(msm_gini_bmi)))
+    gini_bmi[['vcov']] = c(gini_bmi[['vcov']], list(vcov(msm_gini_bmi)))
 
     # depression
     msm_rel_mob_depression = svyglm(depression ~ z_relative_mob_exposure +
@@ -145,8 +150,8 @@ for (i in 1:imp$m) {
                                     residential_moves_by_12,
                                     design = svy_design_rel_mob)
 
-    rel_mob_coeff_depression = c(rel_mob_coeff_depression, list(coefficients(msm_rel_mob_depression)))
-    rel_mob_vcov_depression = c(rel_mob_vcov_depression, list(vcov(msm_rel_mob_depression)))
+    rel_mob_depression[['coeff']] = c(rel_mob_depression[['coeff']], list(coefficients(msm_rel_mob_depression)))
+    rel_mob_depression[['vcov']] = c(rel_mob_depression[['vcov']], list(vcov(msm_rel_mob_depression)))
 
     msm_gini_depression = svyglm(depression  ~ z_gini_exposure +
                                  male + ethnicity + max_age_interview_est +
@@ -154,8 +159,8 @@ for (i in 1:imp$m) {
                                  residential_moves_by_12,
                                  design = svy_design_gini)
 
-    gini_coeff_depression = c(gini_coeff_depression, list(coefficients(msm_gini_depression)))
-    gini_vcov_depression = c(gini_vcov_depression, list(vcov(msm_gini_depression)))
+    gini_depression[['coeff']] = c(gini_depression[['coeff']], list(coefficients(msm_gini_depression)))
+    gini_depression[['vcov']] = c(gini_depression[['vcov']], list(vcov(msm_gini_depression)))
 
     # health
     msm_rel_mob_health = svyolr(health ~ z_relative_mob_exposure +
@@ -164,8 +169,8 @@ for (i in 1:imp$m) {
                                 residential_moves_by_12,
                                 design = svy_design_rel_mob)
 
-    rel_mob_coeff_health = c(rel_mob_coeff_health, list(coefficients(msm_rel_mob_health)))
-    rel_mob_vcov_health = c(rel_mob_vcov_health, list(vcov(msm_rel_mob_health)))
+    rel_mob_health[['coeff']] = c(rel_mob_health[['coeff']], list(coefficients(msm_rel_mob_health)))
+    rel_mob_health[['vcov']] = c(rel_mob_health[['vcov']], list(vcov(msm_rel_mob_health)))
 
     msm_gini_health = svyolr(health ~ z_gini_exposure +
                              male + ethnicity + max_age_interview_est +
@@ -173,8 +178,8 @@ for (i in 1:imp$m) {
                              residential_moves_by_12,
                              design = svy_design_gini)
 
-    gini_coeff_health = c(gini_coeff_health, list(coefficients(msm_gini_health)))
-    gini_vcov_health = c(gini_vcov_health, list(vcov(msm_gini_health)))
+    gini_health[['coeff']] = c(gini_health[['coeff']], list(coefficients(msm_gini_health)))
+    gini_health[['vcov']] = c(gini_health[['vcov']], list(vcov(msm_gini_health)))
 
     # smoking
     msm_rel_mob_smoking = svyglm(smoking_ever ~ z_relative_mob_exposure +
@@ -185,8 +190,8 @@ for (i in 1:imp$m) {
                                  family = quasibinomial
                                  )
 
-    rel_mob_coeff_smoking = c(rel_mob_coeff_smoking, list(coefficients(msm_rel_mob_smoking)))
-    rel_mob_vcov_smoking = c(rel_mob_vcov_smoking, list(vcov(msm_rel_mob_smoking)))
+    rel_mob_smoking[['coeff']] = c(rel_mob_smoking[['coeff']], list(coefficients(msm_rel_mob_smoking)))
+    rel_mob_smoking[['vcov']] = c(rel_mob_smoking[['vcov']], list(vcov(msm_rel_mob_smoking)))
 
     msm_gini_smoking = svyglm(smoking_ever ~ z_gini_exposure +
                               male + ethnicity + max_age_interview_est +
@@ -196,8 +201,8 @@ for (i in 1:imp$m) {
                               family = quasibinomial
                               )
 
-    gini_coeff_smoking = c(gini_coeff_smoking, list(coefficients(msm_gini_smoking)))
-    gini_vcov_smoking = c(gini_vcov_smoking, list(vcov(msm_gini_smoking)))
+    gini_smoking[['coeff']] = c(gini_smoking[['coeff']], list(coefficients(msm_gini_smoking)))
+    gini_smoking[['vcov']] = c(gini_smoking[['vcov']], list(vcov(msm_gini_smoking)))
 
     # smoking 30
     msm_rel_mob_smoking30 = svyglm(smoking_30 ~ z_relative_mob_exposure +
@@ -208,8 +213,8 @@ for (i in 1:imp$m) {
                                    family = poisson
                                    )
 
-    rel_mob_coeff_smoking30 = c(rel_mob_coeff_smoking30, list(coefficients(msm_rel_mob_smoking30)))
-    rel_mob_vcov_smoking30 = c(rel_mob_vcov_smoking30, list(vcov(msm_rel_mob_smoking30)))
+    rel_mob_smoking30[['coeff']] = c(rel_mob_smoking30[['coeff']], list(coefficients(msm_rel_mob_smoking30)))
+    rel_mob_smoking30[['vcov']] = c(rel_mob_smoking30[['vcov']], list(vcov(msm_rel_mob_smoking30)))
 
     msm_gini_smoking30 = svyglm(smoking_30 ~ z_gini_exposure +
                                 male + ethnicity + max_age_interview_est +
@@ -219,24 +224,29 @@ for (i in 1:imp$m) {
                                 family = poisson
                                 )
 
-    gini_coeff_smoking30 = c(gini_coeff_smoking30, list(coefficients(msm_gini_smoking30)))
-    gini_vcov_smoking30 = c(gini_vcov_smoking30, list(vcov(msm_gini_smoking30)))
+    gini_smoking30[['coeff']] = c(gini_smoking30[['coeff']], list(coefficients(msm_gini_smoking30)))
+    gini_smoking30[['vcov']] = c(gini_smoking30[['vcov']], list(vcov(msm_gini_smoking30)))
 
 }
 
+# combine results from models
 outputs = c("bmi", "depression", "health", "smoking", "smoking30")
 type = c("rel_mob", "gini")
 
 for (i in outputs) {
     for (h in type) {
         assign(paste0(h, "_results_", i),
-               MIcombine(get(paste0(h, "_coeff_", i)), get(paste0(h, "_vcov_", i)))
+               MIcombine(get(paste0(h, "_", i))[['coeff']],
+                              get(paste0(h, "_", i))[['vcov']])
                )
     }
 }
 
+
+# create table in latex
 N = nrow(fwave)
 
+# list with all the results
 list_results = list(
                     health = list(rel_mob_results_health, gini_results_health),
                     bmi = list(rel_mob_results_bmi, gini_results_bmi),
@@ -245,6 +255,7 @@ list_results = list(
                     smoking30 = list(rel_mob_results_smoking30, gini_results_smoking30)
                     )
 
+# loop to create texreg objects
 for (i in names(list_results)) {
     sublist = list_results[[i]]
     vnames = names(sublist[[1]]$coefficients)
@@ -260,7 +271,6 @@ for (i in names(list_results)) {
         gof.decimal = FALSE
     ))
 }
-
 
 # create summary table
 models = list(tr_health, tr_bmi, tr_depression,
@@ -289,5 +299,5 @@ texreg(
     custom.coef.map = cnames,
     # groups = list("Random Effects" = c(4:9)),
     custom.note = "Note: Each row represents a model. ",
-    file = "ch03/manuscript/tables/summary_relative_mob_nlsy97.tex"
+    file = "ch03/manuscript/tables/summary_relative_mob_nlsy97_exposure_20.tex"
 )

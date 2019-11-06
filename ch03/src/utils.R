@@ -42,7 +42,9 @@ renameColumns = function(dat, hash) {
 fillMissingColumns = function(dat, expression, expected) {
     varnames = names(dat)
     observed = grep(expression,  varnames, value = TRUE)
-    dat[, ( expected[!expected %in% observed] ) := NA]
+    if (length(observed) < length(expected)) {
+        dat[, ( expected[!expected %in% observed] ) := NA]
+    } else { print("No missing columns found")}
 }
 
 replaceMissing = function(x) {
