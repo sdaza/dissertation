@@ -5,6 +5,19 @@
 # version: 0.01
 ###################################
 
+# database notes
+
+# # To create a cross-year Reference Person (‘Head’ prior to 2017)/Spouse file:
+# # These concepts can be expanded to subset persons who have been the Reference Person
+# # over a period of years--the yearly values for Sequence Number must be 1, and 1 or 10
+# # for Relationship to Reference Person. As a corollary, to select individuals who have been
+# # either Reference Persons or Spouses/Partners, yearly Sequence Numbers must equal 1 or 2
+# # and yearly Relationships to Reference Person must be in the range 1, 2, 10, 20, or 22.
+# # Once that subset is made and family data are merged, information about an individual can be
+# # found in Reference Person variables (Reference Person's work hours,
+# # Reference Person's labor income, etc.) when his or her Relationship to
+#  # Reference Person=1 or 10. When Relationship to Reference Person is 2, 20, or 22,
+#  # then his or her information is found in variables about the Spouse/Partner.
 
 library(haven)
 library(data.table)
@@ -471,7 +484,7 @@ syears = c(1986, years[years> 1998])
 wifensmoking_vars = paste0("wifensmoking", syears)
 renameColumns(data, hash(oldvars, wifensmoking_vars))
 wifensmoking_vars = paste0("wifensmoking", years)
-fillMissingColumns(data, "^wifensmoking", wifeeversmoking_vars)
+fillMissingColumns(data, "^wifensmoking", wifensmoking_vars)
 
 # wife ever smoking
 oldvars = c("v13479", "er15654", "er19819", "er23253", "er27224",
@@ -481,7 +494,16 @@ syears = c(1986, years[years> 1998])
 wifeeversmoking_vars = paste0("wifeeversmoking", syears)
 renameColumns(data, hash(oldvars, wifeeversmoking_vars))
 wifeeversmoking_vars = paste0("wifeeversmoking", years)
-fillMissingColumns(data, "^wifeeversmoking", headeversmoking_vars)
+fillMissingColumns(data, "^wifeeversmoking", wifeeversmoking_vars)
+
+# life satisfaction
+
+satisfactionwb_hash = hash(
+                           "wb16a3a" = "satis1",
+                           "wb16a3b" = "satis2",
+                           "wb16a3c" = "satis3"
+                           )
+renameColumns(data, satisfactionwb_hash)
 
 # transform to long format
 data = data[, lapply(.SD, as.numeric)]
@@ -495,8 +517,8 @@ list_of_vars = list(fn_vars, sn_vars, type_vars, whynoresp_vars, age_vars,
                     wifeweight_vars, wifeweight_kilos_vars,
                     depitem1_vars, depitem2_vars, depitem3_vars, depitem4_vars,
                     depitem5_vars, depitem6_vars,
-                    headsmoking_vasr, headnsmoking_vars, headeversmoking_vars,
-                    wifesmoking_vasr, wifensmoking_vars, wifeeversmoking_vars)
+                    headsmoking_vars, headnsmoking_vars, headeversmoking_vars,
+                    wifesmoking_vars, wifensmoking_vars, wifeeversmoking_vars)
 name_vars = c("fn", "sn", "type", "whynoresp", "age", "race_head", "race_wife",
               "respondent", "isrespondent", "income", "education", "famsize",
               "house_ownership", "relation_head", "health_good",
@@ -509,7 +531,7 @@ name_vars = c("fn", "sn", "type", "whynoresp", "age", "race_head", "race_wife",
               "head_smoking", "head_smoking_number", "head_smoking_ever",
               "wife_smoking", "wife_smoking_number", "wife_smoking_ever")
 id_vars = c("pid", "pn", "sex", "mother_born_year", "marital_status_mother_at_birth",
-            "birth_weight", "wellbeing_sample", paste0("depwb", 1:6))
+            "birth_weight", "wellbeing_sample", paste0("depwb", 1:6), paste0("satis", 1:3))
 
 ldata = melt(data, id.vars = id_vars,
              measure = list_of_vars,
@@ -669,48 +691,75 @@ ldata[pid == sample(ids, 1), .(pid, year, age,
        relation_head, depression, depression_wb)]
 
 
-# ######################################
-# # define cohort of interest
-# # respondents born between 1976 and 1985
-# ####################################
+# smoking
 
-# setorder(ldata, year, pid)
-# ldata[, lag_sn := shift(sn), pid]
-# ldata[, lag_type := shift(type, fill = 0), pid]
-# ldata[, psid_born := 0]
-# ldata[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
-# ldata[, psid_born := cumsum(psid_born), pid]
-# ldata = ldata[psid_born == 1]
-# ldata[, first_year := min(year), pid]
-# ldata = ldata[first_year > 1975 & first_year < 1986]
+ldata[sn == 1 & relation_head %in% c(1, 10),
+      `:=` (
+            smoking = head_smoking,
+            smoking_number = head_smoking_number,
+            smoking_ever = head_smoking_ever
+            )
+      ]
 
-# # merge with mother's age
-# ldata = merge(ldata,
-#              mothers[, .(pid, first_year, age_mother)],
-#              by = c("first_year", "pid"), all.x = TRUE)
+ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
+      `:=` (
+            smoking = wife_smoking,
+            smoking_number = wife_smoking_number,
+            smoking_ever = wife_smoking_ever
+            )
+      ]
+
+ldata[smoking %in% c(0, 8, 9), smoking := NA]
+ldata[smoking_number %in% c(0, 998, 999), smoking_number := NA]
+ldata[smoking == 5 & is.na(smoking_number), smoking_number := 0]
+ldata[smoking_ever %in% c(0, 8, 9), smoking_ever := NA]
+ldata[smoking == 1 & is.na(smoking_ever), smoking_ever := 1]
+
+ldata[, smoking := ifelse(smoking == 1, 1, 0)]
+ldata[, smoking_ever := ifelse(smoking_ever == 1, 1, 0)]
 
 
-# names(ldata)
-# ids = unique(ldata[year == 2017 & !is.na(depression), pid])
+setorder(ldata, year, pid)
+ids = unique(ldata$pid)
+ldata[pid == sample(ids, 1), .(pid, year, age,
+       relation_head, smoking, smoking_ever, smoking_number)]
+
+
+# life satisfaction
+ldata[, paste0("satis", 1:3) := lapply(.SD, function(x) ifelse(x == 9, NA, x)), .SDcols = paste0("satis", 1:3)]
+ldata[, paste0("rsatis", 1:3) := lapply(.SD, reverseScale), .SDcols = paste0("satis", 1:3)]
+ldata[, life_satisfaction := apply(.SD, 1, mean, na.rm = TRUE), .SDcols = paste0("rsatis", 1:3)]
+
+hist(ldata$life_satisfaction)
+
+######################################
+# define cohort of interest
+# respondents born between 1976 and 1985
+####################################
+
+setorder(ldata, year, pid)
+ldata[, lag_sn := shift(sn), pid]
+ldata[, lag_type := shift(type, fill = 0), pid]
+ldata[, psid_born := 0]
+ldata[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
+ldata[, psid_born := cumsum(psid_born), pid]
+ldata = ldata[psid_born == 1]
+ldata[, first_year := min(year), pid]
+ldata = ldata[first_year > 1975 & first_year < 1986]
+
+# merge with mother's age
+ldata = merge(ldata,
+             mothers[, .(pid, first_year, age_mother)],
+             by = c("first_year", "pid"), all.x = TRUE)
+
+ids = unique(ldata[year == 2017 & !is.na(smoking_ever), pid])
 # ids = unique(ldata$pid)
-# print(paste0("Total number of respondents: ", length(ids)))
+print(paste0("Total number of respondents: ", length(ids)))
+table(ldata$smoking)
 
-
-# # 6300 people
-# length(unique(ldata$pid))
-# length(unique(ldata[wellbeing_sample == 1, pid]))
-
-# # To create a cross-year Reference Person (‘Head’ prior to 2017)/Spouse file:
-# # These concepts can be expanded to subset persons who have been the Reference Person
-# # over a period of years--the yearly values for Sequence Number must be 1, and 1 or 10
-# # for Relationship to Reference Person. As a corollary, to select individuals who have been
-# # either Reference Persons or Spouses/Partners, yearly Sequence Numbers must equal 1 or 2
-# # and yearly Relationships to Reference Person must be in the range 1, 2, 10, 20, or 22.
-# # Once that subset is made and family data are merged, information about an individual can be
-# # found in Reference Person variables (Reference Person's work hours,
-# # Reference Person's labor income, etc.) when his or her Relationship to
-#  # Reference Person=1 or 10. When Relationship to Reference Person is 2, 20, or 22,
-#  # then his or her information is found in variables about the Spouse/Partner.
+# 6300 people
+length(unique(ldata$pid))
+length(unique(ldata[wellbeing_sample == 1, pid]))
 
 # saveRDS(ldata, "ch03/output/psid_eligible_respondents.rds")
 
