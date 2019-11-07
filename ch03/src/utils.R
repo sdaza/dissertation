@@ -15,6 +15,15 @@ impute_locf = function(x) {
     return(output)
 }
 
+impute_forward_backward = function(data, variable,
+                                   keys,
+                                   new_name = paste0("imp_", variable)) {
+    temp = data[!is.na(get(variable)), c(keys, variable), with = FALSE]
+    setnames(temp, variable, new_name)
+    temp = temp[data, on = keys, roll = TRUE, rollends = c(TRUE, TRUE)]
+    return(temp)
+}
+
 fillWithFirstValue = function(x) {
   fv = head(na.omit(x), 1)
   x = ifelse(is.na(x), fv, x)
@@ -112,5 +121,29 @@ getCoefficients = function(micombine, position = 2, coeff = TRUE) {
         v = summary(micombine)$results[position]
         names(v)
     } else { return ( summary(micombine)$se[position]) }
+}
+
+
+imputeAge = function(age, year) {
+    if (any(is.na(age))) {
+        min.age <- getMin(age)
+        # ties
+        position <- which(age == min.age)[1]
+        if (!is.na(position)) {
+            # initial values
+            if (position > 1) {
+                for (i in 1:(position-1)) {
+                    age[position - i] <- age[position] - i
+                }
+            }
+            # missing data position
+            missing <- which(is.na(age))
+            for (i in missing) {
+                age[i] = age[i-1] + (year[i] - year[i-1])
+            }
+        }
+        else { age = as.numeric(NA) }
+    }
+    return(age)
 }
 

@@ -136,3 +136,18 @@ X1 %*% c(-2,8,7,6,2) + rnorm(n,sd=5)
 multibin1<-CBMSM(treat~X,id=id,time=time,type="MultiBin",twostep=TRUE)
 summary(lm(y~-1+treat.1+treat.2+treat.3+X1, weights=multibin1$w))
 
+
+library(data.table)
+
+dt1 <- data.table(x = c("a", "b", "c", "d"), dt1_y = c(11.9, 21.4, 5.7, 18))
+dt2 <- data.table(dt2_y = c(10, 15, 20), z = c("one", "two", "three"))
+
+# add row ids and duplicate y
+dt1[, `:=` (dt1_row_id = .I, joint_y = dt1_y)]
+dt2[, `:=` (dt2_row_id = .I, joint_y = dt2_y)]
+
+dt1
+dt2
+
+dt2[dt1, on = .(joint_y), roll = "nearest"]
+dt2[dt1, on = .(joint_y), roll = T]

@@ -205,6 +205,47 @@ renameColumns(data, hash(oldvars, education_vars))
 education_vars = paste0("education", years)
 fillMissingColumns(data, "^education", education_vars)
 
+# head working status
+oldvars = c("v196", "v639", "v1278", "v1983", "v2581", "v3114", "v3528", "v3967", "v4458", "v5373",
+            "v5872", "v6492", "v7095", "v7706", "v8374", "v9005", "v10453", "v11637", "v13046",
+            "v14146", "v15154", "v16655", "v18093", "v19393", "v20693", "v22448", "er2068",
+            "er5067", "er7163")
+
+syears = years[years < 1997]
+headworking_vars = paste0("headworking", syears)
+renameColumns(data, hash(oldvars, headworking_vars))
+
+headworking_vars = paste0("headworking", years)
+fillMissingColumns(data, "^headworking", headworking_vars)
+
+# individual working status
+oldvars = c("er30293", "er30323", "er30353", "er30382", "er30411", "er30441", "er30474",
+            "er30509", "er30545", "er30580", "er30616", "er30653", "er30699", "er30744",
+            "er30816", "er33111", "er33211", "er33311", "er33411", "er33512", "er33612",
+            "er33712", "er33813", "er33913", "er34016", "er34116", "er34216", "er34317",
+            "er34516")
+
+syears = years[years > 1978]
+individualworking_vars = paste0("individualworking", syears)
+renameColumns(data, hash(oldvars, individualworking_vars))
+
+individualworking_vars = paste0("individualworking", years)
+fillMissingColumns(data, "^individualworking", individualworking_vars)
+
+# marital status head
+oldvars = c("v5672", "v5673", "v5674", "v5675", "v5676", "v5677", "v5678", "v5679", "v5680",
+            "v6219", "v6812", "v7455", "v8107", "v8731", "v9420", "v11066", "v12427", "v13666",
+            "v14713", "v16188", "v17566", "v18917", "v20217", "v21523", "v23337", "er4159b",
+            "er6999b", "er9250b", "er12223b", "er16424", "er20370", "er24151", "er28050",
+            "er41040", "er46984", "er52408", "er58226", "er65462", "er71541")
+
+syears = years[years > 1968]
+headmarital_vars = paste0("headmarital", syears)
+renameColumns(data, hash(oldvars, headmarital_vars))
+
+headmarital_vars = paste0("headmarital", years)
+fillMissingColumns(data, "headmarital", headmarital_vars)
+
 # family size
 oldvars = c("v115", "v549", "v1238", "v1941", "v2541", "v3094", "v3507", "v3920", "v4435", "v5349",
             "v5849", "v6461", "v7066", "v7657", "v8351", "v8960", "v10418", "v11605", "v13010",
@@ -507,37 +548,61 @@ renameColumns(data, satisfactionwb_hash)
 
 # transform to long format
 data = data[, lapply(.SD, as.numeric)]
-list_of_vars = list(fn_vars, sn_vars, type_vars, whynoresp_vars, age_vars,
-                    headrace_vars, wiferace_vars, respondent_vars, isrespondent_vars,
-                    income_vars, education_vars, famsize_vars, houseown_vars, relationhead_vars,
-                    healthgood_vars, headhealth_vars, wifehealth_vars, gstatus_health_vars,
-                    headheight_feet_vars, headheight_inches_vars, headheight_meter_vars,
-                    wifeheight_feet_vars, wifeheight_inches_vars, wifeheight_meter_vars,
-                    headweight_vars, headweight_kilos_vars,
-                    wifeweight_vars, wifeweight_kilos_vars,
-                    depitem1_vars, depitem2_vars, depitem3_vars, depitem4_vars,
-                    depitem5_vars, depitem6_vars,
-                    headsmoking_vars, headnsmoking_vars, headeversmoking_vars,
-                    wifesmoking_vars, wifensmoking_vars, wifeeversmoking_vars)
-name_vars = c("fn", "sn", "type", "whynoresp", "age", "race_head", "race_wife",
-              "respondent", "isrespondent", "income", "education", "famsize",
-              "house_ownership", "relation_head", "health_good",
-              "head_health", "wife_health", "general_health",
-              "head_height_feet", "head_height_inches", "head_height_meters",
-              "wife_height_feet", "wife_height_inches", "wife_height_meters",
-              "head_weight", "head_weight_kilos", "wife_weight", "wife_weight_kilos",
-              "depression_item1", "depression_item2", "depression_item3", "depression_item4",
-              "depression_item5", "depression_item6",
-              "head_smoking", "head_smoking_number", "head_smoking_ever",
-              "wife_smoking", "wife_smoking_number", "wife_smoking_ever")
+
+vars_hash = hash(
+                 "fn" = fn_vars,
+                 "sn" = sn_vars,
+                 "type" = type_vars,
+                 "whynoresp" = whynoresp_vars,
+                 "age" = age_vars,
+                 "head_race" = headrace_vars,
+                 "wife_race" = wiferace_vars,
+                 "respondent" = respondent_vars,
+                 "isrespondent" = isrespondent_vars,
+                 "income" = income_vars,
+                 "education" = education_vars,
+                 "head_marital_change" = headmarital_vars,
+                 "famsize" = famsize_vars,
+                 "head_working" = headworking_vars,
+                 "individual_working" = individualworking_vars,
+                 "house_ownership" = houseown_vars,
+                 "relation_head" = relationhead_vars,
+                 "health_good" = healthgood_vars,
+                 "head_health" = headhealth_vars,
+                 "wife_health" = wifehealth_vars,
+                 "general_health" = gstatus_health_vars,
+                 "head_height_feet" = headheight_feet_vars,
+                 "head_height_inches" = headheight_inches_vars,
+                 "head_height_meters" = headheight_meter_vars,
+                 "wife_height_feet" = wifeheight_feet_vars,
+                 "wife_height_inches" = wifeheight_inches_vars,
+                 "wife_height_meters" = wifeheight_meter_vars,
+                 "head_weight" = headweight_vars,
+                 "head_weight_kilos" = headweight_kilos_vars,
+                 "wife_weight" = wifeweight_vars,
+                 "wife_weight_kilos" = wifeweight_kilos_vars,
+                 "depression_item1" = depitem1_vars,
+                 "depression_item2" = depitem2_vars,
+                 "depression_item3" = depitem3_vars,
+                 "depression_item4" = depitem4_vars,
+                 "depression_item5" = depitem5_vars,
+                 "depression_item6" = depitem6_vars,
+                 "head_smoking" = headsmoking_vars,
+                 "head_smoking_number" = headnsmoking_vars,
+                 "head_smoking_ever" = headeversmoking_vars,
+                 "wife_smoking" = wifesmoking_vars,
+                 "wife_smoking_number" = wifensmoking_vars,
+                 "wife_smoking_ever" = wifeeversmoking_vars
+                )
+
 id_vars = c("pid", "pn", "sex", "mother_born_year", "marital_status_mother_at_birth",
             "birth_weight", "wellbeing_sample", paste0("depwb", 1:6), paste0("satis", 1:3))
 
 ldata = melt(data, id.vars = id_vars,
-             measure = list_of_vars,
-             value.name = name_vars,
+             measure = as.list(vars_hash),
              variable = "wave")
 
+names(ldata)
 years_data = data.table(wave = 1:40, year = years)
 ldata = merge(ldata, years_data, by = "wave")
 
@@ -724,13 +789,53 @@ ids = unique(ldata$pid)
 ldata[pid == sample(ids, 1), .(pid, year, age,
        relation_head, smoking, smoking_ever, smoking_number)]
 
-
 # life satisfaction
+
 ldata[, paste0("satis", 1:3) := lapply(.SD, function(x) ifelse(x == 9, NA, x)), .SDcols = paste0("satis", 1:3)]
 ldata[, paste0("rsatis", 1:3) := lapply(.SD, reverseScale), .SDcols = paste0("satis", 1:3)]
 ldata[, life_satisfaction := apply(.SD, 1, mean, na.rm = TRUE), .SDcols = paste0("rsatis", 1:3)]
 
-hist(ldata$life_satisfaction)
+# head's education
+
+table(ldata$education)
+ldata[education %in% c(0, 98, 99), education := NA]
+ldata[sn == 1 & relation_head %in% c(1, 10), head_education := education]
+ldata[!is.na(fn), head_education := head(na.omit(head_education), 1), .(fn, year)]
+
+table(ldata[is.na(fn), .(whynoresp)])
+table(ldata[!is.na(fn), .(whynoresp)])
+
+families = unique(ldata[!is.na(fn) & year == 1980, fn])
+ldata[fn == sample(families, 1) & year == 1980, .(pid, fn, year, relation_head, education, head_education)]
+
+# head's working status
+
+table(ldata$individual_working)
+ldata[individual_working %in% c(0, 9), individual_working := NA]
+ldata[, individual_working_binary := ifelse(individual_working == 1, 1, 0)]
+table(ldata$individual_working_binary)
+
+ldata[sn == 1 & relation_head %in% c(1, 10), head_working_individual := individual_working_binary]
+ldata[!is.na(fn), head_working_individual := head(na.omit(head_working_individual), 1), .(fn, year)]
+
+ldata[head_working %in% c(9), head_working := NA]
+ldata[, head_working_binary := ifelse(head_working == 1, 1, 0)]
+
+ldata[is.na(head_working_binary) & !is.na(head_working_individual),
+      head_working_binary := head_working_individual]
+
+families = unique(ldata[!is.na(fn) & year == 1990, fn])
+ldata[fn == sample(families, 1) & year == 1990, .(pid, fn, year,head_working , individual_working_binary, relation_head, head_working_binary, head_working_individual)]
+
+table(ldata$head_working_binary)
+
+# marital status
+
+table(ldata$head_marital_change)
+
+ldata[head_marital_change == 9, head_marital_change := NA]
+ldata[!is.na(head_marital_change), head_marital_status := ifelse(head_marital_change %in% c(1, 5, 6, 7), 1, 0)]
+table(ldata$head_marital_status)
 
 ######################################
 # define cohort of interest
@@ -745,21 +850,83 @@ ldata[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
 ldata[, psid_born := cumsum(psid_born), pid]
 ldata = ldata[psid_born == 1]
 ldata[, first_year := min(year), pid]
-ldata = ldata[first_year > 1975 & first_year < 1986]
+ldata = ldata[first_year > 1970 & first_year < 1986]
 
-# merge with mother's age
-ldata = merge(ldata,
-             mothers[, .(pid, first_year, age_mother)],
-             by = c("first_year", "pid"), all.x = TRUE)
+# # merge with mother's age
+# ldata = merge(ldata,
+#              mothers[, .(pid, first_year, age_mother)],
+#              by = c("first_year", "pid"), all.x = TRUE)
 
-ids = unique(ldata[year == 2017 & !is.na(smoking_ever), pid])
-# ids = unique(ldata$pid)
-print(paste0("Total number of respondents: ", length(ids)))
-table(ldata$smoking)
 
-# 6300 people
-length(unique(ldata$pid))
-length(unique(ldata[wellbeing_sample == 1, pid]))
+# process some variables before imputation
+names(ldata)
+table(ldata$birth_weight)
+
+ldata[sex == 9, sex := NA]
+table(ldata$sex)
+
+ldata[age_mother %in% c(0, 999), age_mother := NA]
+table(ldata$age_mother)
+
+ldata[birth_weight < 991, weight_less_55 := ifelse(birth_weight < 88, 1, 0)]
+ldata[is.na(weight_less_55) & birth_weight < 998, weight_less_55 := ifelse(birth_weight == 991, 1, 0)]
+table(ldata$weight_less_55)
+
+ldata[marital_status_mother_at_birth < 8,
+      marital_status_mother := ifelse(marital_status_mother_at_birth == 1, 1, 0)]
+table(ldata$marital_status_mother)
+
+# imputa age
+ldata[age == 0 | age > 900, age := NA]
+ldata[pid == 5366033 &  year == 1973, age := 1]
+ldata[pid == 5818031 &  year == 1975, age := 1]
+ldata[pid == 5526043 & year == 1978, age := 1]
+setorder(ldata, pid, year)
+ldata[, imp_age := imputeAge(age, year), pid]
+ldata[imp_age == 0, imp_age := 1]
+summary(ldata$imp_age)
+
+# house ownership
+table(ldata$house_ownership)
+ldata[house_ownership %in% c(0, 9), house_ownership := NA]
+ldata[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
+table(ldata$head_owns_house)
+
+# family size
+table(ldata$famsize)
+ldata[house_ownership %in% c(0, 9), house_ownership := NA]
+ldata[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
+table(ldata$head_owns_house)
+
+# income
+
+# inflation adjustment
+cpi = fread("ch03/data/cpi.csv", skip = 1)
+
+# check
+cpi[shift(value) < value]
+setnames(cpi, "value", "cpi")
+ldata = merge(ldata, cpi, on = "year")
+ldata[, income_adj := income * cpi / 100]
+ldata[year %in% c(1994, 1995) & income == 9999999, income_adj := NA]
+
+ids = ldata[, pid]
+ldata[pid == sample(ids, 1), .(pid, year, whynoresp, income, income_adj)]
+ldata[!is.na(income_adj),
+      log_income_adj := scale(ifelse(income_adj < 1, log(1), log(income_adj)), scale = FALSE)]
+
+summary(ldata$log_income_adj)
+summary(ldata$income_adj)
+
+table(ldata$race_head)
+# ids = unique(ldata[year == 2017 & !is.na(smoking_ever), pid])
+# # ids = unique(ldata$pid)
+# print(paste0("Total number of respondents: ", length(ids)))
+# table(ldata$smoking)
+
+# # 6300 people
+# length(unique(ldata$pid))
+# length(unique(ldata[wellbeing_sample == 1, pid]))
 
 # saveRDS(ldata, "ch03/output/psid_eligible_respondents.rds")
 
