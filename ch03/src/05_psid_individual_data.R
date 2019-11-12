@@ -159,6 +159,18 @@ oldvars = c("er30004", "er30023", "er30046", "er30070", "er30094", "er30120", "e
 age_vars = paste0("age", years)
 renameColumns(data, hash(oldvars, age_vars))
 
+# year born
+oldvars = c("er30404", "er30434", "er30468", "er30503", "er30540", "er30575", "er30611",
+            "er30647", "er30694", "er30738", "er30811", "er33106", "er33206", "er33306",
+            "er33406", "er33506", "er33606", "er33706", "er33806", "er33906", "er34006",
+            "er34106", "er34206", "er34307", "er34506")
+
+born_vars = paste0("yearborn", years[years > 1982])
+renameColumns(data, hash(oldvars, born_vars))
+
+born_vars = paste0("yearborn", years)
+fillMissingColumns(data, "yearborn", born_vars)
+
 # race
 oldvars = c("v181", "v801", "v1490", "v2202", "v2828", "v3300", "v3720", "v4204", "v5096",
             "v5662", "v6209", "v6802", "v7447", "v8099", "v8723", "v9408", "v11055", "v11938",
@@ -555,6 +567,7 @@ vars_hash = hash(
                  "type" = type_vars,
                  "whynoresp" = whynoresp_vars,
                  "age" = age_vars,
+                 "year_born" = born_vars,
                  "head_race" = headrace_vars,
                  "wife_race" = wiferace_vars,
                  "respondent" = respondent_vars,
@@ -607,7 +620,6 @@ years_data = data.table(wave = 1:40, year = years)
 ldata = merge(ldata, years_data, by = "wave")
 
 setorder(ldata, pid, year)
-
 # explore
 # ids = unique(ldata$pid)
 # ldata[pid == sample(ids, 1)]
@@ -623,6 +635,13 @@ setnames(mothers,
          c("pid_kid", "age", "year"),
          c("pid", "age_mother", "first_year")
          )
+
+# no duplicates
+table(mothers$age_mother)
+mothers[age_mother %in% c(0, 999), age_mother := NA]
+mothers[, .N, .(pid, first_year)][N > 1]
+mothers = mothers[, .(age_mother = getMin(age_mother)), .(pid, first_year)]
+summary(mothers[, .N, .(pid, first_year)])
 
 # define outcome variables per individual
 
@@ -755,7 +774,6 @@ ids = unique(ldata$pid)
 ldata[pid == sample(ids, 1), .(pid, year, age,
        relation_head, depression, depression_wb)]
 
-
 # smoking
 
 ldata[sn == 1 & relation_head %in% c(1, 10),
@@ -790,13 +808,11 @@ ldata[pid == sample(ids, 1), .(pid, year, age,
        relation_head, smoking, smoking_ever, smoking_number)]
 
 # life satisfaction
-
 ldata[, paste0("satis", 1:3) := lapply(.SD, function(x) ifelse(x == 9, NA, x)), .SDcols = paste0("satis", 1:3)]
 ldata[, paste0("rsatis", 1:3) := lapply(.SD, reverseScale), .SDcols = paste0("satis", 1:3)]
 ldata[, life_satisfaction := apply(.SD, 1, mean, na.rm = TRUE), .SDcols = paste0("rsatis", 1:3)]
 
 # head's education
-
 table(ldata$education)
 ldata[education %in% c(0, 98, 99), education := NA]
 ldata[sn == 1 & relation_head %in% c(1, 10), head_education := education]
@@ -837,10 +853,19 @@ ldata[head_marital_change == 9, head_marital_change := NA]
 ldata[!is.na(head_marital_change), head_marital_status := ifelse(head_marital_change %in% c(1, 5, 6, 7), 1, 0)]
 table(ldata$head_marital_status)
 
+# year born
+ldata[year_born %in% c(0, 9999), year_born := NA]
+ldata[, year_born := getMax(year_born), pid]
+
+summary(ldata$year_born)
+table(ldata$year_born)
+
 ######################################
 # define cohort of interest
 # respondents born between 1976 and 1985
 ####################################
+
+summary(ldata[, .N, pid])
 
 setorder(ldata, year, pid)
 ldata[, lag_sn := shift(sn), pid]
@@ -852,18 +877,18 @@ ldata = ldata[psid_born == 1]
 ldata[, first_year := min(year), pid]
 ldata = ldata[first_year > 1970 & first_year < 1986]
 
-# # merge with mother's age
-# ldata = merge(ldata,
-#              mothers[, .(pid, first_year, age_mother)],
-#              by = c("first_year", "pid"), all.x = TRUE)
 
+# merge with mother's age
+# remove duplicates
+
+ldata = merge(ldata, mothers,
+              by = c("first_year", "pid"), all.x = TRUE)
+summary(ldata[, .N, pid])
 
 # process some variables before imputation
-names(ldata)
-table(ldata$birth_weight)
-
 ldata[sex == 9, sex := NA]
-table(ldata$sex)
+ldata[, male := ifelse(sex == 1, 1, 0)]
+table(ldata$male)
 
 ldata[age_mother %in% c(0, 999), age_mother := NA]
 table(ldata$age_mother)
@@ -902,11 +927,9 @@ table(ldata$head_owns_house)
 
 # inflation adjustment
 cpi = fread("ch03/data/cpi.csv", skip = 1)
-
-# check
-cpi[shift(value) < value]
-setnames(cpi, "value", "cpi")
-ldata = merge(ldata, cpi, on = "year")
+ldata[, previous_year := year - 1]
+ldata = merge(ldata, cpi, by.x = "previous_year", by.y = "year", all.x = TRUE)
+summary(ldata[, .N, pid])
 ldata[, income_adj := income * cpi / 100]
 ldata[year %in% c(1994, 1995) & income == 9999999, income_adj := NA]
 
@@ -918,15 +941,61 @@ ldata[!is.na(income_adj),
 summary(ldata$log_income_adj)
 summary(ldata$income_adj)
 
-table(ldata$race_head)
-# ids = unique(ldata[year == 2017 & !is.na(smoking_ever), pid])
-# # ids = unique(ldata$pid)
-# print(paste0("Total number of respondents: ", length(ids)))
-# table(ldata$smoking)
+# race
+# 1 White
+# 2 Black, African-American, or Negro
+# 3 American Indian or Alaska Native
+# 4 Asian
+# 5 Native Hawaiian or Pacific Islander
+# 7 Other
+# 9 DK; NA; refused
 
-# # 6300 people
-# length(unique(ldata$pid))
-# length(unique(ldata[wellbeing_sample == 1, pid]))
+# 1 White
+# 2 Negro
+# 3 Puerto Rican, Mexican
+# 7 Other (including Oriental, Pilipino)
+# 9 NA
 
-# saveRDS(ldata, "ch03/output/psid_eligible_respondents.rds")
+race_code = data.table(
+                       race_cc = c(NA, "white", "black", rep("other", 5), NA),
+                       race_code = c(0,1,2,3,4,5,6,7,9)
+                       )
 
+ldata = merge(ldata, race_code, by.x = "head_race", by.y = "race_code", all.x = TRUE)
+setnames(ldata, "race_cc", "head_racecc")
+ldata[, head_racecc := factor(head_racecc, levels = c("white", "black", "other"))]
+
+ldata = merge(ldata, race_code, by.x = "wife_race", by.y = "race_code", all.x = TRUE)
+setnames(ldata, "race_cc", "wife_racecc")
+ldata[, wife_racecc := factor(wife_racecc, levels = c("white", "black", "other"))]
+
+setorder(ldata, pid, year)
+ldata[, race := head(na.omit(head_racecc), 1), pid]
+ldata[is.na(race), race := head(na.omit(wife_racecc), 1), pid]
+
+table(ldata$race)
+
+ids = ldata[, pid]
+ldata[pid == sample(ids, 1)]
+
+# flag last record
+ldata[imp_age > 18, head_wife := ifelse(relation_head %in% c(1, 10, 2, 20, 22), 1, 0)]
+ldata[, head_wife := getMax(head_wife), pid]
+ldata[is.na(head_wife), head_wife := 0]
+
+table(ldata$head_wife)
+length(unique(ldata[head_wife == 1, pid]))
+
+# select variables for imputation
+names(ldata)
+
+mm = ldata[, .(pid, year, head_wife, relation_head, sn, whynoresp, first_year, year_born, imp_age, male, race,
+               weight_less_55, marital_status_mother,
+               age_mother, log_income_adj, head_marital_status, head_education, head_owns_house,
+               famsize, individual_working_binary, head_working_binary,
+               bmi, life_satisfaction, depression, smoking, smoking_ever, smoking_number, health_binary,
+               individual_health
+               )
+          ]
+
+saveRDS(mm, "ch03/output/data/psid_data_ready_for_imputation.rds")
