@@ -4,6 +4,7 @@
 # author: sebastian daza
 ################################
 
+
 # overwrite table and cor function to include missing data
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function (...) stats::cor(..., use = "complete.obs")
@@ -15,7 +16,8 @@ impute_locf = function(x) {
     return(output)
 }
 
-impute_forward_backward = function(data, variable,
+impute_forward_backward = function(data,
+                                   variabble,
                                    keys,
                                    new_name = paste0("imp_", variable)) {
     temp = data[!is.na(get(variable)), c(keys, variable), with = FALSE]
@@ -25,15 +27,15 @@ impute_forward_backward = function(data, variable,
 }
 
 fillWithFirstValue = function(x) {
-  fv = head(na.omit(x), 1)
-  x = ifelse(is.na(x), fv, x)
-  return(x)
+    fv = head(na.omit(x), 1)
+    x = ifelse(is.na(x), fv, x)
+    return(x)
 }
 
 fillWithLastValue = function(x) {
-  fv = tail(na.omit(x), 1)
-  x = ifelse(is.na(x), fv, x)
-  return(x)
+    fv = tail(na.omit(x), 1)
+    x = ifelse(is.na(x), fv, x)
+    return(x)
 }
 
 renameColumns = function(dat, hash) {
@@ -80,6 +82,14 @@ getMin = function(x) {
     }
 }
 
+getFirst = function(x) {
+    x = na.omit(x)
+    if (length(x) == 0) {
+        return(NA_real_)
+    } else {
+        return(head(x, 1))
+    }
+}
 
 createQuantiles = function(x, groups = 5) {
     output = cut(x,
@@ -146,4 +156,422 @@ imputeAge = function(age, year) {
     }
     return(age)
 }
+
+# combination of list for doparallel
+comb <- function(x, ...) {
+    lapply(seq_along(x),
+           function(i) c(x[[i]], lapply(list(...), function(y) y[[i]]))
+           )
+}
+
+getSublist = function(mylist, name) {
+    return(lapply(mylist, function(l) l[[name]]))
+}
+
+parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
+                     n.imp.core = NULL, cl.type = "PSOCK", ...){
+    # check form of data and m
+    data <- check.dataform(data)
+    m <- check.m(m)
+
+    # check if data complete
+    if (sum(is.na(data)) == 0){
+        stop("Data has no missing values")
+    }
+
+    # check if arguments match CPU specifications
+    if (!is.null(n.core)){
+        if(n.core > parallel::detectCores()){
+        stop("Number of cores specified is greater than the number of logical cores in your CPU")
+        }
+    }
+
+    # determine course of action when not all arguments specified
+    if (!is.null(n.core) & is.null(n.imp.core)){
+        n.imp.core = m
+        warning(paste("Number of imputations per core not specified: n.imp.core = m =", m, "has been used"))
+    }
+    if (is.null(n.core) & !is.null(n.imp.core)){
+        n.core = parallel::detectCores() - 1
+        warning(paste("Number of cores not specified. Based on your machine a value of n.core =", parallel::detectCores()-1, "is chosen"))
+    }
+    if (is.null(n.core) & is.null(n.imp.core)) {
+        specs <- match.cluster(n.core = parallel::detectCores() - 1, m = m)
+        n.core = specs$cores
+        n.imp.core = specs$imps
+    }
+    if (!is.na(seed)){
+        if(n.core > 1){
+        warning("Be careful; the specified seed is equal for all imputations. Please consider specifying cluster.seed instead.")
+        }
+    }
+
+    # create arguments to export to cluster
+    args <- match.call(mice, expand.dots = TRUE)
+    args[[1]] <- NULL
+    args$m <- n.imp.core
+
+    # make computing cluster
+    cl <- parallel::makeCluster(n.core, type = cl.type)
+    parallel::clusterExport(cl,
+                            varlist = c("data", "m", "seed", "cluster.seed",
+                                        "n.core", "n.imp.core", "cl.type",
+                                        ls(parent.frame())),
+                            envir = environment())
+    parallel::clusterExport(cl,
+                            varlist = "do.call")
+    parallel::clusterEvalQ(cl, {library(mice); library(miceadds)})
+    if (!is.na(cluster.seed)) {
+        parallel::clusterSetRNGStream(cl, cluster.seed)
+    }
+
+    # generate imputations
+    imps <- parallel::parLapply(cl = cl,
+                                X = 1:n.core,
+                                function(x) do.call(mice, as.list(args), envir = environment()))
+    parallel::stopCluster(cl)
+
+    # postprocess clustered imputation into a mids object
+    imp <- imps[[1]]
+    if (length(imps) > 1) {
+       for (i in 2:length(imps)) {
+          imp <- ibind(imp, imps[[i]])
+       }
+    }
+
+    #let imputation matrix correspond to grand m
+    for(i in 1:length(imp$imp)){
+        colnames(imp$imp[[i]]) <- 1:imp$m
+    }
+
+    return(imp)
+}
+
+match.cluster <- function(n.core, m){
+    cores <- 1:n.core
+    imps <- 1:m
+    out <- data.frame(results = as.vector(cores %*% t(imps)),
+                      cores = cores,
+                      imps = rep(imps, each = n.core))
+    which  <- out[out[, "results"] == m, ]
+    which[order(which$cores, decreasing = T), ][1, 2:3]
+}
+
+check.data <- function(data, method) {
+  check.dataform(data)
+
+}
+
+check.dataform <- function(data) {
+  if (!(is.matrix(data) || is.data.frame(data)))
+    stop("Data should be a matrix or data frame", call. = FALSE)
+  if (ncol(data) < 2)
+    stop("Data should contain at least two columns", call. = FALSE)
+  data <- as.data.frame(data)
+  mat <- sapply(data, is.matrix)
+  if (any(mat)) stop("Cannot handle columns with class matrix: ",
+                     colnames(data)[mat])
+
+  dup <- duplicated(colnames(data))
+  if (any(dup)) stop("Duplicate names found: ",
+                     paste(colnames(data)[dup], collapse = ", "))
+
+  data
+}
+
+check.m <- function(m) {
+  m <- m[1L]
+  if (!is.numeric(m))
+    stop("Argument m not numeric", call. = FALSE)
+  m <- floor(m)
+  if (m < 1L)
+    stop("Number of imputations (m) lower than 1.", call. = FALSE)
+  m
+}
+
+check.cluster <- function(data, predictorMatrix) {
+  # stop if the cluster variable is a factor
+  isclassvar <- apply(predictorMatrix == -2, 2, any)
+  for (j in colnames(predictorMatrix)) {
+    if (isclassvar[j] && lapply(data, is.factor)[[j]])
+      stop("Convert cluster variable ", j, " to integer by as.integer()")
+  }
+  TRUE
+}
+
+truncateWeights = function(weights, level = 0.01) {
+    tw = ifelse(weights < quantile(weights, probs = level),
+                quantile(weights, probs = level), weights)
+    tw = ifelse(weights > quantile(weights, probs = 1 - level),
+                quantile(weights, probs = 1 - level), weights)
+    return(tw)
+}
+
+ipwExposure = function(imputations,
+                       lag_variables,
+                       baseline_variables,
+                       numerator_time1 = "1",
+                       denominator_time1,
+                       numerator,
+                       denominator,
+                       exposure_variable,
+                       id_var,
+                       time_var,
+                       max_time_exposure,
+                       final_model,
+                       trim_p = 0.01,
+                       exposure_type = "gaussian",
+                       final_model_type = "gaussian") {
+
+    # create to lists to save output of the loop
+    output_coeff = list()
+    output_vcov = list()
+
+    # loop over imputations
+    for (i in 1:imputations$m) {
+
+        results = list()
+
+        print(paste0("Number of imputation ", i))
+
+        dat = data.table(mice::complete(imputations, i))
+        dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
+
+        # set order first
+        setorderv(dat, c(id_var, time_var))
+
+        dat[, paste0("lag_", lag_variables) := lapply(.SD, shift), get(id_var),
+            .SDcol = lag_variables]
+
+        dat[, health := factor(health)]
+        dat[, lag_health := factor(lag_health)]
+
+        dat[, paste0("baseline_", baseline_variables) := lapply(.SD, getFirst), get(id_var),
+           .SDcol = baseline_variables]
+
+        # define working dataset
+        dat[, max_time := max(get(time_var)), get(id_var)]
+        last_obs = dat[get(time_var) == max_time]
+        sdat = dat[get(time_var) <= max_time_exposure]
+
+        # define temporal databases
+        tempdata1 = sdat[get(time_var) == 1]
+        tempdata2 = sdat[get(time_var) > 1]
+
+        # define formulas of exposure models
+        formula_1a = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", numerator_time1)))
+        formula_1b = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", denominator_time1)))
+
+        formula_2a = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", numerator)))
+        formula_2b = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", denominator)))
+
+        if (exposure_type == "gaussian") {
+
+
+            # estimate weights for time == 1
+            model1a = lm(formula_1a, data = tempdata1)
+            model1b = lm(formula_1b,  data = tempdata1)
+
+            kdens1 = dnorm(tempdata1[[exposure_variable]],
+                           predict(model1a),
+                           as.numeric(sd(model1a$residuals)))
+
+            kdens2 = dnorm(tempdata1[[exposure_variable]],
+                           predict(model1b),
+                           as.numeric(sd(model1b$residuals)))
+
+            weights_time_1 = kdens1 / kdens2
+            rm(kdens1, kdens2)
+            tempdata1[, ipw := weights_time_1]
+
+            # estimate weights for time > 1 until max_time_exposure
+            model2a = lm(formula_2a, data = tempdata2)
+            model2b = lm(formula_2b, data = tempdata2)
+
+            kdens1 = dnorm(tempdata2[[exposure_variable]],
+                           predict(model2a),
+                           as.numeric(sd(model2a$residuals)))
+
+            kdens2 = dnorm(tempdata2[[exposure_variable]],
+                           predict(model2b),
+                           as.numeric(sd(model2b$residuals)))
+
+            weights_time_2 = kdens1 / kdens2
+            rm(kdens1, kdens2)
+            tempdata2[, ipw := weights_time_2]
+
+        } else if (exposure_type == "ordinal") {
+
+            # estimate weights for time == 1
+            model1a = polr(formula_1a, data = tempdata1)
+            model1b = polr(formula_1b, data = tempdata1)
+
+            probs1 = as.data.frame(predict(model1a, type = "probs"))
+            probs2 = as.data.frame(predict(model1b, type = "probs"))
+
+            v_numerator = rep(NA, nrow(tempdata1))
+            v_denominator = rep(NA, nrow(tempdata1))
+
+            for (j in unique(tempdata1[[exposure_variable]])) {
+                flag = tempdata1[[exposure_variable]] == j
+                v_denominator[flag] = probs2[flag, j]
+                v_numerator[flag] = probs1[flag, j]
+            }
+
+            weights_time_1 = v_numerator / v_denominator
+            rm(v_numerator, v_denominator)
+            tempdata1[, ipw := weights_time_1]
+
+            # estimate weights for time > 1 until max_time_exposure
+            model2a = polr(formula_2a, data = tempdata2)
+            model2b = polr(formula_2b, data = tempdata2)
+
+            probs1 = as.data.frame(predict(model2a, type = "probs"))
+            probs2 = as.data.frame(predict(model2b, type = "probs"))
+
+            v_numerator = rep(NA, nrow(tempdata2))
+            v_denominator = rep(NA, nrow(tempdata2))
+
+            for (j in unique(tempdata2[[exposure_variable]])) {
+                flag = tempdata2[[exposure_variable]] == j
+                v_denominator[flag] = probs2[flag, j]
+                v_numerator[flag] = probs1[flag, j]
+            }
+
+            weights_time_2 = v_numerator / v_denominator
+            rm(v_numerator, v_denominator)
+            tempdata2[, ipw := weights_time_1]
+        }
+
+
+        gdata = rbind(tempdata1, tempdata2)
+        gdata[, paste0("average_", exposure_variable) := if (exposure_type == "gaussian") {
+                                                    mean(get(exposure_variable))
+                                                 }
+                                                 else if (exposure_type == "ordinal") {
+                                                    mean(as.numeric(as.character(get(exposure_variable))))
+                                                 },
+                                                 get(id_var)]
+
+        setorderv(gdata, c(id_var, time_var))
+        gdata[, cipw := cumprod(ipw), get(id_var)]
+        gdata = gdata[get(time_var) == max_time_exposure]
+        gdata[, tcipw := truncateWeights(cipw, trim_p)]
+
+        gdata = gdata[, c(id_var, "cipw", "tcipw",
+                          paste0("average_", exposure_variable)),
+                      with = FALSE]
+        fdata = merge(last_obs, gdata, by = id_var)
+
+        print(paste0("Mean of weights: ", round(mean(fdata$cipw), 2)))
+        print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
+
+        svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
+
+        if (final_model_type == "gaussian") {
+            output = svyglm(final_model, design = svy_design)
+        }
+        else if (final_model_type == "binomial") {
+            output = svyglm(final_model, design = svy_design,
+                            family = quasibinomial)
+        } else if (final_model_type == "poisson") {
+            output = svyglm(final_model, design = svy_design,
+                            family = poisson)
+        } else if (final_model_type == "ordinal") {
+            output = svyolr(final_model, design = svy_design)
+        }
+
+        output_coeff[[i]] =  coefficients(output)
+        output_vcov[[i]] = vcov(output)
+
+    }
+
+        return(mitools::MIcombine(output_coeff, output_vcov))
+
+}
+
+
+# ipwContinous = function(data,
+#                 exposure,
+#                 time_var,
+#                 time_invariant,
+#                 time_variant,
+#                 id = "id") {
+
+#     data[, ttime := as.numeric(as.character(get(time_var)))]
+#     setorder(data, id, ttime)
+#     gdata = copy(data)
+
+#     # weights time == 1
+
+#     tdata1 = copy(data[ttime == 1])
+#     time_1_formula_1 = formula(paste0(exposure, " ~ 1"))
+#     time_1_formula_2 = formula(paste0(
+#                                       paste0(exposure, " ~ "),
+#                                       paste0(time_invariant, collapse = " + ")
+#                                       )
+#                                )
+#     time_1_model_1 = glm(formula = time_1_formula_1, data = tdata1)
+#     time_1_model_2 = glm(formula = time_1_formula_2, data = tdata1)
+
+#     kdens1 = dnorm(tdata1[[exposure]],
+#                    predict(time_1_model_1),
+#                    as.numeric(sd(time_1_model_1$residuals)))
+
+#     kdens2 = dnorm(tdata1[[exposure]],
+#                    predict(time_1_model_2),
+#                    as.numeric(sd(time_1_model_2$residuals)))
+
+#     weights_time_1 = kdens1 / kdens2
+
+#     print(summary(weights_time_1))
+
+#     remove(kdens1, kdens2)
+
+#     # time > 1 weights, add time invariant covs
+#     tdata = copy(data[ttime > 1])
+#     time_2_formula_1 = formula(paste0(
+#                                   paste0(exposure, " ~ "),
+#                                   paste0(c(time_var, time_invariant),
+#                                          collapse = " + ")
+#                                   )
+#                                )
+
+#     # TODO: add time variant covs and time
+#     time_2_formula_2 = formula(paste0(
+#                                   paste0(exposure, " ~ "),
+#                                   paste0(c(time_var, time_invariant, time_variant),
+#                                          collapse = " + ")
+#                                   )
+#                                )
+
+#     time_2_model_1 = glm(formula = time_2_formula_1, data = tdata)
+#     time_2_model_2 = glm(formula = time_2_formula_2, data = tdata)
+
+#     kdens1 = dnorm(tdata[[exposure]],
+#                    predict(time_2_model_1),
+#                    as.numeric(sd(time_2_model_1$residuals)))
+
+#     kdens2 = dnorm(tdata[[exposure]],
+#                    predict(time_2_model_2),
+#                    as.numeric(sd(time_2_model_2$residuals)))
+
+#     weights_time_2 = kdens1 / kdens2
+#     print(summary(weights_time_2))
+
+#     gdata[ttime == 1, tipw  := weights_time_1]
+
+#     gdata[ttime > 1, tipw := weights_time_2]
+
+#     setorder(gdata, id, time)
+
+#     gdata[, ipw := cumprod(tipw), id]
+#     gdata[, ipwt1 := truncateWeights(tipw, 0.01), id]
+#     gdata[, ipwt5 := truncateWeights(tipw, 0.05), id]
+#     return(gdata[, c(id, time, "ipw", "ipwt1", "ipwt5"), with = FALSE])
+
+# }
+
+
+
 
