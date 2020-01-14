@@ -9,6 +9,7 @@ library(data.table)
 library(sdazar)
 library(hash)
 library(mice)
+library(micemd)
 
 source("ch03/src/utils.R")
 
@@ -16,16 +17,17 @@ source("ch03/src/utils.R")
 mm = readRDS("ch03/output/data/psid_data_ready_for_imputation.rds")
 mm[, age := imp_age]
 
-# center variables
-center_vars = c("famsize",  "head_education", "age_mother")
-mm[, (center_vars) := lapply(.SD, scale), .SDcol = center_vars]
-
-center_vars = c("bmi", "depression", "life_satisfaction", "imp_age")
+center_vars = c("bmi", "depression", "life_satisfaction", "imp_age",
+                "famsize",  "head_education", "age_mother")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
+
+summary(mm)
+mm = mm[head_wife == 1]
 
 # mm[, health := as.factor(health)]
 mm[, race := factor(as.numeric(race))]
 mm[, first_year := as.factor(first_year)]
+# mm[, head_education := as.factor(head_education)]
 # mm[, imp_age2 := imp_age ^ 2]
 
 # hist(mm$imp_age)
@@ -63,7 +65,7 @@ methods = hash(
                # not to impute
                "year_born" = "",
                "smoking_ever" = "",
-               "individual_health" = "",
+               "individual_health" = "2l.pmm",
                "individual_working_binary" = "",
                # time invariant covariates
                "race" = "2lonly.function",
@@ -78,12 +80,12 @@ methods = hash(
                "head_working_binary" = "2l.pmm",
                "famsize" = "2l.pmm",
                # outcomes
-               "life_satisfaction" = "2l.pmm",
+               "life_satisfaction" = "",
                "depression" = "2l.pmm",
                "bmi" = "2l.pmm",
                "smoking" = "2l.pmm",
                "smoking_number" = "2l.pmm",
-               "health_binary" = "2l.pmm"
+               "health_binary" = ""
                )
 
 meth[keys(methods)] = values(methods)
@@ -98,12 +100,6 @@ cluster_var =  list("race" = "pid",
                     "marital_status_mother" = "pid"
                     )
 
-pred
-# check the structure is fine
-# str(mm)
-
-
-# testing
 pred[,] = 0
 predictors = hash(
      # time-invariante coviarates
@@ -125,19 +121,18 @@ predictors = hash(
      # outcomes
      "depression" = 1,
      "bmi" = 1,
-     "life_satisfaction" = 1,
+     "life_satisfaction" = 0,
      "smoking" = 1,
      "smoking_number" = 0,
-     "health_binary" = 1
+     "health_binary" = 0,
+     "individual_health" = 0
     )
 
-predictors_vectors = keys(predictors)[!keys(predictors) == "pid"]
-
 # assign predictors
+predictors_vectors = keys(predictors)[!keys(predictors) == "pid"]
 for (i in seq_along(predictors_vectors)) {
     pred[predictors_vectors[i], keys(predictors)] = values(predictors)
 }
-
 # set diagonal of matrix to 0
 diag(pred) = 0
 
@@ -146,8 +141,16 @@ pred["log_income_adj",]
 pred["age_mother",]
 pred["marital_status_mother",]
 pred["weight_less_55",]
+pred["individual_health",]
 pred["race",]
-pred["depression",]
+
+pred["depression", ]
+
+# adjustments
+pred[c("depression", "bmi", "health_binary", "smoking"), c("life_satisfaction")] = 0
+pred["life_satisfaction", c("bmi", "health_binary", "smoking")] = 0
+pred["life_satisfaction", c("bmi", "health_binary", "smoking")] = 0
+
 
 # run imputation
 imp = mice::mice(mm,
@@ -158,12 +161,29 @@ imp = mice::mice(mm,
                  imputationFunction = imputationFunction,
                  cluster_var = cluster_var)
 
-
-print(plot(imp, c("bmi", "depression")))
-print(plot(imp, c("race", "log_income_adj", "age_mother")))
-print(plot(imp, c("marital_status_mother", "weight_less_55")))
+# explore imputations
+print(plot(imp, c("bmi", "depression", "individual_health")))
+print(plot(imp, c("smoking", "smoking_number")))
+print(plot(imp, c("log_income_adj", "age_mother")))
+print(plot(imp, c("marital_status_mother", "weight_less_55", "famsize")))
+print(plot(imp, c("head_marital_status", "head_education", "head_owns_house")))
+print(plot(imp, c("head_working_binary", "head_education", "head_owns_house")))
 
 print(densityplot(imp, ~ bmi + depression))
+print(densityplot(imp, ~ individual_health + smoking_number + smoking))
 print(densityplot(imp, ~ log_income_adj))
 print(densityplot(imp, ~ age_mother))
 print(densityplot(imp, ~ marital_status_mother + weight_less_55))
+print(densityplot(imp, ~ head_education + head_owns_house))
+print(densityplot(imp, ~ head_working_binary + famsize))
+
+test = data.table(complete(imp, 1))
+ids = unique(test$pid)
+
+sid = sample(ids, 1)
+mm[pid == sid, .(pid, year, age, depression, bmi, individual_health, smoking_number)]
+test[pid == sid, .(pid, year, age, depression, bmi, individual_health, smoking_number)]\
+
+
+
+nrow(mm[year == 2017 & head_wife == 1])

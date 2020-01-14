@@ -1,30 +1,34 @@
 
 # list of covariates
 
-# family
+# gender x
+# birth year x
+# optimism x
+# cognitive score x
+# marital status at birth
+# mother's age at birth x
 
-# family size, ok
-# head working, ok
-# head married, ok
-# head education, ok
-# head and wife race, ok
-# family income, ok
-# home ownership, ok
-# public assiances AFDC, no
-# head work hours, no
+# base line
 
-# cumulative residential moves
+# health baseline x
+# smoking baseline x
 
-# individual
-# gender, ok
-# birth weight, ok
-# mother marital status at birth, ok
-# monther aget at birth, ok
-# year born, ok
+# weight at birth
+# education parents x
+# public assistance
+# income mobility county x
+# cumulative residential moves x
+# size household x
+# home ownership
 
-# output (2017)
-# poor health ER34580, ok
-# self-reported health, ok
-# height / weight, ok
-# depression (respondents), ok
-# smoking
+# time varying
+
+# marital status x
+# work / hours / hh
+# employment x
+# income x
+# income mobility current county x
+# size household x
+# cumulative number of county moves x
+
+# time invariant

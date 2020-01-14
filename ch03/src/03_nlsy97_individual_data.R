@@ -15,7 +15,6 @@ library(hash)
 library(mice)
 library(lubridate)
 library(ipw)
-library(modelr)
 library(readxl)
 
 source("ch03/src/utils.R")
@@ -183,43 +182,6 @@ ovars = c("r0358100", "r2189500", "r3508600", "r4906700", "r6534200",
 nvars = paste0("smoking_30_days", years)
 renameColumns(dat, hash(ovars, nvars))
 
-##############################
-# covariates
-##############################
-
-# list of covariates
-
-# gender x
-# birth year x
-# optimism x
-# cognitive score x
-# marital status at birth
-# mother's age at birth x
-
-# base line
-
-# health baseline x
-# smoking baseline x
-
-# weight at birth
-# education parents x
-# public assistance
-# income mobility county x
-# cumulative residential moves x
-# size household x
-# home ownership
-
-# time varying
-
-# marital status x
-# work / hours / hh
-# employment x
-# income x
-# income mobility current county x
-# size household x
-# cumulative number of county moves x
-
-# time invariant
 
 timeinvariant_vars = hash(
     "r1200200" = "mother_age_at_birth",
@@ -360,7 +322,6 @@ ldat = merge(ldat, loc, by = c("id", "time"), all = TRUE)
 
 # create vector of ids for exploring data
 ids = unique(ldat$id)
-
 ldat[, min_age := getMin(age_interview_est), id]
 ldat[, min_year := getMin(year), id]
 ldat[, diff_age_12 := min_age - 12]
@@ -378,11 +339,34 @@ ldat = merge(ldat, fips12, by = "id", all.x = TRUE)
 ldat[flag12 == 0 & time == 1 & is.na(fips), fips := fip12]
 ldat[is.na(flag12), flag12 := 0]
 
+# ldat[id == sample(ids, 1), .(id, year, time, age_interview_est,
+#                              flag12, diff_age_12)]
+
 # remove redundant rows at age 12
 ldat = ldat[!(flag12 == 1 & diff_age_12 == 0)]
-# ldat[id == 2413]
 
-baseline_vars = c(paste0("optimism_", 1:4), "age", "residential_moves_by_12",
+# fill missing ages from 12 to first wave
+ldat[, first_year := getMin(year), id]
+ldat[, last_year := getMax(year), id]
+
+min_year = min(ldat$year)
+max_year = max(ldat$year)
+
+ldat[, c("min_year") := NULL]
+
+setkey(ldat, id, year)
+tt = ldat[CJ(id, year = seq(min_year, max_year), unique = TRUE)]
+tt[id == 2, .(time, year, age_interview_est, first_year, last_year)]
+tt[, first_year := getMin(first_year), id]
+tt[, last_year := getMax(last_year), id]
+tt = tt[year >= first_year & year <= last_year]
+setorder(tt, id, year)
+tt = tt[year %in% c(min_year:1996, years)]
+oldat = data.table::copy(ldat)
+ldat = data.table::copy(tt)
+
+# fill values for time invariant covariates
+baseline_vars = c(paste0("optimism_", 1:4), "time", "age", "residential_moves_by_12",
                   "mother_age_at_birth", "father_highest_grade", "mother_highest_grade",
                   "sex", "race", "hispanic", "ethnicity", "stratum", "type", "wt",
                   "interview_month", "interview_year", "asvab_score",
@@ -390,6 +374,18 @@ baseline_vars = c(paste0("optimism_", 1:4), "age", "residential_moves_by_12",
 
 ldat[, (baseline_vars) := lapply(.SD, replaceMissing), .SDcol = baseline_vars]
 ldat[, (baseline_vars) := lapply(.SD, fillWithFirstValue), id, .SDcol = baseline_vars]
+
+ldat[, age_interview_est := imputeAge(age_interview_est, year)]
+
+ldat[id == sample(ids, 1), .(id, year, time, age_interview_est, min_age)]
+
+ldat[, min_time := min(time), id]
+
+table(dat$age)
+
+uniqueN(ldat[min_time > 0, id])
+uniqueN(ldat[min_time == 0, id])
+ldat[id == sample(ids, 1),]
 
 # income adjustments
 cpi = fread("ch03/data/cpi.csv")
@@ -415,7 +411,10 @@ ldat[, exposure_time := lead_year - year]
 ldat[year == 2015 & is.na(exposure_time), exposure_time := 1]
 
 # exposure?
-exposure_periods = ldat[age_interview_est < 20,
+ldat[, stime := 1:.N, id]
+ldat[id == sample(ids, 1), .(id, year, age_interview_est, exposure_time, stime)]
+
+exposure_periods = ldat[stime <= 8,
                         .(rows = .N, years = sum(exposure_time)), id]
 summary(exposure_periods$rows)
 summary(exposure_periods$years)
@@ -432,83 +431,9 @@ ldat[hhsize < 0, hhsize := NA]
 setorder(ldat, id, time)
 ldat[, imp_fips := impute_locf(fips), id]
 
-# get county information
-county = data.table(haven::read_dta("ch02/data/cty_full_covariates.dta"))
-core = data.table(haven::read_dta("ch03/data/income_mob_measures.dta"))
-gini = data.table(read_excel("ch03/data/gini_census.xls", sheet = 2, skip = 2))
-
-setnames(gini,
-         c('StateCounty', 'GINI', 'MEAN...11'),
-         c('fips', 'gini_census', 'income_average')
-         )
-
-gini = gini[, fips := as.numeric(fips)][, .(fips, gini_census, income_average)]
-
-setnames(core, c('county_id', 'gini', 's_rank_8082', 'e_rank_b'),
-               c('fips', 'gini_core', 's_rank_core', 'e_rank_b_core'))
-
-core = core[, .(fips, gini_core, s_rank_core, e_rank_b_core)]
-
-setnames(county, 'cty', 'fips')
-county = merge(county, core, by = "fips", all.x = TRUE)
-county = merge(county, gini, by = "fips", all.x = TRUE)
-
-# countmis(county)
-
-# selection of key variables
-county = county[, .(fips, statename, county_name, gini_census,
-                    s_rank, e_rank_b,
-                    hhinc00, cty_pop2000)]
-
-county_vars = hash(
-    "s_rank" = "relative_mob",
-    "e_rank_b" = "absolute_mob",
-    "gini_census"  = "gini",
-    "hhinc00" = "county_income",
-    "cty_pop2000" = "population"
-)
-
-renameColumns(county, county_vars)
-
-county[, log_county_income := scale(log(county_income))]
-county[, log_population := scale(log(population))]
-
-vars = c("relative_mob", "gini", "absolute_mob")
-county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
-
-# linear models (residuals)
-model_rel_mob = lm(z_relative_mob ~ z_gini + log_population + log_county_income, data = county)
-model_gini = lm(z_gini ~ z_relative_mob  + log_population + log_county_income, data = county)
-model_abs_mob = lm(z_absolute_mob ~ z_gini + log_population + log_county_income, data = county)
-
-county = data.table(add_residuals(county, model_rel_mob))
-setnames(county, "resid", "relative_mob_resid")
-county = data.table(add_residuals(county, model_gini))
-setnames(county, "resid", "gini_resid")
-county = data.table(add_residuals(county, model_abs_mob))
-setnames(county, "resid", "absolute_mob_resid")
-
-# exploring correlations
-cor(county[, .(z_relative_mob, relative_mob_resid)])
-cor(county[, .(z_absolute_mob, absolute_mob_resid)])
-cor(county[, .(z_gini, gini_resid)])
-
-vars = c(vars, "gini_resid", "absolute_mob_resid", "relative_mob_resid")
-county[, (paste0("q_", vars)) := lapply(.SD, createQuantiles), .SDcol = vars]
-
-county[, mean(relative_mob, na.rm = TRUE), q_relative_mob]
-county[, mean(absolute_mob, na.rm = TRUE), q_absolute_mob]
-
-county = county[, .(fips, statename, county_name,
-                    gini, z_gini, gini_resid, q_gini, q_gini_resid,
-                    relative_mob, z_relative_mob, relative_mob_resid, q_relative_mob, q_relative_mob_resid,
-                    absolute_mob, z_absolute_mob, absolute_mob_resid, q_absolute_mob, q_absolute_mob_resid,
-                    log_county_income, log_population
-                    )]
-
-setnames(county, "fips", "imp_fips")
+# load chetty's county data
+county = readRDS("ch03/output/data/chetty_county_data.rds")
 ldat = merge(ldat, county, by = "imp_fips", all.x = TRUE)
-
 
 # 75 cases
 remove_ids = unique(ldat[is.na(z_relative_mob) | is.na(z_gini), id])
@@ -586,10 +511,24 @@ summary(ldat[year == 2015, bmi])
 ldat[bmi > 40, bmi := 40]
 ldat[bmi < 15, bmi := 15]
 
-# hist(ldat$bmi)
+# cumulative residential moves
+setorder(ldat, year, id)
+
+ldat[, lag_imp_fips := shift(imp_fips), id]
+ldat[id == sample(ids, 1), .(id, time, stime, year, imp_fips, lag_imp_fips)]
+ldat[, respondent_moved := ifelse(imp_fips == lag_imp_fips, 0, 1), id]
+ldat[is.na(respondent_moved), respondent_moved := 0]
+table(ldat$respondent_moved)
+ldat[, nmoves := cumsum(respondent_moved), id]
+table(ldat$nmoves)
+summary(ldat$nmoves)
+
+ldat[id == sample(ids, 1), .(id, time, stime, year,
+                             imp_fips, lag_imp_fips, nmoves)]
 
 ldat[, max_age_interview_est := getMax(age_interview_est), id]
 # ldat[, age_interview_est := factor(age_interview_est)]
 ldat[, max_age_intervew_est := factor(max_age_interview_est)]
 
+# save final data
 saveRDS(ldat, "ch03/output/data/nlsy97_data_ready_for_imputation.rds")

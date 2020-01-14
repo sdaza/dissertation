@@ -633,14 +633,14 @@ mfamily = mfamily[sex == 2]
 mothers = merge(mfamily, ldata[, .(pid, year, age)], by.x = "pid_parent", by.y = "pid")
 setnames(mothers,
          c("pid_kid", "age", "year"),
-         c("pid", "age_mother", "first_year")
+         c("pid", "mother_age", "first_year")
          )
 
 # no duplicates
-table(mothers$age_mother)
-mothers[age_mother %in% c(0, 999), age_mother := NA]
+table(mothers$mother_age)
+mothers[mother_age %in% c(0, 999), mother_age := NA]
 mothers[, .N, .(pid, first_year)][N > 1]
-mothers = mothers[, .(age_mother = getMin(age_mother)), .(pid, first_year)]
+mothers = mothers[, .(mother_age = getMin(mother_age)), .(pid, first_year)]
 summary(mothers[, .N, .(pid, first_year)])
 
 # define outcome variables per individual
@@ -890,16 +890,16 @@ ldata[sex == 9, sex := NA]
 ldata[, male := ifelse(sex == 1, 1, 0)]
 table(ldata$male)
 
-ldata[age_mother %in% c(0, 999), age_mother := NA]
-table(ldata$age_mother)
+ldata[mother_age %in% c(0, 999), mother_age := NA]
+table(ldata$mother_age)
 
 ldata[birth_weight < 991, weight_less_55 := ifelse(birth_weight < 88, 1, 0)]
 ldata[is.na(weight_less_55) & birth_weight < 998, weight_less_55 := ifelse(birth_weight == 991, 1, 0)]
 table(ldata$weight_less_55)
 
 ldata[marital_status_mother_at_birth < 8,
-      marital_status_mother := ifelse(marital_status_mother_at_birth == 1, 1, 0)]
-table(ldata$marital_status_mother)
+      mother_marital_status := ifelse(marital_status_mother_at_birth == 1, 1, 0)]
+table(ldata$mother_marital_status)
 
 # imputa age
 ldata[age == 0 | age > 900, age := NA]
@@ -935,8 +935,10 @@ ldata[year %in% c(1994, 1995) & income == 9999999, income_adj := NA]
 
 ids = ldata[, pid]
 ldata[pid == sample(ids, 1), .(pid, year, whynoresp, income, income_adj)]
-ldata[!is.na(income_adj),
-      log_income_adj := scale(ifelse(income_adj < 1, log(1), log(income_adj)), scale = FALSE)]
+
+ldata[income_adj > 0, log_income_adj := log(income_adj)]
+ldata[income_adj < 1, log_income_adj := log(1)]
+ldata[, log_income_adj := scale(log_income_adj, scale = FALSE)]
 
 summary(ldata$log_income_adj)
 summary(ldata$income_adj)
@@ -989,11 +991,15 @@ length(unique(ldata[head_wife == 1, pid]))
 # select variables for imputation
 names(ldata)
 
-mm = ldata[, .(pid, year, head_wife, relation_head, sn, whynoresp, first_year, year_born, imp_age, male, race,
-               weight_less_55, marital_status_mother,
-               age_mother, log_income_adj, head_marital_status, head_education, head_owns_house,
+mm = ldata[, .(pid, year, head_wife, relation_head, sn, whynoresp,
+               first_year, year_born,
+               imp_age, male, race,
+               weight_less_55, mother_marital_status,
+               mother_age, log_income_adj, head_marital_status,
+               head_education, head_owns_house,
                famsize, individual_working_binary, head_working_binary,
-               bmi, life_satisfaction, depression, smoking, smoking_ever, smoking_number, health_binary,
+               bmi, life_satisfaction, depression, smoking, smoking_ever,
+               smoking_number, health_binary,
                individual_health
                )
           ]

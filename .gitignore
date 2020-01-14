@@ -14,7 +14,7 @@ pardiso.lic
 *.lof
 *.pdf
 /Output/
-
+.Rapp.history
 
 # chapter 1
 /ch02/Output/
