@@ -6,7 +6,6 @@
 
 # libraries
 library(data.table)
-library(sdazar)
 library(hash)
 library(mice)
 library(micemd)

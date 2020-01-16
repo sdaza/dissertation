@@ -16,6 +16,7 @@ impute_locf = function(x) {
     return(output)
 }
 
+
 impute_forward_backward = function(data,
                                    variabble,
                                    keys,
@@ -26,17 +27,20 @@ impute_forward_backward = function(data,
     return(temp)
 }
 
+
 fillWithFirstValue = function(x) {
     fv = head(na.omit(x), 1)
     x = ifelse(is.na(x), fv, x)
     return(x)
 }
 
+
 fillWithLastValue = function(x) {
     fv = tail(na.omit(x), 1)
     x = ifelse(is.na(x), fv, x)
     return(x)
 }
+
 
 renameColumns = function(dat, hash) {
     oldnames = as.vector(hash::keys(hash))
@@ -50,6 +54,11 @@ renameColumns = function(dat, hash) {
 }
 
 
+longText = function(text) {
+    return(gsub("\n", "", text))
+}
+
+
 fillMissingColumns = function(dat, expression, expected) {
     varnames = names(dat)
     observed = grep(expression,  varnames, value = TRUE)
@@ -58,11 +67,13 @@ fillMissingColumns = function(dat, expression, expected) {
     } else { print("No missing columns found")}
 }
 
+
 replaceMissing = function(x) {
     return(
         ifelse(x < 0, NA, x)
     )
 }
+
 
 getMax = function(x) {
     x = na.omit(x)
@@ -73,6 +84,7 @@ getMax = function(x) {
     }
 }
 
+
 getMin = function(x) {
     x = na.omit(x)
     if (length(x) == 0) {
@@ -82,6 +94,7 @@ getMin = function(x) {
     }
 }
 
+
 getFirst = function(x) {
     x = na.omit(x)
     if (length(x) == 0) {
@@ -90,6 +103,7 @@ getFirst = function(x) {
         return(head(x, 1))
     }
 }
+
 
 createQuantiles = function(x, groups = 5) {
     output = cut(x,
@@ -123,8 +137,10 @@ hashHHColumns = function(myhash, years, newheader) {
         new_names = c(new_names, paste0(newheader, seqvalues, "_", years[i]))
 
     }
+
     return(hash(old_names, new_names))
 }
+
 
 getCoefficients = function(micombine, position = 2, coeff = TRUE) {
     if (coeff) {
@@ -157,6 +173,7 @@ imputeAge = function(age, year) {
     return(age)
 }
 
+
 # combination of list for doparallel
 comb <- function(x, ...) {
     lapply(seq_along(x),
@@ -169,7 +186,8 @@ getSublist = function(mylist, name) {
 }
 
 parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
-                     n.imp.core = NULL, cl.type = "PSOCK", ...){
+                     n.imp.core = NULL, cl.type = "PSOCK", ...) {
+
     # check form of data and m
     data <- check.dataform(data)
     m <- check.m(m)
@@ -228,7 +246,8 @@ parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
     # generate imputations
     imps <- parallel::parLapply(cl = cl,
                                 X = 1:n.core,
-                                function(x) do.call(mice, as.list(args), envir = environment()))
+                                function(x) do.call(mice, as.list(args),
+                                                    envir = environment()))
     parallel::stopCluster(cl)
 
     # postprocess clustered imputation into a mids object
@@ -247,6 +266,7 @@ parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
     return(imp)
 }
 
+
 match.cluster <- function(n.core, m){
     cores <- 1:n.core
     imps <- 1:m
@@ -259,24 +279,28 @@ match.cluster <- function(n.core, m){
 
 check.data <- function(data, method) {
   check.dataform(data)
-
 }
 
 check.dataform <- function(data) {
-  if (!(is.matrix(data) || is.data.frame(data)))
-    stop("Data should be a matrix or data frame", call. = FALSE)
-  if (ncol(data) < 2)
-    stop("Data should contain at least two columns", call. = FALSE)
-  data <- as.data.frame(data)
-  mat <- sapply(data, is.matrix)
-  if (any(mat)) stop("Cannot handle columns with class matrix: ",
-                     colnames(data)[mat])
 
-  dup <- duplicated(colnames(data))
-  if (any(dup)) stop("Duplicate names found: ",
-                     paste(colnames(data)[dup], collapse = ", "))
+    if (!(is.matrix(data) || is.data.frame(data)))
+        stop("Data should be a matrix or data frame", call. = FALSE)
 
-  data
+    if (ncol(data) < 2)
+        stop("Data should contain at least two columns", call. = FALSE)
+
+    data <- as.data.frame(data)
+
+    mat <- sapply(data, is.matrix)
+
+    if (any(mat)) stop("Cannot handle columns with class matrix: ",
+                       colnames(data)[mat])
+
+    dup <- duplicated(colnames(data))
+    if (any(dup)) stop("Duplicate names found: ",
+                        paste(colnames(data)[dup], collapse = ", "))
+
+    data
 }
 
 check.m <- function(m) {
@@ -290,14 +314,15 @@ check.m <- function(m) {
 }
 
 check.cluster <- function(data, predictorMatrix) {
-  # stop if the cluster variable is a factor
-  isclassvar <- apply(predictorMatrix == -2, 2, any)
-  for (j in colnames(predictorMatrix)) {
-    if (isclassvar[j] && lapply(data, is.factor)[[j]])
-      stop("Convert cluster variable ", j, " to integer by as.integer()")
-  }
-  TRUE
+    # stop if the cluster variable is a factor
+    isclassvar <- apply(predictorMatrix == -2, 2, any)
+    for (j in colnames(predictorMatrix)) {
+        if (isclassvar[j] && lapply(data, is.factor)[[j]])
+            stop("Convert cluster variable ", j, " to integer by as.integer()")
+    }
+    TRUE
 }
+
 
 truncateWeights = function(weights, level = 0.01) {
     tw = ifelse(weights < quantile(weights, probs = level),
@@ -306,6 +331,7 @@ truncateWeights = function(weights, level = 0.01) {
                 quantile(weights, probs = 1 - level), weights)
     return(tw)
 }
+
 
 ipwExposure = function(imputations,
                        lag_variables,
@@ -336,6 +362,8 @@ ipwExposure = function(imputations,
 
         dat = data.table(mice::complete(imputations, i))
         dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
+        dat[, q_relative_mob := as.numeric(as.character(q_relative_mob))]
+        dat[, q_gini := as.numeric(as.character(q_gini))]
 
         # set order first
         setorderv(dat, c(id_var, time_var))
@@ -359,11 +387,11 @@ ipwExposure = function(imputations,
         tempdata2 = sdat[get(time_var) > 1]
 
         # define formulas of exposure models
-        formula_1a = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", numerator_time1)))
-        formula_1b = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", denominator_time1)))
+        formula_1a = formula(paste0(exposure_variable, " ~ ", longText(numerator_time1)))
+        formula_1b = formula(paste0(exposure_variable, " ~ ", longText(denominator_time1)))
 
-        formula_2a = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", numerator)))
-        formula_2b = formula(paste0(exposure_variable, " ~ ", gsub("\n", "", denominator)))
+        formula_2a = formula(paste0(exposure_variable, " ~ ", longText(numerator)))
+        formula_2b = formula(paste0(exposure_variable, " ~ ", longText(denominator)))
 
         if (exposure_type == "gaussian") {
 
@@ -401,6 +429,9 @@ ipwExposure = function(imputations,
             tempdata2[, ipw := weights_time_2]
 
         } else if (exposure_type == "ordinal") {
+
+            tempdata1[, (exposure_variable) := as.factor(get(exposure_variable))]
+            tempdata2[, (exposure_variable) := as.factor(get(exposure_variable))]
 
             # estimate weights for time == 1
             model1a = polr(formula_1a, data = tempdata1)
@@ -440,7 +471,7 @@ ipwExposure = function(imputations,
 
             weights_time_2 = v_numerator / v_denominator
             rm(v_numerator, v_denominator)
-            tempdata2[, ipw := weights_time_1]
+            tempdata2[, ipw := weights_time_2]
         }
 
 
@@ -474,10 +505,12 @@ ipwExposure = function(imputations,
         else if (final_model_type == "binomial") {
             output = svyglm(final_model, design = svy_design,
                             family = quasibinomial)
-        } else if (final_model_type == "poisson") {
+        }
+        else if (final_model_type == "poisson") {
             output = svyglm(final_model, design = svy_design,
                             family = poisson)
-        } else if (final_model_type == "ordinal") {
+        }
+        else if (final_model_type == "ordinal") {
             output = svyolr(final_model, design = svy_design)
         }
 
@@ -491,87 +524,93 @@ ipwExposure = function(imputations,
 }
 
 
-# ipwContinous = function(data,
-#                 exposure,
-#                 time_var,
-#                 time_invariant,
-#                 time_variant,
-#                 id = "id") {
+lookvar  = function(dat, varnames) {
+    n  = names(dat)
+    nn  = list()
+        for (i in 1:length(varnames)) {
+            nn[[i]]  = grep(varnames[i],n)
+        }
 
-#     data[, ttime := as.numeric(as.character(get(time_var)))]
-#     setorder(data, id, ttime)
-#     gdata = copy(data)
+    nn  = unlist(nn)
 
-#     # weights time == 1
+    if ( length(nn) >0 )
+        {
+         r  = n[nn]
+         return(r)
+        }
+    else
+    { return("No variables found")}
+}
 
-#     tdata1 = copy(data[ttime == 1])
-#     time_1_formula_1 = formula(paste0(exposure, " ~ 1"))
-#     time_1_formula_2 = formula(paste0(
-#                                       paste0(exposure, " ~ "),
-#                                       paste0(time_invariant, collapse = " + ")
-#                                       )
-#                                )
-#     time_1_model_1 = glm(formula = time_1_formula_1, data = tdata1)
-#     time_1_model_2 = glm(formula = time_1_formula_2, data = tdata1)
 
-#     kdens1 = dnorm(tdata1[[exposure]],
-#                    predict(time_1_model_1),
-#                    as.numeric(sd(time_1_model_1$residuals)))
+countmis  = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
 
-#     kdens2 = dnorm(tdata1[[exposure]],
-#                    predict(time_1_model_2),
-#                    as.numeric(sd(time_1_model_2$residuals)))
+    if (is.null(vars)) {
+        vars = names(dat)
+    }
 
-#     weights_time_1 = kdens1 / kdens2
+    mis = sort(sapply(dat[, vars, with = FALSE],
+                       function(x) sum(is.na(x))), decreasing = TRUE)
 
-#     print(summary(weights_time_1))
+    if (exclude.complete == TRUE) {
+        mis = mis[ mis > 0]
+    }
 
-#     remove(kdens1, kdens2)
+    if (pct == FALSE)
+      { return(mis) }
 
-#     # time > 1 weights, add time invariant covs
-#     tdata = copy(data[ttime > 1])
-#     time_2_formula_1 = formula(paste0(
-#                                   paste0(exposure, " ~ "),
-#                                   paste0(c(time_var, time_invariant),
-#                                          collapse = " + ")
-#                                   )
-#                                )
+    else if ( pct == TRUE ) {
+        return( round(mis / nrow(dat), 3))
+    }
 
-#     # TODO: add time variant covs and time
-#     time_2_formula_2 = formula(paste0(
-#                                   paste0(exposure, " ~ "),
-#                                   paste0(c(time_var, time_invariant, time_variant),
-#                                          collapse = " + ")
-#                                   )
-#                                )
+    return(mis)
+}
 
-#     time_2_model_1 = glm(formula = time_2_formula_1, data = tdata)
-#     time_2_model_2 = glm(formula = time_2_formula_2, data = tdata)
 
-#     kdens1 = dnorm(tdata[[exposure]],
-#                    predict(time_2_model_1),
-#                    as.numeric(sd(time_2_model_1$residuals)))
+savepdf = function(file, width=16, height=10) {
 
-#     kdens2 = dnorm(tdata[[exposure]],
-#                    predict(time_2_model_2),
-#                    as.numeric(sd(time_2_model_2$residuals)))
+    fname = paste0(file, ".pdf")
+    pdf(fname, width=width/2.54, height=height/2.54,
+        pointsize=10)
+    par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.6,1.1,1.1))
 
-#     weights_time_2 = kdens1 / kdens2
-#     print(summary(weights_time_2))
+}
 
-#     gdata[ttime == 1, tipw  := weights_time_1]
 
-#     gdata[ttime > 1, tipw := weights_time_2]
+createTable = function(list_rows, rownames) {
 
-#     setorder(gdata, id, time)
 
-#     gdata[, ipw := cumprod(tipw), id]
-#     gdata[, ipwt1 := truncateWeights(tipw, 0.01), id]
-#     gdata[, ipwt5 := truncateWeights(tipw, 0.05), id]
-#     return(gdata[, c(id, time, "ipw", "ipwt1", "ipwt5"), with = FALSE])
-
-# }
+}
 
 
 
+add_notes_table = function(tab, caption, label, align,
+                           comment = "",
+                           floating.environment = "table",
+                           fontsize = "footnotesize",
+                           arraystretch = 1.3,
+                           tabcolsep = 25,
+                           filename = "") {
 
+    ptcl = print(xtable(tab, caption = caption, label = label, align = align),
+             caption.placement = "top",
+             floating.environment = floating.environment,
+             table.placement = "htp")
+
+    ptcl = gsub("begin\\{table\\}\\[htp\\]\\n",
+                paste0("begin\\{table\\}\\[htp\\]\\\n\\\\", fontsize,
+                       "\\\n\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
+                       "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
+                       arraystretch,
+                       "\\}\\\n\\\\begin\\{threeparttable\\}\\\n"),
+                 ptcl)
+
+    ptcl = gsub("end\\{tabular\\}\\n",
+                paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
+                       comment,
+                       "\\\n\\\\end{tablenotes}\\\n\\\\end{threeparttable}\\\n"),
+                ptcl)
+
+    cat(ptcl, file = filename)
+
+}

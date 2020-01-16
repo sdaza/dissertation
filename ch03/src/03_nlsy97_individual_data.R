@@ -200,8 +200,8 @@ renameColumns(dat, timeinvariant_vars)
 
 # income
 ovars = c("r1204500","r2563300","r3884900","r5464100","r7227800","s1541700",
-           "s2011500","s3812400","s5412800","s7513700","t0014100","t2016200",
-           "t3606500","t5206900","t6656700","t8129100", "u0008900")
+          "s2011500","s3812400","s5412800","s7513700","t0014100","t2016200",
+          "t3606500","t5206900","t6656700","t8129100", "u0008900")
 
 nvars  = paste0("income", years)
 renameColumns(dat, hash(ovars, nvars))
@@ -504,7 +504,8 @@ ldat[age_interview_est >= 25, (height) := lapply(.SD, fillWithLastValue), id, .S
 summary(ldat[, ..bmi_cols])
 
 ids = unique(ldat$id)
-ldat[id == sample(id, 1), .(id, age_interview_est, year, weight, height_feet, height_inches)]
+ldat[id == sample(id, 1), .(id, age_interview_est, year, weight,
+                            height_feet, height_inches)]
 ldat[, bmi := 703 * weight / (height_inches + height_feet * 12) ^ 2]
 summary(ldat[year == 2015, bmi])
 
@@ -519,6 +520,7 @@ ldat[id == sample(ids, 1), .(id, time, stime, year, imp_fips, lag_imp_fips)]
 ldat[, respondent_moved := ifelse(imp_fips == lag_imp_fips, 0, 1), id]
 ldat[is.na(respondent_moved), respondent_moved := 0]
 table(ldat$respondent_moved)
+
 ldat[, nmoves := cumsum(respondent_moved), id]
 table(ldat$nmoves)
 summary(ldat$nmoves)

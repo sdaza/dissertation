@@ -6,9 +6,8 @@
 
 # libraries
 library(data.table)
-library(sdazar)
+library(miceadds)
 library(hash)
-
 source("ch03/src/utils.R")
 
 # read data
@@ -20,7 +19,8 @@ ids = unique(ldat$id)
 ldat[id == sample(ids, 1), .(id, year, time, male, age_interview_est)]
 
 # select columns to be included in the imputation
-mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time, male, ethnicity, max_age_interview_est,
+mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time,
+              male, ethnicity, max_age_interview_est,
               age_interview_est, hhsize,
               z_relative_mob, z_absolute_mob, z_gini,
               relative_mob_resid, absolute_mob_resid, gini_resid,
@@ -32,7 +32,7 @@ mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time, male, ethnicity, m
               imp_parent_married,
               log_income_adj, parent_education, mother_age_at_birth,
               residential_moves_by_12, nmoves,
-              health, bmi, depression, smoking_ever, smoking_30,
+              rev_health, bmi, depression, smoking_ever, smoking_30,
               wt, stratum, type)]
 
 # center variables
@@ -40,7 +40,7 @@ center_vars = c("hhsize", "asvab_score", "parent_education",
                 "mother_age_at_birth", "residential_moves_by_12", "nmoves",
                 "bmi", "depression")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
-mm[, health := as.factor(health)]
+mm[, rev_health := as.factor(rev_health)]
 mm[, age_interview_est := as.factor(age_interview_est)]
 
 # independent variable z_relative_mob and z_gini
@@ -78,7 +78,7 @@ methods = hash(
                "mother_age_at_birth" = "2lonly.pmm",
                "residential_moves_by_12" = "2lonly.pmm",
                "asvab_score" = "2lonly.pmm",
-               "health" = "2l.pmm",
+               "rev_health" = "2l.pmm",
                "bmi" = "2l.pmm",
                "depression" = "2l.pmm",
                "smoking_ever" = "2l.pmm",
@@ -117,7 +117,7 @@ predictors = hash(
      "mother_age_at_birth" = 1,
      "residential_moves_by_12" = 1,
      "asvab_score" = 1,
-     "health" = 1,
+     "rev_health" = 1,
      "bmi" = 1,
      "depression" = 1,
      "smoking_ever" = 1,
@@ -144,7 +144,7 @@ pred["smoking_ever", "smoking_30"] = 0
 pred["smoking_30", "smoking_ever"] = 0
 
 # some checks
-pred["health",]
+pred["rev_health",]
 pred["smoking_30",]
 pred["bmi",]
 pred["z_relative_mob",]
@@ -166,9 +166,8 @@ imp_relative_mob = parlmice(mm,
 # explore quality of imputations
 
 savepdf("ch03/output/nlsy97_relative_mob_imp_iterations")
-print(plot(imp_relative_mob, c("bmi", "health")))
+print(plot(imp_relative_mob, c("bmi", "rev_health")))
 print(plot(imp_relative_mob, c("depression", "smoking_30", "smoking_ever")))
-# print(plot(imp_relative_mob, c("z_relative_mob", "z_gini")))
 print(plot(imp_relative_mob, c("hhsize", "log_income_adj")))
 print(plot(imp_relative_mob, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
 print(plot(imp_relative_mob, c("parent_education", "mother_age_at_birth")))
@@ -177,7 +176,7 @@ dev.off()
 
 savepdf("ch03/output/nlsy97_relative_mob_imp_values")
 print(densityplot(imp_relative_mob, ~ bmi + depression + smoking_30 + smoking_ever))
-print(densityplot(imp_relative_mob, ~ health))
+print(densityplot(imp_relative_mob, ~ rev_health))
 print(densityplot(imp_relative_mob, ~ hhsize + log_income_adj))
 print(densityplot(imp_relative_mob, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
 # print(densityplot(imp_relative_mob, ~ z_relative_mob + z_gini))
@@ -220,7 +219,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 #      "mother_age_at_birth" = 1,
 #      "residential_moves_by_12" = 1,
 #      "asvab_score" = 1,
-#      "health" = 1,
+#      "rev_health" = 1,
 #      "bmi" = 1,
 #      "depression" = 1,
 #      "smoking_ever" = 1,
@@ -247,7 +246,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 # pred["smoking_30", "smoking_ever"] = 0
 
 # # somo checks
-# pred["health",]
+# pred["rev_health",]
 # pred["smoking_30",]
 # pred["bmi",]
 # pred["z_absolute_mob",]
@@ -266,7 +265,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 # # explore quality of imputations
 
 # savepdf("ch03/output/nlsy97_absolute_mob_imp_iterations")
-# print(plot(imp_absolute_mob, c("bmi", "health")))
+# print(plot(imp_absolute_mob, c("bmi", "rev_health")))
 # print(plot(imp_absolute_mob, c("depression", "smoking_30", "smoking_ever")))
 # # print(plot(imp_absolute_mob, c("z_relative_mob", "z_gini")))
 # print(plot(imp_absolute_mob, c("hhsize", "log_income_adj")))
@@ -277,7 +276,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 
 # savepdf("ch03/output/nlsy97_absolute_mob_imp_values")
 # print(densityplot(imp_absolute_mob, ~ bmi + depression + smoking_30 + smoking_ever))
-# print(densityplot(imp_absolute_mob, ~ health))
+# print(densityplot(imp_absolute_mob, ~ rev_health))
 # print(densityplot(imp_absolute_mob, ~ hhsize + log_income_adj))
 # print(densityplot(imp_absolute_mob, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
 # # print(densityplot(imp_absolute_mob, ~ z_relative_mob + z_gini))
@@ -325,7 +324,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 #      "mother_age_at_birth" = 1,
 #      "residential_moves_by_12" = 1,
 #      "asvab_score" = 1,
-#      "health" = 1,
+#      "rev_health" = 1,
 #      "bmi" = 1,
 #      "depression" = 1,
 #      "smoking_ever" = 1,
@@ -352,7 +351,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 # pred["smoking_30", "smoking_ever"] = 0
 
 # # somo checks
-# pred["health",]
+# pred["rev_health",]
 # pred["smoking_30",]
 # pred["bmi",]
 # pred["q_relative_mob",]
@@ -371,7 +370,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 # # explore quality of imputations
 
 # savepdf("ch03/output/nlsy97_qrelative_mob_imp_iterations")
-# print(plot(imp_absolute_mob, c("bmi", "health")))
+# print(plot(imp_absolute_mob, c("bmi", "rev_health")))
 # print(plot(imp_absolute_mob, c("depression", "smoking_30", "smoking_ever")))
 # # print(plot(imp_absolute_mob, c("z_relative_mob", "z_gini")))
 # print(plot(imp_absolute_mob, c("hhsize", "log_income_adj")))
@@ -382,7 +381,7 @@ saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 
 # savepdf("ch03/output/nlsy97_qrelative_mob_imp_values")
 # print(densityplot(imp_absolute_mob, ~ bmi + depression + smoking_30 + smoking_ever))
-# print(densityplot(imp_absolute_mob, ~ health))
+# print(densityplot(imp_absolute_mob, ~ rev_health))
 # print(densityplot(imp_absolute_mob, ~ hhsize + log_income_adj))
 # print(densityplot(imp_absolute_mob, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
 # # print(densityplot(imp_absolute_mob, ~ z_relative_mob + z_gini))
