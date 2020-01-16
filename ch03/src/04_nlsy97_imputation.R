@@ -134,7 +134,8 @@ for (i in seq_along(predictors_vectors)) {
 diag(pred) = 0
 
 # variables without age as predictor
-vars = c("parent_education", "mother_age_at_birth", "residential_moves_by_12", "asvab_score")
+vars = c("parent_education", "mother_age_at_birth",
+         "residential_moves_by_12", "asvab_score")
 pred[vars, "age_interview_est"] = 0
 
 # adjustments

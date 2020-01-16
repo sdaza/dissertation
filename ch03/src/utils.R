@@ -576,41 +576,129 @@ savepdf = function(file, width=16, height=10) {
 
 }
 
+extract.MIcombine <- function(model, obs = 0) {
 
-createTable = function(list_rows, rownames) {
+    s = summary(model)
+    coefficient.names = rownames(s)
+    coefficients = s$results
+    standard.errors = s$se
+    z = coefficients / standard.errors
+    significance = 2 * pnorm(-abs(z))
 
+    gof = numeric()
+    gof.names = character()
+    gof.decimal = logical()
+    gof = c(obs, events)
+    gof.names = c("Observations")
+    gof.decimal = c(FALSEE)
+
+    tr = createTexreg(
+        coef.names = coefficient.names,
+        coef = coefficients,
+        se = standard.errors,
+        pvalues = significance,
+        gof.names = gof.names,
+        gof = gof,
+        gof.decimal = gof.decimal)
+    return(tr)
+}
+
+setMethod("extract", signature = className("MIresult", "MItools"),
+    definition = extract.MIcombine)
+
+
+createModelTables = function(list_rows, row_names, row_labels, column_names,
+                             observations = 0,
+                             caption = "title", label = "title",
+                             fontsize = "scriptsize",
+                             arraystretch = 0.8,
+                             tabcolsep = 10,
+                             comment = comment,
+                             groups = NULL,
+                             filename = "") {
+
+    model_list = list()
+
+    # loop to create texreg objects
+    for (i in seq_along(column_names)) {
+        coeff = NULL
+        se = NULL
+        for (h in seq_along(list_rows)) {
+            sublist = summary(list_rows[[h]][[i]])
+            vnames = rownames(sublist)
+            position = grep(row_names[h], vnames)
+            coeff = c(coeff, sublist$results[position])
+            se = c(se, sublist$se[position])
+            z = coeff / se
+            significance = 2 * pnorm(-abs(z))
+        }
+        model_list[[column_names[[i]]]] = createTexreg(
+            coef.names =  row_labels,
+            coef = coeff,
+            se = se,
+            pvalues = significance,
+            gof.names = 'Observations',
+            gof = observations,
+            gof.decimal = FALSE)
+        }
+
+    tab = texreg(
+        model_list,
+        float.pos = "htp",
+        caption = caption,
+        booktabs = TRUE,
+        use.packages = FALSE,
+        dcolumn = TRUE,
+        caption.above = TRUE,
+        fontsize = fontsize,
+        label = label,
+        center = TRUE,
+        sideways = sideways,
+        digits = 2,
+        custom.model.names = column_names,
+        groups = if (!is.null(groups)) { groups },
+        custom.note = ""
+    )
+
+    add_notes_table(tab,
+                    tabcolsep = tabcolsep,
+                    arraystretch = arraystretch,
+                    comment = comment,
+                    filename = filename)
 
 }
 
+createModelTables(list_rows, column_names = column_names,
+                  row_names = row_names, row_labels = row_labels,
+                  filename = "ch03/output/test_table.tex",
+                  comment = comment,
+                  groups = groups
+                  )
 
-
-add_notes_table = function(tab, caption, label, align,
+add_notes_table = function(tab,
                            comment = "",
-                           floating.environment = "table",
-                           fontsize = "footnotesize",
-                           arraystretch = 1.3,
-                           tabcolsep = 25,
+                           arraystretch = 0.8,
+                           tabcolsep = 10,
                            filename = "") {
 
-    ptcl = print(xtable(tab, caption = caption, label = label, align = align),
-             caption.placement = "top",
-             floating.environment = floating.environment,
-             table.placement = "htp")
-
-    ptcl = gsub("begin\\{table\\}\\[htp\\]\\n",
-                paste0("begin\\{table\\}\\[htp\\]\\\n\\\\", fontsize,
-                       "\\\n\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
+    tab = gsub("begin\\{table\\}\\[htp\\]\\n",
+                paste0("begin\\{table\\}\\[htp\\]\\\n\\\\centering\\\n",
+                       "\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
                        "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
                        arraystretch,
                        "\\}\\\n\\\\begin\\{threeparttable\\}\\\n"),
-                 ptcl)
+                 tab)
 
-    ptcl = gsub("end\\{tabular\\}\\n",
+    tab = gsub("end\\{tabular\\}\\n",
                 paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
                        comment,
-                       "\\\n\\\\end{tablenotes}\\\n\\\\end{threeparttable}\\\n"),
-                ptcl)
+                       "\\\n\\\\end{tablenotes}\\\n"),
+                tab)
 
-    cat(ptcl, file = filename)
+    tab = gsub("end\\{center\\}\\n",
+                paste0("end\\{center\\}\\\n\\\\end{threeparttable}\\\n"),
+                tab)
+
+    cat(tab, file = filename)
 
 }
