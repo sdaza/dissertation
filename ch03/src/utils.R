@@ -352,13 +352,14 @@ ipwExposure = function(imputations,
     # create to lists to save output of the loop
     output_coeff = list()
     output_vcov = list()
+    final_weights = NULL
 
     # loop over imputations
     for (i in 1:imputations$m) {
 
         results = list()
 
-        print(paste0("Number of imputation ", i))
+        # print(paste0("Number of imputation ", i))
 
         dat = data.table(mice::complete(imputations, i))
         dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
@@ -371,8 +372,8 @@ ipwExposure = function(imputations,
         dat[, paste0("lag_", lag_variables) := lapply(.SD, shift), get(id_var),
             .SDcol = lag_variables]
 
-        dat[, health := factor(health)]
-        dat[, lag_health := factor(lag_health)]
+        dat[, rev_health := factor(rev_health)]
+        dat[, lag_rev_health := factor(lag_rev_health)]
 
         dat[, paste0("baseline_", baseline_variables) := lapply(.SD, getFirst), get(id_var),
            .SDcol = baseline_variables]
@@ -394,7 +395,6 @@ ipwExposure = function(imputations,
         formula_2b = formula(paste0(exposure_variable, " ~ ", longText(denominator)))
 
         if (exposure_type == "gaussian") {
-
 
             # estimate weights for time == 1
             model1a = lm(formula_1a, data = tempdata1)
@@ -425,6 +425,8 @@ ipwExposure = function(imputations,
                            as.numeric(sd(model2b$residuals)))
 
             weights_time_2 = kdens1 / kdens2
+            summary(weights_time_2)
+
             rm(kdens1, kdens2)
             tempdata2[, ipw := weights_time_2]
 
@@ -493,9 +495,13 @@ ipwExposure = function(imputations,
                           paste0("average_", exposure_variable)),
                       with = FALSE]
         fdata = merge(last_obs, gdata, by = id_var)
+        final_weights = c(final_weights, fdata$cipw)
 
-        print(paste0("Mean of weights: ", round(mean(fdata$cipw), 2)))
-        print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
+        if (i %in% c(1, 25, 75, 100)) {
+            print(paste0("Weights for imputation number ", i))
+            print(paste0("Mean of weights: ", round(mean(fdata$cipw), 2)))
+            print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
+        }
 
         svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
 
@@ -519,8 +525,10 @@ ipwExposure = function(imputations,
 
     }
 
-        return(mitools::MIcombine(output_coeff, output_vcov))
-
+        return(list(
+                    models = mitools::MIcombine(output_coeff, output_vcov),
+                    weights = final_weights)
+        )
 }
 
 
@@ -613,6 +621,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
                              fontsize = "scriptsize",
                              arraystretch = 0.8,
                              tabcolsep = 10,
+                             gofname = "Individuals",
                              comment = comment,
                              groups = NULL,
                              filename = "") {
@@ -637,7 +646,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
             coef = coeff,
             se = se,
             pvalues = significance,
-            gof.names = 'Observations',
+            gof.names = gofname,
             gof = observations,
             gof.decimal = FALSE)
         }
@@ -668,12 +677,6 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
 
 }
 
-createModelTables(list_rows, column_names = column_names,
-                  row_names = row_names, row_labels = row_labels,
-                  filename = "ch03/output/test_table.tex",
-                  comment = comment,
-                  groups = groups
-                  )
 
 add_notes_table = function(tab,
                            comment = "",
@@ -697,6 +700,70 @@ add_notes_table = function(tab,
 
     tab = gsub("end\\{center\\}\\n",
                 paste0("end\\{center\\}\\\n\\\\end{threeparttable}\\\n"),
+                tab)
+
+    cat(tab, file = filename)
+
+}
+
+
+tableWeights = function(list_weights, model_names,
+                        caption, label, comment,
+                        filename,
+                        tabcolsep = 10,
+                        arraystretch = 1) {
+
+    wmean = NULL
+    wsd = NULL
+    wp1 = NULL
+    wp25 = NULL
+    wp75 = NULL
+    wp99 = NULL
+    sumtab = NULL
+
+    for (i in seq_along(list_weights)) {
+        wmean = c(wmean, mean(list_weights[[i]]))
+        wsd = c(wsd, sd(list_weights[[i]]))
+        wp1 = c(wp1, quantile(list_weights[[i]], 0.01))
+        wp25 = c(wp25, quantile(list_weights[[i]], 0.25))
+        wp75 = c(wp75, quantile(list_weights[[i]], 0.75))
+        wp99 = c(wp99, quantile(list_weights[[i]], 0.99))
+    }
+
+    sumtab = data.table(Weight = model_names,
+                        Mean = wmean,
+                        SD = wsd,
+                        "1st" = wp1,
+                        "25th" = wp25,
+                        "75th" = wp75,
+                        "99th" = wp99)
+
+    tab = print(
+        xtable::xtable(
+            sumtab,
+            caption = caption,
+            label = label,
+            align = "llcccccc"),
+            include.rownames = FALSE,
+            caption.placement = "top",
+            table.placement = "htp"
+        )
+
+    tab = gsub("begin\\{table\\}\\[htp\\]\\n",
+               paste0("begin\\{table\\}\\[htp\\]\\\n\\\\centering\\\n\\\\footnotesize\\\n",
+                      "\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
+                      "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
+                      arraystretch,
+                      "\\}\\\n\\\\begin\\{threeparttable\\}\\\n"),
+                 tab)
+
+    tab = gsub("Weight & Mean & SD & 1st & 25th & 75th & 99th",
+               "\\\\multicolumn\\{3\\}\\{c\\}\\{\\} & \\\\multicolumn\\{4\\}\\{c\\}\\{Percentiles\\} \\\\\\\\ \\\n \\\\cmidrule{4-7} \\\nWeight & Mean & SD & 1st & 25th & 75th & 99th", tab)
+
+    tab = gsub("end\\{tabular\\}\\n",
+                paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\footnotesize\\\n\\\\item ",
+                       comment,
+                       "\\\n\\\\end{tablenotes}\\\n\\\\end{threeparttable}\\\n"),
                 tab)
 
     cat(tab, file = filename)
