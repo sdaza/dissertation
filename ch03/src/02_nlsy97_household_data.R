@@ -1,7 +1,7 @@
 ##############################
-# load household NLSY97 data
+# county income mobility and individual health
+# household data
 # author: sebastian daza
-# version: 0.01
 ##############################
 
 # libraries

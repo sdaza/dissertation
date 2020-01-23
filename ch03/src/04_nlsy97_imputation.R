@@ -1,7 +1,7 @@
 ##############################
+# county income mobility and individual health
 # imputation NLSY97 data
 # author: sebastian daza
-# version: 0.01
 ##############################
 
 # libraries
@@ -16,6 +16,12 @@ source("ch03/src/utils.R")
 ldat = readRDS("ch03/output/data/nlsy97_data_ready_for_imputation.rds")
 summary(ldat[, .N, .(id)])
 
+# check number of moves
+moves = ldat[, .(moves = max(nmoves)), id]
+prop.table(table(moves$moves >= 3))
+hist(moves$moves)
+
+table(ldat$nmoves)
 # explore some cases
 ids = unique(ldat$id)
 ldat[id == sample(ids, 1), .(id, year, time, male, age_interview_est)]
@@ -48,19 +54,24 @@ mm[, age_interview_est := as.factor(age_interview_est)]
 # rever variables
 mm[, z_absolute_mob := z_absolute_mob * -1]
 mm[, q_absolute_mob := fct_rev(q_absolute_mob)]
-mm[, q_gini := factor(q_gini)]
 
 # run imputation files
 
 # z_relative_mobility
 # source("ch03/src/imputations/nlsy97_imputation_z_relative_mob.R")
 
+# z_relative_mobility quintile
+# source("ch03/src/imputations/nlsy97_imputation_z_relative_mob_quintile.R")
+
 # # z_absolute mobility
 # source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob.R")
+
+# z_absolute_mobility quintile
+source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob_quintile.R")
 
 # # relative_mobility_resid
 # source("ch03/src/imputations/nlsy97_imputation_relative_mob_resid.R")
 
 # # absolute_mobility_resid
-source("ch03/src/imputations/nlsy97_imputation_absolute_mob_resid.R")
+# source("ch03/src/imputations/nlsy97_imputation_absolute_mob_resid.R")
 

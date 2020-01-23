@@ -1,7 +1,7 @@
 ##############################
+# county income mobility and individual health
 # imputation NLSY97 data
 # author: sebastian daza
-# version: 0.01
 ##############################
 
 

@@ -1,22 +1,18 @@
 ##############################
-# load individual NLSY97 data
+# county income mobility and individual health
+# individual data
 # author: sebastian daza
-# version: 0.01
 ##############################
 
 # libraries
 library(data.table)
-library(sdazar)
 library(texreg)
 library(ggplot2)
 library(zoo)
 library(haven)
 library(hash)
-library(mice)
 library(lubridate)
-library(ipw)
 library(readxl)
-
 source("ch03/src/utils.R")
 
 # read raw data

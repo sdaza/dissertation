@@ -1,8 +1,7 @@
 ###############################################
+# county income mobility and individual health
 # simulation example for average MSM effects
-# nlsy97 marginal structural models
 # author: sebastian daza
-# version: 0.01
 ###############################################
 
 

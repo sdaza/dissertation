@@ -1,7 +1,7 @@
 ##############################
+# county income mobility and individual health
 # imputation NLSY97 data
 # author: sebastian daza
-# version: 0.01
 ##############################
 
 
@@ -118,34 +118,36 @@ pred["asvab_score",]
 number_cores = 10
 imputations_per_core = 10
 
-imp_relative_mob = parlmice(mm,
-                            predictorMatrix = pred,
-                            method = meth,
-                            n.core = number_cores,
-                            n.imp.core = imputations_per_core,
-                            maxit = 20)
+imp = parlmice(
+    mm,
+    predictorMatrix = pred,
+    method = meth,
+    n.core = number_cores,
+    n.imp.core = imputations_per_core,
+    maxit = 20
+)
 
 # explore quality of imputations
 
 savepdf("ch03/output/nlsy97_relative_mob_imp_iterations")
-print(plot(imp_relative_mob, c("bmi", "rev_health")))
-print(plot(imp_relative_mob, c("depression", "smoking_30", "smoking_ever")))
-print(plot(imp_relative_mob, c("hhsize", "log_income_adj")))
-print(plot(imp_relative_mob, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
-print(plot(imp_relative_mob, c("parent_education", "mother_age_at_birth")))
-print(plot(imp_relative_mob, c("asvab_score", "residential_moves_by_12")))
+print(plot(imp, c("bmi", "rev_health")))
+print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
+print(plot(imp, c("hhsize", "log_income_adj")))
+print(plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
+print(plot(imp, c("parent_education", "mother_age_at_birth")))
+print(plot(imp, c("asvab_score", "residential_moves_by_12")))
 dev.off()
 
 savepdf("ch03/output/nlsy97_relative_mob_imp_values")
-print(densityplot(imp_relative_mob, ~ bmi + depression + smoking_30 + smoking_ever))
-print(densityplot(imp_relative_mob, ~ rev_health))
-print(densityplot(imp_relative_mob, ~ hhsize + log_income_adj))
-print(densityplot(imp_relative_mob, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
-# print(densityplot(imp_relative_mob, ~ z_relative_mob + z_gini))
-# print(densityplot(imp_relative_mob, ~ log_population + log_county_income))
-print(densityplot(imp_relative_mob, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
+print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
+print(densityplot(imp, ~ rev_health))
+print(densityplot(imp, ~ hhsize + log_income_adj))
+print(densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
+# print(densityplot(imp, ~ z_relative_mob + z_gini))
+# print(densityplot(imp, ~ log_population + log_county_income))
+print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
 dev.off()
 
 # save results of imputation
-saveRDS(imp_relative_mob, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
+saveRDS(imp, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
 

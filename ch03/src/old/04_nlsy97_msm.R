@@ -1,8 +1,7 @@
 ###################################
-# individual income mobility paper
+# county income mobility and individual health
 # nlsy97 marginal structural models
 # author: sebastian daza
-# version: 0.01
 ###################################
 
 library(survey)

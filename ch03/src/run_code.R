@@ -1,10 +1,11 @@
 ###################################
-# individual income mobility paper
+# county income mobility and individual health
 # nlsy97 setup
 # author: sebastian daza
-# version: 0.01
 ###################################
 
+
+library(texreg)
 
 # nlsy
 source("ch03/src/01_nlsy97_location_data.R")
@@ -14,4 +15,4 @@ source("ch03/src/03_nlsy97_imputation.R")
 source("ch03/src/04_nlsy97_msm.R")
 
 # psid
-source("ch03/src/05_psid_individual_data.R")
+source("ch03/src/07_psid_individual_data.R")

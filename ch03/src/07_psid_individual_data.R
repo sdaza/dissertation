@@ -1,8 +1,7 @@
 ###################################
-# individual income mobility paper
+# county income mobility and individual health
 # psid well-being data
 # author: sebastian daza
-# version: 0.01
 ###################################
 
 # database notes
@@ -22,7 +21,6 @@
 library(haven)
 library(data.table)
 library(hash)
-
 source("ch03/src/utils.R")
 
 # respondents to identify newborns
@@ -991,7 +989,7 @@ length(unique(ldata[head_wife == 1, pid]))
 # select variables for imputation
 names(ldata)
 
-mm = ldata[, .(pid, year, head_wife, relation_head, sn, whynoresp,
+mm = ldata[, .(pid, fn, year, head_wife, relation_head, sn, whynoresp,
                first_year, year_born,
                imp_age, male, race,
                weight_less_55, mother_marital_status,
@@ -1003,5 +1001,5 @@ mm = ldata[, .(pid, year, head_wife, relation_head, sn, whynoresp,
                individual_health
                )
           ]
-
+table(mm[is.na(fn), .(whynoresp)])
 saveRDS(mm, "ch03/output/data/psid_data_ready_for_imputation.rds")

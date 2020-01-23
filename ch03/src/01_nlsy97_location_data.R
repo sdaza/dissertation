@@ -1,8 +1,7 @@
 ##############################
-# individual mobility and health
-# get county data for NLSY97
+# county income mobility and individual health
+# county data for NLSY97
 # author: sebastian daza
-# version 0.01
 ##############################
 
 # library

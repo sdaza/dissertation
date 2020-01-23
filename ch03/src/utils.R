@@ -1,5 +1,5 @@
 #################################
-# individual mobility and health
+# county income mobility and individual health
 # auxiliary functions
 # author: sebastian daza
 ################################
@@ -239,6 +239,7 @@ parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
     parallel::clusterExport(cl,
                             varlist = "do.call")
     parallel::clusterEvalQ(cl, {library(mice); library(miceadds)})
+
     if (!is.na(cluster.seed)) {
         parallel::clusterSetRNGStream(cl, cluster.seed)
     }
@@ -246,7 +247,7 @@ parlmice <- function(data, m = 5, seed = NA, cluster.seed = NA, n.core = NULL,
     # generate imputations
     imps <- parallel::parLapply(cl = cl,
                                 X = 1:n.core,
-                                function(x) do.call(mice, as.list(args),
+                                function(x) do.call(mice::mice, as.list(args),
                                                     envir = environment()))
     parallel::stopCluster(cl)
 
@@ -333,21 +334,100 @@ truncateWeights = function(weights, level = 0.01) {
 }
 
 
-ipwExposure = function(imputations,
-                       lag_variables,
-                       baseline_variables,
-                       numerator_time1 = "1",
-                       denominator_time1,
-                       numerator,
-                       denominator,
-                       exposure_variable,
-                       id_var,
-                       time_var,
-                       max_time_exposure,
-                       final_model,
-                       trim_p = 0.01,
-                       exposure_type = "gaussian",
-                       final_model_type = "gaussian") {
+unadjustedRegression = function(
+    imputations,
+    exposure_variable,
+    exposure_type = "gaussian",
+    id_var,
+    time_var,
+    max_time_exposure,
+    outcome,
+    final_model_type = "gaussian") {
+
+    output_coeff = list()
+    output_vcov = list()
+
+    # loop over imputations
+    for (i in 1:imputations$m) {
+
+        results = list()
+
+        # print(paste0("Number of imputation ", i))
+        dat = data.table(mice::complete(imputations, i))
+        dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
+
+        # set order first
+        setorderv(dat, c(id_var, time_var))
+        dat[, rev_health := factor(rev_health)]
+
+        dat[, max_time := max(get(time_var)), get(id_var)]
+        last_obs = dat[get(time_var) == max_time]
+        gdata = dat[get(time_var) <= max_time_exposure]
+
+        gdata[, paste0("average_", exposure_variable) := if (exposure_type == "gaussian") {
+                                                    mean(get(exposure_variable))
+                                                 }
+                                                 else if (exposure_type == "ordinal") {
+                                                    mean(as.numeric(as.character(get(exposure_variable))))
+                                                 },
+                                                 get(id_var)]
+
+        setorderv(gdata, c(id_var, time_var))
+        gdata = gdata[get(time_var) == max_time_exposure]
+        gdata = gdata[, c(id_var,
+                          paste0("average_", exposure_variable)),
+                      with = FALSE]
+        fdata = merge(last_obs, gdata, by = id_var)
+
+        fdata[, wt := 1]
+        output = NULL
+
+        final_model = formula(paste0(outcome, " ~ ", paste0("average_", exposure_variable)))
+
+        if (i %in% c(1, 25, 75, 100)) {
+            print(paste0("Running models with imputation ", i))
+        }
+
+        svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
+
+        if (final_model_type == "gaussian") {
+            output = svyglm(final_model, design = svy_design)
+        }
+        else if (final_model_type == "binomial") {
+            output = svyglm(final_model, design = svy_design,
+                            family = quasibinomial)
+        }
+        else if (final_model_type == "poisson") {
+            output = svyglm(final_model, design = svy_design,
+                            family = poisson)
+        }
+        else if (final_model_type == "ordinal") {
+            output = svyolr(final_model, design = svy_design)
+        }
+        output_coeff[[i]] =  coefficients(output)
+        output_vcov[[i]] = vcov(output)
+
+    }
+        return(mitools::MIcombine(output_coeff, output_vcov))
+}
+
+
+ipwExposure = function(
+    imputations,
+    lag_variables,
+    baseline_variables,
+    numerator_time1 = "1",
+    denominator_time1,
+    numerator,
+    denominator,
+    exposure_variable,
+    id_var,
+    time_var,
+    max_time_exposure,
+    final_model,
+    trim_p = 0.01,
+    exposure_type = "gaussian",
+    final_model_type = "gaussian") {
 
     # create to lists to save output of the loop
     output_coeff = list()
@@ -357,14 +437,10 @@ ipwExposure = function(imputations,
     # loop over imputations
     for (i in 1:imputations$m) {
 
-        results = list()
-
         # print(paste0("Number of imputation ", i))
 
         dat = data.table(mice::complete(imputations, i))
         dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
-        dat[, q_relative_mob := as.numeric(as.character(q_relative_mob))]
-        dat[, q_gini := as.numeric(as.character(q_gini))]
 
         # set order first
         setorderv(dat, c(id_var, time_var))
@@ -621,6 +697,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
                              fontsize = "scriptsize",
                              arraystretch = 0.8,
                              tabcolsep = 10,
+                             sideways = FALSE,
                              gofname = "Individuals",
                              comment = comment,
                              groups = NULL,
@@ -639,7 +716,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
             coeff = c(coeff, sublist$results[position])
             se = c(se, sublist$se[position])
             z = coeff / se
-            significance = 2 * pnorm(-abs(z))
+            significance = 1.96 * pnorm(-abs(z))
         }
         model_list[[column_names[[i]]]] = createTexreg(
             coef.names =  row_labels,

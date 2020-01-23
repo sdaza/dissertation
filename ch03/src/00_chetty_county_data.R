@@ -1,8 +1,7 @@
 ##############################
-# individual mobility and health
-# load chetty's county data
+# county income mobility and individual health
+# chetty's county variables
 # author: sebastian daza
-# version 0.01
 ##############################
 
 # library
