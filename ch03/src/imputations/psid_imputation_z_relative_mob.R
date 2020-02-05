@@ -95,7 +95,7 @@ diag(pred) = 0
 
 # explore
 pred["log_income_adj",]
-pred["age_mother",]
+pred["mother_age",]
 pred["mother_marital_status",]
 pred["weight_less_55",]
 pred["individual_health",]
@@ -128,18 +128,18 @@ imp = parlmice(
 savepdf("ch03/output/psid_relative_mob_iterations")
 print(plot(imp, c("bmi", "depression", "individual_health")))
 print(plot(imp, c("smoking", "smoking_number")))
-print(plot(imp, c("log_income_adj", "age_mother")))
-print(plot(imp, c("marital_status_mother", "weight_less_55", "famsize")))
+print(plot(imp, c("log_income_adj", "mother_age")))
+print(plot(imp, c("mother_marital_status", "weight_less_55", "famsize")))
 print(plot(imp, c("head_marital_status", "head_education", "head_owns_house")))
-print(plot(imp, c("head_working_binary", "head_education", "head_owns_house")))
+print(plot(imp, c("head_working_binary")))
 dev.off()
 
 savepdf("ch03/output/psid_relative_mob_imp_values")
 print(densityplot(imp, ~ bmi + depression))
 print(densityplot(imp, ~ individual_health + smoking_number + smoking))
 print(densityplot(imp, ~ log_income_adj))
-print(densityplot(imp, ~ age_mother))
-print(densityplot(imp, ~ marital_status_mother + weight_less_55))
+print(densityplot(imp, ~ mother_age))
+print(densityplot(imp, ~ mother_marital_status + weight_less_55))
 print(densityplot(imp, ~ head_education + head_owns_house))
 print(densityplot(imp, ~ head_working_binary + famsize))
 dev.off()

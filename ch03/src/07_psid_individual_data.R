@@ -870,15 +870,14 @@ ldata[, lag_sn := shift(sn), pid]
 ldata[, lag_type := shift(type, fill = 0), pid]
 ldata[, psid_born := 0]
 ldata[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
-ldata[, psid_born := cumsum(psid_born), pid]
+ldata[, psid_born := cumsum(psid_born), pid][psid_born > 0, psid_born := 1]
+table(ldata$psid_born)
+
 ldata = ldata[psid_born == 1]
 ldata[, first_year := min(year), pid]
 ldata = ldata[first_year > 1970 & first_year < 1986]
 
-
 # merge with mother's age
-# remove duplicates
-
 ldata = merge(ldata, mothers,
               by = c("first_year", "pid"), all.x = TRUE)
 summary(ldata[, .N, pid])
@@ -901,13 +900,34 @@ table(ldata$mother_marital_status)
 
 # imputa age
 ldata[age == 0 | age > 900, age := NA]
+table(ldata[year == first_year, age])
+ldata[, flag_year_born := ifelse(year == first_year & age %in% 1:2, 1, 0)]
+ldata[, flag_year_born := getMax(flag_year_born), pid]
+ldata = ldata[flag_year_born == 1]
+
+ldata[first_year == 1971 & year_born == 1980,
+      .(pid, year, first_year, age, year_born)]
+
+# table(ldata[, .(first_year, year_born)])
+ldata[, diff_years := first_year - year_born]
+table(ldata$diff_years)
+ldata[is.na(diff_years), .(pid, year, first_year, age, year_born)]
+
+ldata[pid == 5366033, .(pid, year, first_year, age, year_born)]
 ldata[pid == 5366033 &  year == 1973, age := 1]
 ldata[pid == 5818031 &  year == 1975, age := 1]
 ldata[pid == 5526043 & year == 1978, age := 1]
+
 setorder(ldata, pid, year)
 ldata[, imp_age := imputeAge(age, year), pid]
 ldata[imp_age == 0, imp_age := 1]
 summary(ldata$imp_age)
+
+# check strange cases
+ids = unique(ldata[diff_years > 3 | diff_years < -3, pid])
+length(ids)
+ldata[pid == sample(ids, 1), .(diff_years, pid, year, first_year, age,
+                               imp_age, year_born)]
 
 # house ownership
 table(ldata$house_ownership)
@@ -986,10 +1006,50 @@ ldata[is.na(head_wife), head_wife := 0]
 table(ldata$head_wife)
 length(unique(ldata[head_wife == 1, pid]))
 
+# expand records for periods very two years
+setorder(ldata, pid, year)
+ldata[, start := (year - first_year) + 1, pid]
+ldata[, stop := ifelse(year < 1997, start + 1, start + 2)]
+ldata[, count := stop - start]
+ldata[ldata[, .I[.N], pid][, V1], count := 1]
+table(ldata$count)
+
+# expand data
+xx = ldata[rep(seq(1, nrow(ldata)), ldata$count)]
+xx[, nyear := year[1]:year[.N], by = pid]
+
+ids = sample(unique(xx$pid), 1)
+xx[pid %in% ids, .(pid, start, stop, year, nyear, imp_age, log_income_adj, count)]
+xx[xx[, .I[2], by = .(pid, year)][, V1], age := NA] # remove repeated age
+ldata = data.table::copy(xx)
+
+ldata[, oyear := year]
+ldata[, year := nyear]
+
+# impute age again
+setorder(ldata, pid, year)
+ldata[, imp_age := imputeAge(age, year), pid]
+ldata[imp_age == 0, imp_age := 1]
+summary(ldata$imp_age)
+
+ids = unique(ldata$pid)
+ldata[pid == sample(ids, 1), .(pid, year, first_year, imp_age, log_income_adj)]
+
+# create time variable
+setorder(ldata, pid, year)
+ldata[, time := 1:.N, pid]
+
+table(ldata[, .(time, imp_age)])
+
+table(ldata[time <= 20, imp_age])
+table(ldata[time <= 20, time])
+
+table(ldata[year == first_year, imp_age])
+
 # select variables for imputation
 names(ldata)
 
-mm = ldata[, .(pid, fn, year, head_wife, relation_head, sn, whynoresp,
+mm = ldata[, .(pid, fn, year, time, head_wife, relation_head, sn, whynoresp,
                first_year, year_born,
                imp_age, male, race,
                weight_less_55, mother_marital_status,
@@ -1001,5 +1061,6 @@ mm = ldata[, .(pid, fn, year, head_wife, relation_head, sn, whynoresp,
                individual_health
                )
           ]
+
 table(mm[is.na(fn), .(whynoresp)])
 saveRDS(mm, "ch03/output/data/psid_data_ready_for_imputation.rds")

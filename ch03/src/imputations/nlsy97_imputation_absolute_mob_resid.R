@@ -12,11 +12,14 @@ pred = ini$pred
 meth = ini$meth
 pred[,] = 0
 
+head(ini$loggedEvents, 2)
 fluxplot(mm)
 
 # fx = fluxplot(mm)
 
 methods = hash(
+               "head_wife"  = "",
+               "age" = "",
                "hhsize" = "2l.pmm",
                "z_relative_mob" = "",
                "z_absolute_mob" = "",

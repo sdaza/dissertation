@@ -8,7 +8,7 @@
 library(data.table)
 library(hash)
 library(mice)
-library(micemd)
+library(texreg)
 source("ch03/src/utils.R")
 
 # read data
@@ -21,6 +21,7 @@ center_vars = c("bmi", "depression", "life_satisfaction", "imp_age",
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
 mm = mm[head_wife == 1]
 
+# 3167
 length(unique(mm$pid))
 
 # mm[, health := as.factor(health)]
@@ -28,6 +29,7 @@ mm[, race := factor(as.numeric(race))]
 mm[, first_year := as.factor(first_year)]
 # mm[, head_education := as.factor(head_education)]
 # mm[, imp_age2 := imp_age ^ 2]
+
 
 # hist(mm$imp_age)
 # mm = mm[, .(pid, year, imp_age, year_born, first_year, male, race, log_income_adj,

@@ -16,12 +16,16 @@ source("ch03/src/utils.R")
 ldat = readRDS("ch03/output/data/nlsy97_data_ready_for_imputation.rds")
 summary(ldat[, .N, .(id)])
 
+table(ldat$smoking_30)
+
 # check number of moves
-moves = ldat[, .(moves = max(nmoves)), id]
+moves = ldat[stime <= 8, .(moves = max(nmoves)), id]
 prop.table(table(moves$moves >= 3))
-hist(moves$moves)
+summary(moves$moves)
 
 table(ldat$nmoves)
+prop.table(table(moves$moves))
+
 # explore some cases
 ids = unique(ldat$id)
 ldat[id == sample(ids, 1), .(id, year, time, male, age_interview_est)]

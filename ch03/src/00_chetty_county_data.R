@@ -33,19 +33,21 @@ setnames(county, 'cty', 'fips')
 county = merge(county, core, by = "fips", all.x = TRUE)
 county = merge(county, gini, by = "fips", all.x = TRUE)
 
+names(county)
 # countmis(county)
 
 # selection of key variables
 county = county[, .(fips, statename, county_name, gini_census,
                     s_rank, e_rank_b,
-                    hhinc00, cty_pop2000)]
+                    hhinc00, cty_pop2000, cs_frac_black)]
 
 county_vars = hash(
     "s_rank" = "relative_mob",
     "e_rank_b" = "absolute_mob",
     "gini_census"  = "gini",
     "hhinc00" = "county_income",
-    "cty_pop2000" = "population"
+    "cty_pop2000" = "population",
+    "cs_frac_black" = "prop_black"
 )
 
 renameColumns(county, county_vars)
@@ -55,6 +57,9 @@ county[, log_population := scale(log(population))]
 
 vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
+
+cor(county[, .(z_gini, z_relative_mob, z_absolute_mob,
+               log_county_income, log_population, prop_black)])
 
 # linear models (residuals)
 model_rel_mob = lm(z_relative_mob ~ z_gini + log_population + log_county_income, data = county)
@@ -81,8 +86,10 @@ county[, mean(absolute_mob, na.rm = TRUE), q_absolute_mob]
 
 county = county[, .(fips, statename, county_name,
                     gini, z_gini, gini_resid, q_gini, q_gini_resid,
-                    relative_mob, z_relative_mob, relative_mob_resid, q_relative_mob, q_relative_mob_resid,
-                    absolute_mob, z_absolute_mob, absolute_mob_resid, q_absolute_mob, q_absolute_mob_resid,
+                    relative_mob, z_relative_mob, relative_mob_resid,
+                    q_relative_mob, q_relative_mob_resid,
+                    absolute_mob, z_absolute_mob, absolute_mob_resid,
+                    q_absolute_mob, q_absolute_mob_resid,
                     log_county_income, log_population
                     )]
 

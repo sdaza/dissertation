@@ -45,7 +45,6 @@ hash_demographics = hash(
 renameColumns(dat, hash_demographics)
 
 dat[, asvab_score := replaceMissing(asvab_score) / 1000]
-
 dat[, male := ifelse(sex == 1, 1, 0)]
 
 table(dat$age) # from 12 to 16
@@ -108,8 +107,8 @@ renameColumns(dat, hash(ovars, nvars))
 
 # subjective health
 ovars = c("r0320600","r2164000","r3481900","r4880100","r6497500","s1225000",
-           "s3302500","s4919500","s6661100","s8644200","t1049500","t3144600",
-           "t4562200","t6206400","t7703800","t9093100", "u1096500")
+          "s3302500","s4919500","s6661100","s8644200","t1049500","t3144600",
+          "t4562200","t6206400","t7703800","t9093100", "u1096500")
 
 nvars = paste0("shealth", years)
 renameColumns(dat, hash(ovars, nvars))
@@ -166,10 +165,12 @@ ovars = c("r0357900", "r2189400", "r3508500", "r4906600", "r6534100",
           "t0740200", "t2783700", "t4495400", "t6144300", "t7638800",
           "t9040800", "u1031300")
 
-nvars = paste0("smoking_ever_", years)
+nvars = paste0("smoking_", years)
 renameColumns(dat, hash(ovars, nvars))
 
+
 # number of days smoking last 30 days
+# number of cigarretes per day was asked until 2011
 ovars = c("r0358100", "r2189500", "r3508600", "r4906700", "r6534200",
           "s0921700", "s2988400", "s4683000", "s6318500", "s8333500",
           "t0740300", "t2783800", "t4495500", "t6144400", "t7638900",
@@ -177,7 +178,6 @@ ovars = c("r0358100", "r2189500", "r3508600", "r4906700", "r6534200",
 
 nvars = paste0("smoking_30_days", years)
 renameColumns(dat, hash(ovars, nvars))
-
 
 timeinvariant_vars = hash(
     "r1200200" = "mother_age_at_birth",
@@ -224,7 +224,7 @@ fillMissingColumns(dat, "^height_feet|^height_inches", expected)
 columns_expr = c("id", "nres", "interview_month", "interview_year", "income",
                  "shealth", "^dep[1-5]", "hispanic", "optimism", "race", "ethnicity",
                  "sex", "age", "birth_month", "birth_year",
-                 "shealth", "smoking_ever_", "smoking_30", "^height_feet",
+                 "shealth", "smoking_", "smoking_30", "^height_feet",
                  "^height_inches", "^weight_", "^hhsize", "type", "wt", "stratum",
                  "cluster", "residential_moves", "mother_age_at_birth",
                  "mother_highest_grade", "father_highest_grade", "asvab_score")
@@ -251,7 +251,7 @@ pattern_names = hash(
     "^dep3" = "dep3",
     "^dep4" = "dep4",
     "^dep5" = "dep5",
-    "^smoking_ever_" = "smoking_ever",
+    "^smoking_" = "smoking",
     "^smoking_30" = "smoking_30",
     "^age_" = "age_interview"
 )
@@ -279,7 +279,7 @@ ldat[, dob := ymd(paste0(birth_year, "-", birth_month, "/", 15))]
 ldat[, mean_interview_month := floor(mean(interview_month, na.rm = TRUE)), time]
 ldat[, interview_month := ifelse(is.na(interview_month), mean_interview_month, interview_month)]
 ldat[, interview_year := ifelse(is.na(interview_year), year, interview_year)]
-ldat[, doi := ymd(paste0(interview_year, "-", interview_month, "-", 15))]
+ldat[!is.na(mean_interview_month), doi := ymd(paste0(interview_year, "-", interview_month, "-", 15))]
 ldat[, age_interview_est := ifelse(is.na(age_interview),
                                    floor(time_length(difftime(doi, dob), "years")),
                                    age_interview)]
@@ -345,19 +345,19 @@ ldat = ldat[!(flag12 == 1 & diff_age_12 == 0)]
 ldat[, first_year := getMin(year), id]
 ldat[, last_year := getMax(year), id]
 
-min_year = min(ldat$year)
-max_year = max(ldat$year)
+vmin_year = min(ldat$first_year)
+vmax_year = max(ldat$last_year)
 
-ldat[, c("min_year") := NULL]
+# ldat[, c("min_year") := NULL]
 
 setkey(ldat, id, year)
-tt = ldat[CJ(id, year = seq(min_year, max_year), unique = TRUE)]
+tt = ldat[CJ(id, year = seq(vmin_year, vmax_year), unique = TRUE)]
 tt[id == 2, .(time, year, age_interview_est, first_year, last_year)]
 tt[, first_year := getMin(first_year), id]
 tt[, last_year := getMax(last_year), id]
 tt = tt[year >= first_year & year <= last_year]
 setorder(tt, id, year)
-tt = tt[year %in% c(min_year:1996, years)]
+tt = tt[year %in% c(vmin_year:1996, years)]
 oldat = data.table::copy(ldat)
 ldat = data.table::copy(tt)
 
@@ -374,7 +374,6 @@ ldat[, (baseline_vars) := lapply(.SD, fillWithFirstValue), id, .SDcol = baseline
 ldat[, age_interview_est := imputeAge(age_interview_est, year)]
 
 ldat[id == sample(ids, 1), .(id, year, time, age_interview_est, min_age)]
-
 ldat[, min_time := min(time), id]
 
 table(dat$age)
@@ -429,6 +428,10 @@ ldat[, imp_fips := impute_locf(fips), id]
 
 # load chetty's county data
 county = readRDS("ch03/output/data/chetty_county_data.rds")
+cor(county[, .(gini, relative_mob)])
+cor(county[, .(gini, absolute_mob)])
+sd(county$relative_mob, na.rm = TRUE)
+
 ldat = merge(ldat, county, by = "imp_fips", all.x = TRUE)
 
 # 75 cases
@@ -442,6 +445,7 @@ print(
 )
 
 ldat = ldat[!(id %in% remove_ids)]
+length(unique(ldat$id))
 
 # education parent (max value)
 ldat[, parent_education := pmax(ifelse(father_highest_grade == 95,
@@ -481,12 +485,12 @@ ldat[year < 2015, depression := impute_locf(depression), .(id)]
 ldat[, ethnicity := factor(ethnicity)]
 
 # smoking
-ldat[, smoking_30 := ifelse(smoking_ever == 0 & smoking_30 == -4,
+ldat[, smoking_30 := ifelse(smoking == 0 & smoking_30 == -4,
                             0,
                             smoking_30)]
 
-ldat[year %in% c(2013, 2015), smoking_ever := ifelse(smoking_ever == -4, 0, smoking_ever)]
-smoking_cols = c("smoking_ever", "smoking_30")
+ldat[year %in% c(2013, 2015), smoking := ifelse(smoking == -4, 0, smoking)]
+smoking_cols = c("smoking", "smoking_30")
 ldat[, (smoking_cols) := lapply(.SD, replaceMissing), .SDcol = smoking_cols]
 
 # bmi
