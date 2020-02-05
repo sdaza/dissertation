@@ -105,7 +105,7 @@ renameColumns(dat, hash(ovars, nvars))
 # Exposure is assumed to happen during childhood (1-18 years old)
 #########################################################
 
-# subjective health
+# self-reporte health
 ovars = c("r0320600","r2164000","r3481900","r4880100","r6497500","s1225000",
           "s3302500","s4919500","s6661100","s8644200","t1049500","t3144600",
           "t4562200","t6206400","t7703800","t9093100", "u1096500")
@@ -361,6 +361,8 @@ tt = tt[year %in% c(vmin_year:1996, years)]
 oldat = data.table::copy(ldat)
 ldat = data.table::copy(tt)
 
+ldat[, flag_missing_exposure := ifelse(is.na(time), 0, 1)]
+
 # fill values for time invariant covariates
 baseline_vars = c(paste0("optimism_", 1:4), "time", "age", "residential_moves_by_12",
                   "mother_age_at_birth", "father_highest_grade", "mother_highest_grade",
@@ -424,6 +426,7 @@ ldat[hhsize < 0, hhsize := NA]
 
 # fips
 setorder(ldat, id, time)
+ldat[, flag_missing_fips := ifelse(is.na(fips), 0, 1)]
 ldat[, imp_fips := impute_locf(fips), id]
 
 # load chetty's county data

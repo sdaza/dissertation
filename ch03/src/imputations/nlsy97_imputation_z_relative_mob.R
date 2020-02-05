@@ -4,6 +4,8 @@
 # author: sebastian daza
 ##############################
 
+# seed
+seed = 144305
 
 # create mice object
 ini = mice(mm, maxit = 0)
@@ -12,7 +14,7 @@ pred = ini$pred
 meth = ini$meth
 pred[,] = 0
 
-fluxplot(mm)
+# fluxplot(mm)
 # fx = fluxplot(mm)
 
 methods = hash(
@@ -42,7 +44,7 @@ methods = hash(
                "rev_health" = "2l.pmm",
                "bmi" = "2l.pmm",
                "depression" = "2l.pmm",
-               "smoking_ever" = "2l.pmm",
+               "smoking" = "2l.pmm",
                "smoking_30" = "2l.pmm"
                )
 
@@ -81,7 +83,7 @@ predictors = hash(
      "rev_health" = 1,
      "bmi" = 1,
      "depression" = 1,
-     "smoking_ever" = 1,
+     "smoking" = 1,
      "smoking_30" = 0
     )
 
@@ -100,10 +102,10 @@ vars = c("parent_education", "mother_age_at_birth",
 pred[vars, "age_interview_est"] = 0
 
 # adjustments
-predictors['smoking_ever'] = 0
+predictors['smoking'] = 0
 predictors['smoking_30'] = 0
-pred["smoking_ever", "smoking_30"] = 0
-pred["smoking_30", "smoking_ever"] = 0
+pred["smoking", "smoking_30"] = 0
+pred["smoking_30", "smoking"] = 0
 
 # some checks
 pred["rev_health",]
@@ -112,7 +114,6 @@ pred["bmi",]
 pred["z_relative_mob",]
 pred["log_population",]
 pred["asvab_score",]
-
 
 # relative mobility imputation
 number_cores = 10
@@ -124,22 +125,23 @@ imp = parlmice(
     method = meth,
     n.core = number_cores,
     n.imp.core = imputations_per_core,
-    maxit = 20
+    maxit = 20,
+    cluster.seed = seed
 )
 
 # explore quality of imputations
 
-savepdf("ch03/output/nlsy97_relative_mob_imp_iterations")
+savepdf("ch03/output/nlsy97_z_relative_mob_imp_iterations")
 print(plot(imp, c("bmi", "rev_health")))
-print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
+print(plot(imp, c("depression", "smoking_30", "smoking")))
 print(plot(imp, c("hhsize", "log_income_adj")))
 print(plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
 print(plot(imp, c("parent_education", "mother_age_at_birth")))
 print(plot(imp, c("asvab_score", "residential_moves_by_12")))
 dev.off()
 
-savepdf("ch03/output/nlsy97_relative_mob_imp_values")
-print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
+savepdf("ch03/output/nlsy97_z_relative_mob_imp_values")
+print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking))
 print(densityplot(imp, ~ rev_health))
 print(densityplot(imp, ~ hhsize + log_income_adj))
 print(densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
@@ -149,5 +151,5 @@ print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + 
 dev.off()
 
 # save results of imputation
-saveRDS(imp, "ch03/output/data/nlsy97_relative_mob_imputation.rds")
+saveRDS(imp, "ch03/output/data/nlsy97_z_relative_mob_imputation.rds")
 

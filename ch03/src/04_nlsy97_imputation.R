@@ -16,19 +16,24 @@ source("ch03/src/utils.R")
 ldat = readRDS("ch03/output/data/nlsy97_data_ready_for_imputation.rds")
 summary(ldat[, .N, .(id)])
 
-table(ldat$smoking_30)
-
 # check number of moves
-moves = ldat[stime <= 8, .(moves = max(nmoves)), id]
-prop.table(table(moves$moves >= 3))
-summary(moves$moves)
+moves = ldat[stime <= 8, .(moves = max(nmoves),
+                           missing_exposure = sum(flag_missing_exposure),
+                           missing_fips = sum(flag_missing_fips)), id]
 
+prop.table(table(moves$moves > 0))
+summary(moves$moves)
 table(ldat$nmoves)
-prop.table(table(moves$moves))
+
+summary(moves$missing_exposure)
+prop.table(table(moves$missing_exposure <= 4))
+
+summary(moves$missing_fips)
+prop.table(table(moves$missing_fips == 8))
 
 # explore some cases
 ids = unique(ldat$id)
-ldat[id == sample(ids, 1), .(id, year, time, male, age_interview_est)]
+ldat[id == sample(ids, 1), .(id, year, stime, male, age_interview_est)]
 
 # select columns to be included in the imputation
 mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time,
@@ -44,7 +49,7 @@ mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time,
               imp_parent_married,
               log_income_adj, parent_education, mother_age_at_birth,
               residential_moves_by_12, nmoves,
-              rev_health, bmi, depression, smoking_ever, smoking_30,
+              rev_health, bmi, depression, smoking, smoking_30,
               wt, stratum, type)]
 
 # center variables
@@ -62,7 +67,7 @@ mm[, q_absolute_mob := fct_rev(q_absolute_mob)]
 # run imputation files
 
 # z_relative_mobility
-# source("ch03/src/imputations/nlsy97_imputation_z_relative_mob.R")
+source("ch03/src/imputations/nlsy97_imputation_z_relative_mob.R")
 
 # z_relative_mobility quintile
 # source("ch03/src/imputations/nlsy97_imputation_z_relative_mob_quintile.R")
@@ -71,7 +76,7 @@ mm[, q_absolute_mob := fct_rev(q_absolute_mob)]
 # source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob.R")
 
 # z_absolute_mobility quintile
-source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob_quintile.R")
+# source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob_quintile.R")
 
 # # relative_mobility_resid
 # source("ch03/src/imputations/nlsy97_imputation_relative_mob_resid.R")
