@@ -431,6 +431,7 @@ ldat[, imp_fips := impute_locf(fips), id]
 
 # load chetty's county data
 county = readRDS("ch03/output/data/chetty_county_data.rds")
+names(county)
 cor(county[, .(gini, relative_mob)])
 cor(county[, .(gini, absolute_mob)])
 sd(county$relative_mob, na.rm = TRUE)
@@ -533,7 +534,7 @@ ldat[id == sample(ids, 1), .(id, time, stime, year,
 
 ldat[, max_age_interview_est := getMax(age_interview_est), id]
 # ldat[, age_interview_est := factor(age_interview_est)]
-ldat[, max_age_intervew_est := factor(max_age_interview_est)]
+ldat[, max_age_interview_est := factor(max_age_interview_est)]
 
 # save final data
 saveRDS(ldat, "ch03/output/data/nlsy97_data_ready_for_imputation.rds")

@@ -16,7 +16,7 @@ source("ch03/src/utils.R")
 ldat = readRDS("ch03/output/data/nlsy97_data_ready_for_imputation.rds")
 summary(ldat[, .N, .(id)])
 
-# check number of moves
+# check descriptive info (moves, and missing data)
 moves = ldat[stime <= 8, .(moves = max(nmoves),
                            missing_exposure = sum(flag_missing_exposure),
                            missing_fips = sum(flag_missing_fips)), id]
@@ -43,7 +43,7 @@ mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time,
               relative_mob_resid, absolute_mob_resid, gini_resid,
               q_relative_mob, q_absolute_mob, q_gini,
               q_relative_mob_resid, q_absolute_mob_resid, q_gini_resid,
-              log_population, log_county_income,
+              log_population, log_county_income, z_prop_black,
               asvab_score,
               imp_living_any_parent, imp_parent_employed,
               imp_parent_married,
@@ -60,20 +60,21 @@ mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
 mm[, rev_health := as.factor(rev_health)]
 mm[, age_interview_est := as.factor(age_interview_est)]
 
-# rever variables
+
+# revert variables
 mm[, z_absolute_mob := z_absolute_mob * -1]
 mm[, q_absolute_mob := fct_rev(q_absolute_mob)]
 
 # run imputation files
 
 # z_relative_mobility
-source("ch03/src/imputations/nlsy97_imputation_z_relative_mob.R")
+# source("ch03/src/imputations/nlsy97_imputation_z_relative_mob.R")
 
 # z_relative_mobility quintile
 # source("ch03/src/imputations/nlsy97_imputation_z_relative_mob_quintile.R")
 
 # # z_absolute mobility
-# source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob.R")
+source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob.R")
 
 # z_absolute_mobility quintile
 # source("ch03/src/imputations/nlsy97_imputation_z_absolute_mob_quintile.R")

@@ -57,9 +57,10 @@ county[, log_population := scale(log(population))]
 
 vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
+county[, ("z_prop_black") := scale(prop_black)]
 
 cor(county[, .(z_gini, z_relative_mob, z_absolute_mob,
-               log_county_income, log_population, prop_black)])
+               log_county_income, log_population, z_prop_black)])
 
 # linear models (residuals)
 model_rel_mob = lm(z_relative_mob ~ z_gini + log_population + log_county_income, data = county)
@@ -90,7 +91,7 @@ county = county[, .(fips, statename, county_name,
                     q_relative_mob, q_relative_mob_resid,
                     absolute_mob, z_absolute_mob, absolute_mob_resid,
                     q_absolute_mob, q_absolute_mob_resid,
-                    log_county_income, log_population
+                    log_county_income, log_population, z_prop_black
                     )]
 
 setnames(county, "fips", "imp_fips")

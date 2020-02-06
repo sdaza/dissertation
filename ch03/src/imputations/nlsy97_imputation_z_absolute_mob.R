@@ -5,6 +5,20 @@
 ##############################
 
 
+# seed
+seed = 144305
+
+# exposure variables to be imputed
+all_exposure_vars = c("z_relative_mob", "z_absolute_mob", "z_gini",
+                      "relative_mob_resid", "absolute_mob_resid",
+                      "gini_resid", "q_relative_mob_resid",
+                      "q_absolute_mob_resid", "q_gini_resid",
+                      "q_relative_mob", "q_absolute_mob", "q_gini",
+                      "log_population", "log_county_income", "z_prop_black"
+                      )
+
+exposure = c("z_absolute_mob", "z_gini")
+
 # create mice object
 ini = mice(mm, maxit = 0)
 head(ini$loggedEvent)
@@ -31,6 +45,7 @@ methods = hash(
                "q_gini" = "",
                "log_population" = "",
                "log_county_income" = "",
+               "z_prop_black" = "",
                "log_income_adj" = "2l.pmm",
                "imp_living_any_parent" = "2l.pmm",
                "imp_parent_employed" = "2l.pmm",
@@ -42,7 +57,7 @@ methods = hash(
                "rev_health" = "2l.pmm",
                "bmi" = "2l.pmm",
                "depression" = "2l.pmm",
-               "smoking_ever" = "2l.pmm",
+               "smoking" = "2l.pmm",
                "smoking_30" = "2l.pmm"
                )
 
@@ -68,6 +83,7 @@ predictors = hash(
      "q_gini_resid" = 0,
      "log_population" = 1,
      "log_county_income" = 1,
+     "z_prop_black" = 1,
      "log_income_adj" = 1,
      "hhsize" = 1,
      "nmoves" = 1,
@@ -81,7 +97,7 @@ predictors = hash(
      "rev_health" = 1,
      "bmi" = 1,
      "depression" = 1,
-     "smoking_ever" = 1,
+     "smoking" = 1,
      "smoking_30" = 0
     )
 
@@ -94,24 +110,26 @@ for (i in seq_along(predictors_vectors)) {
 # set diagonal of matrix to 0
 diag(pred) = 0
 
-# variables without age as predictor
+# time invariant variables without age as predictor
 vars = c("parent_education", "mother_age_at_birth",
          "residential_moves_by_12", "asvab_score")
 pred[vars, "age_interview_est"] = 0
 
-# adjustments
-predictors['smoking_ever'] = 0
-predictors['smoking_30'] = 0
-pred["smoking_ever", "smoking_30"] = 0
-pred["smoking_30", "smoking_ever"] = 0
+# don't predict smoking variables with each other
+pred["smoking_30", "smoking"] = 0
+pred["smoking_30", "smoking"]
 
-# some checks
+# check variables being imputed are the right ones
+vars = setdiff(all_exposure_vars, exposure)
+if (sum(pred[vars, vars] != 0)) { stop("Exposure variables imputed are not right!")}
+if (any(pred[predictors_vectors, exposure] == 0)) {
+    stop("Some variables do not have exposure variables as predictors") }
+
 pred["rev_health",]
 pred["smoking_30",]
-pred["bmi",]
-pred["z_absolute_mob",]
+sum(pred["bmi",])
 pred["z_relative_mob",]
-pred["log_population",]
+sum(pred["log_population",])
 pred["asvab_score",]
 
 
@@ -129,7 +147,7 @@ imp = parlmice(
 )
 
 # explore quality of imputations
-savepdf("ch03/output/nlsy97_absolute_mob_imp_iterations")
+savepdf("ch03/output/nlsy97_z_absolute_mob_imp_iterations")
 print(plot(imp, c("bmi", "rev_health")))
 print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
 print(plot(imp, c("hhsize", "log_income_adj")))
@@ -138,7 +156,7 @@ print(plot(imp, c("parent_education", "mother_age_at_birth")))
 print(plot(imp, c("asvab_score", "residential_moves_by_12")))
 dev.off()
 
-savepdf("ch03/output/nlsy97_absolute_mob_imp_values")
+savepdf("ch03/output/nlsy97_z_absolute_mob_imp_values")
 print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
 print(densityplot(imp, ~ rev_health))
 print(densityplot(imp, ~ hhsize + log_income_adj))
@@ -147,5 +165,5 @@ print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + 
 dev.off()
 
 # save results of imputation
-saveRDS(imp, "ch03/output/data/nlsy97_absolute_mob_imputation.rds")
+saveRDS(imp, "ch03/output/data/nlsy97_z_absolute_mob_imputation.rds")
 

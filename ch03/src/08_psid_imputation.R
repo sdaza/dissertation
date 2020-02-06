@@ -16,8 +16,10 @@ mm = readRDS("ch03/output/data/psid_data_ready_for_imputation.rds")
 mm[, age := imp_age]
 
 names(mm)
+
+
 center_vars = c("bmi", "depression", "life_satisfaction", "imp_age",
-                "famsize",  "head_education", "mother_age")
+                "famsize",  "head_education", "mother_age", "")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
 mm = mm[head_wife == 1]
 

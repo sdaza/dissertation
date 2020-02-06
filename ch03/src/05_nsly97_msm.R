@@ -123,13 +123,14 @@ for (i in seq_along(outcomes)) {
     )
 }
 
-saveRDS(list(unadjusted_relative_mob_continuous_results,
-                 unadjusted_relative_mob_resid_continuous_results,
-                 unadjusted_absolute_mob_continuous_results,
-                 unadjusted_absolute_mob_resid_continuous_results,
-                 unadjusted_gini_continuous_results,
-                 unadjusted_gini_resid_continuous_results),
-        file = "ch03/output/data/nlsy97_unadjusted_models.rds")
+saveRDS(list(
+    unadjusted_relative_mob_continuous_results,
+    unadjusted_relative_mob_resid_continuous_results,
+    unadjusted_absolute_mob_continuous_results,
+    unadjusted_absolute_mob_resid_continuous_results,
+    unadjusted_gini_continuous_results,
+    unadjusted_gini_resid_continuous_results),
+    file = "ch03/output/data/nlsy97_unadjusted_models.rds")
 
 # adjusted models
 
@@ -196,14 +197,14 @@ predictors = longText(
 ")
 
 
-relative_mob_continuous_results = list()
+z_relative_mob_results = list()
 
 for (i in seq_along(outcomes)) {
 
     print(paste0("Running model ", i))
 
     final_model = formula(paste0(outcomes[i], " ~ ", predictors))
-    relative_mob_continuous_results[[outcomes[i]]] = ipwExposure(
+    z_relative_mob_results[[outcomes[i]]] = ipwExposure(
         imputations = imp_relative_mob,
         lag_variables = lag_vars,
         baseline_variables = baseline_vars,
@@ -222,7 +223,7 @@ for (i in seq_along(outcomes)) {
 }
 
 saveRDS(relative_mob_continuous_results,
-        file = "ch03/output/data/nlsy97_results_relative_mob_continuous.rds")
+        file = "ch03/output/data/nlsy97_results_z_relative_mob.rds")
 
 # relative mobility residuals
 

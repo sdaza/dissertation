@@ -7,13 +7,24 @@
 # seed
 seed = 144305
 
+# exposure variables to be imputed
+all_exposure_vars = c("z_relative_mob", "z_absolute_mob", "z_gini",
+                      "relative_mob_resid", "absolute_mob_resid",
+                      "gini_resid", "q_relative_mob_resid",
+                      "q_absolute_mob_resid", "q_gini_resid",
+                      "q_relative_mob", "q_absolute_mob", "q_gini",
+                      "log_population", "log_county_income", "z_prop_black"
+                      )
+
+exposure = c("z_relative_mob", "z_gini")
+
 # create mice object
 ini = mice(mm, maxit = 0)
 head(ini$loggedEvent)
 pred = ini$pred
 meth = ini$meth
 pred[,] = 0
-
+meth
 # fluxplot(mm)
 # fx = fluxplot(mm)
 
@@ -33,6 +44,7 @@ methods = hash(
                "q_gini" = "",
                "log_population" = "",
                "log_county_income" = "",
+               "z_prop_black" = "",
                "log_income_adj" = "2l.pmm",
                "imp_living_any_parent" = "2l.pmm",
                "imp_parent_employed" = "2l.pmm",
@@ -70,6 +82,7 @@ predictors = hash(
      "q_gini_resid" = 0,
      "log_population" = 1,
      "log_county_income" = 1,
+     "z_prop_black" = 1,
      "log_income_adj" = 1,
      "hhsize" = 1,
      "nmoves" = 1,
@@ -96,23 +109,26 @@ for (i in seq_along(predictors_vectors)) {
 # set diagonal of matrix to 0
 diag(pred) = 0
 
-# variables without age as predictor
+# time invariant variables without age as predictor
 vars = c("parent_education", "mother_age_at_birth",
          "residential_moves_by_12", "asvab_score")
 pred[vars, "age_interview_est"] = 0
 
-# adjustments
-predictors['smoking'] = 0
-predictors['smoking_30'] = 0
-pred["smoking", "smoking_30"] = 0
+# don't predict smoking variables with each other
 pred["smoking_30", "smoking"] = 0
+pred["smoking_30", "smoking"]
 
-# some checks
+# check variables being imputed are the right ones
+vars = setdiff(all_exposure_vars, exposure)
+if (sum(pred[vars, vars] != 0)) { stop("Exposure variables imputed are not right!")}
+if (any(pred[predictors_vectors, exposure] == 0)) {
+    stop("Some variables do not have exposure variables as predictors") }
+
 pred["rev_health",]
 pred["smoking_30",]
-pred["bmi",]
+sum(pred["bmi",])
 pred["z_relative_mob",]
-pred["log_population",]
+sum(pred["log_population",])
 pred["asvab_score",]
 
 # relative mobility imputation
