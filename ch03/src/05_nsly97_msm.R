@@ -381,12 +381,7 @@ for (i in seq_along(outcomes)) {
 }
 
 saveRDS(z_gini_results,
-        file = "ch03/output/data/nlsy97_results_gini_continuous.rds")
-
-
-
-
-
+        file = "ch03/output/data/nlsy97_z_gini_results.rds")
 
 
 
