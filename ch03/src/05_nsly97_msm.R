@@ -29,13 +29,17 @@ model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
 
 # unadjusted models
 unadjusted_z_relative_mob_results = list()
-unadjusted_relative_mob_resid_results = list()
 unadjusted_z_absolute_mob_results = list()
-unadjusted_absolute_mob_resid_results = list()
 unadjusted_z_gini_results = list()
-unadjusted_gini_resid_results = list()
 
+# remove residual analysis for now
+# unadjusted_absolute_mob_resid_results = list()
+# unadjusted_relative_mob_resid_results = list()
+# unadjusted_gini_resid_results = list()
 
+# loop of unadjusted models
+
+# z_relative_mob models
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
     unadjusted_z_relative_mob_results[[i]] = unadjustedRegression(
@@ -50,22 +54,7 @@ for (i in seq_along(outcomes)) {
     )
 }
 
-
-for (i in seq_along(outcomes)) {
-    print(paste0("Running model ", i))
-    unadjusted_relative_mob_resid_results[[i]] = unadjustedRegression(
-        imputations = imp_relative_mob_resid,
-        exposure_variable = "relative_mob_resid",
-        exposure_type = "gaussian",
-        id_var = "id",
-        time_var = "stime",
-        max_time_exposure = 8,
-        outcome = outcomes[i],
-        final_model_type = model_type[i]
-    )
-}
-
-
+# z_absolute_mob models
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
     unadjusted_z_absolute_mob_results[[i]] = unadjustedRegression(
@@ -80,22 +69,7 @@ for (i in seq_along(outcomes)) {
     )
 }
 
-
-for (i in seq_along(outcomes)) {
-    print(paste0("Running model ", i))
-    unadjusted_absolute_mob_resid_results[[i]] = unadjustedRegression(
-        imputations = imp_absolute_mob_resid,
-        exposure_variable = "absolute_mob_resid",
-        exposure_type = "gaussian",
-        id_var = "id",
-        time_var = "stime",
-        max_time_exposure = 8,
-        outcome = outcomes[i],
-        final_model_type = model_type[i]
-    )
-}
-
-
+# z_gini models
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
     unadjusted_z_gini_results[[i]] = unadjustedRegression(
@@ -110,28 +84,57 @@ for (i in seq_along(outcomes)) {
     )
 }
 
+# comment out residuals
+# for (i in seq_along(outcomes)) {
+#     print(paste0("Running model ", i))
+#     unadjusted_relative_mob_resid_results[[i]] = unadjustedRegression(
+#         imputations = imp_relative_mob_resid,
+#         exposure_variable = "relative_mob_resid",
+#         exposure_type = "gaussian",
+#         id_var = "id",
+#         time_var = "stime",
+#         max_time_exposure = 8,
+#         outcome = outcomes[i],
+#         final_model_type = model_type[i]
+#     )
+# }
 
-for (i in seq_along(outcomes)) {
-    print(paste0("Running model ", i))
-    unadjusted_gini_resid_results[[i]] = unadjustedRegression(
-        imputations = imp_relative_mob_resid,
-        exposure_variable = "gini_resid",
-        exposure_type = "gaussian",
-        id_var = "id",
-        time_var = "stime",
-        max_time_exposure = 8,
-        outcome = outcomes[i],
-        final_model_type = model_type[i]
-    )
-}
+# for (i in seq_along(outcomes)) {
+#     print(paste0("Running model ", i))
+#     unadjusted_absolute_mob_resid_results[[i]] = unadjustedRegression(
+#         imputations = imp_absolute_mob_resid,
+#         exposure_variable = "absolute_mob_resid",
+#         exposure_type = "gaussian",
+#         id_var = "id",
+#         time_var = "stime",
+#         max_time_exposure = 8,
+#         outcome = outcomes[i],
+#         final_model_type = model_type[i]
+#     )
+# }
 
+# for (i in seq_along(outcomes)) {
+#     print(paste0("Running model ", i))
+#     unadjusted_gini_resid_results[[i]] = unadjustedRegression(
+#         imputations = imp_relative_mob_resid,
+#         exposure_variable = "gini_resid",
+#         exposure_type = "gaussian",
+#         id_var = "id",
+#         time_var = "stime",
+#         max_time_exposure = 8,
+#         outcome = outcomes[i],
+#         final_model_type = model_type[i]
+#     )
+# }
+
+# put model outputs in a list
 saveRDS(list(
     unadjusted_z_relative_mob_results,
-    unadjusted_relative_mob_resid_results,
     unadjusted_z_absolute_mob_results,
-    unadjusted_absolute_mob_resid_results,
-    unadjusted_z_gini_results,
-    unadjusted_gini_resid_results
+    unadjusted_z_gini_results
+    # unadjusted_relative_mob_resid_results,
+    # unadjusted_absolute_mob_resid_results,
+    # unadjusted_gini_resid_results
     ),
     file = "ch03/output/data/nlsy97_unadjusted_models.rds")
 
@@ -155,9 +158,10 @@ baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
                   "smoking", "smoking_30", "log_population",
                   "log_county_income", "z_prop_black", "log_income_adj")
 
-# continuous version analysis
 
-# relative mobility
+# create outcome models 
+
+# z_relative_mob
 
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
@@ -230,9 +234,161 @@ for (i in seq_along(outcomes)) {
 }
 
 saveRDS(z_relative_mob_results,
-        file = "ch03/output/data/nlsy97_results_z_relative_mob.rds")
+        file = "ch03/output/data/nlsy97_z_relative_mob_results.rds")
 
-z_relative_mob_results
+
+# z_absolute_mob
+
+denominator_time1 = longText("
+    male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12
+")
+
+numerator = longText("
+    (male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12 +
+    baseline_log_income_adj + baseline_hhsize +
+    baseline_imp_parent_employed + baseline_imp_parent_employed +
+    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
+    baseline_z_absolute_mob + baseline_z_gini +
+    baseline_rev_health + baseline_smoking_30 + lag_z_absolute_mob) + as.factor(stime)
+")
+
+denominator = longText("
+    (male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12 +
+    baseline_log_income_adj + baseline_hhsize +
+    baseline_imp_parent_employed + baseline_imp_parent_employed +
+    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
+    baseline_z_absolute_mob + baseline_z_gini +
+    nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
+    log_income_adj + lag_rev_health + lag_bmi + lag_smoking_30 +
+    lag_z_absolute_mob + lag_z_gini) + as.factor(stime)
+")
+
+predictors = longText(
+    "average_z_absolute_mob + male + ethnicity +
+     as.factor(max_age_interview_est) +
+     parent_education + asvab_score + mother_age_at_birth +
+     residential_moves_by_12 +
+     baseline_log_income_adj + baseline_hhsize +
+     baseline_imp_parent_employed + baseline_imp_parent_married +
+     baseline_z_gini
+")
+
+z_absolute_mob_results = list()
+
+for (i in seq_along(outcomes)) {
+
+    print(paste0("Running model ", i))
+
+    final_model = formula(paste0(outcomes[i], " ~ ", predictors))
+
+    print(final_model)
+
+    z_absolute_mob_results[[outcomes[i]]] = ipwExposure(
+        imputations = imp_z_absolute_mob,
+        lag_variables = lag_vars,
+        baseline_variables = baseline_vars,
+        denominator_time1 = denominator_time1,
+        numerator = numerator,
+        denominator = denominator,
+        exposure_variable = "z_absolute_mob",
+        id_var = "id",
+        time_var = "stime",
+        max_time_exposure = 8,
+        final_model = final_model,
+        trim_p = 0.01,
+        exposure_type = "gaussian",
+        final_model_type = model_type[i]
+    )
+}
+
+saveRDS(z_absolute_mob_results,
+        file = "ch03/output/data/nlsy97_z_absolute_mob_results.rds")
+
+
+# z_gini
+
+denominator_time1 = longText("
+    male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12
+")
+
+numerator = longText("
+    (male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12 +
+    baseline_log_income_adj + baseline_hhsize +
+    baseline_imp_parent_employed + baseline_imp_parent_employed +
+    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
+    baseline_z_relative_mob +
+    baseline_rev_health + baseline_smoking_30) + as.factor(stime) + lag_z_gini
+")
+
+denominator = longText("
+    (male + ethnicity + as.factor(max_age_interview_est) +
+    parent_education + asvab_score + mother_age_at_birth +
+    residential_moves_by_12 +
+    baseline_log_income_adj + baseline_hhsize +
+    baseline_imp_parent_employed + baseline_imp_parent_employed +
+    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
+    baseline_z_relative_mob +
+    nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
+    log_income_adj + lag_rev_health + lag_bmi + lag_smoking_30 +
+    lag_z_relative_mob) + as.factor(stime) + lag_z_gini
+")
+
+outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
+model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
+
+predictors = longText(
+    "average_z_gini + male + ethnicity +
+     as.factor(max_age_interview_est) +
+     parent_education + asvab_score + mother_age_at_birth +
+     residential_moves_by_12 +
+     baseline_log_income_adj + baseline_hhsize +
+     baseline_imp_parent_employed + baseline_imp_parent_married +
+     baseline_z_relative_mob
+")
+
+z_gini_results = list()
+
+for (i in seq_along(outcomes)) {
+
+    print(paste0("Running model ", i))
+    final_model = formula(paste0(outcomes[i], " ~ ", gsub("\n", "", predictors)))
+    z_gini_results[[outcomes[i]]] = ipwExposure(
+        imputations = imp_z_relative_mob,
+        lag_variables = lag_vars,
+        baseline_variables = baseline_vars,
+        denominator_time1 = denominator_time1,
+        numerator = numerator,
+        denominator = denominator,
+        exposure_variable = "z_gini",
+        id_var = "id",
+        time_var = "stime",
+        max_time_exposure = 8,
+        final_model = final_model,
+        trim_p = 0.01,
+        exposure_type = "gaussian",
+        final_model_type = model_type[i]
+    )
+}
+
+saveRDS(z_gini_results,
+        file = "ch03/output/data/nlsy97_results_gini_continuous.rds")
+
+
+
+
+
+
+
 
 # relative mobility residuals
 
@@ -306,78 +462,6 @@ saveRDS(relative_mob_resid_continuous_results,
         file = "ch03/output/data/nlsy97_results_relative_mob_resid_continuous.rds")
 
 
-# absolute mobility
-
-denominator_time1 = longText("
-    male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12
-")
-
-numerator = longText("
-    (male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 +
-    baseline_log_income_adj + baseline_hhsize +
-    baseline_imp_parent_employed + baseline_imp_parent_employed +
-    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_absolute_mob + baseline_z_gini +
-    baseline_rev_health + baseline_smoking_30 + lag_z_absolute_mob) + as.factor(stime)
-")
-
-denominator = longText("
-    (male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 +
-    baseline_log_income_adj + baseline_hhsize +
-    baseline_imp_parent_employed + baseline_imp_parent_employed +
-    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_absolute_mob + baseline_z_gini +
-    nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
-    log_income_adj + lag_rev_health + lag_bmi + lag_smoking_30 +
-    lag_z_absolute_mob + lag_z_gini) + as.factor(stime)
-")
-
-predictors = longText(
-    "average_z_absolute_mob + male + ethnicity +
-     as.factor(max_age_interview_est) +
-     parent_education + asvab_score + mother_age_at_birth +
-     residential_moves_by_12 +
-     baseline_log_income_adj + baseline_hhsize +
-     baseline_imp_parent_employed + baseline_imp_parent_married +
-     baseline_z_gini
-")
-
-absolute_mob_continuous_results = list()
-
-for (i in seq_along(outcomes)) {
-
-    print(paste0("Running model ", i))
-
-    final_model = formula(paste0(outcomes[i], " ~ ", predictors))
-
-    print(final_model)
-
-    absolute_mob_continuous_results[[outcomes[i]]] = ipwExposure(
-        imputations = imp_z_absolute_mob,
-        lag_variables = lag_vars,
-        baseline_variables = baseline_vars,
-        denominator_time1 = denominator_time1,
-        numerator = numerator,
-        denominator = denominator,
-        exposure_variable = "z_absolute_mob",
-        id_var = "id",
-        time_var = "stime",
-        max_time_exposure = 8,
-        final_model = final_model,
-        trim_p = 0.01,
-        exposure_type = "gaussian",
-        final_model_type = model_type[i]
-    )
-}
-
-saveRDS(absolute_mob_continuous_results,
-        file = "ch03/output/data/nlsy97_results_absolute_mob_continuous.rds")
 
 
 # absolute mobility residuals
@@ -454,77 +538,6 @@ saveRDS(absolute_mob_resid_continuous_results,
         file = "ch03/output/data/nlsy97_results_absolute_mob_resid_continuous.rds")
 
 
-# gini
-
-denominator_time1 = longText("
-    male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12
-")
-
-numerator = longText("
-    (male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 +
-    baseline_log_income_adj + baseline_hhsize +
-    baseline_imp_parent_employed + baseline_imp_parent_employed +
-    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_relative_mob +
-    baseline_rev_health + baseline_smoking_30) + as.factor(stime) + lag_z_gini
-")
-
-denominator = longText("
-    (male + ethnicity + as.factor(max_age_interview_est) +
-    parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 +
-    baseline_log_income_adj + baseline_hhsize +
-    baseline_imp_parent_employed + baseline_imp_parent_employed +
-    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_relative_mob +
-    nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
-    log_income_adj + lag_rev_health + lag_bmi + lag_smoking_30 +
-    lag_z_relative_mob) + as.factor(stime) + lag_z_gini
-")
-
-outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
-model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
-
-predictors = longText(
-    "average_z_gini + male + ethnicity +
-     as.factor(max_age_interview_est) +
-     parent_education + asvab_score + mother_age_at_birth +
-     residential_moves_by_12 +
-     baseline_log_income_adj + baseline_hhsize +
-     baseline_imp_parent_employed + baseline_imp_parent_married +
-     baseline_z_relative_mob
-")
-
-gini_continuous_results = list()
-
-for (i in seq_along(outcomes)) {
-
-    print(paste0("Running model ", i))
-    final_model = formula(paste0(outcomes[i], " ~ ", gsub("\n", "", predictors)))
-    gini_continuous_results[[outcomes[i]]] = ipwExposure(
-        imputations = imp_z_relative_mob,
-        lag_variables = lag_vars,
-        baseline_variables = baseline_vars,
-        denominator_time1 = denominator_time1,
-        numerator = numerator,
-        denominator = denominator,
-        exposure_variable = "z_gini",
-        id_var = "id",
-        time_var = "stime",
-        max_time_exposure = 8,
-        final_model = final_model,
-        trim_p = 0.01,
-        exposure_type = "gaussian",
-        final_model_type = model_type[i]
-    )
-}
-
-saveRDS(gini_continuous_results,
-        file = "ch03/output/data/nlsy97_results_gini_continuous.rds")
 
 
 # gini residual
