@@ -15,6 +15,7 @@ pardiso.lic
 *.pdf
 /Output/
 .Rapp.history
+.vscode
 
 # chapter 1
 /ch02/Output/

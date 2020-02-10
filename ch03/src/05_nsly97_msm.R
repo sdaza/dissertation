@@ -6,38 +6,40 @@
 
 
 library(survey)
-library(data.table)
+library(data.table)    
 library(texreg)
 library(mitools)
 library(MASS)
 source("ch03/src/utils.R")
 
-
 # read imputed data
-imp_relative_mob = readRDS('ch03/output/data/nlsy97_relative_mob_imputation.rds')
-imp_absolute_mob = readRDS('ch03/output/data/nlsy97_absolute_mob_imputation.rds')
-imp_relative_mob_resid = readRDS('ch03/output/data/nlsy97_relative_mob_resid_imputation.rds')
-imp_absolute_mob_resid = readRDS('ch03/output/data/nlsy97_absolute_mob_resid_imputation.rds')
+imp_z_relative_mob = readRDS('ch03/output/data/nlsy97_z_relative_mob_imputation.rds')
+imp_z_absolute_mob = readRDS('ch03/output/data/nlsy97_z_absolute_mob_imputation.rds')
+
+# I willl keep residuals separated
+# imp_relative_mob_resid = readRDS('ch03/output/data/nlsy97_relative_mob_resid_imputation.rds')
+# imp_absolute_mob_resid = readRDS('ch03/output/data/nlsy97_absolute_mob_resid_imputation.rds')
 
 # number of observations
-N = length(unique(mice::complete(imp_relative_mob, 1)$id))
+N = length(unique(mice::complete(imp_z_relative_mob, 1)$id))
+print(N)
 
-outcomes = c("rev_health", "bmi", "depression", "smoking_ever", "smoking_30")
+outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
 model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
 
 # unadjusted models
-unadjusted_relative_mob_continuous_results = list()
-unadjusted_relative_mob_resid_continuous_results = list()
-unadjusted_absolute_mob_continuous_results = list()
-unadjusted_absolute_mob_resid_continuous_results = list()
-unadjusted_gini_continuous_results = list()
-unadjusted_gini_resid_continuous_results = list()
+unadjusted_z_relative_mob_results = list()
+unadjusted_relative_mob_resid_results = list()
+unadjusted_z_absolute_mob_results = list()
+unadjusted_absolute_mob_resid_results = list()
+unadjusted_z_gini_results = list()
+unadjusted_gini_resid_results = list()
 
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_relative_mob_continuous_results[[i]] = unadjustedRegression(
-        imputations = imp_relative_mob,
+    unadjusted_z_relative_mob_results[[i]] = unadjustedRegression(
+        imputations = imp_z_relative_mob,
         exposure_variable = "z_relative_mob",
         exposure_type = "gaussian",
         id_var = "id",
@@ -51,7 +53,7 @@ for (i in seq_along(outcomes)) {
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_relative_mob_resid_continuous_results[[i]] = unadjustedRegression(
+    unadjusted_relative_mob_resid_results[[i]] = unadjustedRegression(
         imputations = imp_relative_mob_resid,
         exposure_variable = "relative_mob_resid",
         exposure_type = "gaussian",
@@ -66,8 +68,8 @@ for (i in seq_along(outcomes)) {
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_absolute_mob_continuous_results[[i]] = unadjustedRegression(
-        imputations = imp_absolute_mob,
+    unadjusted_z_absolute_mob_results[[i]] = unadjustedRegression(
+        imputations = imp_z_absolute_mob,
         exposure_variable = "z_absolute_mob",
         exposure_type = "gaussian",
         id_var = "id",
@@ -81,7 +83,7 @@ for (i in seq_along(outcomes)) {
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_absolute_mob_resid_continuous_results[[i]] = unadjustedRegression(
+    unadjusted_absolute_mob_resid_results[[i]] = unadjustedRegression(
         imputations = imp_absolute_mob_resid,
         exposure_variable = "absolute_mob_resid",
         exposure_type = "gaussian",
@@ -96,8 +98,8 @@ for (i in seq_along(outcomes)) {
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_gini_continuous_results[[i]] = unadjustedRegression(
-        imputations = imp_relative_mob,
+    unadjusted_z_gini_results[[i]] = unadjustedRegression(
+        imputations = imp_z_relative_mob,
         exposure_variable = "z_gini",
         exposure_type = "gaussian",
         id_var = "id",
@@ -111,7 +113,7 @@ for (i in seq_along(outcomes)) {
 
 for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
-    unadjusted_gini_resid_continuous_results[[i]] = unadjustedRegression(
+    unadjusted_gini_resid_results[[i]] = unadjustedRegression(
         imputations = imp_relative_mob_resid,
         exposure_variable = "gini_resid",
         exposure_type = "gaussian",
@@ -124,20 +126,21 @@ for (i in seq_along(outcomes)) {
 }
 
 saveRDS(list(
-    unadjusted_relative_mob_continuous_results,
-    unadjusted_relative_mob_resid_continuous_results,
-    unadjusted_absolute_mob_continuous_results,
-    unadjusted_absolute_mob_resid_continuous_results,
-    unadjusted_gini_continuous_results,
-    unadjusted_gini_resid_continuous_results),
+    unadjusted_z_relative_mob_results,
+    unadjusted_relative_mob_resid_results,
+    unadjusted_z_absolute_mob_results,
+    unadjusted_absolute_mob_resid_results,
+    unadjusted_z_gini_results,
+    unadjusted_gini_resid_results
+    ),
     file = "ch03/output/data/nlsy97_unadjusted_models.rds")
 
 # adjusted models
 
 # lagged and baseline variables
 lag_vars = c("imp_parent_employed", "imp_parent_married", "hhsize",
-             "bmi", "rev_health", "smoking_ever", "smoking_30", "log_population",
-             "log_county_income",
+             "bmi", "rev_health", "smoking", "smoking_30", "log_population",
+             "log_county_income", "z_prop_black",
              "z_relative_mob", "z_gini", "z_absolute_mob",
              "relative_mob_resid", "absolute_mob_resid", "gini_resid",
              "q_relative_mob", "q_absolute_mob", "q_gini",
@@ -149,8 +152,8 @@ baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
                   "q_relative_mob_resid", "q_absolute_mob_resid", "q_gini_resid",
                   "imp_parent_employed",
                   "imp_parent_married", "hhsize", "bmi", "rev_health",
-                  "smoking_ever", "smoking_30", "log_population",
-                  "log_county_income", "log_income_adj")
+                  "smoking", "smoking_30", "log_population",
+                  "log_county_income", "z_prop_black", "log_income_adj")
 
 # continuous version analysis
 
@@ -169,8 +172,10 @@ numerator = longText("
     baseline_log_income_adj + baseline_hhsize +
     baseline_imp_parent_employed + baseline_imp_parent_employed +
     baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_relative_mob + baseline_z_gini +
-    baseline_rev_health + baseline_smoking_30 + lag_z_relative_mob) + as.factor(stime)
+    baseline_z_relative_mob + baseline_z_gini + baseline_log_population +
+    baseline_log_county_income + baseline_z_prop_black +
+    baseline_rev_health + baseline_smoking +
+    lag_z_relative_mob) + as.factor(stime)
 ")
 
 denominator = longText("
@@ -179,11 +184,13 @@ denominator = longText("
     residential_moves_by_12 +
     baseline_log_income_adj + baseline_hhsize +
     baseline_imp_parent_employed + baseline_imp_parent_employed +
-    baseline_rev_health + baseline_smoking_30 + baseline_bmi +
-    baseline_z_relative_mob + baseline_z_gini +
+    baseline_rev_health + baseline_smoking + baseline_bmi +
+    baseline_z_relative_mob + baseline_z_gini + baseline_log_population +
+    baseline_log_county_income + baseline_z_prop_black +
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
-    log_income_adj + lag_rev_health + lag_bmi + lag_smoking_30 +
-    lag_z_relative_mob + lag_z_gini) + as.factor(stime)
+    log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
+    lag_z_relative_mob + lag_z_gini + lag_log_county_income +
+    lag_log_population + lag_z_prop_black) + as.factor(stime)
 ")
 
 predictors = longText(
@@ -193,9 +200,9 @@ predictors = longText(
      residential_moves_by_12 +
      baseline_log_income_adj + baseline_hhsize +
      baseline_imp_parent_employed + baseline_imp_parent_married +
-     baseline_z_gini
+     baseline_z_gini + baseline_log_population +
+     baseline_log_county_income + baseline_z_prop_black
 ")
-
 
 z_relative_mob_results = list()
 
@@ -205,7 +212,7 @@ for (i in seq_along(outcomes)) {
 
     final_model = formula(paste0(outcomes[i], " ~ ", predictors))
     z_relative_mob_results[[outcomes[i]]] = ipwExposure(
-        imputations = imp_relative_mob,
+        imputations = imp_z_relative_mob,
         lag_variables = lag_vars,
         baseline_variables = baseline_vars,
         denominator_time1 = denominator_time1,
@@ -222,8 +229,10 @@ for (i in seq_along(outcomes)) {
     )
 }
 
-saveRDS(relative_mob_continuous_results,
+saveRDS(z_relative_mob_results,
         file = "ch03/output/data/nlsy97_results_z_relative_mob.rds")
+
+z_relative_mob_results
 
 # relative mobility residuals
 
@@ -350,7 +359,7 @@ for (i in seq_along(outcomes)) {
     print(final_model)
 
     absolute_mob_continuous_results[[outcomes[i]]] = ipwExposure(
-        imputations = imp_absolute_mob,
+        imputations = imp_z_absolute_mob,
         lag_variables = lag_vars,
         baseline_variables = baseline_vars,
         denominator_time1 = denominator_time1,
@@ -477,7 +486,7 @@ denominator = longText("
     lag_z_relative_mob) + as.factor(stime) + lag_z_gini
 ")
 
-outcomes = c("rev_health", "bmi", "depression", "smoking_ever", "smoking_30")
+outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
 model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
 
 predictors = longText(
@@ -497,7 +506,7 @@ for (i in seq_along(outcomes)) {
     print(paste0("Running model ", i))
     final_model = formula(paste0(outcomes[i], " ~ ", gsub("\n", "", predictors)))
     gini_continuous_results[[outcomes[i]]] = ipwExposure(
-        imputations = imp_relative_mob,
+        imputations = imp_z_relative_mob,
         lag_variables = lag_vars,
         baseline_variables = baseline_vars,
         denominator_time1 = denominator_time1,
@@ -550,7 +559,7 @@ denominator = longText("
     as.factor(stime) + lag_gini_resid
 ")
 
-outcomes = c("rev_health", "bmi", "depression", "smoking_ever", "smoking_30")
+outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
 model_type = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
 
 predictors = longText(
@@ -594,7 +603,7 @@ saveRDS(gini_resid_continuous_results,
 # list of results
 
 # load saved results
-relative_mob_continuous_results = readRDS("ch03/output/data/nlsy97_results_relative_mob_continuous.rds")
+z_relative_mob_results = readRDS("ch03/output/data/nlsy97_results_z_relative_mob.rds")
 relative_mob_resid_continuous_results = readRDS("ch03/output/data/nlsy97_results_relative_mob_resid_continuous.rds")
 absolute_mob_continuous_results = readRDS("ch03/output/data/nlsy97_results_absolute_mob_continuous.rds")
 absolute_mob_resid_continuous_results = readRDS("ch03/output/data/nlsy97_results_absolute_mob_resid_continuous.rds")
@@ -603,10 +612,12 @@ gini_resid_continuous_results = readRDS("ch03/output/data/nlsy97_results_gini_re
 
 # extract models
 
-relative_mob_continuous_models = list()
-for (i in seq_along(relative_mob_continuous_results)) {
-    relative_mob_continuous_models[[i]] = relative_mob_continuous_results[[i]][["models"]]
+z_relative_mob_models = list()
+for (i in seq_along(z_relative_mob_results)) {
+    z_relative_mob_models[[i]] = z_relative_mob_results[[i]][["models"]]
 }
+
+z_relative_mob_models
 
 relative_mob_resid_continuous_models = list()
 for (i in seq_along(relative_mob_resid_continuous_results)) {
@@ -628,24 +639,27 @@ for (i in seq_along(gini_continuous_results)) {
     gini_continuous_models[[i]] = gini_continuous_results[[i]][["models"]]
 }
 
-gini_resid_continuous_models = list()
+gini_resid_models = list()
 for (i in seq_along(gini_resid_continuous_results)) {
-    gini_resid_continuous_models[[i]] = gini_resid_continuous_results[[i]][["models"]]
+    gini_resid_models[[i]] = gini_resid_continuous_results[[i]][["models"]]
 }
 
-list_rows = list(relative_mob_continuous_models,
-                 relative_mob_resid_continuous_models,
-                 absolute_mob_continuous_models,
-                 absolute_mob_resid_continuous_models,
-                 gini_continuous_models,
-                 gini_resid_continuous_models)
+list_rows = list(z_relative_mob_models
+                 # ,
+                 # relative_mob_resid_models,
+                 # z_absolute_mob_models,
+                 # absolute_mob_resid_models,
+                 # z_gini_models,
+                 # gini_resid_models
+                 )
 
 row_names = c("average_z_relative_mob",
               "average_relative_mob_resid",
               "average_z_absolute_mob",
               "average_absolute_mob_resid",
               "average_z_gini",
-              "average_gini_resid")
+              "average_gini_resid"
+              )
 
 row_labels = c("Average rank-rank correlation",
                "Average rank-rank correlation residuals",
@@ -675,12 +689,13 @@ createModelTables(
     caption = caption,
     label = label,
     column_names = column_names,
-    row_names = row_names, row_labels = row_labels,
+    row_names = row_names[1],
+    row_labels = row_labels[1],
     filename = "ch03/output/nlsy97_exposure_continuous_models.tex",
     comment = comment,
-    groups = groups,
+    # groups = groups,
     observations = N
-                  )
+)
 
 # create table unadjusted models
 
@@ -693,8 +708,8 @@ row_names = c("average_z_relative_mob",
               "average_z_gini",
               "average_gini_resid")
 
-row_labels = c("Rank-rank correlation",
-               "Rank-rank correlation residuals",
+row_labels = c("Rank-rank",
+               "Rank-rank residuals",
                "Upward mobility $\\times$ -1",
                "Upward mobility residuals $\\times$ -1",
                "Gini",

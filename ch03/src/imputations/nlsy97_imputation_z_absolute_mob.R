@@ -5,7 +5,7 @@
 ##############################
 
 
-# seed
+# random seed to reproduce imputations`
 seed = 144305
 
 # exposure variables to be imputed
@@ -146,24 +146,26 @@ imp = parlmice(
     maxit = 20
 )
 
+# save results of imputation
+saveRDS(imp, "ch03/output/data/nlsy97_z_absolute_mob_imputation.rds")
+
 # explore quality of imputations
-savepdf("ch03/output/nlsy97_z_absolute_mob_imp_iterations")
+savepdf("ch03/output/figures/nlsy97_z_absolute_mob_imp_iterations")
 print(plot(imp, c("bmi", "rev_health")))
-print(plot(imp, c("depression", "smoking_30", "smoking_ever")))
+print(plot(imp, c("depression", "smoking_30", "smoking")))
 print(plot(imp, c("hhsize", "log_income_adj")))
 print(plot(imp, c("imp_living_any_parent", "imp_parent_married", "imp_parent_employed")))
 print(plot(imp, c("parent_education", "mother_age_at_birth")))
 print(plot(imp, c("asvab_score", "residential_moves_by_12")))
 dev.off()
 
-savepdf("ch03/output/nlsy97_z_absolute_mob_imp_values")
-print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking_ever))
+savepdf("ch03/output/figures/nlsy97_z_absolute_mob_imp_values")
+print(densityplot(imp, ~ bmi + depression + smoking_30 + smoking))
 print(densityplot(imp, ~ rev_health))
 print(densityplot(imp, ~ hhsize + log_income_adj))
 print(densityplot(imp, ~ imp_living_any_parent + imp_parent_married + imp_parent_employed))
 print(densityplot(imp, ~ parent_education + mother_age_at_birth + asvab_score + residential_moves_by_12))
 dev.off()
 
-# save results of imputation
-saveRDS(imp, "ch03/output/data/nlsy97_z_absolute_mob_imputation.rds")
+
 
