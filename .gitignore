@@ -13,7 +13,6 @@ pardiso.lic
 *.toc
 *.lof
 *.pdf
-/Output/
 .Rapp.history
 .vscode
 
