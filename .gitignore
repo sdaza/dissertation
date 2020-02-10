@@ -2,6 +2,8 @@
 # general
 .gitignore
 pardiso.lic
+.Rapp.history
+.vscode
 *.aux
 *.fdb_latexmk
 *.fls
@@ -13,11 +15,12 @@ pardiso.lic
 *.toc
 *.lof
 *.pdf
-.Rapp.history
-.vscode
+*.bbl
+*.blg
 
 # chapter 1
 /ch02/Output/
+
 # chapter 2
 /ch02/data/mortality/
 /ch02/data/population/
