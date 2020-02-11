@@ -401,6 +401,9 @@ unadjustedRegression = function(
             output = svyglm(final_model, design = svy_design,
                             family = poisson)
         }
+        else if (final_model_type == "negative_binomial") {
+            output = sjstats::svyglm.nb(final_model, design = svy_design)
+        }
         else if (final_model_type == "ordinal") {
             output = svyolr(final_model, design = svy_design)
         }
@@ -591,6 +594,9 @@ ipwExposure = function(
         else if (final_model_type == "poisson") {
             output = svyglm(final_model, design = svy_design,
                             family = poisson)
+        } 
+        else if (final_model_type == "negative_binomial") {
+            output = sjstats::svyglm.nb(final_model, design = svy_design)
         }
         else if (final_model_type == "ordinal") {
             output = svyolr(final_model, design = svy_design)
