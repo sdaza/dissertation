@@ -17,7 +17,8 @@ all_exposure_vars = c("z_relative_mob", "z_absolute_mob", "z_gini",
                       "log_population", "log_county_income", "z_prop_black"
                       )
 
-exposure = c("z_absolute_mob", "z_gini")
+exposure = c("z_absolute_mob", "z_gini", "log_population", "log_county_income", 
+             "z_prop_black")
 
 # create mice object
 ini = mice(mm, maxit = 0)
@@ -121,7 +122,7 @@ pred["smoking_30", "smoking"]
 
 # check variables being imputed are the right ones
 vars = setdiff(all_exposure_vars, exposure)
-if (sum(pred[vars, vars] != 0)) { stop("Exposure variables imputed are not right!")}
+if (sum(pred[vars, ] != 0) & sum(predictors_vectors, vars)) { stop("Other exposure variables being used!")}
 if (any(pred[predictors_vectors, exposure] == 0)) {
     stop("Some variables do not have exposure variables as predictors") }
 

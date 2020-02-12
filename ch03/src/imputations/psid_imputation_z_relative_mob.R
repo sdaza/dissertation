@@ -9,9 +9,11 @@ ini = mice(mm, maxit = 0)
 head(ini$loggedEvent)
 pred = ini$pred
 meth = ini$meth
-pred[,] = 0
 
 tt = fluxplot(mm)
+# explore missing patterns
+tt[, c(1,2)]
+
 # countmis(mm[head_wife == 1])
 
 # length(unique(mm[relation_head %in% c(1, 10, 2, 20, 22), pid]))
@@ -20,13 +22,10 @@ tt = fluxplot(mm)
 # mm[pid == sample(ids, 1), .(pid, year, imp_age, relation_head, whynoresp, depression)]
 
 methods = hash(
-    "year_born" = "",
-    "smoking_ever" = "",
-    "individual_working_binary" = "",
     # time invariant covariates
-    "race" = "2lonly.function",
-    "weight_less_55" = "2lonly.function",
-    "mother_marital_status" = "2lonly.function",
+    # "race" = "2lonly.function",
+    "weight_less_55" = "2lonly.pmm",
+    "mother_marital_status" = "2lonly.pmm",
     "mother_age" = "2lonly.pmm",
     # time variant covariates
     "log_income_adj" = "2l.pmm",
@@ -36,23 +35,23 @@ methods = hash(
     "head_working_binary" = "2l.pmm",
     "famsize" = "2l.pmm",
     # outcomes
-    "life_satisfaction" = "",
     "depression" = "2l.pmm",
     "bmi" = "2l.pmm",
     "smoking" = "2l.pmm",
     "smoking_number" = "2l.pmm",
-    "health_binary" = "",
-    "individual_health" = "2l.pmm"
+    "rev_health" = "2l.pmm", 
+    "individual_health" = ""
 )
 
 meth[keys(methods)] = values(methods)
 
-imputationFunction = list("race" = "polyreg",
+# custom imputation functions
+imputationFunction = list(
                           "weight_less_55" = "logreg",
                           "mother_marital_status" = "logreg"
                           )
 
-cluster_var =  list("race" = "pid",
+cluster_var =  list(
                     "weight_less_55" = "pid",
                     "mother_marital_status" = "pid"
                     )
@@ -77,15 +76,18 @@ predictors = hash(
     # outcomes
     "depression" = 1,
     "bmi" = 1,
-    "life_satisfaction" = 0,
     "smoking" = 1,
     "smoking_number" = 0,
-    "health_binary" = 0,
-    "individual_health" = 0
+    "rev_health" = 1
 )
 
 # assign predictors
 predictors_vectors = names(meth[meth != ""])
+
+# checks
+setdiff(keys(predictors), rownames(pred))
+
+pred[,] = 0
 for (i in seq_along(predictors_vectors)) {
     pred[predictors_vectors[i], keys(predictors)] = values(predictors)
 }
@@ -93,24 +95,59 @@ for (i in seq_along(predictors_vectors)) {
 # set diagonal of matrix to 0
 diag(pred) = 0
 
+# remove age from time-invariant variables
+vars = c("mother_age", "mother_marital_status", "weight_less_55")
+pred[vars, "imp_age"] = 0
+
 # explore
 pred["log_income_adj",]
 pred["mother_age",]
 pred["mother_marital_status",]
 pred["weight_less_55",]
-pred["individual_health",]
-pred["health_binary",]
 pred["race",]
 pred["depression", ]
-pred["life_satisfaction", ]
 
-# adjustments
-# pred[c("depression", "bmi", "health_binary", "smoking"), c("life_satisfaction")] = 0
-# pred["life_satisfaction", c("bmi", "health_binary", "smoking")] = 0
+table(mm$time)
 
-# imputation
-number_cores = 2
-imputations_per_core = 2
+sessionInfo()
+
+# testing imputation
+test = mice(
+    mm,
+    predictorMatrix = pred, 
+    method = meth, 
+    m = 2, 
+    maxit = 5
+)
+
+# iteration imputation
+list_imputations = list()
+random_seeds = c(1059, 1711, 1037, 1031, 1724, 1651, 1463, 1493, 1725, 1411)
+
+for (i in 1:2) {
+    print(paste0("iteration ", i))
+    list_imputations[[i]] = mice(
+        mm, 
+        predictorMatrix = pred, 
+        meth = meth, 
+        m = 2, 
+        maxtit = 3, 
+        seed = random_seeds[i]
+
+    )
+}
+
+
+# bind imputations
+imp = NULL
+for (i in 1:(length(list_imputations) - 1)) {
+    if (i == 1) {
+        imp = ibind(list_imputations[[i]], list_imputations[[i+1]])
+    } 
+    else if (i > 1) {
+        imp = ibind(imp, list_imputations[[i]])  
+    }
+}
 
 imp = parlmice(
     mm,
