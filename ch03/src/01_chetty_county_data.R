@@ -59,7 +59,8 @@ vars = c("relative_mob", "gini", "absolute_mob")
 county[, (paste0("z_", vars)) := lapply(.SD, scale), .SDcol = vars]
 county[, ("z_prop_black") := scale(prop_black)]
 
-cor(county[, .(z_gini, z_relative_mob, z_absolute_mob,
+cor(county[, .(z_gini, 
+               z_relative_mob, z_absolute_mob,
                log_county_income, log_population, z_prop_black)])
 
 # linear models (residuals)
