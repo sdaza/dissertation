@@ -55,7 +55,9 @@ renameColumns = function(dat, hash) {
 
 
 longText = function(text) {
-    return(gsub("\n", "", text))
+    dtext = gsub("\n", "", text)
+    dtext = gsub("\\s+", " ", dtext)
+    return(dtext)
 }
 
 
@@ -693,6 +695,7 @@ extract.MIcombine <- function(model, obs = 0) {
     return(tr)
 }
 
+library(texreg)
 setMethod("extract", signature = className("MIresult", "MItools"),
     definition = extract.MIcombine)
 
@@ -765,25 +768,44 @@ add_notes_table = function(tab,
                            comment = "",
                            arraystretch = 0.8,
                            tabcolsep = 10,
-                           filename = "") {
+                           filename = "", 
+                           header  = NULL,
+                           header_replacement = NULL,
+                           bottom = NULL,
+                           bottom_replacement = NULL ,
+                           closing = NULL, 
+                           closing_replacement = NULL) {
 
-    tab = gsub("begin\\{table\\}\\[htp\\]\\n",
-                paste0("begin\\{table\\}\\[htp\\]\\\n\\\\centering\\\n",
-                       "\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
-                       "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
-                       arraystretch,
-                       "\\}\\\n\\\\begin\\{threeparttable\\}\\\n"),
-                 tab)
+    if (is.null(header)) {
+        header = "begin\\{table\\}\\[htp\\]\\n"
+    } 
+    if (is.null(header_replacement)) {
+        header_replacement = paste0("begin\\{table\\}\\[htp\\]\\\n", 
+                                    "\\\\setlength\\{\\\\tabcolsep\\}\\{", 
+                                    tabcolsep,
+                                    "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
+                                    arraystretch,
+                                    "\\}\\\n\\\\begin\\{threeparttable\\}\\\n")      
+    } 
+    tab = gsub(header, header_replacement, tab)
 
-    tab = gsub("end\\{tabular\\}\\n",
-                paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
-                       comment,
-                       "\\\n\\\\end{tablenotes}\\\n"),
-                tab)
+    if (is.null(bottom)) {
+        bottom = "end\\{tabular\\}\\n"
+    }
+    if (is.null(bottom_replacement)) {
+        bottom_replacement = paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
+                                    comment,
+                                    "\\\n\\\\end{tablenotes}\\\n")
+    }
+    tab = gsub(bottom, bottom_replacement, tab)
 
-    tab = gsub("end\\{center\\}\\n",
-                paste0("end\\{center\\}\\\n\\\\end{threeparttable}\\\n"),
-                tab)
+    if (is.null(closing)) {
+        closing = "end\\{center\\}\\n"
+    }
+    if (is.null(closing_replacement)) {
+        closing_replacement = "end\\{center\\}\\\n\\\\end{threeparttable}\\\n"
+    }
+    tab = gsub(closing, closing_replacement, tab)
 
     cat(tab, file = filename)
 

@@ -86,7 +86,7 @@ county[, (paste0("q_", vars)) := lapply(.SD, createQuantiles), .SDcol = vars]
 county[, mean(relative_mob, na.rm = TRUE), q_relative_mob]
 county[, mean(absolute_mob, na.rm = TRUE), q_absolute_mob]
 
-county = county[, .(fips, statename, county_name,
+county = county[, .(fips, statename, county_name, prop_black, 
                     gini, z_gini, gini_resid, q_gini, q_gini_resid,
                     relative_mob, z_relative_mob, relative_mob_resid,
                     q_relative_mob, q_relative_mob_resid,

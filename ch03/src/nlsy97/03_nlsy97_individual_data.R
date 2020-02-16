@@ -159,11 +159,13 @@ for (i in seq_along(depression_items)) {
 
 # smoking
 
-# ever
 ovars = c("r0357900", "r2189400", "r3508500", "r4906600", "r6534100",
           "s0921600", "s2988300", "s4682900", "s6318400", "s8333400",
           "t0740200", "t2783700", "t4495400", "t6144300", "t7638800",
           "t9040800", "u1031300")
+
+table(dat$u1031300)
+nrow(dat)
 
 nvars = paste0("smoking_", years)
 renameColumns(dat, hash(ovars, nvars))
@@ -202,6 +204,8 @@ ovars = c("r1204500","r2563300","r3884900","r5464100","r7227800","s1541700",
 nvars  = paste0("income", years)
 renameColumns(dat, hash(ovars, nvars))
 summary(dat$income1997)
+
+summary(dat$income2015)
 
 # household size
 ovars = c("r1205400", "r2563700", "r3885300", "r5464500", "r7228200", "s1542100",
@@ -271,6 +275,7 @@ for (i in seq_along(years)) {
     ldat[time == i, year := years[i]]
 }
 
+table(ldat[year == 2015, smoking])
 # impute interview age
 vars = c("birth_year", "birth_month", "interview_month", "interview_year", "age_interview")
 ldat[, (vars) := lapply(.SD, replaceMissing), .SDcol = vars]
@@ -306,11 +311,11 @@ ids = unique(ldat$id)
 ldat[id == sample(ids, 1), .(id, year, nres, living_any_parent,
                              age_interview_est, income, parent_married, parent_employed)]
 
+# impute parent status variables to facilitate imputation
 setorder(ldat, id, year)
 hh_vars = c("living_any_parent", "parent_employed", "parent_married")
 ldat[age_interview_est <= 20, (paste0("imp_", hh_vars)) := lapply(.SD, impute_locf), id, .SDcol = hh_vars]
 ldat[, (paste0("imp_", hh_vars)) := lapply(.SD, impute_locf), id, .SDcol = paste0("imp_", hh_vars)]
-
 
 # merge all values
 loc = readRDS("ch03/output/data/nlsy97_location.rds")
@@ -349,7 +354,6 @@ vmin_year = min(ldat$first_year)
 vmax_year = max(ldat$last_year)
 
 # ldat[, c("min_year") := NULL]
-
 setkey(ldat, id, year)
 tt = ldat[CJ(id, year = seq(vmin_year, vmax_year), unique = TRUE)]
 tt[id == 2, .(time, year, age_interview_est, first_year, last_year)]
@@ -386,15 +390,20 @@ ldat[id == sample(ids, 1),]
 
 # income adjustments
 cpi = fread("ch03/data/cpi.csv")
+
 ldat[, previous_year := year - 1]
 ldat = merge(ldat, cpi, by.x = "previous_year", by.y = "year")
 
 ldat[income %in% c(-5:-1), income := NA]
+prop.table(table(is.na(ldat[year == 2011, income])))
 ldat[, income_adj := income * cpi / 100]
+prop.table(table(is.na(ldat[year == 2011, income_adj])))
 ldat[income_adj > 0, log_income_adj := log(income_adj)]
 ldat[income_adj < 1, log_income_adj := log(1)]
 ldat[, log_income_adj := scale(log_income_adj, scale = FALSE)]
 summary(ldat$income_adj)
+
+prop.table(table(is.na(ldat[year == 2015, log_income_adj])))
 
 # explore
 ids = unique(ldat$id)
@@ -462,6 +471,7 @@ ldat[, parent_education := pmax(ifelse(father_highest_grade == 95,
 
 table(ldat$parent_education)
 table(ldat$mother_age_at_birth)
+ldat[mother_age_at_birth < 12 | mother_age_at_birth > 54, mother_age_at_birth := NA]
 table(ldat$residential_moves_by_12)
 
 # outcomes
@@ -489,12 +499,13 @@ ldat[year < 2015, depression := impute_locf(depression), .(id)]
 ldat[, ethnicity := factor(ethnicity)]
 
 # smoking
+ldat[year %in% c(2013, 2015), smoking := ifelse(smoking == -4, 0, smoking)]
+smoking_cols = c("smoking", "smoking_30")
+
 ldat[, smoking_30 := ifelse(smoking == 0 & smoking_30 == -4,
                             0,
                             smoking_30)]
 
-ldat[year %in% c(2013, 2015), smoking := ifelse(smoking == -4, 0, smoking)]
-smoking_cols = c("smoking", "smoking_30")
 ldat[, (smoking_cols) := lapply(.SD, replaceMissing), .SDcol = smoking_cols]
 
 # bmi
@@ -535,6 +546,16 @@ ldat[id == sample(ids, 1), .(id, time, stime, year,
 ldat[, max_age_interview_est := getMax(age_interview_est), id]
 # ldat[, age_interview_est := factor(age_interview_est)]
 ldat[, max_age_interview_est := factor(max_age_interview_est)]
+
+# checking income missing data
+table(ldat$flag12)
+table(ldat$stime)
+table(is.na(ldat[, income]))
+table(is.na(ldat[, imp_parent_married]))
+prop.table(table(!is.na(ldat[year == 1997 & flag12 == 1, income])))
+prop.table(table(!is.na(ldat[age > 12 & stime == 1, imp_parent_married])))
+prop.table(table(!is.na(ldat[stime == 2 & flag12 == 0 , imp_parent_married])))
+
 
 # save final data
 saveRDS(ldat, "ch03/output/data/nlsy97_data_ready_for_imputation.rds")
