@@ -17,6 +17,7 @@ pardiso.lic
 *.pdf
 *.bbl
 *.blg
+.DS_Store
 
 # chapter 1
 /ch02/Output/
@@ -32,18 +33,11 @@ pardiso.lic
 # chapter 3
 ch03/data/
 ch03/src/*.do
-Ch03/src/old
+ch03/src/old
 ch03/output/data/*.rd
 ch03/output/data/*.rds
+ch03/renv/library
+ch03/renv/python/
+ch03/renv/staging/
 
 # chapter 4
-
-# related projects
-related_projects/.DS_Store
-related_projects/health_inequality_project/data/.DS_Store
-
-#  other
-.Rhistory
-.DS_Store
-.gitignore
-/related_projects

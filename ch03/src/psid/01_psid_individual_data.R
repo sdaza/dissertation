@@ -611,9 +611,10 @@ id_vars = c("pid", "pn", "sex", "mother_born_year", "marital_status_mother_at_bi
 
 ldata = melt(data, id.vars = id_vars,
              measure = as.list(vars_hash),
-             variable = "wave")
+             variable = "wave", 
+             variable.factor = FALSE)
+ldata[, wave := as.numeric(wave)]
 
-names(ldata)
 years_data = data.table(wave = 1:40, year = years)
 ldata = merge(ldata, years_data, by = "wave")
 
