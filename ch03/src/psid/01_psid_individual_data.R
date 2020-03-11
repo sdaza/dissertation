@@ -21,11 +21,11 @@
 library(haven)
 library(data.table)
 library(hash)
-source("ch03/src/utils.R")
+source("src/utils.R")
 
 # respondents to identify newborns
-data = data.table(read_stata("ch03/data/psid/respondents_covs.dta"))
-family = data.table(read_stata("ch03/data/psid/family_matrix.dta"))
+data = data.table(read_stata("data/psid/respondents_covs.dta"))
+family = data.table(read_stata("data/psid/family_matrix.dta"))
 
 # family dataset
 setnames(family, names(family), tolower(names(family)))
@@ -609,19 +609,19 @@ vars_hash = hash(
 id_vars = c("pid", "pn", "sex", "mother_born_year", "marital_status_mother_at_birth",
             "birth_weight", "wellbeing_sample", paste0("depwb", 1:6), paste0("satis", 1:3))
 
-ldata = melt(data, id.vars = id_vars,
+ldat = melt(data, id.vars = id_vars,
              measure = as.list(vars_hash),
-             variable = "wave", 
+             variable = "wave",
              variable.factor = FALSE)
-ldata[, wave := as.numeric(wave)]
+ldat[, wave := as.numeric(wave)]
 
 years_data = data.table(wave = 1:40, year = years)
-ldata = merge(ldata, years_data, by = "wave")
+ldat = merge(ldat, years_data, by = "wave")
 
-setorder(ldata, pid, year)
+setorder(ldat, pid, year)
 # explore
-# ids = unique(ldata$pid)
-# ldata[pid == sample(ids, 1)]
+# ids = unique(ldat$pid)
+# ldat[pid == sample(ids, 1)]
 
 # identify mothers and merge datasets
 gender = data[, .(pid, sex)]
@@ -629,7 +629,7 @@ mfamily = merge(family,
                 gender,
                 by.x = "pid_parent", by.y = "pid")
 mfamily = mfamily[sex == 2]
-mothers = merge(mfamily, ldata[, .(pid, year, age)], by.x = "pid_parent", by.y = "pid")
+mothers = merge(mfamily, ldat[, .(pid, year, age)], by.x = "pid_parent", by.y = "pid")
 setnames(mothers,
          c("pid_kid", "age", "year"),
          c("pid", "mother_age", "first_year")
@@ -645,27 +645,27 @@ summary(mothers[, .N, .(pid, first_year)])
 # define outcome variables per individual
 
 # individual health
-# ldata[, individual_health := NA]
-ldata[sn == 1 & relation_head %in% c(1, 10),
+# ldat[, individual_health := NA]
+ldat[sn == 1 & relation_head %in% c(1, 10),
       individual_health := head_health]
-ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
+ldat[sn  == 2 & relation_head %in% c(2, 20, 22),
       individual_health := wife_health]
-ldata[year == 1986 & is.na(individual_health) & health_good > 0,
+ldat[year == 1986 & is.na(individual_health) & health_good > 0,
       individual_health := health_good]
-ldata[year %in% 1994:1996 & is.na(individual_health) & general_health > 0,
+ldat[year %in% 1994:1996 & is.na(individual_health) & general_health > 0,
       individual_heatth := general_health]
-ldata[year > 1986 & is.na(individual_health) & health_good > 0,
+ldat[year > 1986 & is.na(individual_health) & health_good > 0,
       individual_health_binary := health_good]
 
 # check consistency
-setorder(ldata, sn, pid)
-fns = unique(ldata[year == 1996, fn])
-ldata[sn > 0 & year == 1996 & fn == sample(fns, 1), .(pid, fn, year, age, whynoresp, famsize,
+setorder(ldat, sn, pid)
+fns = unique(ldat[year == 1996, fn])
+ldat[sn > 0 & year == 1996 & fn == sample(fns, 1), .(pid, fn, year, age, whynoresp, famsize,
                                              relation_head, sex, sn, head_health,
                                              wife_health, health_good, individual_health, general_health)]
 
 # five cases with inconsistencies
-ldata[year > 1986 & health_good %in% c(1,5) & individual_health %in% c(2,3,5), .(pid, year, fn)]
+ldat[year > 1986 & health_good %in% c(1,5) & individual_health %in% c(2,3,5), .(pid, year, fn)]
 
 # coding of self-report health
 # 1 Excellent
@@ -678,20 +678,25 @@ ldata[year > 1986 & health_good %in% c(1,5) & individual_health %in% c(2,3,5), .
 #1 Yes, is in poor health
 # 5 No, is not in poor health
 
-ldata[individual_health == 0 | individual_health > 5, individual_health := NA]
-ldata[, health_binary := ifelse(individual_health %in% 1:3, 1, 0)]
-ldata[is.na(individual_health),
+ldat[individual_health == 0 | individual_health > 5, individual_health := NA]
+ldat[, health_binary := ifelse(individual_health %in% 1:3, 1, 0)]
+ldat[is.na(individual_health),
       health_binary := ifelse(individual_health_binary == 5, 1, 0)]
 
-table(ldata$health_binary)
-fns = unique(ldata[year == 1996, fn])
-ldata[sn > 0 & year == 1996 & fn == sample(fns, 1), .(pid, fn, year, age, whynoresp, relation_head,
+#  health
+ldat[, rev_health := reverseScale(individual_health)]
+table(ldat[, .(individual_health, rev_health)])
+
+
+table(ldat$health_binary)
+fns = unique(ldat[year == 1996, fn])
+ldat[sn > 0 & year == 1996 & fn == sample(fns, 1), .(pid, fn, year, age, whynoresp, relation_head,
                                              relation_head, sex, sn, head_health,
                                              wife_health, health_good, individual_health, individual_health_binary, general_health,
                                              health_binary)]
 
 # bmi
-ldata[sn == 1 & relation_head %in% c(1, 10),
+ldat[sn == 1 & relation_head %in% c(1, 10),
       `:=` (
             height_feet = head_height_feet,
             height_inches = head_height_inches,
@@ -701,7 +706,7 @@ ldata[sn == 1 & relation_head %in% c(1, 10),
             )
       ]
 
-ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
+ldat[sn  == 2 & relation_head %in% c(2, 20, 22),
       `:=` (
             height_feet = wife_height_feet,
             height_inches = wife_height_inches,
@@ -711,36 +716,36 @@ ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
             )
       ]
 
-ldata[weight_pounds %in% c(0, 998, 999), weight_pounds := NA]
-ldata[height_feet %in% c(0, 8, 9), height_feet := NA]
-ldata[height_inches %in% c(0, 98, 99), height_inches := NA]
+ldat[weight_pounds %in% c(0, 998, 999), weight_pounds := NA]
+ldat[height_feet %in% c(0, 8, 9), height_feet := NA]
+ldat[height_inches %in% c(0, 98, 99), height_inches := NA]
 
-ldata[, bmi := 703 * weight_pounds / (height_inches + height_feet * 12) ^ 2]
+ldat[, bmi := 703 * weight_pounds / (height_inches + height_feet * 12) ^ 2]
 
 # adjust metric system
-ldata[!is.na(weight_kilos) & is.na(height_meters) & !is.na(height_feet) & !is.na(height_inches),
+ldat[!is.na(weight_kilos) & is.na(height_meters) & !is.na(height_feet) & !is.na(height_inches),
       height_meters := height_feet * .3 + height_inches * .025]
 
-ldata[is.na(weight_kilos) & !is.na(height_meters) & is.na(weight_pounds),
+ldat[is.na(weight_kilos) & !is.na(height_meters) & is.na(weight_pounds),
       weight_kilos := weight_pounds / 2.2046]
 
-ldata[height_meters %in% c(0, 8, 9), height_meters := NA]
-ldata[weight_kilos %in% c(0, 998, 999), weight_kilos := NA]
-ldata[is.na(bmi), bmi := weight_kilos / (height_meters ^ 2)]
+ldat[height_meters %in% c(0, 8, 9), height_meters := NA]
+ldat[weight_kilos %in% c(0, 998, 999), weight_kilos := NA]
+ldat[is.na(bmi), bmi := weight_kilos / (height_meters ^ 2)]
 
-ldata[bmi > 40, bmi := 40]
-ldata[bmi < 15, bmi := 15]
+ldat[bmi > 40, bmi := 40]
+ldat[bmi < 15, bmi := 15]
 
-setorder(ldata, year, pid)
-ids = unique(ldata$pid)
-ldata[pid == sample(ids, 1), .(pid, year, age,
+setorder(ldat, year, pid)
+ids = unique(ldat$pid)
+ldat[pid == sample(ids, 1), .(pid, year, age,
        relation_head, bmi, weight_pounds, height_inches, height_feet)]
 
 # depression
-ldata[, isrespondent := ifelse(isrespondent == 1, 1, 0)]
-ldata[is.na(isrespondent), isrespondent := 0]
-table(ldata$isrespondent)
-ldata[isrespondent == 1, `:=`
+ldat[, isrespondent := ifelse(isrespondent == 1, 1, 0)]
+ldat[is.na(isrespondent), isrespondent := 0]
+table(ldat$isrespondent)
+ldat[isrespondent == 1, `:=`
             (
              dep1 = depression_item1,
              dep2 = depression_item2,
@@ -750,32 +755,31 @@ ldata[isrespondent == 1, `:=`
              dep6 = depression_item6
             )]
 
-
 dep_vars = paste0("dep", 1:6)
 rdep_vars = paste0("rdep", 1:6)
-ldata[, (dep_vars) := lapply(.SD, function (x) ifelse(x %in% c(0, 8, 9), NA, x)), .SDcols = dep_vars]
-ldata[, (rdep_vars) := lapply(.SD, reverseScale), .SDcols = dep_vars]
+ldat[, (dep_vars) := lapply(.SD, function (x) ifelse(x %in% c(0, 8, 9), NA, x)), .SDcols = dep_vars]
+ldat[, (rdep_vars) := lapply(.SD, reverseScale), .SDcols = dep_vars]
 
 # depression wb
 depwb_vars = paste0("depwb", 1:6)
 rdepwb_vars = paste0("rdepwb", 1:6)
 
-ldata[, (depwb_vars) := lapply(.SD, function (x) ifelse(x %in% c(9), NA, x)), .SDcols = depwb_vars]
-ldata[, (rdepwb_vars) := lapply(.SD, reverseScale), .SDcols = depwb_vars]
+ldat[, (depwb_vars) := lapply(.SD, function (x) ifelse(x %in% c(9), NA, x)), .SDcols = depwb_vars]
+ldat[, (rdepwb_vars) := lapply(.SD, reverseScale), .SDcols = depwb_vars]
 
-ldata[, depression := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdep_vars]
-ldata[, depression_wb := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdepwb_vars]
-ldata[year == 2017, depression := ifelse(is.na(depression), depression_wb, depression)]
-ldata[, depression := as.numeric(depression)]
+# recovering depression missing using WB
+ldat[, depression := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdep_vars]
+ldat[, depression_wb := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdepwb_vars]
+ldat[year == 2017, depression := ifelse(is.na(depression), depression_wb, depression)]
+ldat[, depression := as.numeric(depression)]
 
-setorder(ldata, year, pid)
-ids = unique(ldata$pid)
-ldata[pid == sample(ids, 1), .(pid, year, age,
+setorder(ldat, year, pid)
+ids = unique(ldat$pid)
+ldat[pid == sample(ids, 1), .(pid, year, age,
        relation_head, depression, depression_wb)]
 
 # smoking
-
-ldata[sn == 1 & relation_head %in% c(1, 10),
+ldat[sn == 1 & relation_head %in% c(1, 10),
       `:=` (
             smoking = head_smoking,
             smoking_number = head_smoking_number,
@@ -783,7 +787,7 @@ ldata[sn == 1 & relation_head %in% c(1, 10),
             )
       ]
 
-ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
+ldat[sn  == 2 & relation_head %in% c(2, 20, 22),
       `:=` (
             smoking = wife_smoking,
             smoking_number = wife_smoking_number,
@@ -791,176 +795,175 @@ ldata[sn  == 2 & relation_head %in% c(2, 20, 22),
             )
       ]
 
-ldata[smoking %in% c(0, 8, 9), smoking := NA]
-ldata[smoking_number %in% c(0, 998, 999), smoking_number := NA]
-ldata[smoking == 5 & is.na(smoking_number), smoking_number := 0]
-ldata[smoking_ever %in% c(0, 8, 9), smoking_ever := NA]
-ldata[smoking == 1 & is.na(smoking_ever), smoking_ever := 1]
+ldat[smoking %in% c(0, 8, 9), smoking := NA]
+ldat[smoking_number %in% c(0, 998, 999), smoking_number := NA]
+ldat[smoking == 5 & is.na(smoking_number), smoking_number := 0]
+ldat[smoking_ever %in% c(0, 8, 9), smoking_ever := NA]
+ldat[smoking == 1 & is.na(smoking_ever), smoking_ever := 1]
 
-ldata[, smoking := ifelse(smoking == 1, 1, 0)]
-ldata[, smoking_ever := ifelse(smoking_ever == 1, 1, 0)]
+ldat[, smoking := ifelse(smoking == 1, 1, 0)]
+ldat[, smoking_ever := ifelse(smoking_ever == 1, 1, 0)]
 
-
-setorder(ldata, year, pid)
-ids = unique(ldata$pid)
-ldata[pid == sample(ids, 1), .(pid, year, age,
+setorder(ldat, year, pid)
+ids = unique(ldat$pid)
+ldat[pid == sample(ids, 1), .(pid, year, age,
        relation_head, smoking, smoking_ever, smoking_number)]
 
 # life satisfaction
-ldata[, paste0("satis", 1:3) := lapply(.SD, function(x) ifelse(x == 9, NA, x)), .SDcols = paste0("satis", 1:3)]
-ldata[, paste0("rsatis", 1:3) := lapply(.SD, reverseScale), .SDcols = paste0("satis", 1:3)]
-ldata[, life_satisfaction := apply(.SD, 1, mean, na.rm = TRUE), .SDcols = paste0("rsatis", 1:3)]
+ldat[, paste0("satis", 1:3) := lapply(.SD, function(x) ifelse(x == 9, NA, x)), .SDcols = paste0("satis", 1:3)]
+ldat[, paste0("rsatis", 1:3) := lapply(.SD, reverseScale), .SDcols = paste0("satis", 1:3)]
+ldat[, life_satisfaction := apply(.SD, 1, mean, na.rm = TRUE), .SDcols = paste0("rsatis", 1:3)]
 
 # head's education
-table(ldata$education)
-ldata[education %in% c(0, 98, 99), education := NA]
-ldata[sn == 1 & relation_head %in% c(1, 10), head_education := education]
-ldata[!is.na(fn), head_education := head(na.omit(head_education), 1), .(fn, year)]
+table(ldat$education)
+ldat[education %in% c(0, 98, 99), education := NA]
+ldat[sn == 1 & relation_head %in% c(1, 10), head_education := education]
+ldat[!is.na(fn), head_education := head(na.omit(head_education), 1), .(fn, year)]
 
-table(ldata[is.na(fn), .(whynoresp)])
-table(ldata[!is.na(fn), .(whynoresp)])
+table(ldat[is.na(fn), .(whynoresp)])
+table(ldat[!is.na(fn), .(whynoresp)])
 
-families = unique(ldata[!is.na(fn) & year == 1980, fn])
-ldata[fn == sample(families, 1) & year == 1980, .(pid, fn, year, relation_head, education, head_education)]
+families = unique(ldat[!is.na(fn) & year == 1980, fn])
+ldat[fn == sample(families, 1) & year == 1980, .(pid, fn, year, relation_head, education, head_education)]
 
 # head's working status
+table(ldat$individual_working)
+ldat[individual_working %in% c(0, 9), individual_working := NA]
+ldat[, individual_working_binary := ifelse(individual_working == 1, 1, 0)]
+table(ldat$individual_working_binary)
 
-table(ldata$individual_working)
-ldata[individual_working %in% c(0, 9), individual_working := NA]
-ldata[, individual_working_binary := ifelse(individual_working == 1, 1, 0)]
-table(ldata$individual_working_binary)
+ldat[sn == 1 & relation_head %in% c(1, 10), head_working_individual := individual_working_binary]
+ldat[!is.na(fn), head_working_individual := head(na.omit(head_working_individual), 1), .(fn, year)]
 
-ldata[sn == 1 & relation_head %in% c(1, 10), head_working_individual := individual_working_binary]
-ldata[!is.na(fn), head_working_individual := head(na.omit(head_working_individual), 1), .(fn, year)]
+ldat[head_working %in% c(9), head_working := NA]
+ldat[, head_working_binary := ifelse(head_working == 1, 1, 0)]
 
-ldata[head_working %in% c(9), head_working := NA]
-ldata[, head_working_binary := ifelse(head_working == 1, 1, 0)]
-
-ldata[is.na(head_working_binary) & !is.na(head_working_individual),
+ldat[is.na(head_working_binary) & !is.na(head_working_individual),
       head_working_binary := head_working_individual]
 
-families = unique(ldata[!is.na(fn) & year == 1990, fn])
-ldata[fn == sample(families, 1) & year == 1990, .(pid, fn, year,head_working , individual_working_binary, relation_head, head_working_binary, head_working_individual)]
+families = unique(ldat[!is.na(fn) & year == 1990, fn])
+ldat[fn == sample(families, 1) & year == 1990, .(pid, fn, year,head_working ,
+      individual_working_binary, relation_head, head_working_binary, head_working_individual)]
 
-table(ldata$head_working_binary)
+table(ldat$head_working_binary)
 
 # marital status
+table(ldat$head_marital_change)
 
-table(ldata$head_marital_change)
-
-ldata[head_marital_change == 9, head_marital_change := NA]
-ldata[!is.na(head_marital_change), head_marital_status := ifelse(head_marital_change %in% c(1, 5, 6, 7), 1, 0)]
-table(ldata$head_marital_status)
+ldat[head_marital_change == 9, head_marital_change := NA]
+ldat[!is.na(head_marital_change), head_marital_status :=
+      ifelse(head_marital_change %in% c(1, 5, 6, 7), 1, 0)]
+table(ldat$head_marital_status)
 
 # year born
-ldata[year_born %in% c(0, 9999), year_born := NA]
-ldata[, year_born := getMax(year_born), pid]
+ldat[year_born %in% c(0, 9999), year_born := NA]
+ldat[, year_born := getMax(year_born), pid]
 
-summary(ldata$year_born)
-table(ldata$year_born)
+summary(ldat$year_born)
+table(ldat$year_born)
 
 ######################################
 # define cohort of interest
 # respondents born between 1976 and 1985
 ####################################
 
-summary(ldata[, .N, pid])
+summary(ldat[, .N, pid])
 
-setorder(ldata, year, pid)
-ldata[, lag_sn := shift(sn), pid]
-ldata[, lag_type := shift(type, fill = 0), pid]
-ldata[, psid_born := 0]
-ldata[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
-ldata[, psid_born := cumsum(psid_born), pid][psid_born > 0, psid_born := 1]
-table(ldata$psid_born)
+setorder(ldat, year, pid)
+ldat[, lag_sn := shift(sn), pid]
+ldat[, lag_type := shift(type, fill = 0), pid]
+ldat[, psid_born := 0]
+ldat[sn > 0 & lag_type == 9 & (pn %in% 30:169), psid_born := 1]
+ldat[, psid_born := cumsum(psid_born), pid][psid_born > 0, psid_born := 1]
+table(ldat$psid_born)
 
-ldata = ldata[psid_born == 1]
-ldata[, first_year := min(year), pid]
-ldata = ldata[first_year > 1970 & first_year < 1986]
+ldat = ldat[psid_born == 1]
+ldat[, first_year := min(year), pid]
+ldat = ldat[first_year > 1970 & first_year < 1986]
 
 # merge with mother's age
-ldata = merge(ldata, mothers,
+ldat = merge(ldat, mothers,
               by = c("first_year", "pid"), all.x = TRUE)
-summary(ldata[, .N, pid])
+summary(ldat[, .N, pid])
 
 # process some variables before imputation
-ldata[sex == 9, sex := NA]
-ldata[, male := ifelse(sex == 1, 1, 0)]
-table(ldata$male)
+ldat[sex == 9, sex := NA]
+ldat[, male := ifelse(sex == 1, 1, 0)]
+table(ldat$male)
 
-ldata[mother_age %in% c(0, 999), mother_age := NA]
-table(ldata$mother_age)
+ldat[mother_age %in% c(0, 999), mother_age := NA]
+table(ldat$mother_age)
 
-ldata[birth_weight < 991, weight_less_55 := ifelse(birth_weight < 88, 1, 0)]
-ldata[is.na(weight_less_55) & birth_weight < 998, weight_less_55 := ifelse(birth_weight == 991, 1, 0)]
-table(ldata$weight_less_55)
+ldat[birth_weight < 991, weight_less_55 := ifelse(birth_weight < 88, 1, 0)]
+ldat[is.na(weight_less_55) & birth_weight < 998, weight_less_55 := ifelse(birth_weight == 991, 1, 0)]
+table(ldat$weight_less_55)
 
-ldata[marital_status_mother_at_birth < 8,
+ldat[marital_status_mother_at_birth < 8,
       mother_marital_status := ifelse(marital_status_mother_at_birth == 1, 1, 0)]
-table(ldata$mother_marital_status)
+table(ldat$mother_marital_status)
 
 # imputa age
-ldata[age == 0 | age > 900, age := NA]
-table(ldata[year == first_year, age])
-ldata[, flag_year_born := ifelse(year == first_year & age %in% 1:2, 1, 0)]
-ldata[, flag_year_born := getMax(flag_year_born), pid]
-ldata = ldata[flag_year_born == 1]
+ldat[age == 0 | age > 900, age := NA]
+table(ldat[year == first_year, age])
+ldat[, flag_year_born := ifelse(year == first_year & age %in% 1:2, 1, 0)]
+ldat[, flag_year_born := getMax(flag_year_born), pid]
+ldat = ldat[flag_year_born == 1]
 
-ldata[first_year == 1971 & year_born == 1980,
+ldat[first_year == 1971 & year_born == 1980,
       .(pid, year, first_year, age, year_born)]
 
-# table(ldata[, .(first_year, year_born)])
-ldata[, diff_years := first_year - year_born]
-table(ldata$diff_years)
-ldata[is.na(diff_years), .(pid, year, first_year, age, year_born)]
+# table(ldat[, .(first_year, year_born)])
+ldat[, diff_years := first_year - year_born]
+table(ldat$diff_years)
+ldat[is.na(diff_years), .(pid, year, first_year, age, year_born)]
 
-ldata[pid == 5366033, .(pid, year, first_year, age, year_born)]
-ldata[pid == 5366033 &  year == 1973, age := 1]
-ldata[pid == 5818031 &  year == 1975, age := 1]
-ldata[pid == 5526043 & year == 1978, age := 1]
+ldat[pid == 5366033, .(pid, year, first_year, age, year_born)]
+ldat[pid == 5366033 &  year == 1973, age := 1]
+ldat[pid == 5818031 &  year == 1975, age := 1]
+ldat[pid == 5526043 & year == 1978, age := 1]
 
-setorder(ldata, pid, year)
-ldata[, imp_age := imputeAge(age, year), pid]
-ldata[imp_age == 0, imp_age := 1]
-summary(ldata$imp_age)
+setorder(ldat, pid, year)
+ldat[, imp_age := imputeAge(age, year), pid]
+ldat[imp_age == 0, imp_age := 1]
+summary(ldat$imp_age)
 
 # check strange cases
-ids = unique(ldata[diff_years > 3 | diff_years < -3, pid])
+ids = unique(ldat[diff_years > 3 | diff_years < -3, pid])
 length(ids)
-ldata[pid == sample(ids, 1), .(diff_years, pid, year, first_year, age,
+ldat[pid == sample(ids, 1), .(diff_years, pid, year, first_year, age,
                                imp_age, year_born)]
 
 # house ownership
-table(ldata$house_ownership)
-ldata[house_ownership %in% c(0, 9), house_ownership := NA]
-ldata[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
-table(ldata$head_owns_house)
+table(ldat$house_ownership)
+ldat[house_ownership %in% c(0, 9), house_ownership := NA]
+ldat[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
+table(ldat$head_owns_house)
 
 # family size
-table(ldata$famsize)
-ldata[house_ownership %in% c(0, 9), house_ownership := NA]
-ldata[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
-table(ldata$head_owns_house)
+table(ldat$famsize)
+ldat[house_ownership %in% c(0, 9), house_ownership := NA]
+ldat[, head_owns_house := ifelse(house_ownership == 1, 1, 0)]
+table(ldat$head_owns_house)
 
 # income
 
 # inflation adjustment
-cpi = fread("ch03/data/cpi.csv", skip = 1)
-ldata[, previous_year := year - 1]
-ldata = merge(ldata, cpi, by.x = "previous_year", by.y = "year", all.x = TRUE)
-summary(ldata[, .N, pid])
-ldata[, income_adj := income * cpi / 100]
-ldata[year %in% c(1994, 1995) & income == 9999999, income_adj := NA]
+cpi = fread("data/cpi.csv", skip = 1)
+ldat[, previous_year := year - 1]
+ldat = merge(ldat, cpi, by.x = "previous_year", by.y = "year", all.x = TRUE)
+summary(ldat[, .N, pid])
+ldat[, income_adj := income * cpi / 100]
+ldat[year %in% c(1994, 1995) & income == 9999999, income_adj := NA]
 
-ids = ldata[, pid]
-ldata[pid == sample(ids, 1), .(pid, year, whynoresp, income, income_adj)]
+ids = ldat[, pid]
+ldat[pid == sample(ids, 1), .(pid, year, whynoresp, income, income_adj)]
 
-ldata[income_adj > 0, log_income_adj := log(income_adj)]
-ldata[income_adj < 1, log_income_adj := log(1)]
-ldata[, log_income_adj := scale(log_income_adj, scale = FALSE)]
+ldat[income_adj > 0, log_income_adj := log(income_adj)]
+ldat[income_adj < 1, log_income_adj := log(1)]
+ldat[, log_income_adj := scale(log_income_adj, scale = FALSE)]
 
-summary(ldata$log_income_adj)
-summary(ldata$income_adj)
+summary(ldat$log_income_adj)
+summary(ldat$income_adj)
 
 # race
 # 1 White
@@ -976,81 +979,80 @@ summary(ldata$income_adj)
 # 3 Puerto Rican, Mexican
 # 7 Other (including Oriental, Pilipino)
 # 9 NA
-
 race_code = data.table(
                        race_cc = c(NA, "white", "black", rep("other", 5), NA),
                        race_code = c(0,1,2,3,4,5,6,7,9)
                        )
 
-ldata = merge(ldata, race_code, by.x = "head_race", by.y = "race_code", all.x = TRUE)
-setnames(ldata, "race_cc", "head_racecc")
-ldata[, head_racecc := factor(head_racecc, levels = c("white", "black", "other"))]
+ldat = merge(ldat, race_code, by.x = "head_race", by.y = "race_code", all.x = TRUE)
+setnames(ldat, "race_cc", "head_racecc")
+ldat[, head_racecc := factor(head_racecc, levels = c("white", "black", "other"))]
 
-ldata = merge(ldata, race_code, by.x = "wife_race", by.y = "race_code", all.x = TRUE)
-setnames(ldata, "race_cc", "wife_racecc")
-ldata[, wife_racecc := factor(wife_racecc, levels = c("white", "black", "other"))]
+ldat = merge(ldat, race_code, by.x = "wife_race", by.y = "race_code", all.x = TRUE)
+setnames(ldat, "race_cc", "wife_racecc")
+ldat[, wife_racecc := factor(wife_racecc, levels = c("white", "black", "other"))]
 
-setorder(ldata, pid, year)
-ldata[, race := head(na.omit(head_racecc), 1), pid]
-ldata[is.na(race), race := head(na.omit(wife_racecc), 1), pid]
+setorder(ldat, pid, year)
+ldat[, race := head(na.omit(head_racecc), 1), pid]
+ldat[is.na(race), race := head(na.omit(wife_racecc), 1), pid]
 
-table(ldata$race)
+table(ldat$race)
 
-ids = ldata[, pid]
-ldata[pid == sample(ids, 1)]
+ids = ldat[, pid]
+ldat[pid == sample(ids, 1)]
 
 # flag last record
-ldata[imp_age > 18, head_wife := ifelse(relation_head %in% c(1, 10, 2, 20, 22), 1, 0)]
-ldata[, head_wife := getMax(head_wife), pid]
-ldata[is.na(head_wife), head_wife := 0]
+ldat[imp_age > 18, head_wife := ifelse(relation_head %in% c(1, 10, 2, 20, 22), 1, 0)]
+ldat[, head_wife := getMax(head_wife), pid]
+ldat[is.na(head_wife), head_wife := 0]
 
-table(ldata$head_wife)
-length(unique(ldata[head_wife == 1, pid]))
+table(ldat$head_wife)
+length(unique(ldat[head_wife == 1, pid]))
 
 # expand records for periods very two years
-setorder(ldata, pid, year)
-ldata[, start := (year - first_year) + 1, pid]
-ldata[, stop := ifelse(year < 1997, start + 1, start + 2)]
-ldata[, count := stop - start]
-ldata[ldata[, .I[.N], pid][, V1], count := 1]
-table(ldata$count)
+setorder(ldat, pid, year)
+ldat[, start := (year - first_year) + 1, pid]
+ldat[, stop := ifelse(year < 1997, start + 1, start + 2)]
+ldat[, count := stop - start]
+ldat[ldat[, .I[.N], pid][, V1], count := 1]
+table(ldat$count)
 
 # expand data
-xx = ldata[rep(seq(1, nrow(ldata)), ldata$count)]
+xx = ldat[rep(seq(1, nrow(ldat)), ldat$count)]
 xx[, nyear := year[1]:year[.N], by = pid]
 
 ids = sample(unique(xx$pid), 1)
 xx[pid %in% ids, .(pid, start, stop, year, nyear, imp_age, log_income_adj, count)]
 xx[xx[, .I[2], by = .(pid, year)][, V1], age := NA] # remove repeated age
-ldata = data.table::copy(xx)
+ldat = data.table::copy(xx)
 
-ldata[, oyear := year]
-ldata[, year := nyear]
+ldat[, oyear := year]
+ldat[, year := nyear]
 
 # impute age again
-setorder(ldata, pid, year)
-ldata[, imp_age := imputeAge(age, year), pid]
-ldata[imp_age == 0, imp_age := 1]
-summary(ldata$imp_age)
+setorder(ldat, pid, year)
+ldat[, imp_age := imputeAge(age, year), pid]
+ldat[imp_age == 0, imp_age := 1]
+summary(ldat$imp_age)
 
-ids = unique(ldata$pid)
-ldata[pid == sample(ids, 1), .(pid, year, first_year, imp_age, log_income_adj)]
+ids = unique(ldat$pid)
+ldat[pid == sample(ids, 1), .(pid, year, first_year, imp_age, log_income_adj)]
 
 # create time variable
-setorder(ldata, pid, year)
-ldata[, time := 1:.N, pid]
+setorder(ldat, pid, year)
+ldat[, time := 1:.N, pid]
 
-table(ldata[, .(time, imp_age)])
+table(ldat[, .(time, imp_age)])
 
-table(ldata[time <= 20, imp_age])
-table(ldata[time <= 20, time])
+table(ldat[time <= 20, imp_age])
+table(ldat[time <= 20, time])
 
-table(ldata[year == first_year, imp_age])
+table(ldat[year == first_year, imp_age])
 
 # select variables for imputation
-names(ldata)
+names(ldat)
 
-mm = ldata[, .(pid, fn, year, time, head_wife, relation_head, sn, whynoresp,
+mm = ldat[, .(pid, fn, year, time, head_wife, relation_head, sn, whynoresp,
                first_year, year_born,
                imp_age, male, race,
                weight_less_55, mother_marital_status,
@@ -1059,9 +1061,9 @@ mm = ldata[, .(pid, fn, year, time, head_wife, relation_head, sn, whynoresp,
                famsize, individual_working_binary, head_working_binary,
                bmi, life_satisfaction, depression, smoking, smoking_ever,
                smoking_number, health_binary,
-               individual_health
+               rev_health
                )
           ]
 
 table(mm[is.na(fn), .(whynoresp)])
-saveRDS(mm, "ch03/output/data/psid_data_ready_for_imputation.rds")
+saveRDS(mm, "output/data/psid_data_ready_for_imputation.rds")

@@ -39,7 +39,7 @@ methods = hash(
     "bmi" = "2l.pmm",
     "smoking" = "2l.pmm",
     "smoking_number" = "2l.pmm",
-    "rev_health" = "2l.pmm", 
+    "rev_health" = "2l.pmm",
     "individual_health" = ""
 )
 
@@ -57,7 +57,7 @@ cluster_var =  list(
                     )
 
 predictors = hash(
-    # time-invariante coviarates
+    # time-invariant coviarates
     "pid" = -2,
     "male" = 1,
     "race" = 1,
@@ -82,14 +82,14 @@ predictors = hash(
 )
 
 # assign predictors
-predictors_vectors = names(meth[meth != ""])
+vector_predictors = names(meth[meth != ""])
 
 # checks
 setdiff(keys(predictors), rownames(pred))
 
 pred[,] = 0
-for (i in seq_along(predictors_vectors)) {
-    pred[predictors_vectors[i], keys(predictors)] = values(predictors)
+for (i in seq_along(vector_predictors)) {
+    pred[vector_predictors[i], keys(predictors)] = values(predictors)
 }
 
 # set diagonal of matrix to 0
@@ -107,16 +107,13 @@ pred["weight_less_55",]
 pred["race",]
 pred["depression", ]
 
-table(mm$time)
-
-sessionInfo()
 
 # testing imputation
 test = mice(
     mm,
-    predictorMatrix = pred, 
-    method = meth, 
-    m = 2, 
+    predictorMatrix = pred,
+    method = meth,
+    m = 2,
     maxit = 5
 )
 
@@ -127,11 +124,11 @@ random_seeds = c(1059, 1711, 1037, 1031, 1724, 1651, 1463, 1493, 1725, 1411)
 for (i in 1:2) {
     print(paste0("iteration ", i))
     list_imputations[[i]] = mice(
-        mm, 
-        predictorMatrix = pred, 
-        meth = meth, 
-        m = 2, 
-        maxtit = 3, 
+        mm,
+        predictorMatrix = pred,
+        meth = meth,
+        m = 2,
+        maxtit = 3,
         seed = random_seeds[i]
 
     )
@@ -143,9 +140,9 @@ imp = NULL
 for (i in 1:(length(list_imputations) - 1)) {
     if (i == 1) {
         imp = ibind(list_imputations[[i]], list_imputations[[i+1]])
-    } 
+    }
     else if (i > 1) {
-        imp = ibind(imp, list_imputations[[i]])  
+        imp = ibind(imp, list_imputations[[i]])
     }
 }
 
@@ -162,7 +159,7 @@ imp = parlmice(
 
 # explore imputations
 
-savepdf("ch03/output/psid_relative_mob_iterations")
+savepdf("output/plots/psid_relative_mob_iterations")
 print(plot(imp, c("bmi", "depression", "individual_health")))
 print(plot(imp, c("smoking", "smoking_number")))
 print(plot(imp, c("log_income_adj", "mother_age")))
@@ -171,7 +168,7 @@ print(plot(imp, c("head_marital_status", "head_education", "head_owns_house")))
 print(plot(imp, c("head_working_binary")))
 dev.off()
 
-savepdf("ch03/output/psid_relative_mob_imp_values")
+savepdf("output/psid_relative_mob_imp_values")
 print(densityplot(imp, ~ bmi + depression))
 print(densityplot(imp, ~ individual_health + smoking_number + smoking))
 print(densityplot(imp, ~ log_income_adj))
@@ -183,5 +180,5 @@ dev.off()
 
 
 # save results of imputation
-saveRDS(imp, "ch03/output/data/psid_relative_mob_imputation.rds")
+saveRDS(imp, "output/data/psid_relative_mob_imputation.rds")
 
