@@ -9,7 +9,7 @@ library(data.table)
 library(haven)
 
 # read location files
-loc = fread("ch03/data/nlsy97/location/Location_R16.csv")
+loc = fread("data/nlsy97/location/Location_R16.csv")
 
 setnames(loc, names(loc), tolower(names(loc)))
 years = c(1997:2011, 2013)
@@ -75,7 +75,7 @@ lloc[id == sample(unique(lloc$id), 1)]
 # get data at age 12
 #####################
 
-loc12 = fread("ch03/data/nlsy97/individual/age_12_variables/Age_12_variables_R16.csv")
+loc12 = fread("data/nlsy97/individual/age_12_variables/Age_12_variables_R16.csv")
 
 setnames(loc12, names(loc12), tolower(names(loc12)))
 setnames(loc12, names(loc12), c("id", "county", "state", "cbsa", "match"))
@@ -102,4 +102,4 @@ lloc[coding == 1990 & fips == 12086, fips :=  12025]
 lloc[coding == 2000 & fips == 12086, fips :=  12025]
 
 # save rds
-saveRDS(lloc, file = "ch03/output/data/nlsy97_location.rds")
+saveRDS(lloc, file = "output/data/nlsy97_location.rds")

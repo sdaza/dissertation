@@ -10,10 +10,10 @@ library(data.table)
 library(xtable)
 library(hash)
 library(forcats)
-source("ch03/src/utils.R")
+source("src/utils.R")
 
 # load data with missing records
-ldat = readRDS("ch03/output/data/nlsy97_data_ready_for_imputation.rds")
+ldat = readRDS("output/data/nlsy97_data_ready_for_imputation.rds")
 
 # M, SD, Missing % N
 
@@ -26,6 +26,7 @@ temp[, hispanic := ifelse(ethnicity == 2, 1, 0)]
 temp[, mixed := ifelse(ethnicity == 3 , 1, 0)]
 temp[, white := ifelse(ethnicity == 4 , 1, 0)]
 
+# descriptive function
 getDescriptives = function(x) {
     m = mean(x, na.rm = TRUE)
     sd = sd(x, na.rm = TRUE)
@@ -81,6 +82,8 @@ colnames(tab_variant) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations
 rownames(tab_variant) = var_labels
 
 prop_moves = temp[, .(move_once = as.numeric(any(nmoves > 0))), id]
+prop.table(table(prop_moves$move_once))
+
 tab_moves = t(prop_moves[, lapply(.SD, getDescriptives), .SDcols = "move_once"])
 colnames(tab_moves) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations")
 rownames(tab_moves) = paste0("\\quad ", "Proportion moved to a different county")
@@ -172,4 +175,4 @@ add_notes_table(output,
                  header_replacement = header_replacement,
                  closing = "end\\{tablenotes\\}\\n",
                  closing_replacement = "end\\{tablenotes\\}\\\n\\\\end{threeparttable}\\\n",
-                 filename = "ch03/output/tables/nlsy97_descriptive_stats.tex")
+                 filename = "output/tables/nlsy97_descriptive_stats.tex")

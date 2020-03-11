@@ -38,7 +38,7 @@ id = rep(1: length(c))
 # data.table
 dt = data.table(id, c, t1, d1, t2, d2)
 
-# weights at time 2
+# weights at time 1
 w1 = dnorm(dt$t1, predict(lm(t1~1)),
             sd(lm(t1~ 1)$residuals)) / dnorm(dt$t1, predict(lm(t1 ~ c)),
                                              sd(lm(t1~ c)$residuals))

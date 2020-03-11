@@ -13,10 +13,10 @@ library(haven)
 library(hash)
 library(lubridate)
 library(readxl)
-source("ch03/src/utils.R")
+source("src/utils.R")
 
 # read raw data
-dat = fread("ch03/data/nlsy97/individual/20191008_selection.csv")
+dat = fread("data/nlsy97/individual/20191008_selection.csv")
 
 # auxiliary functions
 # fine years of panel
@@ -302,7 +302,7 @@ ldat[nres == -4, nres := 60]
 dim(ldat)
 
 # merge with household info
-hh = readRDS("ch03/output/data/nlsy97_household.rds")
+hh = readRDS("output/data/nlsy97_household.rds")
 ldat = merge(ldat, hh, by = c("id", "year"), all.x = TRUE)
 
 ldat[nres > 69, living_any_parent := NA]
@@ -318,7 +318,7 @@ ldat[age_interview_est <= 20, (paste0("imp_", hh_vars)) := lapply(.SD, impute_lo
 ldat[, (paste0("imp_", hh_vars)) := lapply(.SD, impute_locf), id, .SDcol = paste0("imp_", hh_vars)]
 
 # merge all values
-loc = readRDS("ch03/output/data/nlsy97_location.rds")
+loc = readRDS("output/data/nlsy97_location.rds")
 ldat = merge(ldat, loc, by = c("id", "time"), all = TRUE)
 
 # create vector of ids for exploring data
@@ -389,7 +389,7 @@ uniqueN(ldat[min_time == 0, id])
 ldat[id == sample(ids, 1),]
 
 # income adjustments
-cpi = fread("ch03/data/cpi.csv")
+cpi = fread("data/cpi.csv")
 
 ldat[, previous_year := year - 1]
 ldat = merge(ldat, cpi, by.x = "previous_year", by.y = "year")
@@ -439,7 +439,7 @@ ldat[, flag_missing_fips := ifelse(is.na(fips), 0, 1)]
 ldat[, imp_fips := impute_locf(fips), id]
 
 # load chetty's county data
-county = readRDS("ch03/output/data/chetty_county_data.rds")
+county = readRDS("output/data/chetty_county_data.rds")
 names(county)
 cor(county[, .(gini, relative_mob)])
 cor(county[, .(gini, absolute_mob)])
@@ -558,4 +558,4 @@ prop.table(table(!is.na(ldat[stime == 2 & flag12 == 0 , imp_parent_married])))
 
 
 # save final data
-saveRDS(ldat, "ch03/output/data/nlsy97_data_ready_for_imputation.rds")
+saveRDS(ldat, "output/data/nlsy97_data_ready_for_imputation.rds")

@@ -8,10 +8,10 @@
 library(sdazar)
 library(stringr)
 
-source("ch03/src/utils.R")
+source("src/utils.R")
 
 # read raw data
-dat = fread("ch03/data/nlsy97/household/20191011_household.csv")
+dat = fread("data/nlsy97/household/20191011_household.csv")
 
 # fine years of panel
 years = c(1997:2011, 2013, 2015)
@@ -196,4 +196,4 @@ hhdat = hdat[, .(parent_married = getMax(parent_married),
 ids = unique(hhdat$id)
 hhdat[id == sample(id, 1)]
 
-saveRDS(hhdat, 'ch03/output/data/nlsy97_household.rds')
+saveRDS(hhdat, 'output/data/nlsy97_household.rds')
