@@ -5,6 +5,8 @@
 ################################
 
 
+library(texreg)
+
 # overwrite table and cor function to include missing data
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function (...) stats::cor(..., use = "complete.obs")
@@ -418,11 +420,12 @@ unadjustedRegression = function(
                           paste0("average_", exposure_variable)),
                       with = FALSE]
         fdata = merge(last_obs, gdata, by = id_var)
+        number_rows = nrow(fdata)
 
         fdata[, wt := 1]
 
         if (i %in% print_number_imputation) {
-            print(paste0("Running models with imputation ", i))
+            print(paste0("Running models with imputation ", i, " with ", number_rows, " rows"))
         }
 
         svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
@@ -497,7 +500,7 @@ ipwExposure = function(
     predictors,
     final_model_types,
     print_weights = c(1, 5, 10, 15, 20),
-    factor_columns
+    factor_columns = NULL
     ) {
 
     # number of imputations
@@ -525,14 +528,13 @@ ipwExposure = function(
 
         dat[, paste0("lag_", lag_variables) := lapply(.SD, shift), get(id_var),
             .SDcol = lag_variables]
+        dat[, paste0("baseline_", baseline_variables) := lapply(.SD, getFirst), get(id_var),
+           .SDcol = baseline_variables]
 
         if (!is.null(factor_columns)) {
             vars = lookvar(dat, factor_columns)
             dat[, (vars) := lapply(.SD, factor), .SDcol = vars]
         }
-
-        dat[, paste0("baseline_", baseline_variables) := lapply(.SD, getFirst), get(id_var),
-           .SDcol = baseline_variables]
 
         # define working dataset
         dat[, max_time := max(get(time_var)), get(id_var)]
@@ -651,10 +653,11 @@ ipwExposure = function(
                           paste0("average_", exposure_variable)),
                       with = FALSE]
         fdata = merge(last_obs, gdata, by = id_var)
+        number_rows = nrow(fdata)
         final_weights = c(final_weights, fdata$cipw)
 
         if (i %in% print_weights) {
-            print(paste0("Weights for imputation number ", i))
+            print(paste0("Weights for imputation number ", i, " with ", number_rows, " rows"))
             print(paste0("Mean of weights: ", round(mean(fdata$cipw), 2)))
             print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
         }
@@ -709,14 +712,7 @@ ipwExposure = function(
 
 }
 
-bigLL <- list()
-for ( i in 1:5){
 
-  ll <- list()
-  bigLL[[i]] <- ll
-
-}
-bigLL
 lookvar  = function(dat, varnames) {
     n  = names(dat)
     nn  = list()
@@ -796,15 +792,14 @@ extract.MIcombine <- function(model, obs = 0) {
     return(tr)
 }
 
-library(texreg)
 setMethod("extract", signature = className("MIresult", "MItools"),
     definition = extract.MIcombine)
 
 
 createModelTables = function(list_rows, row_names, row_labels, column_names,
                              observations = 0,
-                             caption = "title", label = "title",
-                             fontsize = "scriptsize",
+                             caption = "title",
+                             label = "title",
                              arraystretch = 0.8,
                              tabcolsep = 10,
                              sideways = FALSE,
@@ -845,10 +840,9 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
         booktabs = TRUE,
         use.packages = FALSE,
         dcolumn = TRUE,
+        center = FALSE,
         caption.above = TRUE,
-        fontsize = fontsize,
         label = label,
-        center = TRUE,
         sideways = sideways,
         digits = 2,
         custom.model.names = column_names,
@@ -886,7 +880,10 @@ add_notes_table = function(tab,
                                     tabcolsep,
                                     "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
                                     arraystretch,
-                                    "\\}\\\n\\\\begin\\{threeparttable\\}\\\n")
+                                    "\\}\\\n",
+                                    "\\\\begin\\{center\\}\\\n",
+                                    "\\\\scriptsize\\\n",
+                                    "\\\\begin\\{threeparttable\\}\\\n")
     }
     tab = gsub(header, header_replacement, tab)
 
@@ -901,10 +898,13 @@ add_notes_table = function(tab,
     tab = gsub(bottom, bottom_replacement, tab)
 
     if (is.null(closing)) {
-        closing = "end\\{center\\}\\n"
+        closing = "end\\{table\\}\\n"
     }
     if (is.null(closing_replacement)) {
-        closing_replacement = "end\\{center\\}\\\n\\\\end{threeparttable}\\\n"
+        closing_replacement = paste0("end{threeparttable}\\\n",
+                                     "\\\\end\\{center\\}\\\n",
+                                     "\\\\end\\{table\\}\\\n"
+                                    )
     }
     tab = gsub(closing, closing_replacement, tab)
 

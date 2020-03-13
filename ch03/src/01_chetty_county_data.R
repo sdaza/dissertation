@@ -67,7 +67,7 @@ cor(county[, .(z_gini,
 # linear models (residuals)
 model_rel_mob = lm(z_relative_mob ~ z_gini + log_population + log_county_income + z_prop_black, data = county)
 model_gini = lm(z_gini ~ z_relative_mob  + log_population + log_county_income + z_prop_black, data = county)
-model_abs_mob = lm(z_absolute_mob ~ z_gini + log_population + log_county_income + + z_prop_black, data = county)
+model_abs_mob = lm(z_absolute_mob ~ z_gini + log_population + log_county_income +z_prop_black, data = county)
 
 county = data.table(add_residuals(county, model_rel_mob))
 setnames(county, "resid", "relative_mob_resid")

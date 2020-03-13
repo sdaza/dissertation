@@ -46,7 +46,6 @@ long_imp_z_absolute_mob[, rev_health := factor(rev_health)]
 
 # number of observations
 N = length(unique(long_imp_z_relative_mob$id))
-print(N)
 
 # outcomes
 outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
@@ -92,15 +91,14 @@ unadjusted_z_gini_results = unadjustedRegression(
     final_model_type = model_types
 )
 
+# create table unadjusted models
+
 # put model outputs in a list
-saveRDS(list(
+list_rows  = list(
     unadjusted_z_relative_mob_results,
     unadjusted_z_absolute_mob_results,
     unadjusted_z_gini_results
-    ), file = "output/data/nlsy97_unadjusted_z_models.rds")
-
-# create table unadjusted models
-list_rows = readRDS("output/data/nlsy97_unadjusted_z_models.rds")
+    )
 
 row_names = c("average_z_relative_mob",
               "average_z_absolute_mob",
@@ -445,7 +443,6 @@ long_imp_zr_absolute_mob[, rev_health := factor(rev_health)]
 
 # number of observations
 N = length(unique(long_imp_zr_relative_mob$id))
-print(N)
 
 # outcomes
 outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
@@ -490,15 +487,15 @@ unadjusted_zr_gini_results = unadjustedRegression(
     final_model_type = model_types
 )
 
+
+# create table unadjusted models
+
 # put model outputs in a list
-saveRDS(list(
+list_rows = list(
     unadjusted_zr_relative_mob_results,
     unadjusted_zr_absolute_mob_results,
     unadjusted_zr_gini_results
-    ), file = "output/data/nlsy97_unadjusted_zr_models.rds")
-
-# create table unadjusted models
-list_rows = readRDS("output/data/nlsy97_unadjusted_zr_models.rds")
+    )
 
 row_names = c("average_relative_mob_resid",
               "average_absolute_mob_resid",
@@ -813,4 +810,3 @@ tableWeights(list_weights,
              filename = "output/tables/nlsy97_ipt_weights_zr.tex",
              tabcolsep = 10,
              arraystretch = 1)
-

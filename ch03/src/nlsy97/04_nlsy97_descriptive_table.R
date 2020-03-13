@@ -10,6 +10,7 @@ library(data.table)
 library(xtable)
 library(hash)
 library(forcats)
+library(ggplot2)
 source("src/utils.R")
 
 # load data with missing records
@@ -176,3 +177,37 @@ add_notes_table(output,
                  closing = "end\\{tablenotes\\}\\n",
                  closing_replacement = "end\\{tablenotes\\}\\\n\\\\end{threeparttable}\\\n",
                  filename = "output/tables/nlsy97_descriptive_stats.tex")
+
+# create plots of mobility against population + data covarage
+observed_counties = unique(readRDS("output/data/nlsy97_data_ready_for_imputation.rds")$imp_fips)
+head(observed_counties)
+county = readRDS("output/data/chetty_county_data.rds")
+county[, matched := factor(ifelse(imp_fips %in% observed_counties, "NLSY97 sample",
+    "No NLSY97 sample"))]
+table(county$matched)
+
+table(county[matched == "NLSY97 sample", statename])
+
+savepdf("output/plots/nlsy97_county_sample_relative_mob")
+ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    labs(x = "\nLog population (centered)", y = "Relative mobility (z-score)\n") +
+    theme_minimal() +
+    theme(legend.position = "top", legend.title = element_blank())
+dev.off()
+
+savepdf("output/plots/nlsy97_county_sample_absolute_mob")
+ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    labs(x = "\nLog population (centered)", y = "Absolute mobility (z-score)\n") +
+    theme_minimal() +
+    theme(legend.position = "top", legend.title = element_blank())
+dev.off()
+
+savepdf("output/plots/nlsy97_county_sample_gini")
+ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    labs(x = "\nLog population (centered)", y = "Gini coefficient (z-score)\n") +
+    theme_minimal() +
+    theme(legend.position = "top", legend.title = element_blank())
+dev.off()
