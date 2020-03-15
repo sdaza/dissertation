@@ -46,7 +46,6 @@ long_imp_q_absolute_mob[, rev_health := factor(rev_health)]
 
 # number of observations
 N = length(unique(long_imp_q_relative_mob$id))
-print(N)
 
 # outcomes
 outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
@@ -90,15 +89,14 @@ unadjusted_q_gini_results = unadjustedRegression(
     final_model_type = model_types
 )
 
+# create table unadjusted models
+
 # put model outputs in a list
-saveRDS(list(
+list_rows = list(
     unadjusted_q_relative_mob_results,
     unadjusted_q_absolute_mob_results,
     unadjusted_q_gini_results
-    ), file = "output/data/nlsy97_unadjusted_q_models.rds")
-
-# create table unadjusted models
-list_rows = readRDS("output/data/nlsy97_unadjusted_q_models.rds")
+)
 
 row_names = c("average_q_relative_mob",
               "average_q_absolute_mob",
@@ -452,7 +450,6 @@ long_imp_qr_absolute_mob[, rev_health := factor(rev_health)]
 
 # number of observations
 N = length(unique(long_imp_qr_relative_mob$id))
-print(N)
 
 # outcomes
 outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
@@ -496,15 +493,14 @@ unadjusted_qr_gini_results = unadjustedRegression(
     final_model_type = model_types
 )
 
+# create table unadjusted models
+
 # put model outputs in a list
-saveRDS(list(
+list_rows = list(
     unadjusted_qr_relative_mob_results,
     unadjusted_qr_absolute_mob_results,
     unadjusted_qr_gini_results
-    ), file = "output/data/nlsy97_unadjusted_qr_models.rds")
-
-# create table unadjusted models
-list_rows = readRDS("output/data/nlsy97_unadjusted_qr_models.rds")
+)
 
 row_names = c("average_q_relative_mob_resid",
               "average_q_absolute_mob_resid",
