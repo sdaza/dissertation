@@ -377,7 +377,10 @@ unadjustedRegression = function(
     max_time_exposure,
     outcomes,
     final_model_types,
-    print_number_imputation = c(1, 5, 10, 15, 20)) {
+    print_number_imputation = c(1, 5, 10, 15, 20),
+    sampling_weight = NULL,
+    strata = NULL,
+    cluster = NULL) {
 
     nimputations = order(unique(imputations$imp_num))
 
@@ -428,7 +431,15 @@ unadjustedRegression = function(
             print(paste0("Running models with imputation ", i, " with ", number_rows, " rows"))
         }
 
-        svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
+        if (is.null(sampling_weight)) {
+            svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
+        }
+        else {
+            svy_design = svydesign(ids = formula(paste0("~ ", cluster)),
+                strata = formula(paste0("~ ", strata)),
+                weights = formula(paste0("~ ", sampling_weight)),
+                data = fdata, nest = TRUE)
+        }
 
         for (h in seq_along(outcomes)) {
 
@@ -500,7 +511,10 @@ ipwExposure = function(
     predictors,
     final_model_types,
     print_weights = c(1, 5, 10, 15, 20),
-    factor_columns = NULL
+    factor_columns = NULL,
+    sampling_weight = NULL,
+    strata = NULL,
+    cluster = NULL
     ) {
 
     # number of imputations
@@ -662,7 +676,16 @@ ipwExposure = function(
             print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
         }
 
-        svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
+        if (is.null(sampling_weight)) {
+            svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
+        }
+        else {
+            fdata[, final_weight := tcipw * get(sampling_weight)]
+            svy_design = svydesign(ids = formula(paste0("~ ", cluster)),
+                strata = formula(paste0("~ ", strata)),
+                weights = formula(paste0("~ ", "final_weight")),
+                data = fdata, nest = TRUE)
+        }
 
         for (h in seq_along(outcomes)) {
 
@@ -752,7 +775,6 @@ countmis  = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
         return( round(mis / nrow(dat), 3))
     }
 
-    return(mis)
 }
 
 

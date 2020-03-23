@@ -53,7 +53,7 @@ mm = ldat[, .(id, time, stime, imp_fips, year, exposure_time,
               log_income_adj, parent_education, mother_age_at_birth,
               residential_moves_by_12, nmoves,
               rev_health, bmi, depression, smoking, smoking_30,
-              wt, stratum, type)]
+              wt, stratum, cluster, type)]
 
 # center variables
 center_vars = c("hhsize", "asvab_score", "parent_education",

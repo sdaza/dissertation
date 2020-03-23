@@ -6,12 +6,21 @@
 
 
 library(survey)
+options(survey.lonely.psu="adjust")
 library(data.table)
 library(texreg)
 library(mice)
 library(mitools)
 library(MASS)
 source("src/utils.R")
+
+# first wave sampling weight and cluster
+ldat = readRDS("output/data/nlsy97_data_ready_for_imputation.rds")
+setorder(ldat, id, year)
+ldat = ldat[, .(cluster = getFirst(cluster),
+                sweight = getFirst(wt)), .(id)]
+dim(ldat)
+countmis(ldat)
 
 # read imputed data
 imp_q_relative_mob = readRDS('output/data/nlsy97_q_relative_mob_imputations.rds')
@@ -24,6 +33,9 @@ long_imp_q_relative_mob = data.table(
     mice::complete(imp_q_relative_mob, "long", include = FALSE)
     )
 setnames(long_imp_q_relative_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_q_relative_mob = merge(long_imp_q_relative_mob, ldat, on = "id")
+# other variables
 long_imp_q_relative_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_q_relative_mob[, good_health :=
@@ -38,6 +50,9 @@ long_imp_q_absolute_mob = data.table(
     mice::complete(imp_q_absolute_mob, "long", include = FALSE)
     )
 setnames(long_imp_q_absolute_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_q_absolute_mob = merge(long_imp_q_absolute_mob, ldat, on = "id")
+# other variables
 long_imp_q_absolute_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_q_absolute_mob[, good_health :=
@@ -62,7 +77,10 @@ unadjusted_q_relative_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob models
@@ -74,7 +92,10 @@ unadjusted_q_absolute_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_gini models
@@ -86,7 +107,10 @@ unadjusted_q_gini_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create table unadjusted models
@@ -217,7 +241,10 @@ q_relative_mob_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob
@@ -281,7 +308,10 @@ q_absolute_mob_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
     )
 
 
@@ -348,7 +378,10 @@ q_gini_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create tables adjusted results
@@ -429,6 +462,9 @@ long_imp_qr_relative_mob = data.table(
     mice::complete(imp_qr_relative_mob, "long", include = FALSE)
     )
 setnames(long_imp_qr_relative_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_qr_relative_mob = merge(long_imp_qr_relative_mob, ldat, on = "id")
+# other variables
 long_imp_qr_relative_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_qr_relative_mob[, good_health :=
@@ -442,6 +478,9 @@ long_imp_qr_absolute_mob = data.table(
     mice::complete(imp_qr_absolute_mob, "long", include = FALSE)
     )
 setnames(long_imp_qr_absolute_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_qr_absolute_mob = merge(long_imp_qr_absolute_mob, ldat, on = "id")
+# other variables
 long_imp_qr_absolute_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_qr_absolute_mob[, good_health :=
@@ -478,7 +517,10 @@ unadjusted_qr_absolute_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_gini models
@@ -490,7 +532,10 @@ unadjusted_qr_gini_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create table unadjusted models
@@ -621,7 +666,10 @@ qr_relative_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 summary(qr_relative_mob_results[["weights"]])
@@ -687,7 +735,10 @@ qr_absolute_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 summary(qr_absolute_mob_results[["weights"]])
@@ -753,7 +804,10 @@ qr_gini_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 summary(qr_gini_results[["weights"]])
