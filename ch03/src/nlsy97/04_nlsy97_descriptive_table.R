@@ -29,6 +29,7 @@ temp[, white := ifelse(ethnicity == 4 , 1, 0)]
 
 # descriptive function
 getDescriptives = function(x) {
+    x = as.numeric(x)
     m = mean(x, na.rm = TRUE)
     sd = sd(x, na.rm = TRUE)
     min = getMin(x)
@@ -65,15 +66,28 @@ var_names = c("hhsize", "imp_living_any_parent", "imp_parent_employed",
               "imp_parent_married", "log_income_adj",
               "log_county_income", "log_population", "prop_black",
               "nmoves",
-              "relative_mob", "absolute_mob", "gini")
+              "relative_mob", "q_relative_mob", "relative_mob_resid",  "q_relative_mob_resid",
+              "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid",
+              "gini", "q_gini", "gini_resid", "q_gini_resid")
 
 var_labels = c("Family size", "Respondent living with any parent", "Parent is working",
                "Parent is married", "Log household income", "County log income",
                "County log population", "County proportion Black",
                "Cumulative number of county moves",
-               "County rank-rank correlation",
-               "County upward mobility", "County Gini coefficient"
+               "County rank-rank correlation (original)",
+               "Quintile county rank-rank correlation (original)",
+               "Residualized county rank-rank correlation",
+               "Quintile residualized county rank-rank correlation",
+               "County upward mobility (original)",
+               "Quintile county upward mobility (original)",
+               "Residualized county upward mobility",
+               "Quintile residualized county upward mobility",
+               "County Gini coefficient (original)",
+               "Quintile county Gini coefficient (original)",
+               "Residualized county Gini coefficient",
+               "Quintile Residualized county Gini coefficient"
                )
+
 var_labels = paste0("\\quad ", var_labels)
 
 tab_variant = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
@@ -113,8 +127,9 @@ tab = do.call(rbind, list_tabs)
 
 total_rows = dim(tab)[1]
 
+total_rows
 addtorow = list()
-addtorow$pos = list(-1, 0, 12, 21, 24, total_rows)
+addtorow$pos = list(-1, 0, 12, 21, 33, total_rows)
 addtorow$command = c(
 "\\hline
 \\addlinespace
@@ -189,25 +204,31 @@ table(county$matched)
 table(county[matched == "NLSY97 sample", statename])
 
 savepdf("output/plots/nlsy97_county_sample_relative_mob")
+print(
 ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Relative mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())
+)
 dev.off()
 
 savepdf("output/plots/nlsy97_county_sample_absolute_mob")
+print(
 ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Absolute mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())
+)
 dev.off()
 
 savepdf("output/plots/nlsy97_county_sample_gini")
+print(
 ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Gini coefficient (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())
+)
 dev.off()

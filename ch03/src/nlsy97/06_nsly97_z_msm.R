@@ -6,6 +6,7 @@
 
 
 library(survey)
+options(survey.lonely.psu="adjust")
 library(data.table)
 library(texreg)
 library(mice)
@@ -15,6 +16,12 @@ source("src/utils.R")
 
 # z = z-score
 # r = residuals
+
+# first wave sampling weight and cluster
+ldat = readRDS("output/data/nlsy97_data_ready_for_imputation.rds")
+setorder(ldat, id, year)
+ldat = ldat[, .(cluster = getFirst(cluster),
+                sweight = getFirst(wt)), .(id)]
 
 # read imputed data
 imp_z_relative_mob = readRDS('output/data/nlsy97_z_relative_mob_imputations.rds')
@@ -27,6 +34,9 @@ long_imp_z_relative_mob = data.table(
     mice::complete(imp_z_relative_mob, "long", include = FALSE)
     )
 setnames(long_imp_z_relative_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_z_relative_mob = merge(long_imp_z_relative_mob, ldat, on = "id")
+# other variables
 long_imp_z_relative_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_z_relative_mob[, good_health :=
@@ -38,6 +48,9 @@ long_imp_z_absolute_mob = data.table(
     mice::complete(imp_z_absolute_mob, "long", include = FALSE)
     )
 setnames(long_imp_z_absolute_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_z_absolute_mob = merge(long_imp_z_absolute_mob, ldat, on = "id")
+# other variables
 long_imp_z_absolute_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_z_absolute_mob[, good_health :=
@@ -51,7 +64,6 @@ N = length(unique(long_imp_z_relative_mob$id))
 outcomes = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
 model_types = c("ordinal", "gaussian", "gaussian", "binomial", "poisson")
 
-
 # unadjusted models
 
 # z_relative_mob models
@@ -64,7 +76,10 @@ unadjusted_z_relative_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob models
@@ -76,7 +91,10 @@ unadjusted_z_absolute_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_gini models
@@ -88,7 +106,10 @@ unadjusted_z_gini_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create table unadjusted models
@@ -221,7 +242,10 @@ z_relative_mob_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob
@@ -284,7 +308,10 @@ z_absolute_mob_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
     )
 
 
@@ -348,7 +375,10 @@ z_gini_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create tables adjusted results
@@ -424,6 +454,9 @@ long_imp_zr_relative_mob = data.table(
     mice::complete(imp_zr_relative_mob, "long", include = FALSE)
     )
 setnames(long_imp_zr_relative_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_zr_relative_mob = merge(long_imp_zr_relative_mob, ldat, on = "id")
+# other variables
 long_imp_zr_relative_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_zr_relative_mob[, good_health :=
@@ -435,6 +468,9 @@ long_imp_zr_absolute_mob = data.table(
     mice::complete(imp_zr_absolute_mob, "long", include = FALSE)
     )
 setnames(long_imp_zr_absolute_mob, c(".imp", ".id"), c("imp_num", "row_num"))
+# weight from first wave
+long_imp_zr_absolute_mob = merge(long_imp_zr_absolute_mob, ldat, on = "id")
+# other variables
 long_imp_zr_absolute_mob[, age_interview_est :=
         as.numeric(as.character(age_interview_est))]
 long_imp_zr_absolute_mob[, good_health :=
@@ -460,7 +496,10 @@ unadjusted_zr_relative_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_types = model_types
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob models
@@ -472,7 +511,10 @@ unadjusted_zr_absolute_mob_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_gini models
@@ -484,7 +526,10 @@ unadjusted_zr_gini_results = unadjustedRegression(
     time_var = "stime",
     max_time_exposure = 8,
     outcomes = outcomes,
-    final_model_type = model_types
+    final_model_type = model_types,
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 
@@ -619,7 +664,10 @@ zr_relative_mob_results= ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # z_absolute_mob
@@ -683,7 +731,10 @@ zr_absolute_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
     )
 
 
@@ -748,7 +799,10 @@ zr_gini_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    factor_columns = "rev_health"
+    factor_columns = "rev_health",
+    sampling_weight = "sweight",
+    cluster = "cluster",
+    strata = "stratum"
 )
 
 # create tables adjusted results
