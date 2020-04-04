@@ -186,7 +186,7 @@ baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -198,7 +198,7 @@ numerator = longText("
     baseline_rev_health + baseline_bmi + baseline_smoking +
     baseline_z_relative_mob + baseline_z_gini + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black +
-    lag_z_relative_mob) + as.factor(stime)
+    lag_z_relative_mob) + as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -213,7 +213,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_z_relative_mob + lag_z_gini + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(
@@ -252,7 +252,7 @@ z_relative_mob_results = ipwExposure(
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -264,7 +264,7 @@ numerator = longText("
     baseline_rev_health + baseline_bmi + baseline_smoking + baseline_z_absolute_mob +
     baseline_z_gini + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black +
-    lag_z_absolute_mob) + as.factor(stime)
+    lag_z_absolute_mob) + as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -279,7 +279,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_z_absolute_mob + lag_z_gini + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(
@@ -319,7 +319,7 @@ z_absolute_mob_results = ipwExposure(
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -331,7 +331,7 @@ numerator = longText("
     baseline_rev_health + baseline_smoking + baseline_bmi +
     baseline_z_relative_mob + baseline_z_gini + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black + lag_z_gini) +
-    as.factor(stime)
+    as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -346,7 +346,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_z_relative_mob + lag_z_gini + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(
@@ -607,7 +607,7 @@ baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -619,7 +619,7 @@ numerator = longText("
     baseline_rev_health + baseline_bmi + baseline_smoking +
     baseline_relative_mob_resid + baseline_gini_resid + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black +
-    lag_relative_mob_resid) + as.factor(stime)
+    lag_relative_mob_resid) + as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -634,7 +634,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_relative_mob_resid + lag_gini_resid + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(
@@ -674,7 +674,7 @@ zr_relative_mob_results= ipwExposure(
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -686,7 +686,7 @@ numerator = longText("
     baseline_rev_health + baseline_bmi + baseline_smoking + baseline_absolute_mob_resid +
     baseline_gini_resid + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black +
-    lag_absolute_mob_resid) + as.factor(stime)
+    lag_absolute_mob_resid) + as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -701,7 +701,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_absolute_mob_resid + lag_z_gini + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(
@@ -742,7 +742,7 @@ zr_absolute_mob_results = ipwExposure(
 denominator_time1 = longText("
     male + ethnicity + as.factor(max_age_interview_est) +
     parent_education + asvab_score + mother_age_at_birth +
-    residential_moves_by_12 + log_income_adj
+    residential_moves_by_12 + log_income_adj + sweight
 ")
 
 numerator = longText("
@@ -754,7 +754,7 @@ numerator = longText("
     baseline_rev_health + baseline_smoking + baseline_bmi +
     baseline_relative_mob_resid + baseline_gini_resid + baseline_log_population +
     baseline_log_county_income + baseline_z_prop_black + lag_gini_resid) +
-    as.factor(stime)
+    as.factor(stime) + sweight
 ")
 
 denominator = longText("
@@ -769,7 +769,7 @@ denominator = longText("
     nmoves + lag_imp_parent_employed + lag_imp_parent_married + lag_hhsize +
     log_income_adj + lag_rev_health + lag_bmi + lag_smoking +
     lag_relative_mob_resid + lag_gini_resid + lag_log_county_income +
-    lag_log_population + lag_z_prop_black) + as.factor(stime)
+    lag_log_population + lag_z_prop_black) + as.factor(stime) + sweight
 ")
 
 predictors = longText(

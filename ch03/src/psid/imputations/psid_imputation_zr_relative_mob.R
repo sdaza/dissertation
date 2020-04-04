@@ -25,7 +25,7 @@ tt[, c(1,2)]
 # ids = unique(mm[head_wife == 1, pid])
 # mm[pid == sample(ids, 1), .(pid, year, imp_age, relation_head, whynoresp, depression)]
 
-vars = c("z_relative_mob", "z_gini", "log_population", "log_county_income", "log_income_adj", 
+vars = c("relative_mob_resid", "gini_resid", "log_population", "log_county_income", "log_income_adj", 
          "imp_age", "first_year", "head_education", "head_marital_status", "head_owns_house", 
          "head_working_binary", "weight_less_55", "mother_age", 
          "mother_marital_status")
@@ -104,9 +104,9 @@ predictors = hash(
     "famsize" = 1,
     "nmoves" = 1,
     # exposure variables
-    "z_relative_mob" = 1, 
-    "z_absolute_mob" = 0,
-    "z_gini" = 1,
+    "relative_mob_resid" = 1, 
+    "absolute_mob_resid" = 0,
+    "gini_resid" = 1,
     "log_county_income" = 1,
     "log_population" = 1,
     "z_prop_black" = 1,
@@ -117,9 +117,6 @@ predictors = hash(
     "last_wave_smoking_number" = 0,
     "last_wave_rev_health" = 0
 )
-
-cor(mm[, .(z_relative_mob, z_absolute_mob, z_gini, 
-           log_population, log_county_income, z_prop_black)])
 
 # assign predictors
 vector_predictors = names(meth[meth != ""])
@@ -154,17 +151,6 @@ vars = c("last_wave_bmi", "last_wave_smoking", "last_wave_smoking_number",
 remove_predictors = c("imp_age")
 pred[vars, remove_predictors ] = 0
 
-# add group mean for time-variant variables
-# vars = c("log_income_adj", "head_marital_status", "head_education",
-#          "head_owns_house" , "head_working_binary", "famsize")
-# group_mean_predictors = c("log_income_adj", "head_marital_status", "head_education",
-#                           "head_owns_house" , "head_working_binary", "famsize", "nmoves",
-#                           "z_relative_mob", "z_gini", "log_county_income", "log_population",
-#                           "z_prop_black")
-# pred[vars, group_mean_predictors] = 3
-# 
-# countmis(mm[year == 2017])
-# mm[pid == sample(unique(mm$pid), 1),.(pid, imp_age, last_wave_imp_age, last_wave_depression)]
 
 # explore
 pred["log_income_adj",]
@@ -207,7 +193,7 @@ imp = mice(
 # )
 
 # explore imputations
-savepdf("output/plots/psid_z_relative_mob_imp_iterations")
+savepdf("output/plots/psid_zr_relative_mob_imp_iterations")
 print(plot(imp, c("last_wave_bmi", "last_wave_depression", "last_wave_rev_health")))
 print(plot(imp, c("last_wave_smoking", "last_wave_smoking_number")))
 print(plot(imp, c("log_income_adj", "mother_age")))
@@ -218,7 +204,7 @@ dev.off()
 
 # simp = extractImputations(imp)
 simp = imp
-savepdf("output/plots/psid_z_relative_mob_imp_values")
+savepdf("output/plots/psid_zr_relative_mob_imp_values")
 print(densityplot(simp, ~ last_wave_bmi +last_wave_depression))
 print(densityplot(simp, ~ last_wave_rev_health + last_wave_smoking_number +last_wave_smoking))
 print(densityplot(simp, ~ log_income_adj))
@@ -231,7 +217,7 @@ dev.off()
 # set format some variables
 print(imp$loggedEvents)
 
-saveRDS(imp, file = "output/data/psid_z_relative_mob_imputations.rds")
+saveRDS(imp, file = "output/data/psid_zr_relative_mob_imputations.rds")
 print(paste0("Number of imputations: ", imp$m))
 # rm(long, imp, imp_adjusted, simp, methods, predictors)
 

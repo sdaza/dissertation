@@ -767,7 +767,6 @@ rdepwb_vars = paste0("rdepwb", 1:6)
 ldat[, (depwb_vars) := lapply(.SD, function (x) ifelse(x %in% c(9), NA, x)), .SDcols = depwb_vars]
 ldat[, (rdepwb_vars) := lapply(.SD, reverseScale), .SDcols = depwb_vars]
 
-# recovering depression missing using WB
 ldat[, depression := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdep_vars]
 ldat[, depression_wb := apply(.SD, 1, mean, na.rm = TRUE), .SDcol = rdepwb_vars]
 ldat[year == 2017, depression := ifelse(is.na(depression), depression_wb, depression)]
