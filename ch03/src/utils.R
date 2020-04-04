@@ -6,6 +6,7 @@
 
 
 library(texreg)
+library(ordinal)
 
 # overwrite table and cor function to include missing data
 table = function (...) base::table(..., useNA = 'ifany')
@@ -380,7 +381,13 @@ unadjustedRegression = function(
     print_number_imputation = c(1, 5, 10, 15, 20),
     sampling_weight = NULL,
     strata = NULL,
-    cluster = NULL) {
+    cluster = NULL,
+    ntry = 5) {
+
+    # auxiliary functions
+    run_polr_model = function(formula, svy_design) {
+        return(svyolr(formula, svy_design))
+    }
 
     nimputations = order(unique(imputations$imp_num))
 
@@ -422,6 +429,8 @@ unadjustedRegression = function(
         gdata = gdata[, c(id_var,
                           paste0("average_", exposure_variable)),
                       with = FALSE]
+        gdata[, (paste0("average_", exposure_variable)) :=
+            scale(get(paste0("average_", exposure_variable)), scale = FALSE)]
         fdata = merge(last_obs, gdata, by = id_var)
         number_rows = nrow(fdata)
 
@@ -464,7 +473,15 @@ unadjustedRegression = function(
                 )
             }
             else if (final_model_types[h] == "ordinal") {
-                output[[h]][[i]] = svyolr(final_model, design = svy_design)
+                r = NULL
+                attempt = 0
+                while (is.null(r) && attempt <= ntry ) {
+                    attempt = attempt + 1
+                    try(
+                        r <- run_polr_model(final_model, svy_design)
+                    )
+                }
+                output[[h]][[i]] = r
             }
         }
 
@@ -514,8 +531,17 @@ ipwExposure = function(
     factor_columns = NULL,
     sampling_weight = NULL,
     strata = NULL,
-    cluster = NULL
+    cluster = NULL,
+    ntry = 5
     ) {
+
+    # auxiliary functions
+    run_clm_model = function(formula, data) {
+        return(clm(formula, data = data))
+    }
+    run_polr_model = function(formula, svy_design) {
+        return(svyolr(formula, design = svy_design))
+    }
 
     # number of imputations
     nimputations = order(unique(imputations$imp_num))
@@ -534,7 +560,7 @@ ipwExposure = function(
     # loop over imputations to compute weights
     for (i in nimputations) {
 
-        # print(paste0("Number of imputation ", i))
+        print(paste0("Number of imputation ", i))
         dat = imputations[imp_num == i]
 
         # set order first
@@ -597,8 +623,6 @@ ipwExposure = function(
                            as.numeric(sd(model2b$residuals)))
 
             weights_time_2 = kdens1 / kdens2
-            summary(weights_time_2)
-
             rm(kdens1, kdens2)
             tempdata2[, ipw := weights_time_2]
 
@@ -608,46 +632,62 @@ ipwExposure = function(
             tempdata2[, (exposure_variable) := as.factor(get(exposure_variable))]
 
             # estimate weights for time == 1
-            model1a = polr(formula_1a, data = tempdata1)
-            model1b = polr(formula_1b, data = tempdata1)
-
-            probs1 = as.data.frame(predict(model1a, type = "probs"))
-            probs2 = as.data.frame(predict(model1b, type = "probs"))
-
-            v_numerator = rep(NA, nrow(tempdata1))
-            v_denominator = rep(NA, nrow(tempdata1))
-
-            for (j in unique(tempdata1[[exposure_variable]])) {
-                flag = tempdata1[[exposure_variable]] == j
-                v_denominator[flag] = probs2[flag, j]
-                v_numerator[flag] = probs1[flag, j]
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= 5 ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_1a, tempdata1)
+                )
             }
+            model1a = r
 
-            weights_time_1 = v_numerator / v_denominator
-            rm(v_numerator, v_denominator)
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_1b, tempdata1)
+                )
+            }
+            model1b = r
+
+            probs1 = predict(model1a)$fit
+            probs2 = predict(model1b)$fit
+
+            weights_time_1 = probs1 / probs2
+            rm(probs1, probs2)
             tempdata1[, ipw := weights_time_1]
 
             # estimate weights for time > 1 until max_time_exposure
-            model2a = polr(formula_2a, data = tempdata2)
-            model2b = polr(formula_2b, data = tempdata2)
-
-            probs1 = as.data.frame(predict(model2a, type = "probs"))
-            probs2 = as.data.frame(predict(model2b, type = "probs"))
-
-            v_numerator = rep(NA, nrow(tempdata2))
-            v_denominator = rep(NA, nrow(tempdata2))
-
-            for (j in unique(tempdata2[[exposure_variable]])) {
-                flag = tempdata2[[exposure_variable]] == j
-                v_denominator[flag] = probs2[flag, j]
-                v_numerator[flag] = probs1[flag, j]
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_2a, tempdata2)
+                )
             }
+            model2a = r
 
-            weights_time_2 = v_numerator / v_denominator
-            rm(v_numerator, v_denominator)
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_2b, tempdata2)
+                )
+            }
+            model2b = r
+
+            probs1 = predict(model2a)$fit
+            probs2 = predict(model2b)$fit
+            weights_time_2 =  probs1 / probs2
+
+            rm(probs1, probs2)
             tempdata2[, ipw := weights_time_2]
-        }
 
+        }
 
         gdata = rbind(tempdata1, tempdata2)
         gdata[, paste0("average_", exposure_variable) := if (exposure_type == "gaussian") {
@@ -666,9 +706,19 @@ ipwExposure = function(
         gdata = gdata[, c(id_var, "cipw", "tcipw",
                           paste0("average_", exposure_variable)),
                       with = FALSE]
+
+        gdata[, (paste0("average_", exposure_variable)) :=
+            scale(get(paste0("average_", exposure_variable)), scale = FALSE)]
         fdata = merge(last_obs, gdata, by = id_var)
         number_rows = nrow(fdata)
         final_weights = c(final_weights, fdata$cipw)
+
+        if (mean(fdata$cipw) > 3) {
+            stop(paste0(
+                "Average of weights is too high in imputation ", i)
+            )
+        }
+
 
         if (i %in% print_weights) {
             print(paste0("Weights for imputation number ", i, " with ", number_rows, " rows"))
@@ -689,6 +739,8 @@ ipwExposure = function(
 
         for (h in seq_along(outcomes)) {
 
+            print(paste0(":::: Running ", outcomes[h]))
+
             final_model = formula(paste0(outcomes[h], " ~ ", predictors))
 
             if (final_model_types[h] == "gaussian") {
@@ -706,9 +758,16 @@ ipwExposure = function(
                 output[[h]][[i]]  = sjstats::svyglm.nb(final_model, design = svy_design)
             }
             else if (final_model_types[h] == "ordinal") {
-                output[[h]][[i]]  = svyolr(final_model, design = svy_design)
+                r = NULL
+                attempt = 0
+                while( is.null(r) && attempt <= ntry ) {
+                    attempt = attempt + 1
+                    try(
+                        r <- run_polr_model(final_model, svy_design)
+                    )
+                }
+                output[[h]][[i]]  = r
             }
-
         }
     }
 
@@ -755,7 +814,7 @@ lookvar  = function(dat, varnames) {
 }
 
 
-countmis  = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
+countmis = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
 
     if (is.null(vars)) {
         vars = names(dat)
@@ -786,6 +845,7 @@ savepdf = function(file, width=16, height=10) {
     par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.6,1.1,1.1))
 
 }
+
 
 extract.MIcombine <- function(model, obs = 0) {
 

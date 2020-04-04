@@ -5,7 +5,7 @@
 ##############################
 
 
-print("::::::: imputing with relative mob :::::::")
+print("::::::: imputing with absolute mob :::::::")
 
 # create mice object
 ini = mice(mm, maxit = 0)
@@ -104,9 +104,9 @@ predictors = hash(
     "famsize" = 1,
     "nmoves" = 1,
     # exposure variables
-    "z_relative_mob" = 1, 
-    "z_absolute_mob" = 0,
-    "z_gini" = 1,
+    "relative_mob_resid" = 0, 
+    "absolute_mob_resid" = 1,
+    "gini_resid" = 1,
     "log_county_income" = 1,
     "log_population" = 1,
     "z_prop_black" = 1,
@@ -149,6 +149,7 @@ pred[vars, remove_predictors] = 0
 vars = c("mother_marital_status", "weight_less_55")
 pred[vars, "imp_age"] = 0
 
+# add last wave age as contr
 vars = c("last_wave_bmi", "last_wave_smoking", "last_wave_smoking_number", 
          "last_wave_rev_health", "last_wave_depression")
 remove_predictors = c("imp_age")
@@ -207,7 +208,7 @@ imp = mice(
 # )
 
 # explore imputations
-savepdf("output/plots/psid_z_relative_mob_imp_iterations")
+savepdf("output/plots/psid_zr_absolute_mob_imp_iterations")
 print(plot(imp, c("last_wave_bmi", "last_wave_depression", "last_wave_rev_health")))
 print(plot(imp, c("last_wave_smoking", "last_wave_smoking_number")))
 print(plot(imp, c("log_income_adj", "mother_age")))
@@ -218,7 +219,7 @@ dev.off()
 
 # simp = extractImputations(imp)
 simp = imp
-savepdf("output/plots/psid_z_relative_mob_imp_values")
+savepdf("output/plots/psid_zr_absolute_mob_imp_values")
 print(densityplot(simp, ~ last_wave_bmi +last_wave_depression))
 print(densityplot(simp, ~ last_wave_rev_health + last_wave_smoking_number +last_wave_smoking))
 print(densityplot(simp, ~ log_income_adj))
@@ -231,7 +232,5 @@ dev.off()
 # set format some variables
 print(imp$loggedEvents)
 
-saveRDS(imp, file = "output/data/psid_z_relative_mob_imputations.rds")
+saveRDS(imp, file = "output/data/psid_zr_absolute_mob_imputations.rds")
 print(paste0("Number of imputations: ", imp$m))
-# rm(long, imp, imp_adjusted, simp, methods, predictors)
-
