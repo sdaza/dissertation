@@ -124,12 +124,13 @@ createDescriptiveTable(datalist,
     variable_names = varnames,
     variable_labels = varlabels,
     align = NULL,
-    arraystretch = 1.0,
+    arraystretch = 0.75,
     tabcolsep = 3,
+    notesize = "scriptsize",
     digits = digits,
     note = note,
     title = title ,
-    label = "tab:descriptive",
+    label = "tab:nlsy97_descriptives",
     file = "output/tables/nlsy97_descriptive_stats.tex")
 
 # create plots of mobility against population + data covarage

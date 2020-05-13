@@ -27,7 +27,7 @@ for (i in seq_along(model_names)) {
 }
 
 comment = paste0("Analyses based on exposure from 12 to 20 years old. ",
-    paste0("Statisticis based on  ", n_imputations, " multiple imputed datasets.")
+    paste0("Statistics based on  ", n_imputations, " multiple imputed datasets.")
 )
 
 tableWeights(list_weights,
