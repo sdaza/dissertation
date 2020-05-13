@@ -14,3 +14,25 @@ m1 <- clm(sureness ~ prod, scale = ~prod, data = dat26,
 
 dat26
 predict(m1)
+
+
+# survey data negative binomial
+
+library(survey)
+library(sjstats)
+
+data(nhanes_sample)
+# create survey design
+des <- svydesign(
+id = ~SDMVPSU,
+strat = ~SDMVSTRA,
+weights = ~WTINT2YR,
+nest = TRUE,
+data = nhanes_sample
+)
+# fit negative binomial regression
+fit <- svyglm.nb(total ~ factor(RIAGENDR) * (log(age) + factor(RIDRETH1)), des)
+vcov(fit)
+coef(fit)
+# print coefficients and standard errors
+fit

@@ -178,7 +178,7 @@ ovars = c("r0358100", "r2189500", "r3508600", "r4906700", "r6534200",
           "t0740300", "t2783800", "t4495500", "t6144400", "t7638900",
           "t9040900", "u1031400")
 
-nvars = paste0("smoking_30_days", years)
+nvars = paste0("smoking_days_days", years)
 renameColumns(dat, hash(ovars, nvars))
 
 timeinvariant_vars = hash(
@@ -228,7 +228,7 @@ fillMissingColumns(dat, "^height_feet|^height_inches", expected)
 columns_expr = c("id", "nres", "interview_month", "interview_year", "income",
                  "shealth", "^dep[1-5]", "hispanic", "optimism", "race", "ethnicity",
                  "sex", "age", "birth_month", "birth_year",
-                 "shealth", "smoking_", "smoking_30", "^height_feet",
+                 "shealth", "smoking_", "smoking_days", "^height_feet",
                  "^height_inches", "^weight_", "^hhsize", "type", "wt", "stratum",
                  "cluster", "residential_moves", "mother_age_at_birth",
                  "mother_highest_grade", "father_highest_grade", "asvab_score")
@@ -256,7 +256,7 @@ pattern_names = hash(
     "^dep4" = "dep4",
     "^dep5" = "dep5",
     "^smoking_" = "smoking",
-    "^smoking_30" = "smoking_30",
+    "^smoking_days" = "smoking_days",
     "^age_" = "age_interview"
 )
 
@@ -447,18 +447,18 @@ sd(county$relative_mob, na.rm = TRUE)
 
 ldat = merge(ldat, county, by = "imp_fips", all.x = TRUE)
 
-# 75 cases
-remove_ids = unique(ldat[is.na(z_relative_mob) | is.na(z_gini), id])
 
+remove_ids = unique(ldat[is.na(z_relative_mob) | is.na(z_gini), id])
 print(
-      paste0(
-             "Number of respondents without mob or gini info: ",
-             length(remove_ids)
-             )
+    paste0(
+        "Number of respondents without mob or gini info: ",
+        length(remove_ids)
+    )
 )
 
 ldat = ldat[!(id %in% remove_ids)]
-length(unique(ldat$id))
+print(paste0("Number of respondents: ", length(unique(ldat$id))))
+print(paste0("Number of rows: ", nrow(ldat)))
 
 # education parent (max value)
 ldat[, parent_education := pmax(ifelse(father_highest_grade == 95,
@@ -500,11 +500,11 @@ ldat[, ethnicity := factor(ethnicity)]
 
 # smoking
 ldat[year %in% c(2013, 2015), smoking := ifelse(smoking == -4, 0, smoking)]
-smoking_cols = c("smoking", "smoking_30")
+smoking_cols = c("smoking", "smoking_days")
 
-ldat[, smoking_30 := ifelse(smoking == 0 & smoking_30 == -4,
+ldat[, smoking_days := ifelse(smoking == 0 & smoking_days == -4,
                             0,
-                            smoking_30)]
+                            smoking_days)]
 
 ldat[, (smoking_cols) := lapply(.SD, replaceMissing), .SDcol = smoking_cols]
 
@@ -556,6 +556,12 @@ prop.table(table(!is.na(ldat[year == 1997 & flag12 == 1, income])))
 prop.table(table(!is.na(ldat[age > 12 & stime == 1, imp_parent_married])))
 prop.table(table(!is.na(ldat[stime == 2 & flag12 == 0 , imp_parent_married])))
 
+# sampling weight data
+setorder(ldat, id, year)
+ldat = ldat[, `:=` (stratum = getFirst(stratum),
+    cluster = getFirst(cluster),
+    sweight = getFirst(wt)), .(id)]
+print(paste0("Number of rows: ", nrow(ldat)))
 
 # save final data
 saveRDS(ldat, "output/data/nlsy97_data_ready_for_imputation.rds")

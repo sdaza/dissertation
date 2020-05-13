@@ -23,7 +23,7 @@ mm[, age := imp_age]
 
 names(mm)
 center_vars = c("bmi", "depression", "imp_age",
-                "famsize",  "head_education", 
+                "famsize",  "head_education",
                 "mother_age", "first_year")
 
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
@@ -33,16 +33,16 @@ mm = mm[head_wife == 1]
 length(unique(mm$pid))
 
 # fill last version of time-varying variables
-vars = c("bmi", "depression", "smoking", "smoking_number", "rev_health", 
-         "log_income_adj", "head_marital_status", "head_education", 
-         "head_owns_house", "famsize", "head_working_binary", 
+vars = c("bmi", "depression", "smoking", "smoking_number", "rev_health",
+         "log_income_adj", "head_marital_status", "head_education",
+         "head_owns_house", "famsize", "head_working_binary",
          "imp_age")
 
 mm[year == 2017, paste0("last_wave_", vars) :=
      lapply(.SD[year == 2017], function(x) x), .SDcol = vars]
 
-mm[, paste0("last_wave_", vars) := 
-     lapply(.SD, fillWithFirstValue), 
+mm[, paste0("last_wave_", vars) :=
+     lapply(.SD, fillWithFirstValue),
    .SDcol = paste0("last_wave_", vars), pid]
 
 
@@ -64,12 +64,12 @@ mm = mm[, .(pid, year, time, imp_age, year_born, first_year, male, white,
             mother_age, mother_marital_status, weight_less_55,
             head_marital_status, head_education,
             nmoves, z_gini, z_relative_mob, z_absolute_mob,
-            relative_mob_resid, absolute_mob_resid, gini_resid, 
-            q_relative_mob, q_absolute_mob, q_gini, 
-            q_relative_mob_resid, q_absolute_mob_resid, q_gini_resid, 
+            relative_mob_resid, absolute_mob_resid, gini_resid,
+            q_relative_mob, q_absolute_mob, q_gini,
+            q_relative_mob_resid, q_absolute_mob_resid, q_gini_resid,
             log_population, log_county_income, z_prop_black,
-            last_wave_bmi, last_wave_smoking, last_wave_smoking_number, 
-            last_wave_rev_health, last_wave_depression, 
+            last_wave_bmi, last_wave_smoking, last_wave_smoking_number,
+            last_wave_rev_health, last_wave_depression,
             last_wave_imp_age)]
 
 
@@ -82,10 +82,10 @@ mm = mm[, .(pid, year, time, imp_age, year_born, first_year, male, white,
 # source("src/psid/imputations/psid_imputation_z_absolute_mob.R")
 
 # q_relative_mobility
-source("src/psid/imputations/psid_imputation_q_relative_mob.R")
+# source("src/psid/imputations/psid_imputation_q_relative_mob.R")
 
 # q_absolute_mobility
-source("src/psid/imputations/psid_imputation_q_absolute_mob.R")
+# source("src/psid/imputations/psid_imputation_q_absolute_mob.R")
 
 # z_relative_mobility residuals
 # source("src/psid/imputations/psid_imputation_zr_relative_mob.R")

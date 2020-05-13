@@ -70,8 +70,8 @@ unadjusted_q_relative_mob_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -85,8 +85,8 @@ unadjusted_q_absolute_mob_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -100,9 +100,9 @@ unadjusted_q_gini_results = unadjustedRegression(
     time_var = "time",
     max_time_exposure = 20,
     outcome = outcomes,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -113,7 +113,7 @@ list_rows = list(
     unadjusted_q_relative_mob_results,
     unadjusted_q_absolute_mob_results,
     unadjusted_q_gini_results
-)    
+)
 
 row_names = c("average_q_relative_mob",
               "average_q_absolute_mob",
@@ -162,14 +162,14 @@ createModelTables(
 
 # lagged and baseline variables
 lag_vars = c("q_relative_mob", "q_gini", "q_absolute_mob", "log_population",
-             "log_county_income", "z_prop_black", "famsize", 
+             "log_county_income", "z_prop_black", "famsize",
              "head_marital_status", "head_education",
              "head_owns_house", "head_working_binary")
 
-baseline_vars = c("q_relative_mob", "q_gini", "q_absolute_mob", 
-                  "log_population", "log_county_income", "z_prop_black", 
-                  "log_income_adj", 
-                  "famsize", "head_marital_status", 
+baseline_vars = c("q_relative_mob", "q_gini", "q_absolute_mob",
+                  "log_population", "log_county_income", "z_prop_black",
+                  "log_income_adj",
+                  "famsize", "head_marital_status",
                   "head_education", "head_owns_house", "head_working_binary")
 
 # create outcome models
@@ -192,9 +192,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_q_gini + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_relative_mob) + as.factor(time) + sweight
 ")
@@ -222,8 +222,8 @@ q_relative_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -237,7 +237,7 @@ denominator_time1 = longText("
 numerator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
+     baseline_log_income_adj + baseline_famsize +
      lag_q_absolute_mob) + as.factor(time) + sweight
 ")
 
@@ -245,9 +245,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_q_gini + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_absolute_mob) + as.factor(time) + sweight
 ")
@@ -275,8 +275,8 @@ q_absolute_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -290,7 +290,7 @@ denominator_time1 = longText("
 numerator = longText("
     (male + white + as.factor(first_year)  +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
+     baseline_log_income_adj + baseline_famsize +
      lag_q_gini) + as.factor(time) + sweight
 ")
 
@@ -298,9 +298,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_q_relative_mob + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_gini) + as.factor(time) + sweight
 ")
@@ -326,15 +326,15 @@ q_gini_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
 # create table adjusted models
 list_rows = list(q_relative_mob_results,
-                 q_absolute_mob_results, 
+                 q_absolute_mob_results,
                  q_gini_results
                  )
 
@@ -357,7 +357,7 @@ comment = longText("Each coefficient represents a model. Coefficients and standa
                    $^{***}p<0.001$, $^{**}p<0.01$, $^*p<0.05$"
 )
 
-caption = "Adjusted estimates of average exposure (continuous) \\newline on health indicators, PSID"
+caption = "Adjusted estimates of average exposure (categorical) \\newline on health indicators, PSID"
 label = "tab:psid_adjusted_q_models"
 
 # groups = list("Relative" = 1:2,
@@ -388,7 +388,7 @@ tableWeights(list_weights,
              model_names = c("Rank-rank correlation",
                              "Upward mobility",
                              "Gini"),
-             caption  = "Stabilized treatment weights, continuous exposure",
+             caption  = "PSID Stabilized treatment weights, categorical exposure",
              label = "tab:psid_ipt_weigths_q",
              comment = "Analyses based on exposure from 1 to 20 years old. ",
              filename = "output/tables/psid_ipt_weights_q.tex",
@@ -396,7 +396,7 @@ tableWeights(list_weights,
              arraystretch = 1)
 
 # remove objects
-rm(imp_q_absolute_mob, imp_q_relative_mob, q_absolute_mob_results, 
+rm(imp_q_absolute_mob, imp_q_relative_mob, q_absolute_mob_results,
     q_relative_mob_results, q_gini_results)
 
 # residuals
@@ -450,9 +450,9 @@ unadjusted_qr_relative_mob_results = unadjustedRegression(
     time_var = "time",
     max_time_exposure = 20,
     outcome = outcomes,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -466,8 +466,8 @@ unadjusted_qr_absolute_mob_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -481,8 +481,8 @@ unadjusted_qr_gini_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -517,7 +517,7 @@ comment = longText("Each coefficient represents a model. Coefficients and standa
                    Logistic regression (smoking), Poisson regression (number of cigarettes smoked last month).
                    $^{***}p<0.001$, $^{**}p<0.01$, $^*p<0.05$")
 
-caption = "Unadjusted estimates of average residual exposure (continuous) \\newline on health indicators, PSID"
+caption = "Unadjusted estimates of average residual exposure (categorical \\newline on health indicators, PSID"
 label = "tab:psid_unadjusted_qr_models"
 
 # groups = list("Relative" = 1:2,
@@ -540,18 +540,18 @@ createModelTables(
 # adjusted models
 
 # lagged and baseline variables
-lag_vars = c("q_relative_mob", "q_gini", "q_absolute_mob", 
+lag_vars = c("q_relative_mob", "q_gini", "q_absolute_mob",
              "q_relative_mob_resid", "q_gini_resid", "q_absolute_mob_resid",
              "log_population",
-             "log_county_income", "z_prop_black", "famsize", 
+             "log_county_income", "z_prop_black", "famsize",
              "head_marital_status", "head_education",
              "head_owns_house", "head_working_binary")
 
-baseline_vars = c("q_relative_mob", "q_gini", "q_absolute_mob", 
+baseline_vars = c("q_relative_mob", "q_gini", "q_absolute_mob",
                   "q_relative_mob_resid", "q_gini_resid", "q_absolute_mob_resid",
-                  "log_population", "log_county_income", "z_prop_black", 
-                  "log_income_adj", 
-                  "famsize", "head_marital_status", 
+                  "log_population", "log_county_income", "z_prop_black",
+                  "log_income_adj",
+                  "famsize", "head_marital_status",
                   "head_education", "head_owns_house", "head_working_binary")
 
 # create outcome models
@@ -565,17 +565,17 @@ denominator_time1 = longText("
 numerator = longText("
     (male + white +  as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
+     baseline_log_income_adj + baseline_famsize +
      lag_q_relative_mob_resid) + as.factor(time) + sweight
 ")
 
 denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
-     nmoves + 
+     baseline_log_income_adj + baseline_famsize +
+     nmoves +
      lag_q_gini_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_relative_mob_resid) + as.factor(time) + sweight
 ")
@@ -602,9 +602,9 @@ qr_relative_mob_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -625,9 +625,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_q_gini_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_absolute_mob_resid) + as.factor(time) + sweight
 ")
@@ -635,7 +635,7 @@ denominator = longText("
 predictors = longText(
     "average_q_absolute_mob_resid + male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize 
+     baseline_log_income_adj + baseline_famsize
 ")
 
 
@@ -654,9 +654,9 @@ qr_absolute_mob_results = ipwExposure(
     exposure_type = "ordinal",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -669,7 +669,7 @@ denominator_time1 = longText("
 numerator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
+     baseline_log_income_adj + baseline_famsize +
      lag_q_gini_resid) + as.factor(time) + sweight
 ")
 
@@ -677,9 +677,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_q_relative_mob_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_q_gini_resid) + as.factor(time) + sweight
 ")
@@ -706,14 +706,14 @@ qr_gini_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
 # create table adjusted models
 list_rows = list(qr_relative_mob_results,
-                 qr_absolute_mob_results, 
+                 qr_absolute_mob_results,
                  qr_gini_results
 )
 
@@ -735,7 +735,7 @@ comment = longText("Each coefficient represents a model. Coefficients and standa
                    Logistic regression (smoking), Poisson regression (number of cigarettes smoked last month).
                    $^{***}p<0.001$, $^{**}p<0.01$, $^*p<0.05$")
 
-caption = "Adjusted estimates of average residual exposure (continuous) \\newline on health indicators, PSID"
+caption = "Adjusted estimates of average residual exposure (categorical) \\newline on health indicators, PSID"
 label = "tab:psid_adjusted_qr_models"
 
 # groups = list("Relative" = 1:2,

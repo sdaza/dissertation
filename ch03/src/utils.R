@@ -180,10 +180,10 @@ imputeAge = function(age, year) {
 
 
 # combination of list for doparallel
-comb <- function(x, ...) {
+comb = function(x, ...) {
     lapply(seq_along(x),
-           function(i) c(x[[i]], lapply(list(...), function(y) y[[i]]))
-           )
+        function(i) c(x[[i]], lapply(list(...), function(y) y[[i]]))
+    )
 }
 
 getSublist = function(mylist, name) {
@@ -467,7 +467,7 @@ unadjustedRegression = function(
                     family = quasipoisson(link = "log")
                 )
             }
-            else if (final_model_types[h] == "negative_binomial") {
+            else if (final_model_types[h] == "negative-binomial") {
                 output[[h]][[i]] = sjstats::svyglm.nb(final_model,
                     design = svy_design
                 )
@@ -754,7 +754,7 @@ ipwExposure = function(
                 output[[h]][[i]]  = svyglm(final_model, design = svy_design,
                      family = quasipoisson(link = "log"))
             }
-            else if (final_model_types[h] == "negative_binomial") {
+            else if (final_model_types[h] == "negative-binomial") {
                 output[[h]][[i]]  = sjstats::svyglm.nb(final_model, design = svy_design)
             }
             else if (final_model_types[h] == "ordinal") {
@@ -906,7 +906,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
             significance = 1.96 * pnorm(-abs(z))
         }
         model_list[[column_names[[i]]]] = createTexreg(
-            coef.names =  row_labels,
+            coef.names = row_labels,
             coef = coeff,
             se = se,
             pvalues = significance,
@@ -1034,7 +1034,8 @@ tableWeights = function(list_weights, model_names,
             align = "llcccccc"),
             include.rownames = FALSE,
             caption.placement = "top",
-            table.placement = "htp"
+            table.placement = "htp",
+            sanitize.text.function = identity
         )
 
     tab = gsub("begin\\{table\\}\\[htp\\]\\n",
