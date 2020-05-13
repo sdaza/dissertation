@@ -72,6 +72,13 @@
       "Repository": "CRAN",
       "Hash": "c6faf038ba4346b1de19ad7c99b8f94a"
     },
+    "abind": {
+      "Package": "abind",
+      "Version": "1.4-5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4f57884290cc75ab22f4af9e9d4ca862"
+    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -492,6 +499,13 @@
       "Repository": "CRAN",
       "Hash": "01bcebcbb1100b66fca3e9831df316f7"
     },
+    "micemd": {
+      "Package": "micemd",
+      "Version": "1.6.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7cb9a18fd19c57374905838f621cee74"
+    },
     "mime": {
       "Package": "mime",
       "Version": "0.9",
@@ -520,6 +534,13 @@
       "Repository": "CRAN",
       "Hash": "a4b659bd0528226724d55034f11ed7cb"
     },
+    "mixmeta": {
+      "Package": "mixmeta",
+      "Version": "1.0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "29badb37d0c1c9a55bfb4904ea5ab234"
+    },
     "modelr": {
       "Package": "modelr",
       "Version": "0.1.5",
@@ -533,6 +554,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "6dfe8bf774944bd5595785e3229d8771"
+    },
+    "mvmeta": {
+      "Package": "mvmeta",
+      "Version": "1.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a6a2fe00f85e371bb3e370d4b367a56c"
     },
     "mvtnorm": {
       "Package": "mvtnorm",
@@ -578,10 +606,10 @@
     },
     "ordinal": {
       "Package": "ordinal",
-      "Version": "2019.4-25",
+      "Version": "2019.12-10",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "8c451c92a26eb3bac7d922253bb78a75"
+      "Hash": "62e921c39cffbf990a6d8266c35b2f93"
     },
     "pan": {
       "Package": "pan",
@@ -810,10 +838,10 @@
     },
     "survival": {
       "Package": "survival",
-      "Version": "2.44-1.1",
+      "Version": "3.1-11",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "8520357700cef5261e7d33f0a113e3df"
+      "Hash": "39c2135ecd56295df599417e034bb7a6"
     },
     "svgPanZoom": {
       "Package": "svgPanZoom",
