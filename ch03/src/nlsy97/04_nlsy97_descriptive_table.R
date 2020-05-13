@@ -6,26 +6,19 @@
 
 
 # libraries
-library(data.table)
-library(xtable)
 library(hash)
 library(forcats)
 library(ggplot2)
+devtools::source_gist("c4d1089a501d3567be9fb784b1c5a6ab")
 source("src/utils.R")
 
 # load data with missing records
 ldat = readRDS("output/data/nlsy97_data_ready_for_imputation.rds")
 
-# M, SD, Missing % N
+vars = c("q_relative_mob", "q_relative_mob_resid", "q_absolute_mob",
+    "q_absolute_mob_resid", "q_gini", "gini_resid", "q_gini_resid")
 
-# descriptives time invariant
-
-ldat[, max_age := getMax(age_interview_est), id]
-temp = ldat[!duplicated(ldat$id)]
-temp[, black := ifelse(ethnicity == 1, 1, 0)]
-temp[, hispanic := ifelse(ethnicity == 2, 1, 0)]
-temp[, mixed := ifelse(ethnicity == 3 , 1, 0)]
-temp[, white := ifelse(ethnicity == 4 , 1, 0)]
+ldat[, (vars) := lapply(.SD, as.numeric), .SDcols = vars]
 
 # descriptive function
 getDescriptives = function(x) {
@@ -39,174 +32,121 @@ getDescriptives = function(x) {
     return(c(m, sd, min, max, pm, n))
 }
 
+# colnames
+colnames =  c("Mean", "SD", "Min", "Max", "\\% Missing", "Valid observations")
+
 # time invariant variables
-var_names = c("male", "min_age", "max_age", "white", "black", "hispanic", "mixed",
-              "asvab_score", "parent_education", "mother_age_at_birth",
-             "residential_moves_by_12")
+varnames = list(
+    c("male", "min_age", "max_age", "ethnicity",
+        "asvab_score", "parent_education", "mother_age_at_birth",
+        "residential_moves_by_12"
+    ),
+    c("move_once"),
+    c("hhsize", "imp_living_any_parent", "imp_parent_employed",
+        "imp_parent_married", "log_income_adj",
+        "log_county_income", "log_population", "prop_black",
+        "nmoves"),
+    c("relative_mob", "q_relative_mob", "relative_mob_resid",  "q_relative_mob_resid",
+        "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid",
+        "gini", "q_gini", "gini_resid", "q_gini_resid"
+    ),
+    c("rev_health", "bmi", "depression", "smoking", "smoking_days")
+)
 
-var_labels = c("Male", "Age first interview", "Age last interview",
-               "White", "Black", "Hispanic",
-               "Mixed", "ASVAB Test Score", "Parent's Education (years)",
-               "Mother's age at birth of respondent",
-               "Number of residential moves by age 12")
-var_labels = paste0("\\quad ", var_labels)
+varlabels = list(
+    c("Male", "Age first interview", "Age last interview",
+        "Race-Ethnicity", "ASVAB Test Score",
+        "Parent's Education (years)",
+        "Mother's age at birth of respondent",
+        "Number of residential moves by age 12"
+    ),
+    c("Proportion moved to a different county"),
+    c("Family size", "Respondent living with any parent", "Parent is working",
+        "Parent is married", "Log household income", "County log income",
+        "County log population", "County proportion Black",
+        "Cumulative number of county moves"),
+    c("County rank-rank correlation (original)",
+        "Quintile county rank-rank correlation (original)",
+        "Residualized county rank-rank correlation",
+        "Quintile residualized county rank-rank correlation",
+        "County upward mobility (original)",
+        "Quintile county upward mobility (original)",
+        "Residualized county upward mobility",
+        "Quintile residualized county upward mobility",
+        "County Gini coefficient (original)",
+        "Quintile county Gini coefficient (original)",
+        "Residualized county Gini coefficient",
+        "Quintile Residualized county Gini coefficient"
+    ),
+    c("Self-reported health", "BMI", "Depressive symptoms",
+        "Current smoking", "Days smoked")
+)
 
-tab_invariant = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
-tab_invariant = t(tab_invariant)
+# databases
 
-colnames(tab_invariant) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations")
-rownames(tab_invariant) = var_labels
+# individual
+ldat[, max_age := getMax(age_interview_est), id]
+individuals = ldat[!duplicated(ldat$id)]
+individuals[, ethnicity := factor(ethnicity,
+    labels = c("White", "Black", "Hispanic", "Mixed"), levels = c(4, 1, 2, 3))]
 
-# time variant
-temp = ldat[stime <= 8]
+# timevariant
+timevariant = ldat[stime <= 8]
 vars = c("absolute_mob", "relative_mob", "prop_black")
-temp[, (vars) := lapply(.SD, function(x) {x/100}), .SDcols = vars]
+timevariant[, (vars) := lapply(.SD, function(x) {x/100}), .SDcols = vars]
 
-var_names = c("hhsize", "imp_living_any_parent", "imp_parent_employed",
-              "imp_parent_married", "log_income_adj",
-              "log_county_income", "log_population", "prop_black",
-              "nmoves",
-              "relative_mob", "q_relative_mob", "relative_mob_resid",  "q_relative_mob_resid",
-              "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid",
-              "gini", "q_gini", "gini_resid", "q_gini_resid")
+# moves
+prop_moves = timevariant[, .(move_once = as.numeric(any(nmoves > 0))), id]
 
-var_labels = c("Family size", "Respondent living with any parent", "Parent is working",
-               "Parent is married", "Log household income", "County log income",
-               "County log population", "County proportion Black",
-               "Cumulative number of county moves",
-               "County rank-rank correlation (original)",
-               "Quintile county rank-rank correlation (original)",
-               "Residualized county rank-rank correlation",
-               "Quintile residualized county rank-rank correlation",
-               "County upward mobility (original)",
-               "Quintile county upward mobility (original)",
-               "Residualized county upward mobility",
-               "Quintile residualized county upward mobility",
-               "County Gini coefficient (original)",
-               "Quintile county Gini coefficient (original)",
-               "Residualized county Gini coefficient",
-               "Quintile Residualized county Gini coefficient"
-               )
+# outcomes
+outcomes = ldat[, max_time := max(stime), id]
+outcomes = outcomes[max_time == stime]
 
-var_labels = paste0("\\quad ", var_labels)
+datalist = list("Time-invariant covariates" = individuals,
+     prop_moves,
+    "Time-variant covariates" = timevariant,
+    "Exposure variables" = timevariant,
+    "Outcomes" = outcomes)
 
-tab_variant = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
-tab_variant = t(tab_variant)
+names(datalist)
+note = "Note: Statistics based on non-imputed data. SD = Standard deviation.
+    Observations correspond to respondents
+    in the case of time-invariant and outcome variables, and person-years (N times exposure) for
+    time-variant variables. Outcomes were measured in 2015."
 
-colnames(tab_variant) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations")
-rownames(tab_variant) = var_labels
+title = "NLSY97 descriptive statistics of covariates and outcomes"
+label = "tab:nlsy97_descriptives"
+digits = c(2, 2, 2, 2, 2, 0)
 
-prop_moves = temp[, .(move_once = as.numeric(any(nmoves > 0))), id]
-prop.table(table(prop_moves$move_once))
-
-tab_moves = t(prop_moves[, lapply(.SD, getDescriptives), .SDcols = "move_once"])
-colnames(tab_moves) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations")
-rownames(tab_moves) = paste0("\\quad ", "Proportion moved to a different county")
-
-# outcome
-ldat[, max_time := max(stime), id]
-temp = ldat[max_time == stime]
-names(temp)
-nrow(temp)
-
-table(is.na(temp$smoking_30), temp$smoking)
-var_names = c("rev_health", "bmi", "depression", "smoking", "smoking_30")
-var_labels = c("Self-reported health", "BMI", "Depressive symptoms",
-               "Current smoking", "Number of days smoked last month")
-var_labels = paste0("\\quad ", var_labels)
-
-tab_outcome = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
-tab_outcome = t(tab_outcome)
-
-colnames(tab_outcome) = c("Mean", "SD", "Min", "Max", "% Missing", "Observations")
-rownames(tab_outcome) = var_labels
-
-# combined outputs and create latex table
-list_tabs = list(tab_invariant, tab_moves, tab_variant, tab_outcome)
-tab = do.call(rbind, list_tabs)
-
-total_rows = dim(tab)[1]
-
-total_rows
-addtorow = list()
-addtorow$pos = list(-1, 0, 12, 21, 33, total_rows)
-addtorow$command = c(
-"\\hline
-\\addlinespace
-& Mean & SD & Min & Max & \\% Missing & Observations \\\\
-\\addlinespace
-",
-"\\addlinespace
-\\multicolumn{7}{l}{\\textit{Time-invariant covariates}} \\\\
-\\addlinespace
-",
-"\\addlinespace
-\\multicolumn{7}{l}{\\textit{Time-variant covariates}} \\\\
-\\addlinespace
-",
-"\\addlinespace
-\\multicolumn{7}{l}{\\textit{Exposure variables}} \\\\
-\\addlinespace
-",
-"\\addlinespace
-\\multicolumn{7}{l}{\\textit{Outcomes}} \\\\
-\\addlinespace
-",
-"\\addlinespace
-\\hline
-\\addlinespace
-")
-
-caption = paste0('NLSY97 descriptive statistics of covariates and outcomes')
-
-output = print(xtable(tab, caption = caption,
-                      label='tab:nlsy97_descriptives',
-                      align ="lrrrrrr",
-                      digits=c(0, 2, 2, 2, 2, 2, 0)),
-                caption.placement='top',
-                hline.after=c(-1),
-                align ="lrrrrrr",
-                table.placement='htp',
-                add.to.row = addtorow,
-                include.rownames = TRUE,
-                include.colnames = FALSE,
-                type='latex',
-                sanitize.text.function=identity
-                )
-
-mycomment = longText("Note: Statistics based on non-imputed data. SD = Standard deviation. Observations correspond to respondents
-                     in the case of time-invariant and outcome variables, and person-years (N times exposure) for
-                     time-variant variables. Outcomes were measured in 2015.")
-
-arraystretch = 0.8
-tabcolsep = 10
-header_replacement = paste0("begin\\{table\\}\\[htp\\]\\\n\\\\scriptsize\\\n",
-                            "\\\\setlength\\{\\\\tabcolsep\\}\\{",
-                            tabcolsep,
-                            "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
-                            arraystretch,
-                            "\\}\\\n\\\\begin\\{threeparttable\\}\\\n")
-add_notes_table(output,
-                 comment = mycomment,
-                 header_replacement = header_replacement,
-                 closing = "end\\{tablenotes\\}\\n",
-                 closing_replacement = "end\\{tablenotes\\}\\\n\\\\end{threeparttable}\\\n",
-                 filename = "output/tables/nlsy97_descriptive_stats.tex")
+createDescriptiveTable(datalist,
+    summary_function = getDescriptives,
+    column_names = colnames,
+    variable_names = varnames,
+    variable_labels = varlabels,
+    align = NULL,
+    arraystretch = 1.0,
+    tabcolsep = 3,
+    digits = digits,
+    note = note,
+    title = title ,
+    label = "tab:descriptive",
+    file = "output/tables/nlsy97_descriptive_stats.tex")
 
 # create plots of mobility against population + data covarage
 observed_counties = unique(readRDS("output/data/nlsy97_data_ready_for_imputation.rds")$imp_fips)
 head(observed_counties)
 county = readRDS("output/data/chetty_county_data.rds")
 county[, matched := factor(ifelse(imp_fips %in% observed_counties, "NLSY97 sample",
-    "No NLSY97 sample"))]
+    "No NLSY97 sample"), levels = c("No NLSY97 sample", "NLSY97 sample"))]
 table(county$matched)
 
 table(county[matched == "NLSY97 sample", statename])
 
+colors = c("#2b8cbe", "#f03b20")
 savepdf("output/plots/nlsy97_county_sample_relative_mob")
 print(
 ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) +
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = colors) +
     labs(x = "\nLog population (centered)", y = "Relative mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())
@@ -216,7 +156,7 @@ dev.off()
 savepdf("output/plots/nlsy97_county_sample_absolute_mob")
 print(
 ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) +
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = colors) +
     labs(x = "\nLog population (centered)", y = "Absolute mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())
@@ -226,7 +166,7 @@ dev.off()
 savepdf("output/plots/nlsy97_county_sample_gini")
 print(
 ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) +
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = colors) +
     labs(x = "\nLog population (centered)", y = "Gini coefficient (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title = element_blank())

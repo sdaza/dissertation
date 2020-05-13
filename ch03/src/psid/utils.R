@@ -459,7 +459,7 @@ unadjustedRegression = function(
             }
             else if (final_model_types[h] == "binomial") {
                 output[[h]][[i]] = svyglm(final_model, design = svy_design,
-                    family = quasibinomial(link = "logit")
+                    family = quasibinomial()
                 )
             }
             else if (final_model_types[h] == "poisson") {
@@ -467,10 +467,11 @@ unadjustedRegression = function(
                     family = quasipoisson(link = "log")
                 )
             }
-            else if (final_model_types[h] == "negative_binomial") {
+            else if (final_model_types[h] == "negative-binomial") {
                 output[[h]][[i]] = sjstats::svyglm.nb(final_model,
                     design = svy_design
                 )
+                print(class(output[[h]][[i]]))
             }
             else if (final_model_types[h] == "ordinal") {
                 r = NULL
@@ -478,7 +479,7 @@ unadjustedRegression = function(
                 while (is.null(r) && attempt <= ntry ) {
                     attempt = attempt + 1
                     try(
-                        r <- run_polr_model(final_model, svy_design)
+                        r = run_polr_model(final_model, svy_design)
                     )
                 }
                 output[[h]][[i]] = r
@@ -711,11 +712,11 @@ ipwExposure = function(
             scale(get(paste0("average_", exposure_variable)), scale = FALSE)]
         fdata = merge(last_obs, gdata, by = id_var)
         number_rows = nrow(fdata)
-        
+
         if (mean(fdata$cipw) > 3) { stop(
           paste0("Average of weights is too high in imputation ", i)
         )}
-        
+
         final_weights = c(final_weights, fdata$cipw)
 
         if (i %in% print_weights) {
@@ -738,11 +739,10 @@ ipwExposure = function(
         for (h in seq_along(outcomes)) {
 
             print(paste0(":::: Running ", outcomes[h]))
-          
+
             final_model = formula(paste0(outcomes[h], " ~ ", predictors))
 
             if (final_model_types[h] == "gaussian") {
-
                 output[[h]][[i]]  = svyglm(final_model, design = svy_design)
             }
             else if (final_model_types[h] == "binomial") {
@@ -753,7 +753,7 @@ ipwExposure = function(
                 output[[h]][[i]]  = svyglm(final_model, design = svy_design,
                      family = quasipoisson(link = "log"))
             }
-            else if (final_model_types[h] == "negative_binomial") {
+            else if (final_model_types[h] == "negative-binomial") {
                 output[[h]][[i]]  = sjstats::svyglm.nb(final_model, design = svy_design)
             }
             else if (final_model_types[h] == "ordinal") {
@@ -877,17 +877,18 @@ setMethod("extract", signature = className("MIresult", "MItools"),
     definition = extract.MIcombine)
 
 
-createModelTables = function(list_rows, row_names, row_labels, column_names,
-                             observations = 0,
-                             caption = "title",
-                             label = "title",
-                             arraystretch = 0.8,
-                             tabcolsep = 10,
-                             sideways = FALSE,
-                             gofname = "Individuals",
-                             comment = comment,
-                             groups = NULL,
-                             filename = "") {
+createModelTables = function(list_rows, row_names, row_labels,
+    column_names,
+    observations = 0,
+    caption = "title",
+    label = "title",
+    arraystretch = 0.8,
+    tabcolsep = 10,
+    sideways = FALSE,
+    gofname = "Individuals",
+    comment = comment,
+    groups = NULL,
+    filename = "") {
 
     model_list = list()
 

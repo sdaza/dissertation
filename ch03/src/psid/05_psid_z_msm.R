@@ -16,9 +16,6 @@ source("src/utils.R")
 # read imputed data
 imp_z_relative_mob = readRDS('output/data/psid_z_relative_mob_imputations.rds')
 imp_z_absolute_mob = readRDS('output/data/psid_z_absolute_mob_imputations.rds')
-sw = readRDS('output/data/psid_sampling_weights.rds')
-# sw[, sweight := round(sweight)]
-# sw[sweight <= 0, sweight := 1]
 
 # transform imputations
 
@@ -66,9 +63,9 @@ unadjusted_z_relative_mob_results = unadjustedRegression(
     time_var = "time",
     max_time_exposure = 20,
     outcome = outcomes,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -82,8 +79,8 @@ unadjusted_z_absolute_mob_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -97,9 +94,9 @@ unadjusted_z_gini_results = unadjustedRegression(
     time_var = "time",
     max_time_exposure = 20,
     outcome = outcomes,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -111,7 +108,7 @@ list_rows = list(
     unadjusted_z_relative_mob_results,
     unadjusted_z_absolute_mob_results,
     unadjusted_z_gini_results
-)    
+)
 
 row_names = c("average_z_relative_mob",
               "average_z_absolute_mob",
@@ -160,14 +157,14 @@ createModelTables(
 
 # lagged and baseline variables
 lag_vars = c("z_relative_mob", "z_gini", "z_absolute_mob", "log_population",
-             "log_county_income", "z_prop_black", "famsize", 
+             "log_county_income", "z_prop_black", "famsize",
              "head_marital_status", "head_education",
              "head_owns_house", "head_working_binary")
 
-baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob", 
-                  "log_population", "log_county_income", "z_prop_black", 
-                  "log_income_adj", 
-                  "famsize", "head_marital_status", 
+baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
+                  "log_population", "log_county_income", "z_prop_black",
+                  "log_income_adj",
+                  "famsize", "head_marital_status",
                   "head_education", "head_owns_house", "head_working_binary")
 
 # create outcome models
@@ -190,9 +187,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_z_gini + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_z_relative_mob) + as.factor(time) + sweight
 ")
@@ -219,8 +216,8 @@ z_relative_mob_results = ipwExposure(
         outcomes = outcomes,
         predictors = predictors,
         final_model_types = model_types,
-        sampling_weight = "sweight", 
-        strata = "stratum", 
+        sampling_weight = "sweight",
+        strata = "stratum",
         cluster = "cluster"
 )
 
@@ -243,10 +240,10 @@ numerator = longText("
 denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
-     nmoves + 
+     baseline_log_income_adj + baseline_famsize +
+     nmoves +
      lag_z_gini + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_z_absolute_mob) + as.factor(time) + sweight
 ")
@@ -273,10 +270,10 @@ z_absolute_mob_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types =  model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
-    
+
 )
 
 # z_gini
@@ -288,7 +285,7 @@ denominator_time1 = longText("
 numerator = longText("
     (male + white + as.factor(first_year)  +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize + 
+     baseline_log_income_adj + baseline_famsize +
      lag_z_gini) + as.factor(time) + sweight
 ")
 
@@ -298,7 +295,7 @@ denominator = longText("
      baseline_log_income_adj + baseline_famsize +
      nmoves +
      lag_z_relative_mob + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_z_gini) + as.factor(time) + sweight
 ")
@@ -325,14 +322,14 @@ z_gini_results = ipwExposure(
     outcomes = outcomes,
     predictors = predictors,
     final_model_types =  model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
 # create table adjusted models
 list_rows = list(z_relative_mob_results,
-                 z_absolute_mob_results, 
+                 z_absolute_mob_results,
                  z_gini_results
                  )
 
@@ -447,9 +444,9 @@ unadjusted_zr_relative_mob_results = unadjustedRegression(
     time_var = "time",
     max_time_exposure = 20,
     outcome = outcomes,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -463,8 +460,8 @@ unadjusted_zr_absolute_mob_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -478,8 +475,8 @@ unadjusted_zr_gini_results = unadjustedRegression(
     max_time_exposure = 20,
     outcome = outcomes,
     final_model_types = model_types,
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -537,18 +534,18 @@ createModelTables(
 # adjusted models
 
 # lagged and baseline variables
-lag_vars = c("z_relative_mob", "z_gini", "z_absolute_mob", 
+lag_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
              "relative_mob_resid", "gini_resid", "absolute_mob_resid",
              "log_population",
-             "log_county_income", "z_prop_black", "famsize", 
+             "log_county_income", "z_prop_black", "famsize",
              "head_marital_status", "head_education",
              "head_owns_house", "head_working_binary")
 
-baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob", 
+baseline_vars = c("z_relative_mob", "z_gini", "z_absolute_mob",
                   "relative_mob_resid", "gini_resid", "absolute_mob_resid",
-                  "log_population", "log_county_income", "z_prop_black", 
-                  "log_income_adj", 
-                  "famsize", "head_marital_status", 
+                  "log_population", "log_county_income", "z_prop_black",
+                  "log_income_adj",
+                  "famsize", "head_marital_status",
                   "head_education", "head_owns_house", "head_working_binary")
 
 # create outcome models
@@ -571,9 +568,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_gini_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_relative_mob_resid) + as.factor(time) + sweight
 ")
@@ -600,9 +597,9 @@ zr_relative_mob_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -625,9 +622,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_gini_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_absolute_mob_resid) + as.factor(time) + sweight
 ")
@@ -654,9 +651,9 @@ zr_absolute_mob_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
@@ -677,9 +674,9 @@ denominator = longText("
     (male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
      baseline_log_income_adj + baseline_famsize +
-     nmoves + 
+     nmoves +
      lag_relative_mob_resid + lag_log_population + lag_log_county_income +
-     lag_z_prop_black + lag_famsize + lag_head_marital_status + 
+     lag_z_prop_black + lag_famsize + lag_head_marital_status +
      lag_head_education + lag_head_owns_house + lag_head_working_binary +
      lag_gini_resid) + as.factor(time) + sweight
 ")
@@ -687,7 +684,7 @@ denominator = longText("
 predictors = longText(
     "average_gini_resid + male + white + as.factor(first_year) +
      weight_less_55 + mother_marital_status + mother_age +
-     baseline_log_income_adj + baseline_famsize 
+     baseline_log_income_adj + baseline_famsize
 ")
 
 zr_gini_results = ipwExposure(
@@ -705,15 +702,15 @@ zr_gini_results = ipwExposure(
     exposure_type = "gaussian",
     outcomes = outcomes,
     predictors = predictors,
-    final_model_types = model_types, 
-    sampling_weight = "sweight", 
-    strata = "stratum", 
+    final_model_types = model_types,
+    sampling_weight = "sweight",
+    strata = "stratum",
     cluster = "cluster"
 )
 
 # create table adjusted models
 list_rows = list(zr_relative_mob_results,
-                 zr_absolute_mob_results, 
+                 zr_absolute_mob_results,
                  zr_gini_results
 )
 

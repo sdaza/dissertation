@@ -5,7 +5,6 @@
 ##############################
 
 # libraries
-library(sdazar)
 library(stringr)
 
 source("src/utils.R")

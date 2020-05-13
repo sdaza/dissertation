@@ -42,7 +42,7 @@ getDescriptives = function(x) {
     pm = mean(is.na(x))
     n = length(x)
     return(c(m, sd,
-    # min, max, 
+    # min, max,
     pm, n))
 }
 
@@ -63,7 +63,7 @@ tab_invariant = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
 tab_invariant = t(tab_invariant)
 
 colnames(tab_invariant) = c("Mean", "SD",
-    # "Min", "Max", 
+    # "Min", "Max",
     "% Missing", "Observations")
 rownames(tab_invariant) = var_labels
 
@@ -75,9 +75,9 @@ temp[, (vars) := lapply(.SD, function(x) {x/100}), .SDcols = vars]
 var_names = c("famsize", "head_marital_status", "head_education",
     "head_owns_house", "head_working_binary", "log_income_adj",
     "log_county_income", "log_population", "prop_black",
-    "nmoves", 
-    "relative_mob",  "q_relative_mob", "relative_mob_resid", "q_relative_mob_resid", 
-    "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid", 
+    "nmoves",
+    "relative_mob",  "q_relative_mob", "relative_mob_resid", "q_relative_mob_resid",
+    "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid",
     "gini", "q_gini", "gini_resid", "q_gini_resid"
 )
 
@@ -87,14 +87,14 @@ var_labels = c("Family size", "Head household married (yes=1)",
                "Head household working (yes=1)",
                "Log household income",
                "County log income",
-               "County log population", 
+               "County log population",
                "County proportion Black",
                "Cumulative number of county moves",
                "County rank-rank correlation (original)",
                "Quintile county rank-rank correlation (original)",
                "Residualized county rank-rank correlation",
                "Quintile residualized county rank-rank correlation",
-               "County upward mobility (original)", 
+               "County upward mobility (original)",
                "Quintile county upward mobility (original)",
                "Residualized county upward mobility",
                "Quintile residualized county upward mobility",
@@ -109,15 +109,15 @@ var_labels = paste0("\\quad ", var_labels)
 tab_variant = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
 tab_variant = t(tab_variant)
 
-colnames(tab_variant) = c("Mean", "SD", 
-    #"Min", "Max", 
+colnames(tab_variant) = c("Mean", "SD",
+    #"Min", "Max",
     "% Missing", "Observations")
 rownames(tab_variant) = var_labels
 
 prop_moves = temp[, .(move_once = as.numeric(any(nmoves > 0))), pid]
 tab_moves = t(prop_moves[, lapply(.SD, getDescriptives), .SDcols = "move_once"])
-colnames(tab_moves) = c("Mean", "SD", 
-    #"Min", "Max", 
+colnames(tab_moves) = c("Mean", "SD",
+    #"Min", "Max",
     "% Missing", "Observations")
 rownames(tab_moves) = paste0("\\quad ", "Proportion moved to a different county")
 
@@ -137,7 +137,7 @@ var_labels = paste0("\\quad ", var_labels)
 tab_outcome = temp[, lapply(.SD, getDescriptives), .SDcols = var_names]
 tab_outcome = t(tab_outcome)
 
-colnames(tab_outcome) = c("Mean", "SD", 
+colnames(tab_outcome) = c("Mean", "SD",
     #"Min", "Max",
      "% Missing", "Observations")
 rownames(tab_outcome) = var_labels
@@ -159,19 +159,19 @@ addtorow$command = c(
 \\addlinespace
 ",
 "\\addlinespace
-\\multicolumn{7}{l}{\\textit{Time-invariant covariates}} \\\\
+\\multicolumn{5}{l}{\\textit{Time-invariant covariates}} \\\\
 \\addlinespace
 ",
 "\\addlinespace
-\\multicolumn{7}{l}{\\textit{Time-variant covariates}} \\\\
+\\multicolumn{5}{l}{\\textit{Time-variant covariates}} \\\\
 \\addlinespace
 ",
 "\\addlinespace
-\\multicolumn{7}{l}{\\textit{Exposure variables}} \\\\
+\\multicolumn{5}{l}{\\textit{Exposure variables}} \\\\
 \\addlinespace
 ",
 "\\addlinespace
-\\multicolumn{7}{l}{\\textit{Outcomes}} \\\\
+\\multicolumn{5}{l}{\\textit{Outcomes}} \\\\
 \\addlinespace
 ",
 "\\addlinespace
@@ -219,7 +219,7 @@ add_notes_table(output,
 # create plot of mobility against population + data coverage
 observed_counties = unique(readRDS("output/data/psid_data_ready_for_imputation_county_info.rds")$imp_fips)
 head(observed_counties)
-county = readRDS("output/data/chetty_county_data.rds")                            
+county = readRDS("output/data/chetty_county_data.rds")
 
 names(county)
 summary(county$log_population)
@@ -231,8 +231,8 @@ table(county[matched == "PSID sample", statename])
 
 savepdf("output/plots/psid_county_sample_relative_mob")
 print(
-ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) + 
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#f03b20", "#2b8cbe")) +
     labs(x = "\nLog population (centered)", y = "Relative mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title=element_blank())
@@ -241,8 +241,8 @@ dev.off()
 
 savepdf("output/plots/psid_county_sample_absolute_mob")
 print(
-ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) + 
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#f03b20", "#2b8cbe")) +
     labs(x = "\nLog population (centered)", y = "Absolute mobility (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title=element_blank())
@@ -251,8 +251,8 @@ dev.off()
 
 savepdf("output/plots/psid_county_sample_gini")
 print(
-ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) + 
-    geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
+ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) +
+    geom_point(alpha = 0.25) + scale_color_manual(values = c("#f03b20", "#2b8cbe")) +
     labs(x = "\nLog population (centered)", y = "Gini coefficient (z-score)\n") +
     theme_minimal() +
     theme(legend.position = "top", legend.title=element_blank())
