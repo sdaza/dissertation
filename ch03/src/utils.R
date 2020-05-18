@@ -5,6 +5,9 @@
 ################################
 
 
+library(texreg)
+library(ordinal)
+
 # overwrite table and cor function to include missing data
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function (...) stats::cor(..., use = "complete.obs")
@@ -55,7 +58,9 @@ renameColumns = function(dat, hash) {
 
 
 longText = function(text) {
-    return(gsub("\n", "", text))
+    dtext = gsub("\n", "", text)
+    dtext = gsub("\\s+", " ", dtext)
+    return(dtext)
 }
 
 
@@ -175,10 +180,10 @@ imputeAge = function(age, year) {
 
 
 # combination of list for doparallel
-comb <- function(x, ...) {
+comb = function(x, ...) {
     lapply(seq_along(x),
-           function(i) c(x[[i]], lapply(list(...), function(y) y[[i]]))
-           )
+        function(i) c(x[[i]], lapply(list(...), function(y) y[[i]]))
+    )
 }
 
 getSublist = function(mylist, name) {
@@ -325,6 +330,36 @@ check.cluster <- function(data, predictorMatrix) {
 }
 
 
+bindImputationList = function(list_imputations) {
+    imp = NULL
+    for (i in 1:(length(list_imputations) - 1)) {
+        if (i == 1) {
+            imp = mice::ibind(list_imputations[[i]], list_imputations[[i+1]])
+        }
+        else if (i > 1) {
+        imp = ibind(imp, list_imputations[[i]])
+        }
+    }
+    return(imp)
+}
+
+
+extractImputations = function(imputations, sample_size = 10) {
+    number_imputations = imputations$m
+    if (number_imputations <= sample_size) {
+        stop("Number of imputations is smaller than the sample size")
+    }
+    selection_imputations = sample(1:number_imputations, sample_size)
+    list_imputations = list()
+    for (i in seq_along(selection_imputations)) {
+        list_imputations[[i]] = mice::complete(imp, selection_imputations[[i]])
+    }
+    print("Pooling imputations back!")
+    pool =  miceadds::datlist2mids(list_imputations)
+    return(pool)
+}
+
+
 truncateWeights = function(weights, level = 0.01) {
     tw = ifelse(weights < quantile(weights, probs = level),
                 quantile(weights, probs = level), weights)
@@ -341,74 +376,137 @@ unadjustedRegression = function(
     id_var,
     time_var,
     max_time_exposure,
-    outcome,
-    final_model_type = "gaussian") {
+    outcomes,
+    final_model_types,
+    print_number_imputation = c(1, 5, 10, 15, 20),
+    sampling_weight = NULL,
+    strata = NULL,
+    cluster = NULL,
+    ntry = 5) {
 
-    output_coeff = list()
-    output_vcov = list()
+    # auxiliary functions
+    run_polr_model = function(formula, svy_design) {
+        return(svyolr(formula, svy_design))
+    }
+
+    nimputations = order(unique(imputations$imp_num))
+
+    output = list()
+    for ( i in seq_along(outcomes) ){
+        ll = list()
+        for ( j in nimputations ) {
+            ll[[j]] = list()
+        }
+        output[[i]] = ll
+    }
+    results = list()
 
     # loop over imputations
-    for (i in 1:imputations$m) {
 
-        results = list()
+    for (i in nimputations) {
 
-        # print(paste0("Number of imputation ", i))
-        dat = data.table(mice::complete(imputations, i))
-        dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
+        # extract imputation
+        dat = imputations[imp_num == i]
 
         # set order first
         setorderv(dat, c(id_var, time_var))
-        dat[, rev_health := factor(rev_health)]
 
         dat[, max_time := max(get(time_var)), get(id_var)]
         last_obs = dat[get(time_var) == max_time]
         gdata = dat[get(time_var) <= max_time_exposure]
 
-        gdata[, paste0("average_", exposure_variable) := if (exposure_type == "gaussian") {
-                                                    mean(get(exposure_variable))
-                                                 }
-                                                 else if (exposure_type == "ordinal") {
-                                                    mean(as.numeric(as.character(get(exposure_variable))))
-                                                 },
-                                                 get(id_var)]
+        gdata[, paste0("average_", exposure_variable) :=
+            if (exposure_type == "gaussian") {
+                mean(get(exposure_variable))
+            }
+            else if (exposure_type == "ordinal") {
+                mean(as.numeric(as.character(get(exposure_variable))))
+            },
+            get(id_var)]
 
         setorderv(gdata, c(id_var, time_var))
         gdata = gdata[get(time_var) == max_time_exposure]
         gdata = gdata[, c(id_var,
                           paste0("average_", exposure_variable)),
                       with = FALSE]
+        gdata[, (paste0("average_", exposure_variable)) :=
+            scale(get(paste0("average_", exposure_variable)), scale = FALSE)]
         fdata = merge(last_obs, gdata, by = id_var)
+        number_rows = nrow(fdata)
 
         fdata[, wt := 1]
-        output = NULL
 
-        final_model = formula(paste0(outcome, " ~ ", paste0("average_", exposure_variable)))
-
-        if (i %in% c(1, 25, 75, 100)) {
-            print(paste0("Running models with imputation ", i))
+        if (i %in% print_number_imputation) {
+            print(paste0("Running models with imputation ", i, " with ", number_rows, " rows"))
         }
 
-        svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
+        if (is.null(sampling_weight)) {
+            svy_design = svydesign(ids = ~ 1, weights = ~ wt, data = fdata)
+        }
+        else {
+            svy_design = svydesign(ids = formula(paste0("~ ", cluster)),
+                strata = formula(paste0("~ ", strata)),
+                weights = formula(paste0("~ ", sampling_weight)),
+                data = fdata, nest = TRUE)
+        }
 
-        if (final_model_type == "gaussian") {
-            output = svyglm(final_model, design = svy_design)
+        for (h in seq_along(outcomes)) {
+
+            final_model = formula(paste0(outcomes[h], " ~ ", paste0("average_", exposure_variable)))
+
+            if (final_model_types[h] == "gaussian") {
+                output[[h]][[i]] = svyglm(final_model, design = svy_design)
+            }
+            else if (final_model_types[h] == "binomial") {
+                output[[h]][[i]] = svyglm(final_model, design = svy_design,
+                    family = quasibinomial(link = "logit")
+                )
+            }
+            else if (final_model_types[h] == "poisson") {
+                output[[h]][[i]] = svyglm(final_model, design = svy_design,
+                    family = quasipoisson(link = "log")
+                )
+            }
+            else if (final_model_types[h] == "negative-binomial") {
+                output[[h]][[i]] = sjstats::svyglm.nb(final_model,
+                    design = svy_design
+                )
+            }
+            else if (final_model_types[h] == "ordinal") {
+                r = NULL
+                attempt = 0
+                while (is.null(r) && attempt <= ntry ) {
+                    attempt = attempt + 1
+                    try(
+                        r <- run_polr_model(final_model, svy_design)
+                    )
+                }
+                output[[h]][[i]] = r
+            }
         }
-        else if (final_model_type == "binomial") {
-            output = svyglm(final_model, design = svy_design,
-                            family = quasibinomial)
-        }
-        else if (final_model_type == "poisson") {
-            output = svyglm(final_model, design = svy_design,
-                            family = poisson)
-        }
-        else if (final_model_type == "ordinal") {
-            output = svyolr(final_model, design = svy_design)
-        }
-        output_coeff[[i]] =  coefficients(output)
-        output_vcov[[i]] = vcov(output)
 
     }
-        return(mitools::MIcombine(output_coeff, output_vcov))
+
+    print("Pooling results...")
+
+    for (i in seq_along(outcomes)) {
+
+        output_coeff = list()
+        output_vcov = list()
+
+        for (j in nimputations) {
+            output_coeff[[j]] = coefficients(output[[i]][[j]])
+            output_vcov[[j]] = vcov(output[[i]][[j]])
+        }
+
+        results[[outcomes[i]]] = mitools::MIcombine(
+            output_coeff, output_vcov
+        )
+
+    }
+
+    return(results)
+
 }
 
 
@@ -424,35 +522,59 @@ ipwExposure = function(
     id_var,
     time_var,
     max_time_exposure,
-    final_model,
     trim_p = 0.01,
     exposure_type = "gaussian",
-    final_model_type = "gaussian") {
+    outcomes,
+    predictors,
+    final_model_types,
+    print_weights = c(1, 5, 10, 15, 20),
+    factor_columns = NULL,
+    sampling_weight = NULL,
+    strata = NULL,
+    cluster = NULL,
+    ntry = 5
+    ) {
 
+    # auxiliary functions
+    run_clm_model = function(formula, data) {
+        return(clm(formula, data = data))
+    }
+    run_polr_model = function(formula, svy_design) {
+        return(svyolr(formula, design = svy_design))
+    }
+
+    # number of imputations
+    nimputations = order(unique(imputations$imp_num))
     # create to lists to save output of the loop
-    output_coeff = list()
-    output_vcov = list()
+    output = list()
+    for ( i in seq_along(outcomes) ){
+        ll <- list()
+        for ( j in nimputations ) {
+            ll[[j]] = list()
+        }
+        output[[i]] <- ll
+    }
     final_weights = NULL
+    results = list()
 
-    # loop over imputations
-    for (i in 1:imputations$m) {
+    # loop over imputations to compute weights
+    for (i in nimputations) {
 
-        # print(paste0("Number of imputation ", i))
-
-        dat = data.table(mice::complete(imputations, i))
-        dat[, age_interview_est := as.numeric(as.character(age_interview_est))]
+        print(paste0("Number of imputation ", i))
+        dat = imputations[imp_num == i]
 
         # set order first
         setorderv(dat, c(id_var, time_var))
 
         dat[, paste0("lag_", lag_variables) := lapply(.SD, shift), get(id_var),
             .SDcol = lag_variables]
-
-        dat[, rev_health := factor(rev_health)]
-        dat[, lag_rev_health := factor(lag_rev_health)]
-
         dat[, paste0("baseline_", baseline_variables) := lapply(.SD, getFirst), get(id_var),
            .SDcol = baseline_variables]
+
+        if (!is.null(factor_columns)) {
+            vars = lookvar(dat, factor_columns)
+            dat[, (vars) := lapply(.SD, factor), .SDcol = vars]
+        }
 
         # define working dataset
         dat[, max_time := max(get(time_var)), get(id_var)]
@@ -501,8 +623,6 @@ ipwExposure = function(
                            as.numeric(sd(model2b$residuals)))
 
             weights_time_2 = kdens1 / kdens2
-            summary(weights_time_2)
-
             rm(kdens1, kdens2)
             tempdata2[, ipw := weights_time_2]
 
@@ -512,46 +632,62 @@ ipwExposure = function(
             tempdata2[, (exposure_variable) := as.factor(get(exposure_variable))]
 
             # estimate weights for time == 1
-            model1a = polr(formula_1a, data = tempdata1)
-            model1b = polr(formula_1b, data = tempdata1)
-
-            probs1 = as.data.frame(predict(model1a, type = "probs"))
-            probs2 = as.data.frame(predict(model1b, type = "probs"))
-
-            v_numerator = rep(NA, nrow(tempdata1))
-            v_denominator = rep(NA, nrow(tempdata1))
-
-            for (j in unique(tempdata1[[exposure_variable]])) {
-                flag = tempdata1[[exposure_variable]] == j
-                v_denominator[flag] = probs2[flag, j]
-                v_numerator[flag] = probs1[flag, j]
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= 5 ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_1a, tempdata1)
+                )
             }
+            model1a = r
 
-            weights_time_1 = v_numerator / v_denominator
-            rm(v_numerator, v_denominator)
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_1b, tempdata1)
+                )
+            }
+            model1b = r
+
+            probs1 = predict(model1a)$fit
+            probs2 = predict(model1b)$fit
+
+            weights_time_1 = probs1 / probs2
+            rm(probs1, probs2)
             tempdata1[, ipw := weights_time_1]
 
             # estimate weights for time > 1 until max_time_exposure
-            model2a = polr(formula_2a, data = tempdata2)
-            model2b = polr(formula_2b, data = tempdata2)
-
-            probs1 = as.data.frame(predict(model2a, type = "probs"))
-            probs2 = as.data.frame(predict(model2b, type = "probs"))
-
-            v_numerator = rep(NA, nrow(tempdata2))
-            v_denominator = rep(NA, nrow(tempdata2))
-
-            for (j in unique(tempdata2[[exposure_variable]])) {
-                flag = tempdata2[[exposure_variable]] == j
-                v_denominator[flag] = probs2[flag, j]
-                v_numerator[flag] = probs1[flag, j]
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_2a, tempdata2)
+                )
             }
+            model2a = r
 
-            weights_time_2 = v_numerator / v_denominator
-            rm(v_numerator, v_denominator)
+            r = NULL
+            attempt = 0
+            while( is.null(r) && attempt <= ntry ) {
+                attempt = attempt + 1
+                try(
+                    r <- run_clm_model(formula_2b, tempdata2)
+                )
+            }
+            model2b = r
+
+            probs1 = predict(model2a)$fit
+            probs2 = predict(model2b)$fit
+            weights_time_2 =  probs1 / probs2
+
+            rm(probs1, probs2)
             tempdata2[, ipw := weights_time_2]
-        }
 
+        }
 
         gdata = rbind(tempdata1, tempdata2)
         gdata[, paste0("average_", exposure_variable) := if (exposure_type == "gaussian") {
@@ -570,41 +706,92 @@ ipwExposure = function(
         gdata = gdata[, c(id_var, "cipw", "tcipw",
                           paste0("average_", exposure_variable)),
                       with = FALSE]
+
+        gdata[, (paste0("average_", exposure_variable)) :=
+            scale(get(paste0("average_", exposure_variable)), scale = FALSE)]
         fdata = merge(last_obs, gdata, by = id_var)
+        number_rows = nrow(fdata)
         final_weights = c(final_weights, fdata$cipw)
 
-        if (i %in% c(1, 25, 75, 100)) {
-            print(paste0("Weights for imputation number ", i))
+        if (mean(fdata$cipw) > 3) {
+            stop(paste0(
+                "Average of weights is too high in imputation ", i)
+            )
+        }
+
+
+        if (i %in% print_weights) {
+            print(paste0("Weights for imputation number ", i, " with ", number_rows, " rows"))
             print(paste0("Mean of weights: ", round(mean(fdata$cipw), 2)))
             print(paste0("Mean of weights (trunc): ", round(mean(fdata$tcipw), 2)))
         }
 
-        svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
-
-        if (final_model_type == "gaussian") {
-            output = svyglm(final_model, design = svy_design)
+        if (is.null(sampling_weight)) {
+            svy_design = svydesign(ids = ~ 1, weights = ~ tcipw, data = fdata)
         }
-        else if (final_model_type == "binomial") {
-            output = svyglm(final_model, design = svy_design,
-                            family = quasibinomial)
-        }
-        else if (final_model_type == "poisson") {
-            output = svyglm(final_model, design = svy_design,
-                            family = poisson)
-        }
-        else if (final_model_type == "ordinal") {
-            output = svyolr(final_model, design = svy_design)
+        else {
+            fdata[, final_weight := tcipw * get(sampling_weight)]
+            svy_design = svydesign(ids = formula(paste0("~ ", cluster)),
+                strata = formula(paste0("~ ", strata)),
+                weights = formula(paste0("~ ", "final_weight")),
+                data = fdata, nest = TRUE)
         }
 
-        output_coeff[[i]] =  coefficients(output)
-        output_vcov[[i]] = vcov(output)
+        for (h in seq_along(outcomes)) {
+
+            print(paste0(":::: Running ", outcomes[h]))
+
+            final_model = formula(paste0(outcomes[h], " ~ ", predictors))
+
+            if (final_model_types[h] == "gaussian") {
+                output[[h]][[i]]  = svyglm(final_model, design = svy_design)
+            }
+            else if (final_model_types[h] == "binomial") {
+                output[[h]][[i]] = svyglm(final_model, design = svy_design,
+                    family = quasibinomial(link = "logit"))
+            }
+            else if (final_model_types[h] == "poisson") {
+                output[[h]][[i]]  = svyglm(final_model, design = svy_design,
+                     family = quasipoisson(link = "log"))
+            }
+            else if (final_model_types[h] == "negative-binomial") {
+                output[[h]][[i]]  = sjstats::svyglm.nb(final_model, design = svy_design)
+            }
+            else if (final_model_types[h] == "ordinal") {
+                r = NULL
+                attempt = 0
+                while( is.null(r) && attempt <= ntry ) {
+                    attempt = attempt + 1
+                    try(
+                        r <- run_polr_model(final_model, svy_design)
+                    )
+                }
+                output[[h]][[i]]  = r
+            }
+        }
+    }
+
+    print("Pooling results...")
+
+    for (i in seq_along(outcomes)) {
+
+        output_coeff = list()
+        output_vcov = list()
+
+        for (j in nimputations) {
+            output_coeff[[j]] = coefficients(output[[i]][[j]])
+            output_vcov[[j]] = vcov(output[[i]][[j]])
+        }
+        results[[outcomes[i]]] = mitools::MIcombine(
+            output_coeff, output_vcov
+        )
 
     }
 
-        return(list(
-                    models = mitools::MIcombine(output_coeff, output_vcov),
-                    weights = final_weights)
-        )
+    results[["weights"]] = final_weights
+
+    return(results)
+
 }
 
 
@@ -627,7 +814,7 @@ lookvar  = function(dat, varnames) {
 }
 
 
-countmis  = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
+countmis = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
 
     if (is.null(vars)) {
         vars = names(dat)
@@ -647,7 +834,6 @@ countmis  = function(dat, vars = NULL, pct = TRUE, exclude.complete = TRUE) {
         return( round(mis / nrow(dat), 3))
     }
 
-    return(mis)
 }
 
 
@@ -659,6 +845,7 @@ savepdf = function(file, width=16, height=10) {
     par(mgp=c(2.2,0.45,0), tcl=-0.4, mar=c(3.3,3.6,1.1,1.1))
 
 }
+
 
 extract.MIcombine <- function(model, obs = 0) {
 
@@ -693,8 +880,8 @@ setMethod("extract", signature = className("MIresult", "MItools"),
 
 createModelTables = function(list_rows, row_names, row_labels, column_names,
                              observations = 0,
-                             caption = "title", label = "title",
-                             fontsize = "scriptsize",
+                             caption = "title",
+                             label = "title",
                              arraystretch = 0.8,
                              tabcolsep = 10,
                              sideways = FALSE,
@@ -719,7 +906,7 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
             significance = 1.96 * pnorm(-abs(z))
         }
         model_list[[column_names[[i]]]] = createTexreg(
-            coef.names =  row_labels,
+            coef.names = row_labels,
             coef = coeff,
             se = se,
             pvalues = significance,
@@ -735,10 +922,9 @@ createModelTables = function(list_rows, row_names, row_labels, column_names,
         booktabs = TRUE,
         use.packages = FALSE,
         dcolumn = TRUE,
+        center = FALSE,
         caption.above = TRUE,
-        fontsize = fontsize,
         label = label,
-        center = TRUE,
         sideways = sideways,
         digits = 2,
         custom.model.names = column_names,
@@ -759,25 +945,50 @@ add_notes_table = function(tab,
                            comment = "",
                            arraystretch = 0.8,
                            tabcolsep = 10,
-                           filename = "") {
+                           filename = "",
+                           header  = NULL,
+                           header_replacement = NULL,
+                           bottom = NULL,
+                           bottom_replacement = NULL ,
+                           closing = NULL,
+                           closing_replacement = NULL) {
 
-    tab = gsub("begin\\{table\\}\\[htp\\]\\n",
-                paste0("begin\\{table\\}\\[htp\\]\\\n\\\\centering\\\n",
-                       "\\\\setlength\\{\\\\tabcolsep\\}\\{", tabcolsep,
-                       "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
-                       arraystretch,
-                       "\\}\\\n\\\\begin\\{threeparttable\\}\\\n"),
-                 tab)
+    if (is.null(header)) {
+        header = "begin\\{table\\}\\[htp\\]\\n"
+    }
+    if (is.null(header_replacement)) {
+        header_replacement = paste0("begin\\{table\\}\\[htp\\]\\\n",
+                                    "\\\\setlength\\{\\\\tabcolsep\\}\\{",
+                                    tabcolsep,
+                                    "pt\\}\\\n\\\\renewcommand\\{\\\\arraystretch\\}\\{",
+                                    arraystretch,
+                                    "\\}\\\n",
+                                    "\\\\begin\\{center\\}\\\n",
+                                    "\\\\scriptsize\\\n",
+                                    "\\\\begin\\{threeparttable\\}\\\n")
+    }
+    tab = gsub(header, header_replacement, tab)
 
-    tab = gsub("end\\{tabular\\}\\n",
-                paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
-                       comment,
-                       "\\\n\\\\end{tablenotes}\\\n"),
-                tab)
+    if (is.null(bottom)) {
+        bottom = "end\\{tabular\\}\\n"
+    }
+    if (is.null(bottom_replacement)) {
+        bottom_replacement = paste0("end\\{tabular\\}\\\n\\\\begin{tablenotes}\\\n\\\\scriptsize\\\n\\\\item ",
+                                    comment,
+                                    "\\\n\\\\end{tablenotes}\\\n")
+    }
+    tab = gsub(bottom, bottom_replacement, tab)
 
-    tab = gsub("end\\{center\\}\\n",
-                paste0("end\\{center\\}\\\n\\\\end{threeparttable}\\\n"),
-                tab)
+    if (is.null(closing)) {
+        closing = "end\\{table\\}\\n"
+    }
+    if (is.null(closing_replacement)) {
+        closing_replacement = paste0("end{threeparttable}\\\n",
+                                     "\\\\end\\{center\\}\\\n",
+                                     "\\\\end\\{table\\}\\\n"
+                                    )
+    }
+    tab = gsub(closing, closing_replacement, tab)
 
     cat(tab, file = filename)
 
@@ -823,7 +1034,8 @@ tableWeights = function(list_weights, model_names,
             align = "llcccccc"),
             include.rownames = FALSE,
             caption.placement = "top",
-            table.placement = "htp"
+            table.placement = "htp",
+            sanitize.text.function = identity
         )
 
     tab = gsub("begin\\{table\\}\\[htp\\]\\n",

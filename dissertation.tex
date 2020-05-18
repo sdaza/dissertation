@@ -40,8 +40,14 @@
 \setlength{\cftbeforesecskip}{6pt}
 % \setlength{\cftbeforesecskip}{6pt}
 
-\usepackage[authoryear, sectionbib]{natbib}
-\bibliographystyle{apa}
+\usepackage[natbib, style=apa, backend=biber]{biblatex}
+\addbibresource{ref.bib}
+
+\usepackage[american]{babel}
+\DeclareLanguageMapping{american}{american-apa}
+
+% \usepackage[authoryear, sectionbib]{natbib}
+% \bibliographystyle{apa}
 \newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
 
 % \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
@@ -71,9 +77,6 @@
 % \setlength\parskip{11pt}
 %\renewcommand{\sfdefault}{lmss}
 %\renewcommand{\ttdefault}{lmtt}
-
-% citation style
-\setcitestyle{aysep={}}
 
 % tables
 \setlength{\tabcolsep}{1pt}
@@ -110,7 +113,6 @@
 \setlength{\footskip}{.7in}
 \setlength\parskip{12pt}
 
-
 % Alter some LaTeX defaults for better treatment of figures:
 \renewcommand{\topfraction}{0.9}  % max fraction of floats at top
 \renewcommand{\bottomfraction}{0.8}  % max fraction of floats at bottom
@@ -141,7 +143,6 @@ Chapter \thechapter\enspace}
 \titleformat*{\subsubsection}{\normalsize\itshape}
 % \titleformat*{\paragraph}{\large\bfseries}
 % \titleformat*{\subparagraph}{\large\bfseries}
-
 % \renewcommand\bibname{\Large{References}}
 
 % tables
@@ -230,19 +231,18 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 
 \newpage
 
-\import{ch00/manuscript/}{manuscript}
+% \import{ch00/manuscript/}{manuscript}
 \import{ch01/manuscript/}{manuscript}
 \import{ch02/manuscript/}{manuscript}
 \import{ch03/manuscript/}{manuscript}
-\import{ch04/manuscript/}{manuscript}
-\import{ch05/manuscript/}{manuscript}
-
+% \import{ch04/manuscript/}{manuscript}
+% \import{ch05/manuscript/}{manuscript}
 %TC:ignore
 
-\clearpage
-\singlespacing
-\setlength\parskip{12pt}
-\bibliography{ref}
+\newpage
+\setlength\bibitemsep{5pt}
+\printbibliography[heading=bibintoc]
+
 
 %TC:endignore
 

@@ -1,0 +1,31 @@
+
+\begin{table}[htp]
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{0.8}
+\begin{center}
+\scriptsize
+\begin{threeparttable}
+\caption{Unadjusted estimates of average exposure (continuous) \newline on health indicators, PSID}
+\begin{tabular}{l D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} }
+\toprule
+ & \multicolumn{1}{c}{Health status} & \multicolumn{1}{c}{BMI} & \multicolumn{1}{c}{Depression} & \multicolumn{1}{c}{Smoking} & \multicolumn{1}{c}{Number cigarettes smoked last month} \\
+\midrule
+Rank-rank                   & -0.09^{*} & 0.40^{*} & 0.02   & 0.08   & 0.07   \\
+                            & (0.04)    & (0.18)   & (0.01) & (0.06) & (0.06) \\
+Upward mobility $\times$ -1 & 0.12^{*}  & -0.29    & -0.02  & -0.05  & -0.07  \\
+                            & (0.05)    & (0.19)   & (0.02) & (0.06) & (0.06) \\
+Gini                        & -0.01     & 0.13     & -0.00  & -0.05  & -0.05  \\
+                            & (0.05)    & (0.15)   & (0.01) & (0.05) & (0.04) \\
+\midrule
+Individuals                 & 3041      & 3041     & 3041   & 3041   & 3041   \\
+\bottomrule
+
+\end{tabular}
+\begin{tablenotes}
+\scriptsize
+\item Each coefficient represents a model. Coefficients and standard errors are combined estimates from 20 multiple imputed datasets. Analyses based on exposure from 1 to 20 years old. We estimate different models depending on the outcome: Ordinal regression (self-reported health), Generalized linear model (BMI, depression), Logistic regression (smoking), Poisson regression (number of cigarettes smoked last month). $^{***}p<0.001$, $^{**}p<0.01$, $^*p<0.05$
+\end{tablenotes}
+\label{tab:psid_unadjusted_q_models}
+\end{threeparttable}
+\end{center}
+\end{table}
