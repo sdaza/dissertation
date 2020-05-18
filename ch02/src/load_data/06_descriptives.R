@@ -55,6 +55,8 @@ nrow(covs)
 
 # correlations
 cor(covs[, .(relative_mob, absolute_mob)])
+counties = unique(covs$county)
+
 
 # summary of values
 summaryfun = function(x) {
@@ -79,11 +81,12 @@ ss = rbindlist(ss)
 
 # define variable names
 var_labs = c('Relative income mobility', 'Absolute income mobility',
-             'Gini coefficient', 'Population 2000', 'Household income', 'Income segregation',
-             'Unemployment rate', '% Hispanic', '% African-American', '% Uninsured',
-             'Medicare expenses')
+             'Gini coefficient', 'Population 2000', 'Household income',
+             'Income segregation', 'Unemployment rate',
+             '% Hispanic', '% African-American',
+             '% Uninsured', 'Medicare expenses')
 
-ss[, Variable := var_labs ]
+ss[, Variable := var_labs]
 
 # create xtable object and print
 tab = xtable(ss)
@@ -112,11 +115,24 @@ cov[, q_gini := cut(gini, quantile(gini, probs=0:10/10),
 table(cov$q_gini)
 table(cov$q_relative_mob)
 
+# select counties
+cov = cov[cty %in% counties]
+dim(cov)
+
 tab = data.table(table(cov[, q_relative_mob, q_gini]))
 names(tab)
+dim(cov)
 
 table(tab$N)
 
+# create scatter-plot mobility and inequality
+savepdf('output/scatterplot_mob_gini')
+print(
+    ggplot(cov, aes(x = gini, y = relative_mob)) +
+           geom_point(color = "gray37", alpha=0.3) +
+           theme_minimal() +
+           labs(x = '\n Gini index', y = 'Relative income mobility\n'))
+dev.off()
 
 # create heatmap mobility and inequality
 savepdf('output/heatmap_mob_gini')
