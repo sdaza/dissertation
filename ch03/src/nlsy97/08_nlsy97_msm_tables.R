@@ -1,6 +1,6 @@
 ##############################
 # county income mobility and individual health
-# model tables
+# NSLY97 model tables
 # author: sebastian daza
 ##############################
 

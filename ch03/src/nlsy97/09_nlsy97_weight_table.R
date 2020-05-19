@@ -1,6 +1,6 @@
 ##############################
 # county income mobility and individual health
-# model tables
+# NLSY IPT weights table
 # author: sebastian daza
 ##############################
 

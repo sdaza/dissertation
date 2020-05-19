@@ -560,7 +560,7 @@ ipwExposure = function(
     # loop over imputations to compute weights
     for (i in nimputations) {
 
-        print(paste0("Number of imputation ", i))
+        # print(paste0("Number of imputation ", i))
         dat = imputations[imp_num == i]
 
         # set order first
@@ -739,7 +739,7 @@ ipwExposure = function(
 
         for (h in seq_along(outcomes)) {
 
-            print(paste0(":::: Running ", outcomes[h]))
+            # print(paste0(":::: Running ", outcomes[h]))
 
             final_model = formula(paste0(outcomes[h], " ~ ", predictors))
 

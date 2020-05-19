@@ -33,7 +33,7 @@ getDescriptives = function(x) {
 }
 
 # colnames
-colnames =  c("Mean", "SD", "Min", "Max", "\\% Missing", "Valid observations")
+colnames =  c("Mean", "SD", "Min", "Max", "\\% Missing", "Observations")
 
 # time invariant variables
 varnames = list(
