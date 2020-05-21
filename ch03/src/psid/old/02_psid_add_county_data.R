@@ -104,7 +104,8 @@ summary(data$nmoves)
 table(data$time)
 
 moves = data[time <= 20 & head_wife == 1, .(moves = max(nmoves), 
-     missing_fips = sum(flag_missing_fips)), pid]
+                           missing_fips = sum(flag_missing_fips)), 
+             pid]
 
 nrow(moves)
 
