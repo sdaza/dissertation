@@ -16,7 +16,7 @@ cty10 = fread('data/county2010.csv')
 setnames(cty00, names(cty00), tolower(names(cty00)))
 setnames(cty10, names(cty10), tolower(names(cty10)))
 
-# select 2010 counties before 2013 and with valid codes 
+# select 2010 counties before 2013 and with valid codes
 cty10 = cty10[state10 <98 & county10 < 999]
 cty10[, fips := state10 * 1000 + county10]
 
@@ -69,8 +69,9 @@ countmis(data[, .(fn, fips, imp_fips)])
 # add county info
 county = readRDS("output/data/chetty_county_data.rds")
 data = merge(data, county, by = "imp_fips", all.x = TRUE)
+data = data[first_year >= 1975]
 
-# 172 cases without mobility data
+# 85 cases without mobility data
 remove_ids = unique(data[head_wife == 1 & (is.na(z_relative_mob) | is.na(z_gini)), pid])
 
 print(
@@ -103,7 +104,7 @@ table(data$nmoves)
 summary(data$nmoves)
 table(data$time)
 
-moves = data[time <= 20 & head_wife == 1, .(moves = max(nmoves), 
+moves = data[time <= 20 & head_wife == 1, .(moves = max(nmoves),
      missing_fips = sum(flag_missing_fips)), pid]
 
 nrow(moves)

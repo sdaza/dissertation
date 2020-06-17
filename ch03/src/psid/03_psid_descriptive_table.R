@@ -57,7 +57,7 @@ colnamesPaper =  c("Mean", "SD", "\\% Missing", "Observations")
 varnames = list(
     c("male", "max_age", "first_year", "race", "weight_less_55", "mother_marital_status", "mother_age"),
     c("move_once"),
-    c("famsize", "head_marital_status", "head_education", "head_owns_house", "head_working_binary", 
+    c("famsize", "head_marital_status", "head_education", "head_owns_house", "head_working_binary",
         "log_income_adj", "log_county_income", "log_population", "prop_black","nmoves"),
     c("relative_mob", "q_relative_mob", "relative_mob_resid",  "q_relative_mob_resid",
         "absolute_mob", "q_absolute_mob", "absolute_mob_resid", "q_absolute_mob_resid",
@@ -154,9 +154,10 @@ createDescriptiveTable(datalist,
 
 
 # create plot of mobility against population + data coverage
-observed_counties = unique(readRDS("output/data/psid_data_ready_for_imputation_county_info.rds")$imp_fips)
+observed_counties = unique(readRDS("output/data/psid_data_ready_for_imputation_county_info.rds")[
+    head_wife == 1 & first_year >= 1975, imp_fips])
 head(observed_counties)
-county = readRDS("output/data/chetty_county_data.rds")                            
+county = readRDS("output/data/chetty_county_data.rds")
 
 names(county)
 summary(county$log_population)
@@ -168,7 +169,7 @@ table(county[matched == "PSID sample", statename])
 
 savepdf("output/plots/psid_county_sample_relative_mob")
 print(
-ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) + 
+ggplot(county, aes(log_population, z_relative_mob, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Relative mobility (z-score)\n") +
     theme_minimal() +
@@ -178,7 +179,7 @@ dev.off()
 
 savepdf("output/plots/psid_county_sample_absolute_mob")
 print(
-ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) + 
+ggplot(county, aes(log_population, z_absolute_mob, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Absolute mobility (z-score)\n") +
     theme_minimal() +
@@ -188,7 +189,7 @@ dev.off()
 
 savepdf("output/plots/psid_county_sample_gini")
 print(
-ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) + 
+ggplot(county, aes(log_population, z_gini, color = matched, fill = matched)) +
     geom_point(alpha = 0.25) + scale_color_manual(values = c("#2b8cbe", "#f03b20")) +
     labs(x = "\nLog population (centered)", y = "Gini coefficient (z-score)\n") +
     theme_minimal() +
