@@ -19,28 +19,28 @@ models = c(unadjusted, adjusted)
 n_imputations = 20
 
 dat = readRDS("output/data/psid_data_ready_for_imputation_county_info.rds")
-N = length(unique(dat[head_wife == 1, pid]))
+N = length(unique(dat[head_wife == 1 & first_year >= 1975, pid]))
 rm(dat)
 
 # continous exposure table
-model_names = c("unadjusted_relative_mob_resid_results",
-    "unadjusted_absolute_mob_resid_results",
-    "unadjusted_gini_resid_results",
-    "adjusted_relative_mob_resid_results",
-    "adjusted_absolute_mob_resid_results",
-    "adjusted_gini_resid_results")
+model_names = c("unadjusted_z_relative_mob_results",
+    "unadjusted_z_absolute_mob_results",
+    "unadjusted_z_gini_results",
+    "adjusted_z_relative_mob_results",
+    "adjusted_z_absolute_mob_results",
+    "adjusted_z_gini_results")
 
 list_rows = list()
 for (i in seq_along(model_names)) {
     list_rows[[i]] = models[[model_names[i]]]
 }
 
-row_names = c("average_relative_mob_resid",
-    "average_absolute_mob_resid",
-    "average_gini_resid",
-    "average_relative_mob_resid",
-    "average_absolute_mob_resid",
-    "average_gini_resid"
+row_names = c("average_z_relative_mob",
+    "average_z_absolute_mob",
+    "average_z_gini",
+    "average_z_relative_mob",
+    "average_z_absolute_mob",
+    "average_z_gini"
 )
 
 row_labels = c("Rank-rank",
@@ -79,24 +79,24 @@ createModelTables(
 )
 
 # categorical exposure table
-model_names = c("unadjusted_q_relative_mob_resid_results",
-    "unadjusted_q_absolute_mob_resid_results",
-    "unadjusted_q_gini_resid_results",
-    "adjusted_q_relative_mob_resid_results",
-    "adjusted_q_absolute_mob_resid_results",
-    "adjusted_q_gini_resid_results")
+model_names = c("unadjusted_q_relative_mob_results",
+    "unadjusted_q_absolute_mob_results",
+    "unadjusted_q_gini_results",
+    "adjusted_q_relative_mob_results",
+    "adjusted_q_absolute_mob_results",
+    "adjusted_q_gini_results")
 
 list_rows = list()
 for (i in seq_along(model_names)) {
     list_rows[[i]] = models[[model_names[i]]]
 }
 
-row_names = c("average_q_relative_mob_resid",
-    "average_q_absolute_mob_resid",
-    "average_q_gini_resid",
-    "average_q_relative_mob_resid",
-    "average_q_absolute_mob_resid",
-    "average_q_gini_resid"
+row_names = c("average_q_relative_mob",
+    "average_q_absolute_mob",
+    "average_q_gini",
+    "average_q_relative_mob",
+    "average_q_absolute_mob",
+    "average_q_gini"
 )
 
 row_labels = c("Rank-rank",
