@@ -11,6 +11,7 @@ dissertation.*
 .slackr
 .Rhistory
 /related_projects
+/notes
 
 # chapters
 /ch02/data/mortality/
@@ -29,6 +30,7 @@ ch03/src/old/
 ch03/src/nlsy97/old
 ch03/src/psid/old
 ch03/src/testing
+
 
 # chapter 4
 
