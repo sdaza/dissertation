@@ -1,6 +1,6 @@
 ##############################
 # county income mobility and individual health
-# model tables
+# NSLY97 model tables
 # author: sebastian daza
 ##############################
 
@@ -52,8 +52,8 @@ row_labels = c("Rank-rank",
                )
 
 column_names = c("Health status", "BMI", "Depression", "Smoking", "Days smoking last month")
-caption = "Estimates of average continuous exposure on health indicators, NLSY97"
-label = "tab:nlsy97_z_models"
+caption = "Estimates of average residualized continuous exposure on health indicators, NLSY97"
+label = "tab:nlsy97_zr_models"
 
 comment = longText(paste0(
     paste0("Each coefficient represents a model. Coefficients and standard errors are combined estimates from ", n_imputations, " multiple imputed datasets. "),
@@ -71,7 +71,7 @@ createModelTables(
     column_names = column_names,
     row_names = row_names,
     row_labels = row_labels,
-    filename = "output/tables/nlsy97_z_models.tex",
+    filename = "output/tables/nlsy97_zr_models.tex",
     comment = comment,
     groups = groups,
     observations = N
@@ -107,8 +107,8 @@ row_labels = c("Rank-rank",
                )
 
 column_names = c("Health status", "BMI", "Depression", "Smoking", "Days smoking last month")
-caption = "Estimates of average categorical (quintile) exposure on health indicators, NLSY97"
-label = "tab:nlsy97_q_models"
+caption = "Estimates of average residualized categorical (quintile) exposure on health indicators, NLSY97"
+label = "tab:nlsy97_qr_models"
 
 groups = list("Unadjusted models" = 1:3,
               "Adjusted models" = 4:6
@@ -121,7 +121,7 @@ createModelTables(
     column_names = column_names,
     row_names = row_names,
     row_labels = row_labels,
-    filename = "output/tables/nlsy97_q_models.tex",
+    filename = "output/tables/nlsy97_qr_models.tex",
     comment = comment,
     groups = groups,
     observations = N

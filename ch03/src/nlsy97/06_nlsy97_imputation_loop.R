@@ -4,7 +4,7 @@
 # imputation parameters
 number_cores = 10
 imputations_per_core = 2
-iterations = 10
+iterations = 20
 
 # create fluxplot
 savepdf("output/plots/nlsy97_fluxplot")
@@ -51,30 +51,18 @@ for (i in seq_along(filenames)) {
     pred[,] = 0
 
     methods = hash(
-        "hhsize" = "2l.pmm",
-        "z_relative_mob" = "",
-        "z_absolute_mob" = "",
-        "z_gini" = "",
-        "relative_mob_resid" = "",
-        "absolute_mob_resid" = "",
-        "gini_resid" = "",
-        "q_relative_mob_resid" = "",
-        "q_absolute_mob_resid" = "",
-        "q_gini_resid" = "",
-        "q_relative_mob" = "",
-        "q_absolute_mob" = "",
-        "q_gini" = "",
-        "log_population" = "",
-        "log_county_income" = "",
-        "z_prop_black" = "",
-        "log_income_adj" = "2l.pmm",
-        "imp_living_any_parent" = "2l.pmm",
-        "imp_parent_employed" = "2l.pmm",
-        "imp_parent_married" = "2l.pmm",
+        # time invariant
         "parent_education" = "2lonly.pmm",
         "mother_age_at_birth" = "2lonly.pmm",
         "residential_moves_by_12" = "2lonly.pmm",
         "asvab_score" = "2lonly.pmm",
+        # time variant
+        "hhsize" = "2l.pmm",
+        "log_income_adj" = "2l.pmm",
+        "imp_living_any_parent" = "2l.pmm",
+        "imp_parent_employed" = "2l.pmm",
+        "imp_parent_married" = "2l.pmm",
+        # outcomes
         "rev_health" = "2l.pmm",
         "bmi" = "2l.pmm",
         "depression" = "2l.pmm",
@@ -86,11 +74,27 @@ for (i in seq_along(filenames)) {
 
     # predictors
     predictors = hash(
+        # time invariant
         "id" = -2,
         "male" = 1,
         "ethnicity" = 1,
         "csweight" = 1,
+        "parent_education" = 1,
+        "mother_age_at_birth" = 1,
+        "residential_moves_by_12" = 1,
+        "asvab_score" = 1,
+        # time variant
         "age_interview_est" = 1,
+        "log_population" = 1,
+        "log_county_income" = 1,
+        "z_prop_black" = 1,
+        "log_income_adj" = 1,
+        "hhsize" = 1,
+        "nmoves" = 1,
+        "imp_living_any_parent" = 1,
+        "imp_parent_employed" = 1,
+        "imp_parent_married" = 1,
+        # exposure
         "z_relative_mob" = 0,
         "z_absolute_mob" = 0,
         "z_gini" = 0,
@@ -103,19 +107,7 @@ for (i in seq_along(filenames)) {
         "q_relative_mob_resid" = 0,
         "q_absolute_mob_resid" = 0,
         "q_gini_resid" = 0,
-        "log_population" = 1,
-        "log_county_income" = 1,
-        "z_prop_black" = 1,
-        "log_income_adj" = 1,
-        "hhsize" = 1,
-        "nmoves" = 1,
-        "imp_living_any_parent" = 1,
-        "imp_parent_employed" = 1,
-        "imp_parent_married" = 1,
-        "parent_education" = 1,
-        "mother_age_at_birth" = 1,
-        "residential_moves_by_12" = 1,
-        "asvab_score" = 1,
+        # outcome
         "rev_health" = 0,
         "bmi" = 0,
         "depression" = 0,
@@ -157,7 +149,6 @@ for (i in seq_along(filenames)) {
         mm,
         predictorMatrix = pred,
         method = meth,
-        vis = "monotone",
         n.core = number_cores,
         n.imp.core = imputations_per_core,
         maxit = iterations,
@@ -189,11 +180,7 @@ for (i in seq_along(filenames)) {
             residential_moves_by_12))
     dev.off()
 
-    remove objects
+    # remove objects
     rm(imp, pred, meth)
 
 }
-
-
-
-
