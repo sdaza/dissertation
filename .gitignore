@@ -9,6 +9,8 @@ dissertation.*
 .Rapp.history
 .vscode
 .slackr
+.Rhistory
+/related_projects
 
 # chapters
 /ch02/data/mortality/
@@ -30,9 +32,3 @@ ch03/src/old/*
 # related projects
 related_projects/.DS_Store
 related_projects/health_inequality_project/data/.DS_Store
-
-#  other
-.Rhistory
-.DS_Store
-.gitignore
-/related_projects

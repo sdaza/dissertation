@@ -1,0 +1,41 @@
+
+\begin{table}[htp]
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{0.8}
+\begin{center}
+\scriptsize
+\begin{threeparttable}
+\caption{Estimates of average continuous exposure on health indicators, PSID}
+\begin{tabular}{l D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} D{.}{.}{4.3} }
+\toprule
+ & \multicolumn{1}{c}{Health status} & \multicolumn{1}{c}{BMI} & \multicolumn{1}{c}{Depression} & \multicolumn{1}{c}{Smoking} & \multicolumn{1}{c}{Cigarettes smoked} \\
+\midrule
+Unadjusted models                     &           &        &        &        &           \\
+                                      &           &        &        &        &           \\
+\quad Rank-rank (1)                   & -0.14^{*} & 0.58   & 0.02   & 0.13   & 0.10      \\
+                                      & (0.07)    & (0.30) & (0.03) & (0.11) & (0.11)    \\
+\quad Upward mobility $\times$ -1 (1) & -0.14^{*} & 0.47   & 0.02   & -0.05  & -0.03     \\
+                                      & (0.07)    & (0.28) & (0.03) & (0.14) & (0.12)    \\
+\quad Gini (1)                        & -0.01     & 0.18   & -0.01  & -0.12  & -0.13^{*} \\
+                                      & (0.08)    & (0.22) & (0.02) & (0.08) & (0.07)    \\
+Adjusted models                       &           &        &        &        &           \\
+                                      &           &        &        &        &           \\
+\quad Rank-rank (2)                   & -0.06     & 0.34   & 0.03   & 0.10   & 0.04      \\
+                                      & (0.08)    & (0.28) & (0.03) & (0.12) & (0.11)    \\
+\quad Upward mobility $\times$ -1 (2) & -0.07     & 0.58   & 0.07   & -0.05  & -0.09     \\
+                                      & (0.10)    & (0.32) & (0.04) & (0.14) & (0.14)    \\
+\quad Gini (2)                        & -0.02     & 0.27   & -0.02  & -0.15  & -0.22^{*} \\
+                                      & (0.12)    & (0.29) & (0.03) & (0.13) & (0.09)    \\
+\midrule
+Individuals                           & 2273      & 2273   & 2273   & 2273   & 2273      \\
+\bottomrule
+
+\end{tabular}
+\begin{tablenotes}
+\scriptsize
+\item Each coefficient represents a model. Coefficients and standard errors are combined estimates from 20 multiple imputed datasets. Analyses based on exposure from 1 to 20 years old. We estimate different models depending on the outcome: Ordinal regression (self-reported health), General linear model (BMI, depression), Logistic regression (smoking), Quasi-Poisson regression (cigarettes smoked). $^{***}p<0.001$, $^{**}p<0.01$, $^*p<0.05$
+\end{tablenotes}
+\label{tab:psid_z_models}
+\end{threeparttable}
+\end{center}
+\end{table}
