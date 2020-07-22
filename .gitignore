@@ -26,6 +26,8 @@ ch03/src/*.do
 ch03/output/data/*.rd
 ch03/output/data/*.rds
 ch03/src/old/
+ch03/src/nlsy97/old
+ch03/src/psid/old
 ch03/src/testing
 
 # chapter 4
