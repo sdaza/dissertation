@@ -40,11 +40,12 @@
 \setlength{\cftbeforesecskip}{6pt}
 % \setlength{\cftbeforesecskip}{6pt}
 
-\usepackage[natbib, style=apa, backend=biber]{biblatex}
+
+\usepackage[natbib, style=chicago-authordate, doi=false, isbn=false, url=false, backend=biber]{biblatex}
 \addbibresource{ref.bib}
 
-\usepackage[american]{babel}
-\DeclareLanguageMapping{american}{american-apa}
+% \usepackage[american]{babel}
+% \DeclareLanguageMapping{american}{american-apa}
 
 % \usepackage[authoryear, sectionbib]{natbib}
 % \bibliographystyle{apa}
@@ -201,6 +202,7 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 \noindent Alberto Palloni, Samuel Preston Professor (Emeritus), Sociology\\
 \noindent Christine Schwartz, Achievement Professor, Sociology\\
 \noindent Michal Engelman, Associate Professor, Sociology
+\noindent John Mullahy, Professor of Population Health Sciences
 
 \pagenumbering{roman}
 \setcounter{page}{1}
@@ -230,13 +232,14 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 % chapters
 
 \newpage
+% \doublespacing
 
-% \import{ch00/manuscript/}{manuscript}
+\import{ch00/manuscript/}{manuscript}
 \import{ch01/manuscript/}{manuscript}
 \import{ch02/manuscript/}{manuscript}
 \import{ch03/manuscript/}{manuscript}
-% \import{ch04/manuscript/}{manuscript}
-% \import{ch05/manuscript/}{manuscript}
+\import{ch04/manuscript/}{manuscript}
+\import{ch05/manuscript/}{manuscript}
 %TC:ignore
 
 \newpage

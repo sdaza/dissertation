@@ -25,7 +25,8 @@ ch03/data/
 ch03/src/*.do
 ch03/output/data/*.rd
 ch03/output/data/*.rds
-ch03/src/old/*
+ch03/src/old/
+ch03/src/testing
 
 # chapter 4
 
