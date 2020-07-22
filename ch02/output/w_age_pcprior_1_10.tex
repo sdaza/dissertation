@@ -1,0 +1,48 @@
+
+\begin{sidewaystable}[htp]
+\caption{County Level Poisson Models Relative Mobility \newline PC prior $= Pr(\sigma > 1) < 0.10$, Women, CDC 2000-2014}
+\begin{center}
+\scalebox{0.65}{
+\begin{tabular}{l D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} }
+\toprule
+ & \multicolumn{1}{c}{Baseline} & \multicolumn{1}{c}{Varying-Coefficient} & \multicolumn{1}{c}{Relative mobility x Gini} & \multicolumn{1}{c}{Relative mobility x Income} & \multicolumn{1}{c}{Covariates} & \multicolumn{1}{c}{Spatial} \\
+\midrule
+Constant                       & -5.81           & -5.82           & -5.82           & -5.82           & -5.82           & -5.82           \\
+                               & [-6.69;\ -4.93] & [-6.71;\ -4.93] & [-6.72;\ -4.93] & [-6.73;\ -4.90] & [-6.73;\ -4.92] & [-6.72;\ -4.92] \\
+Income relative mobility       & 0.07            & 0.10            & 0.10            & 0.10            & 0.09            & 0.08            \\
+                               & [0.06;\ 0.07]   & [0.07;\ 0.13]   & [0.07;\ 0.13]   & [0.07;\ 0.13]   & [0.06;\ 0.12]   & [0.05;\ 0.11]   \\
+Gini                           & 0.02            & 0.01            & 0.01            & 0.01            & 0.01            & 0.02            \\
+                               & [0.01;\ 0.02]   & [-0.00;\ 0.03]  & [-0.00;\ 0.03]  & [-0.00;\ 0.03]  & [-0.00;\ 0.03]  & [-0.00;\ 0.04]  \\
+Log income                     & -0.38           & -0.37           & -0.37           & -0.36           & -0.28           & -0.27           \\
+                               & [-0.40;\ -0.35] & [-0.39;\ -0.34] & [-0.39;\ -0.34] & [-0.38;\ -0.33] & [-0.31;\ -0.25] & [-0.30;\ -0.24] \\
+Relative mobility x Gini       &                 &                 & 0.01            &                 &                 &                 \\
+                               &                 &                 & [0.00;\ 0.01]   &                 &                 &                 \\
+Relative mobility x Log income &                 &                 &                 & 0.04            &                 &                 \\
+                               &                 &                 &                 & [0.02;\ 0.06]   &                 &                 \\
+Random Effects                 &                 &                 &                 &                 &                 &                 \\
+                               &                 &                 &                 &                 &                 &                 \\
+\quad SD observations          & 0.13            & 0.10            & 0.10            & 0.10            & 0.10            & 0.10            \\
+                               & [0.12;\ 0.13]   & [0.10;\ 0.10]   & [0.10;\ 0.10]   & [0.10;\ 0.10]   & [0.10;\ 0.10]   & [0.10;\ 0.10]   \\
+\quad SD age group             & 1.87            & 1.90            & 1.92            & 1.96            & 1.93            & 1.91            \\
+                               & [1.45;\ 2.55]   & [1.42;\ 2.54]   & [1.42;\ 2.62]   & [1.42;\ 2.60]   & [1.41;\ 2.51]   & [1.41;\ 2.56]   \\
+\quad SD counties              & 0.10            & 0.10            & 0.10            & 0.10            & 0.09            & 0.12            \\
+                               & [0.10;\ 0.10]   & [0.09;\ 0.10]   & [0.09;\ 0.10]   & [0.09;\ 0.10]   & [0.09;\ 0.09]   & [0.11;\ 0.12]   \\
+\quad Phi counties             &                 &                 &                 &                 &                 & 1.12            \\
+                               &                 &                 &                 &                 &                 & [1.09;\ 1.17]   \\
+\quad SD states                & 0.07            & 0.07            & 0.07            & 0.07            & 0.06            & 0.05            \\
+                               & [0.06;\ 0.09]   & [0.06;\ 0.09]   & [0.06;\ 0.09]   & [0.06;\ 0.09]   & [0.05;\ 0.08]   & [0.03;\ 0.06]   \\
+\quad SD mobility by age       &                 & 0.06            & 0.06            & 0.06            & 0.06            & 0.06            \\
+                               &                 & [0.05;\ 0.09]   & [0.04;\ 0.09]   & [0.05;\ 0.09]   & [0.05;\ 0.09]   & [0.05;\ 0.09]   \\
+\quad SD gini by age           &                 & 0.04            & 0.04            & 0.04            & 0.04            & 0.04            \\
+                               &                 & [0.03;\ 0.05]   & [0.03;\ 0.05]   & [0.03;\ 0.05]   & [0.03;\ 0.05]   & [0.03;\ 0.05]   \\
+\midrule
+DIC                            & 365579          & 364194          & 364196          & 364194          & 364133          & 364053          \\
+WAIC                           & 363118          & 362578          & 362581          & 362574          & 362506          & 362443          \\
+\bottomrule
+\multicolumn{7}{l}{\scriptsize{Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \texttt{log(population)}. 95\% credibility intervals.}}
+\end{tabular}
+}
+\label{tbl:w_age_pcprior_1_10}
+\end{center}
+\end{sidewaystable}
