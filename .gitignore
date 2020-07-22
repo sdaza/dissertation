@@ -1,25 +1,15 @@
 
 # general
+.DS_Store
 .gitignore
 pardiso.lic
-*.aux
-*.fdb_latexmk
-*.fls
-*.lot
-*.out
-*.log
-*.sta
-*.synctex.gz
-*.toc
-*.lof
-*.pdf
-/Output/
+dissertation.*
+*.bib
+!dissertation.tex
 .Rapp.history
 .vscode
 
-# chapter 1
-/ch02/Output/
-# chapter 2
+
 /ch02/data/mortality/
 /ch02/data/population/
 /ch02/output/*.rds
