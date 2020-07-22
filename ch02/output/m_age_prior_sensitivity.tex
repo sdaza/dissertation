@@ -1,0 +1,40 @@
+
+\begin{table}[htp]
+\caption{County Level Poisson Models, Prior Sensitivity, Men, CDC 2000-2014}
+\begin{center}
+\scalebox{0.65}{
+\begin{tabular}{l D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} D{.}{.}{6.11} }
+\toprule
+ & \multicolumn{1}{c}{INLA Default} & \multicolumn{1}{c}{PC(1, .10)} & \multicolumn{1}{c}{PC(10, .10)} & \multicolumn{1}{c}{PC(10, 0.01)} \\
+\midrule
+Constant                 & -5.31           & -5.31           & -5.31           & -5.31           \\
+                         & [-6.23;\ -4.40] & [-6.19;\ -4.44] & [-6.31;\ -4.32] & [-6.26;\ -4.37] \\
+Income relative mobility & 0.07            & 0.07            & 0.07            & 0.07            \\
+                         & [0.05;\ 0.09]   & [0.05;\ 0.09]   & [0.05;\ 0.09]   & [0.05;\ 0.09]   \\
+Gini                     & 0.02            & 0.02            & 0.02            & 0.02            \\
+                         & [0.01;\ 0.04]   & [0.01;\ 0.04]   & [0.01;\ 0.04]   & [0.01;\ 0.04]   \\
+Random Effects           &                 &                 &                 &                 \\
+                         &                 &                 &                 &                 \\
+\quad SD observations    & 0.12            & 0.12            & 0.12            & 0.12            \\
+                         & [0.12;\ 0.13]   & [0.12;\ 0.13]   & [0.12;\ 0.13]   & [0.12;\ 0.13]   \\
+\quad SD age group       & 1.93            & 1.86            & 2.11            & 1.98            \\
+                         & [1.33;\ 2.64]   & [1.32;\ 2.50]   & [1.46;\ 2.90]   & [1.40;\ 2.83]   \\
+\quad SD counties        & 0.10            & 0.10            & 0.10            & 0.10            \\
+                         & [0.10;\ 0.11]   & [0.10;\ 0.11]   & [0.10;\ 0.11]   & [0.10;\ 0.11]   \\
+\quad SD states          & 0.06            & 0.06            & 0.06            & 0.06            \\
+                         & [0.05;\ 0.08]   & [0.05;\ 0.08]   & [0.05;\ 0.08]   & [0.04;\ 0.08]   \\
+\quad SD mobility by age & 0.04            & 0.04            & 0.04            & 0.05            \\
+                         & [0.03;\ 0.05]   & [0.03;\ 0.06]   & [0.03;\ 0.06]   & [0.03;\ 0.06]   \\
+\quad SD gini by age     & 0.03            & 0.04            & 0.04            & 0.03            \\
+                         & [0.02;\ 0.05]   & [0.02;\ 0.05]   & [0.03;\ 0.05]   & [0.02;\ 0.05]   \\
+\midrule
+DIC                      & 391844          & 391854          & 391858          & 391850          \\
+WAIC                     & 389682          & 389701          & 389714          & 389698          \\
+\bottomrule
+\multicolumn{5}{l}{\scriptsize{Note: Selected coefficients (mean of marginal posterior distribution).
+       Poisson model with offset = \texttt{log(population)}. 95\% credibility intervals.}}
+\end{tabular}
+}
+\label{tbl:m_age_prior_sensitivity}
+\end{center}
+\end{table}
