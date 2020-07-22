@@ -8,8 +8,9 @@ dissertation.*
 !dissertation.tex
 .Rapp.history
 .vscode
+.slackr
 
-
+# chapters
 /ch02/data/mortality/
 /ch02/data/population/
 /ch02/output/*.rds
@@ -22,6 +23,7 @@ ch03/data/
 ch03/src/*.do
 ch03/output/data/*.rd
 ch03/output/data/*.rds
+ch03/src/old/*
 
 # chapter 4
 
