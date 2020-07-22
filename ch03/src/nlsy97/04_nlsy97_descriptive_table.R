@@ -33,7 +33,7 @@ getDescriptives = function(x) {
 }
 
 # colnames
-colnames =  c("Mean", "SD", "Min", "Max", "\\% Missing", "Valid observations")
+colnames =  c("Mean", "SD", "Min", "Max", "\\% Missing", "Observations")
 
 # time invariant variables
 varnames = list(
@@ -140,6 +140,57 @@ county = readRDS("output/data/chetty_county_data.rds")
 county[, matched := factor(ifelse(imp_fips %in% observed_counties, "NLSY97 sample",
     "No NLSY97 sample"), levels = c("No NLSY97 sample", "NLSY97 sample"))]
 table(county$matched)
+
+# exploring correlations and tables
+county[, . (
+        abs = mean(as.numeric(q_absolute_mob), na.rm = TRUE),
+        abs_resid = mean(as.numeric(q_absolute_mob_resid), na.rm =TRUE)
+        ), matched]
+
+county[, .(
+        abs = mean(as.numeric(z_absolute_mob), na.rm = TRUE),
+        abs_resid = mean(as.numeric(absolute_mob_resid), na.rm =TRUE)
+        ), matched]
+
+3.0537 - 2.958
+0.02445127 - -0.01924758
+
+county[, .(
+        rel = mean(as.numeric(z_relative_mob), na.rm = TRUE),
+        rel_resid = mean(as.numeric(relative_mob_resid), na.rm =TRUE)
+        ), matched]
+
+county[, .(
+        rel = mean(as.numeric(q_relative_mob), na.rm = TRUE),
+        rel_resid = mean(as.numeric(q_relative_mob_resid), na.rm =TRUE)
+        ), matched]
+
+prop.table(table(county[!is.na(q_relative_mob), .(matched, q_relative_mob)]), 1)
+prop.table(table(county[!is.na(q_absolute_mob), .(matched, q_absolute_mob)]), 1)
+prop.table(table(county[!is.na(q_absolute_mob_resid), .(matched, q_absolute_mob_resid)]), 1)
+prop.table(table(county[!is.na(q_relative_mob_resid), .(matched, q_relative_mob_resid)]), 1)
+
+county[, .(
+        gini = mean(as.numeric(q_gini), na.rm = TRUE),
+        gini_resid = mean(as.numeric(q_gini_resid), na.rm =TRUE)
+        ), matched]
+
+
+county[, .(
+        mean(as.numeric(q_gini), na.rm = TRUE),
+        mean(as.numeric(q_gini_resid), na.rm =TRUE)
+        ), matched]
+
+prop.table(table(county[!is.na(q_relative_mob), .(matched, q_relative_mob)]), 1)
+prop.table(table(county[!is.na(q_absolute_mob), .(matched, q_absolute_mob)]), 1)
+
+cor(county[, .(as.numeric(q_relative_mob), as.numeric(q_absolute_mob))])
+cor(county[, .(as.numeric(log_population), as.numeric(z_absolute_mob))])
+cor(county[, .(as.numeric(log_population), as.numeric(absolute_mob_resid))])
+cor(county[, .(as.numeric(log_population), as.numeric(relative_mob_resid))])
+cor(county[, .(as.numeric(log_population), as.numeric(z_absolute_mob))])
+cor(county[, .(as.numeric(log_population), as.numeric(absolute_mob_resid))])
+
 
 table(county[matched == "NLSY97 sample", statename])
 

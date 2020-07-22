@@ -64,7 +64,7 @@ center_vars = c("hhsize", "asvab_score", "parent_education",
                 "mother_age_at_birth", "residential_moves_by_12",
                 "nmoves", "depression", "bmi")
 mm[, (center_vars) := lapply(.SD, scale, scale = FALSE), .SDcol = center_vars]
-mm[, csweight := scale(sweight, scale = TRUE)]
+mm[, csweight := scale(sweight, scale = FALSE)]
 mm[, rev_health := as.factor(rev_health)]
 mm[, age_interview_est := as.factor(age_interview_est)]
 

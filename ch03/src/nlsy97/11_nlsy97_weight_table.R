@@ -1,6 +1,6 @@
 ##############################
 # county income mobility and individual health
-# model tables
+# NLSY IPT weights table
 # author: sebastian daza
 ##############################
 
@@ -14,12 +14,12 @@ models = readRDS("output/data/nlsy97_adjusted_models.rds")
 n_imputations = 20
 
 # continous exposure table
-model_names = c("adjusted_relative_mob_resid_results",
-    "adjusted_absolute_mob_resid_results",
-    "adjusted_gini_resid_results",
-    "adjusted_q_relative_mob_resid_results",
-    "adjusted_q_absolute_mob_resid_results",
-    "adjusted_q_gini_resid_results")
+model_names = c("adjusted_z_relative_mob_results",
+    "adjusted_z_absolute_mob_results",
+    "adjusted_z_gini_results",
+    "adjusted_q_relative_mob_results",
+    "adjusted_q_absolute_mob_results",
+    "adjusted_q_gini_results")
 
 list_weights = list()
 for (i in seq_along(model_names)) {
@@ -34,7 +34,7 @@ tableWeights(list_weights,
     model_names = c("\\quad Rank-rank", "\\quad Upward mobility", "\\quad Gini",
         "\\quad Rank-rank", "\\quad Upward mobility", "\\quad Gini"),
     caption  = "NLSY97 Stabilized treatment weights",
-    label = "tab:nlsy97_ipt_weigths",
+    label = "tab:nlsy97_ipt_weigths_raw",
     comment = comment,
     filename = "output/tables/nlsy97_ipt_weights.tex",
     tabcolsep = 10,
