@@ -41,7 +41,8 @@
 % \setlength{\cftbeforesecskip}{6pt}
 
 
-\usepackage[natbib, style=chicago-authordate, doi=false, isbn=false, url=false, backend=biber]{biblatex}
+\usepackage[natbib, style=apa, doi=false, uniquename=false, eprint = false,
+    isbn=false, url=false, backend=biber]{biblatex}
 \addbibresource{ref.bib}
 
 % \usepackage[american]{babel}
@@ -201,7 +202,7 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 \noindent Jenna Nobles, Romnes Professor, Sociology \\
 \noindent Alberto Palloni, Samuel Preston Professor (Emeritus), Sociology\\
 \noindent Christine Schwartz, Achievement Professor, Sociology\\
-\noindent Michal Engelman, Associate Professor, Sociology
+\noindent Michal Engelman, Associate Professor, Sociology \\
 \noindent John Mullahy, Professor of Population Health Sciences
 
 \pagenumbering{roman}
@@ -240,10 +241,11 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 \import{ch03/manuscript/}{manuscript}
 \import{ch04/manuscript/}{manuscript}
 \import{ch05/manuscript/}{manuscript}
+
 %TC:ignore
 
 \newpage
-\setlength\bibitemsep{5pt}
+% \setlength\bibitemsep{5pt}
 \printbibliography[heading=bibintoc]
 
 
