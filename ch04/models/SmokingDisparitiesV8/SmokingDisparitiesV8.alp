@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="7.1.2.201412051439" AlpVersion="7.1.10">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241834" AlpVersion="8.5.1">
 <Model>
 	<Id>1424287302354</Id>
 	<Name><![CDATA[SmokingDisparitiesV8]]></Name>
@@ -47,8 +47,6 @@
 			<Id>1424287302359</Id>
 			<Name><![CDATA[Main]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1424287302358</Id>
@@ -65,6 +63,7 @@
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 	 			<SpaceType>CONTINUOUS</SpaceType>			
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -74,6 +73,18 @@
 					<Code><![CDATA[10]]></Code>
 					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
 			</AgentProperties>
 			<EnvironmentProperties>
 					<EnableSteps>false</EnableSteps>
@@ -114,7 +125,6 @@
 				<Id>1424287302356</Id>
 				<Name><![CDATA[scale]]></Name>
 				<X>0</X><Y>-150</Y>
-				<Label><X>10</X><Y>0</Y></Label>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -127,6 +137,7 @@
 				<Scale>10</Scale>
 				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
 			</ScaleRuler>
+			<CurrentLevel>1596832927227</CurrentLevel>
 			<ConnectionsId>1424287302355</ConnectionsId>
 			<Variables>
 				<Variable Class="PlainVariable">
@@ -139,7 +150,9 @@
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[0]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -152,7 +165,9 @@
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[0]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -178,7 +193,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[int]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[250]]></Code>
@@ -203,7 +217,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="DYNAMIC">
 						<Type><![CDATA[boolean]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
@@ -232,7 +245,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="ACTION">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<MethodArgument>
 							<Name><![CDATA[personOnWhomToIntervene]]></Name>
@@ -258,7 +270,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[50]]></Code>
@@ -283,7 +294,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[boolean]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
@@ -308,7 +318,6 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[boolean]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[true]]></Code>
@@ -341,19 +350,19 @@
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
 						</Rate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1424332800000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</RecurrenceCode>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1424332800000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
-						<Action><![CDATA[population.forEach(person -> { if (isEligibleForIntervention(person)) performInterventionForPerson(person); } )]]></Action>
 					</Properties>
+					<Action><![CDATA[population.forEach(person -> { if (isEligibleForIntervention(person)) performInterventionForPerson(person); } )]]></Action>
 				</Event>
 				<Event>
 					<Id>1425181109588</Id>
@@ -372,21 +381,21 @@
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1425196800000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[0.5]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</RecurrenceCode>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1425196800000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[0.5]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
-						<Action><![CDATA[// to lower computational burden associated with births, reknit the network twice a year
+					</Properties>
+					<Action><![CDATA[// to lower computational burden associated with births, reknit the network twice a year
 this.applyNetwork();  
 ]]></Action>
-					</Properties>
 				</Event>
 				<Event>
 					<Id>1429666533862</Id>
@@ -405,18 +414,19 @@ this.applyNetwork();
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
 						</Rate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1424332800000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
-					</RecurrenceCode>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1424332800000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
-						<Action><![CDATA[histogramDataAgeDistributionForSmokers.reset();
+					</Properties>
+					<Action><![CDATA[histogramDataAgeDistributionForSmokers.reset();
 histogramDataAgeDistributionForNonSmokers.reset();
 for (Person person : population)
 {
@@ -444,7 +454,6 @@ for (Person person : population)
 		}
 */
 }]]></Action>
-					</Properties>
 				</Event>
 				<Event>
 					<Id>1429842818344</Id>
@@ -463,23 +472,23 @@ for (Person person : population)
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_DAY]]></Unit>
 						</Rate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1424332800000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</RecurrenceCode>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1424332800000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
-						<Action><![CDATA[if (imposeSESDisparities)
+					</Properties>
+					<Action><![CDATA[if (imposeSESDisparities)
 {
 	datasetIncomeVsCumulativeYearsSmoked.reset();
 	population.forEach(person -> datasetIncomeVsCumulativeYearsSmoked.add(person.sesIndex, person.yearsSmoked()));
 }]]></Action>
-					</Properties>
 				</Event>
 			</Events>
 			<Functions>
@@ -535,7 +544,40 @@ for (Person person : population)
 					<InterpolationMethod>NONE</InterpolationMethod>
 					<Type>OPTIONS</Type>
 					<DefinitionType>HISTOGRAM</DefinitionType>
-					<Static>false</Static>					
+					<Static>false</Static>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<RangesQuery>
+					<TableReference>
+					</TableReference>
+						<StartColumnReference>
+						</StartColumnReference>
+						<EndColumnReference>
+						</EndColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</RangesQuery>
+					<FrequencyQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+						<WeightColumnReference>
+						</WeightColumnReference>
+					</FrequencyQuery>
+					<SampleQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+					</SampleQuery>
+					<OptionQuery>
+					<TableReference>
+					</TableReference>
+						<OptionColumnReference>
+						</OptionColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</OptionQuery>										
 					<OptionListID><![CDATA[1425174893853]]></OptionListID>
 					<OptionValues>
 						<OptionValue>						
@@ -564,6 +606,39 @@ for (Person person : population)
 					<Type>CONTINUOUS</Type>
 					<DefinitionType>HISTOGRAM</DefinitionType>
 					<Static>false</Static>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<RangesQuery>
+					<TableReference>
+					</TableReference>
+						<StartColumnReference>
+						</StartColumnReference>
+						<EndColumnReference>
+						</EndColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</RangesQuery>
+					<FrequencyQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+						<WeightColumnReference>
+						</WeightColumnReference>
+					</FrequencyQuery>
+					<SampleQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+					</SampleQuery>
+					<OptionQuery>
+					<TableReference>
+					</TableReference>
+						<OptionColumnReference>
+						</OptionColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</OptionQuery>					
 					<Argument><![CDATA[0.0]]></Argument>
 					<Argument><![CDATA[5.0]]></Argument>
 					<Argument><![CDATA[10.0]]></Argument>
@@ -634,6 +709,39 @@ for (Person person : population)
 					<Type>CONTINUOUS</Type>
 					<DefinitionType>HISTOGRAM</DefinitionType>
 					<Static>false</Static>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<RangesQuery>
+					<TableReference>
+					</TableReference>
+						<StartColumnReference>
+						</StartColumnReference>
+						<EndColumnReference>
+						</EndColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</RangesQuery>
+					<FrequencyQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+						<WeightColumnReference>
+						</WeightColumnReference>
+					</FrequencyQuery>
+					<SampleQuery>
+					<TableReference>
+					</TableReference>
+						<ValueColumnReference>
+						</ValueColumnReference>
+					</SampleQuery>
+					<OptionQuery>
+					<TableReference>
+					</TableReference>
+						<OptionColumnReference>
+						</OptionColumnReference>
+						<NumberOfObservationColumnReference>
+						</NumberOfObservationColumnReference>
+					</OptionQuery>					
 					<Argument><![CDATA[0.0]]></Argument>
 					<Argument><![CDATA[5.0]]></Argument>
 					<Argument><![CDATA[10.0]]></Argument>
@@ -907,9 +1015,9 @@ for (Person person : population)
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>true</ReplicationFlag>
-					
-					<Replication><![CDATA[populationSize]]></Replication>
-					
+					<Replication Class="CodeValue">
+						<Code><![CDATA[populationSize]]></Code>
+					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<StatisticsItem>
 						<Name><![CDATA[prevalenceOfSmoking]]></Name>
@@ -985,17 +1093,55 @@ for (Person person : population)
 					</StatisticsItem>
 					<InEnvironment>true</InEnvironment>	
 					<InitialLocationType>XYZ</InitialLocationType>
-					<XCode><![CDATA[imposeSESDisparities ? self.sesIndex*1000 : uniform(0, 1000)]]></XCode>
-					<YCode><![CDATA[uniform(0,1000)]]></YCode>
-					<ZCode><![CDATA[0]]></ZCode>
-					<ColumnCode><![CDATA[0]]></ColumnCode>
-					<RowCode><![CDATA[0]]></RowCode>
-					<LatitudeCode><![CDATA[0]]></LatitudeCode>
-					<LongitudeCode><![CDATA[0]]></LongitudeCode>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[imposeSESDisparities ? self.sesIndex*1000 : uniform(0, 1000)]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[uniform(0,1000)]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
 				</EmbeddedObject>
 			</EmbeddedObjects>
 
-			<Shapes>
+			<Presentation>
+				<Level>
+					<Id>1596832927227</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>ALWAYS_SHOW</LevelVisibility>
+
+			<Presentation>
 				<EmbeddedObjectPresentation>
 					<Id>1424287406882</Id>
 					<Name><![CDATA[population_presentation]]></Name>
@@ -1005,8 +1151,6 @@ for (Person person : population)
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<ReplicationCode><![CDATA[population.size()]]></ReplicationCode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -1017,8 +1161,6 @@ for (Person person : population)
 					<Latitude>0.0</Latitude>
 					<Longitude>0.0</Longitude>
 				</EmbeddedObjectPresentation>
-			</Shapes>
-			<Controls>
 				<Control Type="CheckBox">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429841951928</Id>
@@ -1028,10 +1170,9 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="190" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="190" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 					</BasicProperties>
@@ -1042,8 +1183,6 @@ for (Person person : population)
 						<Link>isDisplayingIncomes</Link>
 	 				</ExtendedProperties>
 				</Control>
-			</Controls>
-			<Charts>
     			<TimePlot>
 					<Id>1424292805524</Id>
 					<Name><![CDATA[plotSmokingPrevalence]]></Name>
@@ -1052,6 +1191,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1424332800000</OccurrenceDate>
@@ -1087,7 +1227,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
 					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
@@ -1125,7 +1264,7 @@ for (Person person : population)
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
-					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
+					<FillAreaUnderLine>false</FillAreaUnderLine>
 					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
     			</TimePlot>
     			<TimePlot>
@@ -1136,6 +1275,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1424332800000</OccurrenceDate>
@@ -1171,7 +1311,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
 					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
@@ -1200,7 +1339,7 @@ for (Person person : population)
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
-					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
+					<FillAreaUnderLine>false</FillAreaUnderLine>
 					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
     			</TimePlot>
     			<Histogram>
@@ -1211,6 +1350,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1429689600000</OccurrenceDate>
@@ -1246,7 +1386,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<ShowPDF>true</ShowPDF>
 					<ShowCDF>false</ShowCDF>
@@ -1274,6 +1413,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1429689600000</OccurrenceDate>
@@ -1309,7 +1449,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<ShowPDF>true</ShowPDF>
 					<ShowCDF>false</ShowCDF>
@@ -1347,6 +1486,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1429862400000</OccurrenceDate>
@@ -1382,7 +1522,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
 					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
@@ -1420,7 +1559,7 @@ for (Person person : population)
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
-					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
+					<FillAreaUnderLine>false</FillAreaUnderLine>
 					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
     			</TimePlot>
     			<Plot>
@@ -1431,6 +1570,7 @@ for (Person person : population)
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<AutoUpdate>true</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1424332800000</OccurrenceDate>
@@ -1466,7 +1606,6 @@ for (Person person : population)
 						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
 						<TextColor>-12566464</TextColor>
 					</Labels>
-					<Persistent>true</Persistent>
 					<ShowLegend>true</ShowLegend>
 					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
 					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
@@ -1488,7 +1627,10 @@ for (Person person : population)
 					<HorScaleToExpression><![CDATA[1]]></HorScaleToExpression>
 					<HorScaleType>FIXED</HorScaleType>
     			</Plot>
-			</Charts>
+			</Presentation>
+
+				</Level>
+			</Presentation>
 
 		</ActiveObjectClass>
 		<!--   =========   Active Object Class   ========  -->
@@ -1496,8 +1638,6 @@ for (Person person : population)
 			<Id>1424287314444</Id>
 			<Name><![CDATA[Person]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1424287314443</Id>
@@ -1514,6 +1654,7 @@ for (Person person : population)
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
 			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 	 			<SpaceType>CONTINUOUS</SpaceType>			
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -1523,6 +1664,18 @@ for (Person person : population)
 					<Code><![CDATA[10]]></Code>
 					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
 				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
 			</AgentProperties>
 			<EnvironmentProperties>
 					<EnableSteps>false</EnableSteps>
@@ -1563,7 +1716,6 @@ for (Person person : population)
 				<Id>1424287314441</Id>
 				<Name><![CDATA[scale]]></Name>
 				<X>0</X><Y>-150</Y>
-				<Label><X>10</X><Y>0</Y></Label>
 				<PublicFlag>false</PublicFlag>
 				<PresentationFlag>false</PresentationFlag>
 				<ShowLabel>false</ShowLabel>
@@ -1576,6 +1728,7 @@ for (Person person : population)
 				<Scale>10</Scale>
 				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
 			</ScaleRuler>
+			<CurrentLevel>1596832927229</CurrentLevel>
 			<ConnectionsId>1424287314440</ConnectionsId>
 			<Variables>
 				<Variable Class="PlainVariable">
@@ -1600,7 +1753,9 @@ for (Person person : population)
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[0]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -1613,7 +1768,9 @@ for (Person person : population)
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[0]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -1626,7 +1783,9 @@ for (Person person : population)
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[0]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -1639,7 +1798,9 @@ for (Person person : population)
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="true" AccessType="public" StaticVariable="true">
 						<Type><![CDATA[double]]></Type>        
-						<InitialValue><![CDATA[1.25]]></InitialValue>                 	
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[1.25]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -1653,7 +1814,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
@@ -1678,7 +1838,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[0.5]]></Code>
@@ -1703,7 +1862,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[Sex]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<ParameterEditor>
 							<Id>1425172486222</Id>
@@ -1725,7 +1883,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[4]]></Code>
@@ -1750,7 +1907,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[SmokingCategory]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<ParameterEditor>
 							<Id>1425173305115</Id>
@@ -1772,7 +1928,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[Person]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<ParameterEditor>
 							<Id>1425173517054</Id>
@@ -1794,7 +1949,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[boolean]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
@@ -1819,7 +1973,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[0.1]]></Code>
@@ -1844,7 +1997,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[0.1]]></Code>
@@ -1869,7 +2021,6 @@ for (Person person : population)
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<NumericType><![CDATA[double]]></NumericType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[0.1]]></Code>
@@ -2728,6 +2879,15 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
 // arguments and values
 					<Argument><![CDATA[0.0]]></Argument>
 					<Argument><![CDATA[9.0]]></Argument>
@@ -2761,6 +2921,15 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
 // arguments and values
 					<Argument><![CDATA[0.0]]></Argument>
 					<Argument><![CDATA[10.0]]></Argument>
@@ -2797,6 +2966,15 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
 // arguments and values
 					<Argument><![CDATA[2.5]]></Argument>
 					<Argument><![CDATA[7.5]]></Argument>
@@ -2845,6 +3023,15 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
 // arguments and values
 					<Argument><![CDATA[2.5]]></Argument>
 					<Argument><![CDATA[7.5]]></Argument>
@@ -2893,6 +3080,15 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
+					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<ValuesQuery>
+						<TableReference>
+						</TableReference>
+							<ArgumentColumnReference>
+							</ArgumentColumnReference>
+							<ValueColumnReference>
+							</ValueColumnReference>
+					</ValuesQuery>
 // arguments and values
 					<Argument><![CDATA[0.0]]></Argument>
 					<Argument><![CDATA[0.02]]></Argument>
@@ -2966,7 +3162,20 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 				</ContainerLink>
 			</ContainerLinks>
 
-			<Shapes>
+			<Presentation>
+				<Level>
+					<Id>1596832927229</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>ALWAYS_SHOW</LevelVisibility>
+
+			<Presentation>
 				<Group>
 					<Id>1424287382339</Id>
 					<Name><![CDATA[person]]></Name>
@@ -2976,14 +3185,13 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<ScaleXCode><![CDATA[1]]></ScaleXCode>
 					<ScaleYCode><![CDATA[1]]></ScaleYCode>
 
-			<Shapes>
+			<Presentation>
 				<Curve ControlPoints="true">
 					<Id>1424287382341</Id>
 					<Name><![CDATA[shapeBody]]></Name>
@@ -2993,7 +3201,6 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<ZHeight>10</ZHeight>
@@ -3037,7 +3244,7 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					</Points>
 					<Closed>true</Closed>
 				</Curve>
-			</Shapes>
+			</Presentation>
 
 				</Group>
 				<Text>
@@ -3050,7 +3257,6 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D</DrawMode>
 					<VisibleCode><![CDATA[main.isDisplayingIncomes]]></VisibleCode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<ScaleXCode><![CDATA[sesIndicatorVisualSize()]]></ScaleXCode>
@@ -3065,7 +3271,10 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
+			</Presentation>
+
+				</Level>
+			</Presentation>
 
 		</ActiveObjectClass>
 	</ActiveObjectClasses>	
@@ -3075,23 +3284,51 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 	<AbsoluteAccuracy>1.0E-5</AbsoluteAccuracy>
 	<FixedTimeStep>0.001</FixedTimeStep>
 	<RelativeAccuracy>1.0E-5</RelativeAccuracy>
-	<TimeAccuracy>1.0E-5</TimeAccuracy>	
+	<TimeAccuracy>1.0E-5</TimeAccuracy>
+	<Frame>
+		<Width>1000</Width>
+		<Height>600</Height>
+	</Frame>
+	<Database>
+		<Logging>false</Logging>
+		<AutoExport>false</AutoExport>
+		<ShutdownCompact>false</ShutdownCompact>
+		<ImportSettings>
+		</ImportSettings>
+		<ExportSettings>
+		</ExportSettings>
+	</Database>
+	
+	<RunConfiguration ActiveObjectClassId="1424287302359">
+		<Id>1596832927078</Id>
+		<Name><![CDATA[RunConfiguration]]></Name>
+		<MaximumMemory>512</MaximumMemory>
+		<ModelTimeProperties>
+			<StopOption><![CDATA[Stop at specified time]]></StopOption>
+			<InitialDate><![CDATA[1424217600000]]></InitialDate>	
+			<InitialTime><![CDATA[0.0]]></InitialTime>	
+			<FinalDate><![CDATA[1426636800000]]></FinalDate>	
+			<FinalTime><![CDATA[100.0]]></FinalTime>	
+		</ModelTimeProperties>
+		<AnimationProperties>
+			<StopNever>false</StopNever>
+			<ExecutionMode>realTimeScaled</ExecutionMode>
+			<RealTimeScale>1.0</RealTimeScale>
+			<EnableZoomAndPanning>true</EnableZoomAndPanning>
+			<EnableDeveloperPanel>false</EnableDeveloperPanel>
+			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+		</AnimationProperties>
+		<Inputs>		
+		</Inputs>
+		<Outputs>
+		</Outputs>
+	</RunConfiguration>
 	<Experiments>	
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
 			<Id>1424287302363</Id>
 			<Name><![CDATA[Baseline]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>512</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3100,9 +3337,8 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1424287302364</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3112,7 +3348,6 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3125,8 +3360,6 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1424287302365</Id>
@@ -3136,15 +3369,14 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3154,7 +3386,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3182,37 +3414,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : Simulation]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3225,16 +3435,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1424293465861</Id>
 			<Name><![CDATA[HalvedIndividualInitiationHazardIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3243,9 +3443,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1424293465862</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3255,7 +3454,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3268,8 +3466,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1424293465863</Id>
@@ -3279,15 +3475,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3297,7 +3492,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3328,37 +3523,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3371,16 +3544,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1425159924731</Id>
 			<Name><![CDATA[InitiationReductionBy50PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3389,9 +3552,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425159924735</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3401,7 +3563,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3414,8 +3575,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425159924733</Id>
@@ -3425,15 +3584,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3443,7 +3601,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3474,37 +3632,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3517,16 +3653,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1425162338868</Id>
 			<Name><![CDATA[ModestInitiationInterventionTargetingLowerEducated]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3535,9 +3661,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425162338869</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3547,7 +3672,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3560,8 +3684,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425162338870</Id>
@@ -3571,15 +3693,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3589,7 +3710,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3620,37 +3741,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8StreamsV2 : ModestInterventionAmongInLowerEducated]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3663,16 +3762,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1425163810291</Id>
 			<Name><![CDATA[ModestInitiationInterventionTargetingLowerAndMiddleEducated]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3681,9 +3770,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425163810295</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3693,7 +3781,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3706,8 +3793,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425163810293</Id>
@@ -3717,15 +3802,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3735,7 +3819,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3766,37 +3850,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8StreamsV2 : ModestInterventionAmongInLowerEducated]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3809,16 +3871,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1425166199794</Id>
 			<Name><![CDATA[ModestInitiationInterventionTargetingAges11To16]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3827,9 +3879,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425166199798</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3839,7 +3890,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3852,8 +3902,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425166199796</Id>
@@ -3863,15 +3911,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -3881,7 +3928,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -3915,37 +3962,15 @@ else
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8StreamsV2 : ModestInterventionAmongInLowerEducated]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -3958,16 +3983,6 @@ else
 			<Id>1425166375279</Id>
 			<Name><![CDATA[ModestInitiationInterventionTargetingAges16To20]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -3976,9 +3991,8 @@ else
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425166375283</Id>
 					<Name><![CDATA[text]]></Name>
@@ -3988,7 +4002,6 @@ else
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4001,8 +4014,6 @@ else
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425166375281</Id>
@@ -4012,15 +4023,14 @@ else
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4030,7 +4040,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4064,37 +4074,15 @@ else
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8StreamsV2 : ModestInterventionAmongInLowerEducated]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4107,16 +4095,6 @@ else
 			<Id>1425167326255</Id>
 			<Name><![CDATA[StrongInterventionTargetingAges11To16]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4125,9 +4103,8 @@ else
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425167326259</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4137,7 +4114,6 @@ else
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4150,8 +4126,6 @@ else
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425167326257</Id>
@@ -4161,15 +4135,14 @@ else
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4179,7 +4152,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4213,37 +4186,15 @@ else
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SignificantInterventionTargetingAges11To17]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4256,16 +4207,6 @@ else
 			<Id>1425167584302</Id>
 			<Name><![CDATA[ProfoundInterventionTargetingAges11To16]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4274,9 +4215,8 @@ else
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425167584326</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4286,7 +4226,6 @@ else
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4299,8 +4238,6 @@ else
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425167584304</Id>
@@ -4310,15 +4247,14 @@ else
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4328,7 +4264,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4362,37 +4298,15 @@ else
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SignificantInterventionTargetingAges11To17]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4405,16 +4319,6 @@ else
 			<Id>1425168734933</Id>
 			<Name><![CDATA[StrongInterventionTargetingAges16To20]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4423,9 +4327,8 @@ else
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1425168734959</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4435,7 +4338,6 @@ else
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4448,8 +4350,6 @@ else
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1425168734957</Id>
@@ -4459,15 +4359,14 @@ else
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4477,7 +4376,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4511,37 +4410,15 @@ else
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SignificantInterventionTargetingAges11To17]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4554,16 +4431,6 @@ else
 			<Id>1429657493311</Id>
 			<Name><![CDATA[HalvedIndividualRelapseHazardIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4572,9 +4439,8 @@ else
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429657493315</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4584,7 +4450,6 @@ else
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4597,8 +4462,6 @@ else
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429657493313</Id>
@@ -4608,15 +4471,14 @@ else
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4626,7 +4488,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4657,37 +4519,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4700,16 +4540,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429657533279</Id>
 			<Name><![CDATA[DoubledIndividualCessationHazardIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4718,9 +4548,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429657533291</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4730,7 +4559,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4743,8 +4571,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429657533281</Id>
@@ -4754,15 +4580,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4772,7 +4597,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4803,37 +4628,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4846,16 +4649,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429665558167</Id>
 			<Name><![CDATA[SupportingQuittingAndPreventingRelapseInterventionDuringPregnancy]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -4864,9 +4657,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429665558171</Id>
 					<Name><![CDATA[text]]></Name>
@@ -4876,7 +4668,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -4889,8 +4680,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429665558169</Id>
@@ -4900,15 +4689,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -4918,7 +4706,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -4953,37 +4741,15 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -4996,16 +4762,6 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 			<Id>1429841504922</Id>
 			<Name><![CDATA[CombinedIndividualInitiationCessationRelapseIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5014,9 +4770,8 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429841504926</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5026,7 +4781,6 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5039,8 +4793,6 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429841504924</Id>
@@ -5050,15 +4802,14 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5068,7 +4819,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5101,37 +4852,15 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5144,16 +4873,6 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 			<Id>1429877279283</Id>
 			<Name><![CDATA[InitiationReductionBy10PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5162,9 +4881,8 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429877279287</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5174,7 +4892,6 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5187,8 +4904,6 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429877279285</Id>
@@ -5198,15 +4913,14 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5216,7 +4930,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5247,37 +4961,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5290,16 +4982,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429877917337</Id>
 			<Name><![CDATA[InitiationReductionBy80PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5308,9 +4990,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429877917341</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5320,7 +5001,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5333,8 +5013,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429877917339</Id>
@@ -5344,15 +5022,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5362,7 +5039,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5393,37 +5070,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5436,16 +5091,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429877975738</Id>
 			<Name><![CDATA[CessationElevationBy10PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5454,9 +5099,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429877975742</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5466,7 +5110,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5479,8 +5122,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429877975740</Id>
@@ -5490,15 +5131,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5508,7 +5148,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5539,37 +5179,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5582,16 +5200,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429877975801</Id>
 			<Name><![CDATA[CessationElevationBy50PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5600,9 +5208,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429877975805</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5612,7 +5219,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5625,8 +5231,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429877975803</Id>
@@ -5636,15 +5240,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5654,7 +5257,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5685,37 +5288,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5728,16 +5309,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429877975831</Id>
 			<Name><![CDATA[CessationElevationBy80PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5746,9 +5317,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429877975835</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5758,7 +5328,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5771,8 +5340,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429877975833</Id>
@@ -5782,15 +5349,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5800,7 +5366,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5831,37 +5397,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -5874,16 +5418,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429878912469</Id>
 			<Name><![CDATA[RelapseReductionBy10PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -5892,9 +5426,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429878912473</Id>
 					<Name><![CDATA[text]]></Name>
@@ -5904,7 +5437,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -5917,8 +5449,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429878912471</Id>
@@ -5928,15 +5458,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -5946,7 +5475,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -5977,37 +5506,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -6020,16 +5527,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429878912502</Id>
 			<Name><![CDATA[RelapseReductionBy50PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -6038,9 +5535,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429878912506</Id>
 					<Name><![CDATA[text]]></Name>
@@ -6050,7 +5546,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -6063,8 +5558,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429878912504</Id>
@@ -6074,15 +5567,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -6092,7 +5584,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -6123,37 +5615,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -6166,16 +5636,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429878912532</Id>
 			<Name><![CDATA[RelapseReductionBy80PercentIntervention]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -6184,9 +5644,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429878912536</Id>
 					<Name><![CDATA[text]]></Name>
@@ -6196,7 +5655,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -6209,8 +5667,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429878912534</Id>
@@ -6220,15 +5676,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -6238,7 +5693,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -6269,37 +5724,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8Streams : ModestIntervention]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -6312,16 +5745,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429879461319</Id>
 			<Name><![CDATA[EliminateSESDisparities]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
@@ -6330,9 +5753,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429879461320</Id>
 					<Name><![CDATA[text]]></Name>
@@ -6342,7 +5764,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -6355,8 +5776,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429879461321</Id>
@@ -6366,15 +5785,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -6384,7 +5802,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -6412,37 +5830,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesV7 : EliminateSESDisparities]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
@@ -6455,16 +5851,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<Id>1429880500515</Id>
 			<Name><![CDATA[RelapseInterventionTargetingLowerAndMiddleEducated]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<PresentationTopGroupPersistent>true</PresentationTopGroupPersistent>
-			<IconTopGroupPersistent>true</IconTopGroupPersistent>
-			<Frame>
-				<X>0</X>
-				<Y>0</Y>
-				<Width>1000</Width>
-				<Height>600</Height>
-				<Maximized>false</Maximized>
-				<CloseConfirmation>false</CloseConfirmation>
-			</Frame>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>256</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -6473,9 +5859,8 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
-			<SnapshotFile></SnapshotFile>
 
-			<Shapes>
+			<Presentation>
 				<Text>
 					<Id>1429880500519</Id>
 					<Name><![CDATA[text]]></Name>
@@ -6485,7 +5870,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -6498,8 +5882,6 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-			</Shapes>
-			<Controls>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1429880500517</Id>
@@ -6509,15 +5891,14 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
-					<BasicProperties Width="100" Height="30" 
-				AsObject="true">
-                        <EmbeddedIcon>false</EmbeddedIcon>				
-						<FillColor/>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if ( getState() == IDLE )
 	run();
-getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
+getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
@@ -6527,7 +5908,7 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 	"Top level agent"]]></LabelCode>
 					</ExtendedProperties>
 				</Control>
-			</Controls>
+			</Presentation>
 
 			<Parameters>			
 				<Parameter>
@@ -6558,37 +5939,15 @@ getPresentation().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[imposeSESDisparities]]></ParameterName>
 				</Parameter>
 			</Parameters>			
-			<PresentationProperties 
-				EnableAdaptiveFrameManagement="true" 
-				EnableAntiAliasing="true"
-				EnableEnhancedModelElementsAnimation="true"
-				EnablePanning="true"
-				ToolbarCustomizableAtRuntime="true"
-				EnableZoom="true">
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<CpuRatio><![CDATA[ratio_1_2]]></CpuRatio>	        
 				<Title><![CDATA[SmokingDisparitiesJava8StreamsV2 : ModestInterventionAmongInLowerEducated]]></Title>	
-				<FramesPerSecond><![CDATA[20.0]]></FramesPerSecond>
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
-				<UIProperty Name="Experiment Progress" Value="false"/>
-				<UIProperty Name="Simulation Progress" Value="true"/>
-				<UIProperty Name="Statusbar Events Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Frames Per Second" Value="false"/>
-				<UIProperty Name="Statusbar Memory" Value="true"/>
-				<UIProperty Name="Statusbar Model Date" Value="true"/>
-				<UIProperty Name="Statusbar Model Step" Value="false"/>
-				<UIProperty Name="Statusbar Model Time" Value="true"/>
-				<UIProperty Name="Statusbar Real Time Of Simulation" Value="false"/>
-				<UIProperty Name="Statusbar Status" Value="true"/>
-				<UIProperty Name="Toolbar Animation setup" Value="false"/>
-				<UIProperty Name="Toolbar Execution control" Value="true"/>
-				<UIProperty Name="Toolbar File" Value="false"/>
-				<UIProperty Name="Toolbar Model navigation" Value="true"/>
-				<UIProperty Name="Toolbar Time scale setup" Value="true"/>
-				<UIProperty Name="Toolbar View" Value="false"/>
 			</PresentationProperties>
-			<ModelTimeProperties 
-				UseCalendar="false">
+			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1424217600000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
