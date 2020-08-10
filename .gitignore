@@ -9,6 +9,7 @@ pardiso.lic
 dissertation.*
 !disseration.tex
 !disseration.bib
+~$*.*
 
 /ch0*/output/*.rds
 /ch02/inla
