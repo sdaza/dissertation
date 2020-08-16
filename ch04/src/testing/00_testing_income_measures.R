@@ -12,7 +12,7 @@ library(haven)
 
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function(...) stats::cor(..., use = "complete.obs")
-perc.rank <- function(x) trunc(rank(x))/length(x)
+perc.rank = function(x) trunc(rank(x))/length(x)
 
 # functions
 sample_based_on_type = function(type) {
@@ -138,7 +138,6 @@ m2 = matrix(c(1, 0, 1))
 exp(m1 %*% m2)
 
 # simulating multinomial value
-
 library(Zelig)
 library(fastDummies)
 
@@ -182,7 +181,6 @@ total = 1 + exp(0) + exp(0)
 # Xc = dummy_cols(Xc)[, c(2:4)]
 # names(Xc) = c("A", "B", "C")
 # head(Xc)
-
 
 # Compute the probabilities of each outcome based on the DGP
 expA = exp(0)

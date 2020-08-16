@@ -2312,7 +2312,7 @@ timeOfLastInitiationOrRelapse = time();]]></EntryAction>
 						<Point><X>0</X><Y>0</Y></Point>
 						<Point><X>0</X><Y>40</Y></Point>
 					</Points>
-					<IconOffset>14.0</IconOffset>
+					<IconOffset>20.0</IconOffset>
 					<Properties Source="1425172951911" Target="1425172951913" Trigger="rate">
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
