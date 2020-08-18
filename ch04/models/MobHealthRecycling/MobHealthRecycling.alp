@@ -635,7 +635,7 @@ v_NSI = f_NSI();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1000]]></Code>
+							<Code><![CDATA[300]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1567149540084</Id>
@@ -805,7 +805,7 @@ v_NSI = f_NSI();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
+							<Code><![CDATA[false]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597056162308</Id>
@@ -925,7 +925,7 @@ v_NSI = f_NSI();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.149219113, 0.0, -0.113509275}]]></Code>
+							<Code><![CDATA[{0.3, 0.0, -0.3}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597518968141</Id>
@@ -949,7 +949,7 @@ v_NSI = f_NSI();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.09, 0.0, -0.09}]]></Code>
+							<Code><![CDATA[{0.7, 0.0, -3.0}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597523476578</Id>
@@ -1025,7 +1025,7 @@ v_NSI = f_NSI();]]></StartupCode>
 				<Event>
 					<Id>1516978903251</Id>
 					<Name><![CDATA[ev_computeDescriptiveStats]]></Name>
-					<X>-950</X><Y>330</Y>
+					<X>-950</X><Y>310</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1123,6 +1123,37 @@ if (p_computeDescriptiveStats) {
 	}
 	
 }]]></Action>
+				</Event>
+				<Event>
+					<Id>1597658387011</Id>
+					<Name><![CDATA[ev_stopSimulation]]></Name>
+					<X>-950</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties TriggerType="timeout" Mode="occuresOnce">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1597737600000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[p_maxTime]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[false]]></Condition>
+					</Properties>
+					<Action><![CDATA[stopSimulation();]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -4154,7 +4185,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import com.vividsolutions.jts.math.Matrix;
 import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification;]]></Import>
-			<StartupCode><![CDATA[if (main.p_allowSmoking == false) ev_smokingInitiation.reset();]]></StartupCode>
+			<StartupCode><![CDATA[// if (main.p_allowSmoking == false) ev_smokingInitiation.reset();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1516978704496</Id>
@@ -4829,6 +4860,32 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 						<FillColor/>
 					</Properties>
 				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1597672051853</Id>
+					<Name><![CDATA[NoSmoking]]></Name>
+					<X>410</X><Y>260</Y>
+					<Label><X>15</X><Y>15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[v_currentSmoker = false;]]></EntryAction>
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
+					<Id>1597672060706</Id>
+					<Name><![CDATA[Smoking]]></Name>
+					<X>410</X><Y>330</Y>
+					<Label><X>20</X><Y>15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties Width="100" Height="30">
+						<EntryAction><![CDATA[v_currentSmoker = true;]]></EntryAction>
+						<FillColor/>
+					</Properties>
+				</StatechartElement>
 				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
 					<Id>1566676401648</Id>
 					<Name><![CDATA[st_lifecourse]]></Name>
@@ -4930,7 +4987,7 @@ main.c_peopleAlive.add(this);
 
 ev_computeAge.restart();
 ev_move.restart();
-ev_smokingInitiation.restart();]]></Action>
+// ev_smokingInitiation.restart();]]></Action>
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
@@ -5012,6 +5069,81 @@ if (main.p_exportData) {
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
 					</Properties>	
 				</StatechartElement>
+				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
+					<Id>1597672048308</Id>
+					<Name><![CDATA[st_smoking]]></Name>
+					<X>460</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<Properties Target="1597672051853">
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1597672069177</Id>
+					<Name><![CDATA[smoking]]></Name>
+					<X>440</X><Y>290</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1597672051853" Target="1597672060706" Trigger="rate">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[st_lifecourse.getState() == Dead ? 0.0 : f_smokingHazard();]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[unconditionally]]></FilterType>
+						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1597672129329</Id>
+					<Name><![CDATA[transition1]]></Name>
+					<X>480</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>-40</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1597672060706" Target="1597672051853" Trigger="message">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[Object]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[equalsTo]]></FilterType>
+						<EqualsExpression><![CDATA["live again"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
 			</StatechartElements>
 			<Events>
 				<Event>
@@ -5083,6 +5215,7 @@ if (p_generation > 0 && p_age >= 18 && p_age < 19) send("time to work", this);
 				<Event>
 					<Id>1597519999012</Id>
 					<Name><![CDATA[ev_smokingInitiation]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-380</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -5343,7 +5476,7 @@ if (this.c_kids.size() != 0 ) {
 // stop recurrent events
 ev_computeAge.reset();
 ev_move.reset();
-ev_smokingInitiation.reset();
+//ev_smokingInitiation.reset();
 
 v_numberKids = 0;
 
@@ -5437,7 +5570,10 @@ if (main.p_exportData) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double value = 
+					<Body><![CDATA[traceln("p income type "  + p_incomeType);
+traceln("coef "  + main.p_smokingIncomeCoeffs[p_incomeType-1]);
+
+double value = 
 	main.f_baselineSmokingInitiation(p_age) 
 	* exp(0 +
 		main.p_smokingIncomeCoeffs[p_incomeType-1]
@@ -5462,7 +5598,7 @@ return value;]]></Body>
 	(main.f_baselineMortalityRate(p_age) / 100000.0) * 
 	exp(
 		0 +
-		(main.p_allowSmoking && v_currentSmoker ? 1.0 : 0.0) * 0.76798 + 
+		(main.p_allowSmoking && v_currentSmoker ? 1.0 : 0.0) * 0.79 + 
 		(main.p_allowIncomeEffectMortality ? p_incomeMortalityCoef : 0.0)
 	);
 return value;]]></Body>
@@ -5485,6 +5621,11 @@ return value;]]></Body>
 						<PackageName><![CDATA[mobhealth8]]></PackageName>
 						<ClassName><![CDATA[Person]]></ClassName>
 						<ItemName><![CDATA[st_lifecourse]]></ItemName>
+					</StatechartReference>
+					<StatechartReference>
+						<PackageName><![CDATA[mobhealth8]]></PackageName>
+						<ClassName><![CDATA[Person]]></ClassName>
+						<ItemName><![CDATA[st_smoking]]></ItemName>
 					</StatechartReference>
 					<LineStyle>SOLID</LineStyle>
 					<LineWidth>1</LineWidth>
@@ -6130,7 +6271,7 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
+							<Code><![CDATA[false]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -6152,7 +6293,7 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 				<Variable Class="PlainVariable">
 					<Id>1597133915033</Id>
 					<Name><![CDATA[v_exportData]]></Name>
-					<X>-260</X><Y>380</Y>
+					<X>-260</X><Y>350</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6160,7 +6301,7 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
+							<Code><![CDATA[true]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -6176,6 +6317,21 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[true]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1597658530008</Id>
+					<Name><![CDATA[v_maxTime]]></Name>
+					<X>-260</X><Y>120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[300]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -6265,7 +6421,8 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Population per county]]></Text>
+					<Text><![CDATA[Time simulation (years)
+]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>12</Size>
@@ -6321,7 +6478,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597070829579</Id>
 					<Name><![CDATA[population]]></Name>
-					<X>200</X><Y>165</Y>
+					<X>200</X><Y>135</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6511,6 +6668,51 @@ else {
 						<Link>v_allowSmoking</Link>
 	 				</ExtendedProperties>
 				</Control>
+				<Text>
+					<Id>1597658554715</Id>
+					<Name><![CDATA[text5]]></Name>
+					<X>70</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Population per county]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1597658563939</Id>
+					<Name><![CDATA[editbox]]></Name>
+					<X>210</X><Y>160</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="40" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor/>
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<MinValue><![CDATA[50	]]></MinValue>
+						<MaxValue><![CDATA[5000]]></MaxValue>
+						<LinkTo>true</LinkTo>
+						<Link>v_maxTime</Link>
+					</ExtendedProperties>
+				</Control>
 			</Presentation>
 
 			<Parameters>			
@@ -6564,6 +6766,9 @@ else {
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_maxTime]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_maxTime]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_exportData]]></ParameterName>
@@ -6635,10 +6840,10 @@ else {
 				<Title><![CDATA[MobHealth8 : Simulation]]></Title>	
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>true</ShowDeveloperPanelOnStart>
-				<RealTimeScale>0.2</RealTimeScale>
+				<RealTimeScale>10.0</RealTimeScale>
 			</PresentationProperties>
 			<ModelTimeProperties>
-				<StopOption><![CDATA[Stop at specified time]]></StopOption>
+				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
 				<FinalDate><![CDATA[159196924800000]]></FinalDate>	
