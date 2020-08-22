@@ -42,3 +42,20 @@ setorder(test,  income_type)
 test
 
 hist(m[generation == 2, age], breaks = 10)
+
+# county data
+c = fread("models/MobHealthRecycling/output/county_data.csv")
+
+c
+hist(c$avg_age)
+hist(c$avg_income)
+hist(c$avg_zincome)
+hist(c[time > 100, population])
+
+hist(c$income_mobility)
+hist(c$gini)
+
+c[time == 100, test := scale(income_mobility)]
+c[time ==100]
+hist(c[time == 100, income_mobility])
+hist(c[time == 100, z_income_mobility])
