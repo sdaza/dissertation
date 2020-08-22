@@ -176,7 +176,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1516978903203</Id>
 					<Name><![CDATA[v_NSI]]></Name>
 					<Description><![CDATA[Neighborhood. Sorting Index (NSI) ]]></Description>
-					<X>-950</X><Y>500</Y>
+					<X>-950</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -289,7 +289,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1568713978708</Id>
 					<Name><![CDATA[v_lastGeneration]]></Name>
-					<X>-950</X><Y>520</Y>
+					<X>-950</X><Y>540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -355,6 +355,18 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1598007867636</Id>
 					<Name><![CDATA[v_countyIncomeMobilityStandardDeviation]]></Name>
+					<X>-950</X><Y>490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1598043831735</Id>
+					<Name><![CDATA[v_averageCountyIncomeMobility]]></Name>
 					<X>-950</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1190,9 +1202,10 @@ if (p_updateStats) {
 	v_countyIncomeMobilityStandardDeviation = f_standardDeviation(c_countyIncomeMobility,
 		c_countyIncomeMobility.stream().mapToDouble(p->p).average().getAsDouble());
 	
+	v_averageCountyIncomeMobility = c_countyIncomeMobility.stream().mapToDouble(p->p).average().getAsDouble();
 	for (County c: counties) {
 		c.v_standardizedIncomeMobility = f_standardizedValue(c.v_incomeMobility, 
-			c_countyIncomeMobility.stream().mapToDouble(p->p).average().getAsDouble(), 
+			v_averageCountyIncomeMobility,
 			v_countyIncomeMobilityStandardDeviation);
 	}	
 	
@@ -1466,39 +1479,10 @@ for (County c : counties) {
 // Define output files
 if (p_exportData) {
 	f_defineCountyData();
-	f_defineIndividualMigration();
+	//f_defineIndividualMigration();
 	f_defineFamilyData();
 	f_defineMortalityData();
 }
-
-
-/*
-	for (Person p : c.people) {
-	//traceln(rownum);
-	List<Tuple> data = selectFrom(income_age).
-	    					where(income_age.lo_income.loe(Math.round(p.p_income)).and(
-	    					income_age.hi_income.goe(Math.round(p.p_income)))).
-							list(income_age.agegroup, income_age.value);
-
-
-	int size = data.size();
-	double[] counts = new double[size];
-	double[] v = new double[size];
-
-	int i = 0;
-	for (Tuple value : data) {
-	  counts[i] = (double) value.get(income_age.value);
-	  v[i] = (double) value.get(income_age.agegroup);
-	i++;
-	}
-
-	double age = f_weightedSampling(counts, v);
-	p.p_age = uniform(age, f_upperLimitAge(age));
-}
-}
-*/
-
-
 
 ]]></Body>
 				</Function>
@@ -1913,7 +1897,7 @@ try {
     agent.v_currentSmoker + "," +
     agent.v_numberMoves + "," +
     agent.county.getId() + "," +
-    agent.county.v_statsIncome.getMean() + "," +
+    agent.county.v_averageIncome + "," +
     agent.county.v_gini + "," +
     agent.county.v_incomeMobility + "\n");
 	}
@@ -1940,7 +1924,7 @@ try {
     v_individualMigration.write(
     agent.p_id + "," +
     agent.county.getId() + "," +
-    agent.county.v_statsIncome.getMean() + "," +
+    agent.county.v_averageIncome + "," +
     agent.county.v_gini + "," +
     agent.county.v_incomeMobility + "," +
     agent.p_generation + "," +
@@ -1951,30 +1935,6 @@ try {
 	}
 catch (IOException e) {
 	e.printStackTrace();
-}
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1567156695593</Id>
-					<Name><![CDATA[f_estimateAverageExposure]]></Name>
-					<X>-430</X><Y>210</Y>
-					<Label><X>14.651</X><Y>-0.003</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[values]]></Name>
-						<Type><![CDATA[List<Exposure>]]></Type>
-					</Parameter>
-					<Body><![CDATA[// Define average income exposure
-if (values.size() > 0) {
-	AverageExposure exposure = new AverageExposure(values);
-	return  exposure.getAverageExposure();
-} else { 
-	traceln("no elements in the exposure class"); 
-	return 0.0;
 }
 ]]></Body>
 				</Function>
@@ -2216,7 +2176,7 @@ return formatter.format(date);]]></Body>
 					<ReturnType><![CDATA[ArrayList<Double>]]></ReturnType>
 					<Id>1598000813396</Id>
 					<Name><![CDATA[f_standardizedValues]]></Name>
-					<X>-430</X><Y>230</Y>
+					<X>-430</X><Y>210</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2233,7 +2193,7 @@ return formatter.format(date);]]></Body>
 						<Name><![CDATA[sd]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[ArrayList<Double> output = values.stream().map(p -> ((p - average)/sd)).collect(Collectors.toCollection(ArrayList::new));
+					<Body><![CDATA[ArrayList<Double> output = values.stream().map(p -> sd == 0 ? 0.0 : (p - average)/sd).collect(Collectors.toCollection(ArrayList::new));
 return output;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -2241,7 +2201,7 @@ return output;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1598008642633</Id>
 					<Name><![CDATA[f_standardizedValue]]></Name>
-					<X>-430</X><Y>250</Y>
+					<X>-430</X><Y>230</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2258,7 +2218,8 @@ return output;]]></Body>
 						<Name><![CDATA[sd]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[return (value - average)/sd;]]></Body>
+					<Body><![CDATA[if (sd == 0) return 0.0;
+else return (value - average)/sd;]]></Body>
 				</Function>
 			</Functions>
 			<TableFunctions>
@@ -3957,21 +3918,6 @@ import java.io.IOException;]]></Import>
 			<ConnectionsId>1516978695659</ConnectionsId>
 			<Variables>
 				<Variable Class="PlainVariable">
-					<Id>1516989527595</Id>
-					<Name><![CDATA[v_statsIncome]]></Name>
-					<X>-290</X><Y>50</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[DescriptiveStatistics]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[new DescriptiveStatistics()]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1566808702969</Id>
 					<Name><![CDATA[v_gini]]></Name>
 					<X>-290</X><Y>70</Y>
@@ -3981,6 +3927,9 @@ import java.io.IOException;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -3993,6 +3942,9 @@ import java.io.IOException;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -4005,6 +3957,9 @@ import java.io.IOException;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -4029,6 +3984,9 @@ import java.io.IOException;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -4041,6 +3999,9 @@ import java.io.IOException;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -4494,6 +4455,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import java.util.stream.IntStream;
+import java.util.stream.Collectors;  
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -5370,8 +5332,8 @@ ev_startWorking.restart();
 					<IconOffset>20.0</IconOffset>
 					<Properties Source="1566676405826" Target="1566676405826" Trigger="message">
 						<Action><![CDATA[// estimate average exposure
-v_averageIncomeExposure = main.f_estimateAverageExposure(c_countyIncomeExposure);
-v_averageIncomeMobilityExposure = main.f_estimateAverageExposure(c_countyIncomeMobilityExposure);
+v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
+v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
 
 main.f_assignIncomeType(this, county.p_typeIncomeMobility);
 
@@ -5504,7 +5466,7 @@ county.c_incomeParentKid.add(t);
 						<OccurrenceAtTime>true</OccurrenceAtTime>
 						<OccurrenceDate>1596700800000</OccurrenceDate>
 						<OccurrenceTime Class="CodeUnitValue">
-							<Code><![CDATA[0]]></Code>
+							<Code><![CDATA[0.99]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</OccurrenceTime>
 						<RecurrenceCode Class="CodeUnitValue">
@@ -5610,7 +5572,7 @@ ev_smokingInitiation.reset();]]></Action>
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
-					<Action><![CDATA[if (p_age >= 18 && p_age < 19) {
+					<Action><![CDATA[if (f_currentAge() >= 18.0) {
 	send("time to work", this);
 	ev_startWorking.reset();
 }]]></Action>
@@ -5775,7 +5737,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     
 	// Save moving data (target agent)
 	v_numberMoves++;
-	if (main.p_exportData) main.f_exportIndividualMigration(this);
+	//if (main.p_exportData) main.f_exportIndividualMigration(this);
 
 	//traceln(this);
 
@@ -5811,7 +5773,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     		
     		// save moving data (kids)
     		kid.v_numberMoves++;
-    		if (main.p_exportData) { main.f_exportIndividualMigration(kid);}
+    		//if (main.p_exportData) { main.f_exportIndividualMigration(kid);}
 	
 		}
 	}
@@ -5961,7 +5923,7 @@ if (main.v_lastGeneration != newKid.p_generation && main.v_lastGeneration < newK
 
 // Save initial residential info
 if (main.p_exportData) {
-	main.f_exportIndividualMigration(newKid);
+	//main.f_exportIndividualMigration(newKid);
 	main.f_exportFamilyData(newKid);
 }]]></Body>
 				</Function>
@@ -5981,8 +5943,17 @@ if (main.p_exportData) {
 
 //traceln(v_averageIncomeExposure);
 //traceln(v_averageIncomeMobilityExposure);
-double value = main.f_baselineSmokingInitiation(p_age) * 1.4;
-traceln(value);
+double value = main.f_baselineSmokingInitiation(p_age) * 1.4 *
+	exp(0 +
+		// income effect = parent for people < 18, own income for people >=  19
+		(main.p_incomeEffectSmoking ? 1.0 : 0.0) * main.p_smokingIncomeCoeffs[p_incomeType-1] + 
+	   // network effect
+       // + 0.3 * f_smokingConnections
+       // income average exposure
+       - 0.5 * v_averageIncomeExposure + 
+       // income mobility average exposure
+       0.17 * v_averageIncomeMobilityExposure);
+// traceln(value);
 return value;
 ]]></Body>
 				</Function>
@@ -6002,6 +5973,41 @@ return value;
 		(main.p_allowIncomeEffectMortality ? p_incomeMortalityCoef : 0.0)
 	);
 return value;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1598039271009</Id>
+					<Name><![CDATA[f_estimateAverageExposure]]></Name>
+					<X>-950</X><Y>360</Y>
+					<Label><X>14.651</X><Y>-0.003</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[values]]></Name>
+						<Type><![CDATA[List<Exposure>]]></Type>
+					</Parameter>
+					<Body><![CDATA[// Define average income exposure
+if (values.size() > 0) {
+	AverageExposure exposure = new AverageExposure(values);
+	double output =  exposure.getAverageExposure();
+	if (Double.isNaN(output)) {
+		traceln("this is a big missing");
+		traceln(values.stream().map(p->p.value).collect(Collectors.toList()));
+	} 
+	if (p_generation == 10) {
+		traceln("person...");
+		traceln(values.stream().map(p->p.value).collect(Collectors.toList()));
+		traceln(values.stream().map(p->p.time).collect(Collectors.toList()));
+		traceln(output);
+	}
+	return output;
+} else { 
+	traceln("no elements in the exposure class"); 
+	return 0.0;
+}
+]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -6571,7 +6577,7 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<AfterSimulationRunCode><![CDATA[try {
 	if (root.p_exportData) {
 		root.v_countyData.close();
-		root.v_individualMigration.close();
+		//root.v_individualMigration.close();
 		root.v_familyData.close();
 		root.v_mortalityData.close();
 	}
@@ -7776,9 +7782,11 @@ class AverageExposure {
 		}
 	}
 	double getAverageExposure() {
-		return ( (double) totalValue.stream().mapToDouble(p->p).sum() /
-				(double) totalTime.stream().mapToDouble(p->p).sum());
-    }
+		double tt =  (double) totalTime.stream().mapToDouble(p->p).sum();
+		double tv = (double) totalValue.stream().mapToDouble(p->p).sum();
+		if (tt > 0) return tv / tt; 
+		else return 0.0;	
+	}
 }
 ]]></Text>
 		</JavaClass>
