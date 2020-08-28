@@ -46,7 +46,6 @@ hist(m[generation == 2, age], breaks = 10)
 # county data
 c = fread("models/MobHealthRecycling/output/county_data.csv")
 
-c
 hist(c$avg_age)
 hist(c$avg_income)
 hist(c$avg_zincome)
