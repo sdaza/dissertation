@@ -3,6 +3,7 @@
 .gitignore
 .DS_store
 pardiso.lic
+.Renviron
 /notes
 /ch0*/data
 /ch0*/output/data
