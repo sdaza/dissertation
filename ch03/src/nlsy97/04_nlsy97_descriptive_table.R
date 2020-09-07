@@ -141,6 +141,12 @@ county[, matched := factor(ifelse(imp_fips %in% observed_counties, "NLSY97 sampl
     "No NLSY97 sample"), levels = c("No NLSY97 sample", "NLSY97 sample"))]
 table(county$matched)
 
+county[, sd(z_relative_mob, na.rm = TRUE), matched]
+county[, sd(z_relative_mob, na.rm = TRUE)]
+county[, sd(relative_mob, na.rm = TRUE), matched]
+edcounty[, sd(z_absolute_mob, na.rm = TRUE), matched]
+county[, sd(z_gini, na.rm = TRUE), matched]
+
 # exploring correlations and tables
 county[, . (
         abs = mean(as.numeric(q_absolute_mob), na.rm = TRUE),

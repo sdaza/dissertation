@@ -10,7 +10,16 @@ library(data.table)
 f = fread("models/MobHealthRecycling/output/family.csv")
 names(f)
 
-table(f$kid_age)
+table(f$kid_generation)
+f[, n := .N, kid_id]
+table(f$n)
+table(f[kid_generation == 4, n])
+
+f[kid_generation == 3 & n == 1]
+f[kid_generation == 7]
+table(f[, .(kid_age, kid_alive)])
+table(f[, kid_age])
+table(f[kid_age > 0, kid_age])
 
 # check random distribution
 prop.table(table(f[parent_generation == 0, parent_type]))
