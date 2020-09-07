@@ -1,43 +1,69 @@
 ###############################
-# income mobility and health
 # testing output
 # author: sebastian daza
-################################
+##############################
 
 
-library(data.table) 
+library(data.table)
 
-# read data
-m = fread("ch04/models/MobHealthRecycling/output/mortality.csv")
+# read family data
+f = fread("models/MobHealthRecycling/output/family.csv")
+names(f)
 
-# no duplicates
-anyDuplicated(m[, id])
+table(f$kid_generation)
+f[, n := .N, kid_id]
+table(f$n)
+table(f[kid_generation == 4, n])
 
-names(m)
-summary(m$id)
-table(m$generation)
+f[kid_generation == 3 & n == 1]
+f[kid_generation == 7]
+table(f[, .(kid_age, kid_alive)])
+table(f[, kid_age])
+table(f[kid_age > 0, kid_age])
 
-testing = m[generation <= 35, .(le = mean(p_age), kids = mean(nkids)), generation]
-testing
+# check random distribution
+prop.table(table(f[parent_generation == 0, parent_type]))
 
-# family 
-f = fread("ch04/models/MobHealthRecycling/output/family.csv", fill = TRUE)
+# rigth distribution
+prop.table(table(f[parent_generation %in% c(1:10), parent_type]))
 
-testing = f[, .(age = mean(parent_age)), parent_generation]
+# event distribution
+prop.table(table(f[kid_age > 0, .(parent_type, kid_type)]), 1)
+prop.table(table(f[kid_age == 0, .(parent_type, kid_type)]), 1)
 
-anyDuplicated(f[, .(kid_id, kid_generation)])
+hist(f[parent_generation == 2, parent_age])
 
-# county
-c = fread("ch04/models/MobHealthRecycling/output/county_data.csv")
-c
+# read mortality data
+m = fread("models/MobHealthRecycling/output/mortality.csv")
+print(paste0("Date of simulation: ", m$date[1]))
 
-# migration 
-m = fread("ch04/models/MobHealthRecycling/output/individual_migration.csv")
-m
+prop.table(table(m[generation == 0, smoker]))
 
-# estimation of max population
-popMaxPopulation = function(popcount = 100, row = 5, col = 5) {
-    return(popcount * row * col * 4)
-}
+mean(m[generation == 4, age])
 
-popMaxPopulation(popcount = 400)
+m[generation == 4, mean(age), income_type]
+m[generation == 6, mean(age), .(smoker)]
+
+prop.table(table(m[generation == 4, .(income_type, smoker)]), 1)
+
+test = m[generation == 5, .(age = mean(age)), .(income_type, smoker)]
+setorder(test,  income_type)
+test
+
+hist(m[generation == 2, age], breaks = 10)
+
+# county data
+c = fread("models/MobHealthRecycling/output/county_data.csv")
+
+hist(c$avg_age)
+hist(c$avg_income)
+hist(c$avg_zincome)
+hist(c[time > 100, population])
+
+hist(c$income_mobility)
+hist(c$gini)
+
+c[time == 100, test := scale(income_mobility)]
+c[time ==100]
+hist(c[time == 100, income_mobility])
+hist(c[time == 100, z_income_mobility])
