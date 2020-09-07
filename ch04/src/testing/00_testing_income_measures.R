@@ -12,7 +12,8 @@ library(haven)
 
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function(...) stats::cor(..., use = "complete.obs")
-perc.rank <- function(x) trunc(rank(x))/length(x)
+perc.rank = function(x) trunc(rank(x))/length(x)
+
 
 # functions
 sample_based_on_type = function(type) {
@@ -65,6 +66,7 @@ head(dd)
 sample_based_on_type('type3')
 assign_income_based_on_type('type3')
 
+
 dd[, type_kid := sample_based_on_type(type_parent)]
 dd[, income_kid := assign_income_based_on_type(type_kid)]
 
@@ -82,18 +84,21 @@ dd[, prank_parent := perc.rank(income_parent)]
 
 cor(dd[, .(prank_parent, prank_kid)])
 
+dd[, type_kid := sample(c('type1', 'type2', 'type3'), .N, replace = TRUE)]
+
 summary(lm(prank_kid ~ prank_parent, data = dd))
 
 test <- multinom(type_kid ~ type_parent, data = dd)
+summary(test)
 
 pp = data.table(fitted(test))
 pp = unique(pp)
-pp
 
 cf = coef(test)
 cf
 
 p1 = 1 / (1 + (exp(cf[1,1]) + exp(cf[2,1])))
+p1
 prop.table(table(dd[, .(type_parent, type_kid)]), 1)
 
 # check some anylogic output
@@ -138,7 +143,6 @@ m2 = matrix(c(1, 0, 1))
 exp(m1 %*% m2)
 
 # simulating multinomial value
-
 library(Zelig)
 library(fastDummies)
 
@@ -182,7 +186,6 @@ total = 1 + exp(0) + exp(0)
 # Xc = dummy_cols(Xc)[, c(2:4)]
 # names(Xc) = c("A", "B", "C")
 # head(Xc)
-
 
 # Compute the probabilities of each outcome based on the DGP
 expA = exp(0)
