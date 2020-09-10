@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241834" AlpVersion="8.5.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241833" AlpVersion="8.5.1">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -224,7 +224,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1567103068046</Id>
 					<Name><![CDATA[v_familyData]]></Name>
-					<X>-770</X><Y>710</Y>
+					<X>-950</X><Y>990</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -292,7 +292,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597688367738</Id>
 					<Name><![CDATA[v_systemDate]]></Name>
-					<X>-950</X><Y>930</Y>
+					<X>-800</X><Y>680</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -367,7 +367,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1599549375347</Id>
 					<Name><![CDATA[v_parameters]]></Name>
-					<X>-770</X><Y>850</Y>
+					<X>-950</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -375,54 +375,6 @@ f_defineInitialValues();]]></StartupCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[BufferedWriter]]></Type>        
 					</Properties>
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1516978903254</Id>
-					<Name><![CDATA[p_peoplePerCounty]]></Name>
-					<X>-800</X><Y>150</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[100]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1516978903252</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1516978903257</Id>
-					<Name><![CDATA[p_numColumns]]></Name>
-					<X>-800</X><Y>90</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[8]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1516978903255</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1516978903260</Id>
@@ -444,85 +396,15 @@ f_defineInitialValues();]]></StartupCode>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
+							<DelimeterType>SEPARATE_SECTION</DelimeterType>
+							<StartSection><![CDATA[General setup]]></StartSection>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1516978903263</Id>
-					<Name><![CDATA[p_sizeRectangle]]></Name>
-					<X>-800</X><Y>130</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[100]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1516978903261</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1517009065179</Id>
-					<Name><![CDATA[p_moveRandom]]></Name>
-					<X>-420</X><Y>670</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[boolean]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1517009065177</Id>
-							<EditorContolType>CHECK_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1517244721401</Id>
-					<Name><![CDATA[p_countyPopLimit]]></Name>
-					<X>-950</X><Y>110</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<ParameterEditor>
-							<Id>1517244721399</Id>
-							<Label><![CDATA[p_countyPopLimit]]></Label>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1517286810012</Id>
-					<Name><![CDATA[p_incomeQuantiles]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-1290</X><Y>440</Y>
+					<Id>1516978903257</Id>
+					<Name><![CDATA[p_numColumns]]></Name>
+					<X>-800</X><Y>90</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -532,35 +414,10 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[5]]></Code>
+							<Code><![CDATA[8]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1517286810010</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1517370041664</Id>
-					<Name><![CDATA[p_moveRate]]></Name>
-					<X>-950</X><Y>130</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<UnitOfValue Class="RateUnits"><![CDATA[PER_YEAR]]></UnitOfValue>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.3]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1517370041662</Id>
+							<Id>1516978903255</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -593,9 +450,9 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1517448794202</Id>
-					<Name><![CDATA[p_movingThreshold]]></Name>
-					<X>-950</X><Y>150</Y>
+					<Id>1516978903263</Id>
+					<Name><![CDATA[p_sizeRectangle]]></Name>
+					<X>-800</X><Y>130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -603,13 +460,12 @@ f_defineInitialValues();]]></StartupCode>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
-						<UnitOfValue Class="RateUnits"><![CDATA[PER_YEAR]]></UnitOfValue>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.2]]></Code>
+							<Code><![CDATA[100]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1517448794200</Id>
+							<Id>1516978903261</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -618,22 +474,69 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1517451008970</Id>
-					<Name><![CDATA[p_filePath]]></Name>
-					<X>-570</X><Y>720</Y>
+					<Id>1516978903254</Id>
+					<Name><![CDATA[p_peoplePerCounty]]></Name>
+					<X>-800</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
+						<Type><![CDATA[int]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA["output/"]]></Code>
+							<Code><![CDATA[100]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1517451008968</Id>
+							<Id>1516978903252</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+							<StartSection><![CDATA[General setup]]></StartSection>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1597069674406</Id>
+					<Name><![CDATA[p_showAgents]]></Name>
+					<X>-410</X><Y>710</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1597069674404</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517244721401</Id>
+					<Name><![CDATA[p_countyPopLimit]]></Name>
+					<X>-950</X><Y>110</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1517244721399</Id>
+							<Label><![CDATA[p_countyPopLimit]]></Label>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -666,6 +569,54 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
+					<Id>1597044700978</Id>
+					<Name><![CDATA[p_adjustmentFertilityFactor]]></Name>
+					<X>-420</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1.74]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1597044700976</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1598010504830</Id>
+					<Name><![CDATA[p_standardizedExposure]]></Name>
+					<X>-410</X><Y>730</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[true]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1598010504828</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
 					<Id>1567692999575</Id>
 					<Name><![CDATA[p_exportData]]></Name>
 					<X>-950</X><Y>680</Y>
@@ -682,6 +633,203 @@ f_defineInitialValues();]]></StartupCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1567692999573</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517451008970</Id>
+					<Name><![CDATA[p_filePath]]></Name>
+					<X>-570</X><Y>720</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["output/"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1517451008968</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1596632808742</Id>
+					<Name><![CDATA[p_updateStats]]></Name>
+					<X>-410</X><Y>690</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1596632808740</Id>
+							<Label><![CDATA[p_computeDescriptiveStats]]></Label>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517286810012</Id>
+					<Name><![CDATA[p_incomeQuantiles]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-1290</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[5]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1517286810010</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1599645461621</Id>
+					<Name><![CDATA[p_computeGiniCoeff]]></Name>
+					<X>-410</X><Y>750</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1599645461619</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1598693562391</Id>
+					<Name><![CDATA[p_recurrentTimeStratificationMeasures]]></Name>
+					<X>-950</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[10]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1598693562389</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517370041664</Id>
+					<Name><![CDATA[p_moveRate]]></Name>
+					<X>-950</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<UnitOfValue Class="RateUnits"><![CDATA[PER_YEAR]]></UnitOfValue>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.3]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1517370041662</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>SEPARATE_SECTION</DelimeterType>
+							<StartSection><![CDATA[Movement]]></StartSection>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517448794202</Id>
+					<Name><![CDATA[p_movingThreshold]]></Name>
+					<X>-950</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<UnitOfValue Class="RateUnits"><![CDATA[PER_YEAR]]></UnitOfValue>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.2]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1517448794200</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1517009065179</Id>
+					<Name><![CDATA[p_moveRandom]]></Name>
+					<X>-410</X><Y>670</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[true]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1517009065177</Id>
 							<EditorContolType>CHECK_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -709,105 +857,8 @@ f_defineInitialValues();]]></StartupCode>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1596632808742</Id>
-					<Name><![CDATA[p_updateStats]]></Name>
-					<X>-420</X><Y>690</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[boolean]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1596632808740</Id>
-							<Label><![CDATA[p_computeDescriptiveStats]]></Label>
-							<EditorContolType>CHECK_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1597044700978</Id>
-					<Name><![CDATA[p_adjustmentFertilityFactor]]></Name>
-					<X>-420</X><Y>330</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.74]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1597044700976</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1597069674406</Id>
-					<Name><![CDATA[p_showAgents]]></Name>
-					<X>-420</X><Y>710</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[boolean]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1597069674404</Id>
-							<EditorContolType>CHECK_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1597410585018</Id>
-					<Name><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></Name>
-					<X>-800</X><Y>230</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1597410585016</Id>
-							<Label><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></Label>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
+							<DelimeterType>SEPARATE_SECTION</DelimeterType>
+							<StartSection><![CDATA[Income mobility]]></StartSection>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
@@ -841,27 +892,28 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1597518968143</Id>
-					<Name><![CDATA[p_mortalityCoeffIncomeType]]></Name>
-					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
-					<X>-800</X><Y>330</Y>
+					<Id>1597410585018</Id>
+					<Name><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></Name>
+					<X>-800</X><Y>230</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double[]]]></Type>
+						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.3, 0.0, -0.3}]]></Code>
+							<Code><![CDATA[0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1597518968141</Id>
+							<Id>1597410585016</Id>
+							<Label><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></Label>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
+							<DelimeterType>SEPARATE_SECTION</DelimeterType>
+							<StartSection><![CDATA[Coefficients]]></StartSection>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
@@ -893,23 +945,24 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1598010504830</Id>
-					<Name><![CDATA[p_standardizedExposure]]></Name>
-					<X>-420</X><Y>730</Y>
+					<Id>1599596275483</Id>
+					<Name><![CDATA[p_smokingCoeffIncomeExposure]]></Name>
+					<X>-800</X><Y>270</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[boolean]]></Type>
+						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[true]]></Code>
+							<Code><![CDATA[0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1598010504828</Id>
-							<EditorContolType>CHECK_BOX</EditorContolType>
+							<Id>1599596275481</Id>
+							<Label><![CDATA[p_smokingCoeffIncomeExposure]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
 							<DelimeterType>NO_DELIMETER</DelimeterType>
@@ -942,47 +995,23 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1598693562391</Id>
-					<Name><![CDATA[p_recurrentTimeStratificationMeasures]]></Name>
-					<X>-950</X><Y>370</Y>
+					<Id>1597518968143</Id>
+					<Name><![CDATA[p_mortalityCoeffIncomeType]]></Name>
+					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
+					<X>-800</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
+						<Type><![CDATA[double[]]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[10]]></Code>
+							<Code><![CDATA[{0.3, 0.0, -0.3}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1598693562389</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1599596275483</Id>
-					<Name><![CDATA[p_smokingCoeffIncomeExposure]]></Name>
-					<X>-800</X><Y>270</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1599596275481</Id>
-							<Label><![CDATA[p_smokingCoeffMobilityExposure]]></Label>
+							<Id>1597518968141</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1200,7 +1229,7 @@ if (p_updateStats) {
 		
 		// stratification
 		if (time() % p_recurrentTimeStratificationMeasures == 0) {
-			//c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);
+			if (p_computeGiniCoeff) c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);
 	    	c.v_incomeMobility = f_rankRankSlope(c.c_incomeParentKid);
 	    	c_countyIncomeMobility.add(c.v_incomeMobility);
 	    }
@@ -1225,7 +1254,7 @@ if (p_updateStats) {
 	// stratification
 	if (time() % p_recurrentTimeStratificationMeasures == 0) {
 	    // overall Gini coefficient
-		//v_gini = f_giniCoeff(totalIncome, v_averageIncome);
+	    if (p_computeGiniCoeff) v_gini = f_giniCoeff(totalIncome, v_averageIncome);
 		// overall income mobility
 		v_incomeMobility = f_rankRankSlope(c_incomeParentKid);
 	}
@@ -1612,10 +1641,12 @@ for (County c : counties) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath + "individual_migration.csv";
+ String name = p_filePath + "migration.csv";
  File f = new File(name);
  v_individualMigration = new BufferedWriter(new FileWriter(f));
- v_individualMigration.write("iteration,replicate,id,county,county_income,county_gini,county_income_mobility,generation,age,time,income,parent_id"+ "\n");
+// v_individualMigration.write("iteration,replicate,id,county,county_income,county_gini,county_income_mobility,generation,age,time,income,parent_id"+ "\n");
+ v_individualMigration.write("iteration,replicate,parent_id"+ "\n");
+ 
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -1767,7 +1798,7 @@ return result;*/]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567103098194</Id>
 					<Name><![CDATA[f_defineFamilyData]]></Name>
-					<X>-770</X><Y>730</Y>
+					<X>-950</X><Y>1010</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1790,7 +1821,7 @@ return result;*/]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567106330980</Id>
 					<Name><![CDATA[f_exportFamilyData]]></Name>
-					<X>-770</X><Y>750</Y>
+					<X>-950</X><Y>1030</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1898,12 +1929,20 @@ catch (IOException e) {
 						<Type><![CDATA[Person]]></Type>
 					</Parameter>
 					<Body><![CDATA[// Export migration data
+traceln(agent.county.getId());
+
 try {
     v_individualMigration.write(
        	v_iteration + "," + 
    		v_replicate + "," +
-       	v_iteration + "," + 
-   		v_replicate + "," +
+	    agent.p_parentId + "\n"
+	    );
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}
+
+/*
 	    agent.p_id + "," +
 	    agent.county.getId() + "," +
 	    agent.county.v_averageIncome + "," +
@@ -1913,12 +1952,8 @@ try {
 	    agent.p_age + "," +
 	    time() + "," +
 	    agent.p_income + "," +
-	    agent.p_parentId + "\n");
-	}
-catch (IOException e) {
-	e.printStackTrace();
-}
-]]></Body>
+*/
+	    ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -2083,13 +2118,9 @@ return f_zscore(sd, mean, value);]]></Body>
 						<Name><![CDATA[agent]]></Name>
 						<Type><![CDATA[Person]]></Type>
 					</Parameter>
-					<Parameter>
-						<Name><![CDATA[incomeMobilityType]]></Name>
-						<Type><![CDATA[int]]></Type>
-					</Parameter>
 					<Body><![CDATA[// assign income type
 double[] incomeProbabilities = f_estimateProbabilityIncomeType(agent);
-traceln(incomeProbabilities);
+// traceln(incomeProbabilities);
 	
 // get one random income type based on probabilities
 List<SamplingElement> incomeTypeList = new ArrayList<>();
@@ -2107,7 +2138,7 @@ agent.p_income = f_assignIncome(agent.p_incomeType);]]></Body>
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1597688468685</Id>
 					<Name><![CDATA[f_systemDate]]></Name>
-					<X>-950</X><Y>950</Y>
+					<X>-800</X><Y>700</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2229,8 +2260,8 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][]{
 		{0, 0, 0, 0},
-		{-1.103402, 2.238826, -1.120015, p_incomeAssignmentCoeffIncomeExposure},
-		{-1.082034, 1.103802, 2.18303, p_incomeAssignmentCoeffIncomeExposure}
+		{-1.069781, 2.151785, 1.065077, p_incomeAssignmentCoeffIncomeExposure},
+		{-1.148864, 1.139409, 2.225323, p_incomeAssignmentCoeffIncomeExposure}
 }));
 	]]></Body>
 				</Function>
@@ -2239,7 +2270,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1599549385547</Id>
 					<Name><![CDATA[f_defineParameterData]]></Name>
-					<X>-770</X><Y>870</Y>
+					<X>-950</X><Y>940</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2261,7 +2292,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1599549399949</Id>
 					<Name><![CDATA[v_exportParameterData]]></Name>
-					<X>-770</X><Y>890</Y>
+					<X>-950</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3822,6 +3853,27 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<FillAreaUnderLine>false</FillAreaUnderLine>
 					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
     			</TimePlot>
+				<Text>
+					<Id>1599654228840</Id>
+					<Name><![CDATA[text3]]></Name>
+					<X>-430</X><Y>400</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Data]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 				</Level>
@@ -5368,7 +5420,7 @@ p_economicallyActive = true;
 // estimate average exposure
 v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
 v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
-main.f_assignIncomeType(this, county.p_typeIncomeMobility);
+main.f_assignIncomeType(this);
 
 // Export family data
 if (main.p_exportData) {
@@ -5777,7 +5829,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     
 	// Save moving data (target agent)
 	v_numberMoves++;
-	//if (main.p_exportData) main.f_exportIndividualMigration(this);
+	if (main.p_exportData) main.f_exportIndividualMigration(this);
 
 	//traceln(this);
 
@@ -5786,35 +5838,36 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
 	/// parent has a kid is less than 18 years old
 	/// kid has not died, parent has not died
 	
-	for (Person kid : c_kids) {
-	
-	    boolean assessment = kid.p_alive && kid.p_age < kid.f_currentAge() && kid.p_parentAlive;
-	    // traceln("this kid is moving...");
+	if (c_kids.size() > 0) {
+		for (Person kid : c_kids) {
+	    	boolean assessment = kid.p_alive && kid.p_age < 18 && kid.p_parentAlive;
+	   		// traceln("this kid is moving...");
 	      	
-	   	if (assessment) {
+	   		if (assessment) {
 	 
-			// traceln(this.v_kid);
-			double thistime = time();
-		    double timediff = thistime - kid.v_timeInCounty;
-			kid.c_countyIncomeExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
-				kid.county.v_averageStandardizedIncome : kid.county.v_averageIncome));
-			kid.c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
-				kid.county.v_standardizedIncomeMobility : kid.county.v_incomeMobility));
+				// traceln(this.v_kid);
+				double thistime = time();
+		    	double timediff = thistime - kid.v_timeInCounty;
+				kid.c_countyIncomeExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+					kid.county.v_averageStandardizedIncome : kid.county.v_averageIncome));
+				kid.c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+					kid.county.v_standardizedIncomeMobility : kid.county.v_incomeMobility));
     		
-			// move target agent
-			kid.county.c_peopleAlive.remove(kid);
+				// move target agent
+				kid.county.c_peopleAlive.remove(kid);
 		
-			kid.goToPopulation(destination.people);
-			kid.setXY(main.f_randomPositionX(kid), main.f_randomPositionY(kid));
-    		kid.county.c_peopleAlive.add(kid);
+				kid.goToPopulation(destination.people);
+				kid.setXY(main.f_randomPositionX(kid), main.f_randomPositionY(kid));
+    			kid.county.c_peopleAlive.add(kid);
     	
-    	    // restart clock
-    		kid.v_timeInCounty = time();
+    	   	 	// restart clock
+    			kid.v_timeInCounty = time();
     		
-    		// save moving data (kids)
-    		kid.v_numberMoves++;
-    		//if (main.p_exportData) { main.f_exportIndividualMigration(kid);}
+    			// save moving data (kids)
+    			kid.v_numberMoves++;
+    			//if (main.p_exportData) { main.f_exportIndividualMigration(kid);}
 	
+			}
 		}
 	}
 }]]></Body>
@@ -6721,7 +6774,7 @@ import java.io.IOException;]]></Import>
 					<Name><![CDATA[v_smokingCoeffIncomeType]]></Name>
 					<Description><![CDATA[Regular coefficient = {0.7, 0.0, -0.9}
 ]]></Description>
-					<X>-260</X><Y>420</Y>
+					<X>-260</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6820,7 +6873,7 @@ import java.io.IOException;]]></Import>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[1.098612]]></Code>
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -6829,7 +6882,7 @@ import java.io.IOException;]]></Import>
 					<Name><![CDATA[v_mortalityCoeffIncomeType]]></Name>
 					<Description><![CDATA[Regular coefficient: {0.3, 0.0, -0.3}
 ]]></Description>
-					<X>-260</X><Y>470</Y>
+					<X>-260</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6868,6 +6921,21 @@ import java.io.IOException;]]></Import>
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[10]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1599645592690</Id>
+					<Name><![CDATA[v_computeGiniCoeff]]></Name>
+					<X>-260</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -6925,7 +6993,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597069878325</Id>
 					<Name><![CDATA[showAgents]]></Name>
-					<X>60</X><Y>190</Y>
+					<X>450</X><Y>70</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6947,7 +7015,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1597070416601</Id>
 					<Name><![CDATA[text4]]></Name>
-					<X>60</X><Y>170</Y>
+					<X>80</X><Y>250</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6970,7 +7038,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597070567391</Id>
 					<Name><![CDATA[descriptivestats]]></Name>
-					<X>60</X><Y>220</Y>
+					<X>320</X><Y>110</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6992,13 +7060,13 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597070829579</Id>
 					<Name><![CDATA[population]]></Name>
-					<X>190</X><Y>135</Y>
+					<X>240</X><Y>200</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="40" Height="20">
+					<BasicProperties Width="60" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<FillColor/>
 						<TextColor/>
@@ -7012,39 +7080,17 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 						<Link>v_populationPerCounty</Link>
 					</ExtendedProperties>
 				</Control>
-				<Control Type="CheckBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1597070990363</Id>
-					<Name><![CDATA[incomeEffectMortality]]></Name>
-					<X>325</X><Y>105</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="240" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[Income effect on mortality]]></LabelText>
-						<LinkTo>true</LinkTo>
-						<Link>v_allowIncomeEffectMortality</Link>
-	 				</ExtendedProperties>
-				</Control>
 				<Control Type="EditBox">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597071221328</Id>
 					<Name><![CDATA[fertilityAdjustment]]></Name>
-					<X>180</X><Y>315</Y>
+					<X>240</X><Y>320</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="20">
+					<BasicProperties Width="30" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<FillColor/>
 						<TextColor/>
@@ -7059,7 +7105,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1597071248842</Id>
 					<Name><![CDATA[text1]]></Name>
-					<X>65</X><Y>320</Y>
+					<X>120</X><Y>330</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7081,7 +7127,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597133928752</Id>
 					<Name><![CDATA[exportData]]></Name>
-					<X>185</X><Y>90</Y>
+					<X>320</X><Y>70</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7102,7 +7148,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1597570367239</Id>
 					<Name><![CDATA[text2]]></Name>
-					<X>65</X><Y>350</Y>
+					<X>100</X><Y>370</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7121,32 +7167,10 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-				<Control Type="CheckBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1597570414240</Id>
-					<Name><![CDATA[checkbox]]></Name>
-					<X>325</X><Y>155</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="210" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[Allow smoking?]]></LabelText>
-						<LinkTo>true</LinkTo>
-						<Link>v_allowSmoking</Link>
-	 				</ExtendedProperties>
-				</Control>
 				<Text>
 					<Id>1597658554715</Id>
 					<Name><![CDATA[text5]]></Name>
-					<X>60</X><Y>140</Y>
+					<X>110</X><Y>210</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7168,13 +7192,13 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597658563939</Id>
 					<Name><![CDATA[editbox]]></Name>
-					<X>220</X><Y>170</Y>
+					<X>240</X><Y>240</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="20">
+					<BasicProperties Width="30" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<FillColor/>
 						<TextColor/>
@@ -7190,31 +7214,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Control>
 				<Control Type="CheckBox">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1597755783131</Id>
-					<Name><![CDATA[checkbox1]]></Name>
-					<X>325</X><Y>185</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="220" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[Income effect on smoking]]></LabelText>
-						<LinkTo>true</LinkTo>
-						<Link>v_allowIncomeEffectSmoking</Link>
-	 				</ExtendedProperties>
-				</Control>
-				<Control Type="CheckBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597926216225</Id>
 					<Name><![CDATA[checkbox2]]></Name>
-					<X>115</X><Y>280</Y>
+					<X>280</X><Y>280</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7236,7 +7238,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1598010858149</Id>
 					<Name><![CDATA[checkbox3]]></Name>
-					<X>325</X><Y>130</Y>
+					<X>510</X><Y>210</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7258,13 +7260,13 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1598621980492</Id>
 					<Name><![CDATA[editbox1]]></Name>
-					<X>200</X><Y>345</Y>
+					<X>240</X><Y>360</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="25">
+					<BasicProperties Width="30" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<FillColor/>
 						<TextColor/>
@@ -7281,7 +7283,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1599550334294</Id>
 					<Name><![CDATA[text3]]></Name>
-					<X>65</X><Y>260</Y>
+					<X>150</X><Y>290</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7303,13 +7305,13 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599550357967</Id>
 					<Name><![CDATA[movementRate]]></Name>
-					<X>155</X><Y>260</Y>
+					<X>240</X><Y>280</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="20">
+					<BasicProperties Width="30" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<FillColor/>
 						<TextColor/>
@@ -7326,7 +7328,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1599550611774</Id>
 					<Name><![CDATA[text6]]></Name>
-					<X>325</X><Y>85</Y>
+					<X>490</X><Y>170</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7347,7 +7349,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1599558830094</Id>
 					<Name><![CDATA[text7]]></Name>
-					<X>330</X><Y>240</Y>
+					<X>490</X><Y>260</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7357,28 +7359,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[County income coefficient on income class]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>12</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1599558871003</Id>
-					<Name><![CDATA[text8]]></Name>
-					<X>330</X><Y>280</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Income effect on smoking]]></Text>
+					<Text><![CDATA[Income exposure -> Income assignment]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>12</Size>
@@ -7389,7 +7370,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1599558906927</Id>
 					<Name><![CDATA[text9]]></Name>
-					<X>330</X><Y>310</Y>
+					<X>550</X><Y>300</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7399,7 +7380,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Income effect on mortality]]></Text>
+					<Text><![CDATA[Income exposure -> Smoking]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>12</Size>
@@ -7410,7 +7391,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Text>
 					<Id>1599558951468</Id>
 					<Name><![CDATA[text10]]></Name>
-					<X>330</X><Y>340</Y>
+					<X>550</X><Y>340</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7420,7 +7401,8 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Smoking effect on mortality]]></Text>
+					<Text><![CDATA[Mobility exposure -> Smoking
+]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>12</Size>
@@ -7431,8 +7413,117 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Control Type="EditBox">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599578403841</Id>
-					<Name><![CDATA[incomeCoeffSmoking]]></Name>
-					<X>580</X><Y>230</Y>
+					<Name><![CDATA[incomeAssignmentCoeffIncomeExposure]]></Name>
+					<X>720</X><Y>250</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="60" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor/>
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LinkTo>true</LinkTo>
+						<Link>v_incomeAssignmentCoeffIncomeExposure</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1599643894417</Id>
+					<Name><![CDATA[editbox3]]></Name>
+					<X>720</X><Y>290</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="60" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor/>
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LinkTo>true</LinkTo>
+						<Link>v_smokingCoeffIncomeExposure</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1599643896987</Id>
+					<Name><![CDATA[editbox4]]></Name>
+					<X>720</X><Y>330</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="60" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor/>
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LinkTo>true</LinkTo>
+						<Link>v_smokingCoeffMobilityExposure</Link>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1599643901181</Id>
+					<Name><![CDATA[editbox5]]></Name>
+					<X>720</X><Y>370</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="60" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<FillColor/>
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LinkTo>true</LinkTo>
+						<Link>v_mortalityCoeffSmoking</Link>
+					</ExtendedProperties>
+				</Control>
+				<Text>
+					<Id>1599644178922</Id>
+					<Name><![CDATA[text12]]></Name>
+					<X>600</X><Y>380</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Smoking -> Mortality]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Control Type="EditBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1599644911063</Id>
+					<Name><![CDATA[editbox2]]></Name>
+					<X>240</X><Y>400</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7447,17 +7538,78 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
 						<LinkTo>true</LinkTo>
-						<Link>v_incomeAssignmentCoeffIncomeExposure</Link>
+						<Link>v_recurrentTimeStratificationMeasures</Link>
 					</ExtendedProperties>
+				</Control>
+				<Text>
+					<Id>1599644923944</Id>
+					<Name><![CDATA[text8]]></Name>
+					<X>20</X><Y>410</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Recurrent time stratification measures]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1599644974162</Id>
+					<Name><![CDATA[text11]]></Name>
+					<X>100</X><Y>170</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[General]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Control Type="CheckBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1599645618295</Id>
+					<Name><![CDATA[checkbox]]></Name>
+					<X>450</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="180" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor/>
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LabelText><![CDATA[Compute Gini Coefficient]]></LabelText>
+						<LinkTo>true</LinkTo>
+						<Link>v_computeGiniCoeff</Link>
+	 				</ExtendedProperties>
 				</Control>
 			</Presentation>
 
 			<Parameters>			
 				<Parameter>
-					<ParameterName><![CDATA[p_peoplePerCounty]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_populationPerCounty]]></Code>
-					</ParameterValue>
+					<ParameterName><![CDATA[p_numRows]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_numColumns]]></ParameterName>
@@ -7466,69 +7618,15 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_numRows]]></ParameterName>
+					<ParameterName><![CDATA[p_id]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_sizeRectangle]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_moveRandom]]></ParameterName>
+					<ParameterName><![CDATA[p_peoplePerCounty]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_randomMovement]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_countyPopLimit]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_incomeQuantiles]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_moveRate]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_movementRate]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_id]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_movingThreshold]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_movingThreshold]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_filePath]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_maxGeneration]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_maxGeneration]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_exportData]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_exportData]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_updateStats]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_descriptiveStats]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_adjustmentFertilityFactor]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_fertilityAdjustment]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_showAgents]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_showAgents]]></Code>
+						<Code><![CDATA[v_populationPerCounty]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -7538,24 +7636,18 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_typeIncomeMobility]]></ParameterName>
+					<ParameterName><![CDATA[p_countyPopLimit]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_maxGeneration]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_typeIncomeMobility]]></Code>
+						<Code><![CDATA[v_maxGeneration]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_numIncomeTypes]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_mortalityCoeffIncomeType]]></ParameterName>
+					<ParameterName><![CDATA[p_showAgents]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_mortalityCoeffIncomeType]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_smokingCoeffIncomeType]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_smokingCoeffIncomeType]]></Code>
+						<Code><![CDATA[v_showAgents]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -7565,10 +7657,25 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_smokingCoeffMobilityExposure]]></ParameterName>
+					<ParameterName><![CDATA[p_exportData]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_smokingCoeffMobilityExposure]]></Code>
+						<Code><![CDATA[v_exportData]]></Code>
 					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_filePath]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_adjustmentFertilityFactor]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_fertilityAdjustment]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_incomeQuantiles]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_computeGiniCoeff]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_recurrentTimeStratificationMeasures]]></ParameterName>
@@ -7577,10 +7684,55 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
+					<ParameterName><![CDATA[p_moveRate]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_movementRate]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_movingThreshold]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_movingThreshold]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_moveRandom]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_randomMovement]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_updateStats]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_descriptiveStats]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_numIncomeTypes]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_typeIncomeMobility]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_typeIncomeMobility]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_smokingCoeffIncomeType]]></ParameterName>
+				</Parameter>
+				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffIncomeExposure]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_smokingCoeffIncomeExposure]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_smokingCoeffMobilityExposure]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_smokingCoeffMobilityExposure]]></Code>
 					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_mortalityCoeffIncomeType]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_mortalityCoeffSmoking]]></ParameterName>
@@ -7736,6 +7888,9 @@ import java.io.IOException;]]></Import>
 			<FreeformParamValue>	
 				<Id>1599596944691</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1599645461621</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -7868,6 +8023,10 @@ import java.io.IOException;]]></Import>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1599596944691</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1599645461621</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -8013,6 +8172,9 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<FreeformParamValue>	
 				<Id>1599596944691</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1599645461621</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8130,6 +8292,10 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1599596944691</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1599645461621</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
