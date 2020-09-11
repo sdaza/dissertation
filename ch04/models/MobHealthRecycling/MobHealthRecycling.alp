@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241833" AlpVersion="8.5.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241834" AlpVersion="8.5.1">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -211,7 +211,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1566809923631</Id>
-					<Name><![CDATA[v_individualMigration]]></Name>
+					<Name><![CDATA[v_migrationData]]></Name>
 					<X>-950</X><Y>780</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1481,7 +1481,7 @@ for (County c : counties) {
 // Define output files
 if (p_exportData) {
 	f_defineCountyData();
-	//f_defineIndividualMigration();
+	f_defineMigrationData();
 	f_defineFamilyData();
 	f_defineMortalityData();
 }
@@ -1634,19 +1634,17 @@ for (County c : counties) {
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1566809923629</Id>
-					<Name><![CDATA[f_defineIndividualMigration]]></Name>
+					<Name><![CDATA[f_defineMigrationData]]></Name>
 					<X>-950</X><Y>800</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath + "migration.csv";
+ String name = p_filePath+"migration.csv";
  File f = new File(name);
- v_individualMigration = new BufferedWriter(new FileWriter(f));
-// v_individualMigration.write("iteration,replicate,id,county,county_income,county_gini,county_income_mobility,generation,age,time,income,parent_id"+ "\n");
- v_individualMigration.write("iteration,replicate,parent_id"+ "\n");
- 
+ v_migrationData = new BufferedWriter(new FileWriter(f));
+ v_migrationData.write("iteration,replicate,date,id,age,county"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -1918,7 +1916,7 @@ catch (IOException e) {
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567150747710</Id>
-					<Name><![CDATA[f_exportIndividualMigration]]></Name>
+					<Name><![CDATA[f_exportMigrationData]]></Name>
 					<X>-950</X><Y>820</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1928,32 +1926,19 @@ catch (IOException e) {
 						<Name><![CDATA[agent]]></Name>
 						<Type><![CDATA[Person]]></Type>
 					</Parameter>
-					<Body><![CDATA[// Export migration data
-traceln(agent.county.getId());
-
+					<Body><![CDATA[// export migration data
 try {
-    v_individualMigration.write(
-       	v_iteration + "," + 
-   		v_replicate + "," +
-	    agent.p_parentId + "\n"
-	    );
+   	v_migrationData.write(
+	   	v_iteration + "," + 
+	   	v_replicate + "," +
+	   	time() + "," +
+	    agent.p_id + "," + 
+	    agent.p_age + "," + 
+	    agent.county.getId() + "\n");
 	}
 catch (IOException e) {
 	e.printStackTrace();
-}
-
-/*
-	    agent.p_id + "," +
-	    agent.county.getId() + "," +
-	    agent.county.v_averageIncome + "," +
-	    agent.county.v_gini + "," +
-	    agent.county.v_incomeMobility + "," +
-	    agent.p_generation + "," +
-	    agent.p_age + "," +
-	    time() + "," +
-	    agent.p_income + "," +
-*/
-	    ]]></Body>
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -5524,6 +5509,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 							<Code><![CDATA[main.p_moveRate]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
+						<Guard><![CDATA[p_alive && p_age >= 18]]></Guard>
 						<MessageType><![CDATA[Object]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
@@ -5829,7 +5815,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     
 	// Save moving data (target agent)
 	v_numberMoves++;
-	if (main.p_exportData) main.f_exportIndividualMigration(this);
+	if (main.p_exportData) { main.f_exportMigrationData(this); }
 
 	//traceln(this);
 
@@ -5865,7 +5851,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     		
     			// save moving data (kids)
     			kid.v_numberMoves++;
-    			//if (main.p_exportData) { main.f_exportIndividualMigration(kid);}
+    			if (main.p_exportData) { main.f_exportMigrationData(kid); }
 	
 			}
 		}
@@ -6636,7 +6622,7 @@ import java.io.IOException;]]></Import>
 			<AfterSimulationRunCode><![CDATA[try {
 	if (root.p_exportData) {
 		root.v_countyData.close();
-		//root.v_individualMigration.close();
+		root.v_migrationData.close();
 		root.v_familyData.close();
 		root.v_mortalityData.close();
 	}
