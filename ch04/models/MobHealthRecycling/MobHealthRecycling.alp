@@ -23,6 +23,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Collectors;  
 import java.text.*;
@@ -366,7 +367,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1599549375347</Id>
-					<Name><![CDATA[v_parameters]]></Name>
+					<Name><![CDATA[v_parameterData]]></Name>
 					<X>-950</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -864,7 +865,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597483579245</Id>
-					<Name><![CDATA[p_typeIncomeMobility]]></Name>
+					<Name><![CDATA[p_incomeMobilityRegime]]></Name>
 					<Description><![CDATA[Income mobility regime
 
 0 = no income mobility
@@ -1461,7 +1462,7 @@ f_incomeMobilityModel();
 // income mobility model and income values
 for (County c : counties) {
 	// income mobility regime is defined at the county level
-	c.p_typeIncomeMobility = p_typeIncomeMobility;
+	c.p_typeIncomeMobility = p_incomeMobilityRegime;
 	c.v_incomeMobilityModelCoefficients = c_incomeTypeCoefficients.get(c.p_typeIncomeMobility);
 	for (Person p : c.people) {	
 		// initial type of income mobility (random)
@@ -1469,7 +1470,7 @@ for (County c : counties) {
 		// other variables 
 		p.p_parentAlive = false;
 		p.p_parentIncomeType = p.p_incomeType;
-		p.p_parentIncome = f_assignIncome(p.p_parentIncomeType);	
+		p.p_parentIncome = f_assignIncome(p.p_parentIncomeType);
 	}
 }
 
@@ -1480,12 +1481,13 @@ for (County c : counties) {
 
 // Define output files
 if (p_exportData) {
+	f_defineParameterData();
+	f_exportParameterData();
 	f_defineCountyData();
 	f_defineMigrationData();
 	f_defineFamilyData();
 	f_defineMortalityData();
 }
-
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1641,16 +1643,15 @@ for (County c : counties) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath+"migration.csv";
- File f = new File(name);
- v_migrationData = new BufferedWriter(new FileWriter(f));
- v_migrationData.write("iteration,replicate,date,id,age,county"+ "\n");
+	String name = p_filePath+"migration.csv";
+	File f = new File(name);
+	v_migrationData = new BufferedWriter(new FileWriter(f));
+	v_migrationData.write("iteration,replicate,time,id,age,generation,county,average_income,income_mobility,gini"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
 	e.printStackTrace();
-}
-]]></Body>
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1802,11 +1803,10 @@ return result;*/]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath+"family.csv";
- File f = new File(name);
- v_familyData = new BufferedWriter(new FileWriter(f));
- v_familyData.write("iteration,replicate,parent_id,parent_generation,parent_age,kid_id,kid_generation,kid_age,kid_alive,time,parent_type,kid_type,parent_income,kid_income,parent_income_exposure,kid_income_exposure"+ "\n");
-
+	String name = p_filePath+"family.csv";
+	File f = new File(name);
+	v_familyData = new BufferedWriter(new FileWriter(f));
+	v_familyData.write("iteration,replicate,parent_id,parent_generation,parent_age,kid_id,kid_generation,kid_age,kid_alive,time,parent_type,kid_type,parent_income,kid_income,parent_income_exposure,kid_income_exposure"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -1863,10 +1863,10 @@ catch (IOException e) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath+"mortality.csv";
- File f = new File(name);
- v_mortalityData = new BufferedWriter(new FileWriter(f));
- v_mortalityData.write("iteration,replicate,date,id,generation,time,age,income_type,income,nkids,smoker,nmoves,county,county_avg_income,county_gini,county_income_mobility"+ "\n");
+	String name = p_filePath+"mortality.csv";
+ 	File f = new File(name);
+ 	v_mortalityData = new BufferedWriter(new FileWriter(f));
+ 	v_mortalityData.write("iteration,replicate,date,id,generation,time,age,income_type,income,nkids,smoker,nmoves,county,county_avg_income,county_gini,county_income_mobility"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -1888,7 +1888,7 @@ catch (IOException e) {
 						<Name><![CDATA[agent]]></Name>
 						<Type><![CDATA[Person]]></Type>
 					</Parameter>
-					<Body><![CDATA[// Export family data
+					<Body><![CDATA[// export family data
 try {
    	v_mortalityData.write(
 	   	v_iteration + "," + 
@@ -1934,7 +1934,11 @@ try {
 	   	time() + "," +
 	    agent.p_id + "," + 
 	    agent.p_age + "," + 
-	    agent.county.getId() + "\n");
+	    agent.p_generation + "," + 
+	    agent.county.getId() + "," + 
+	    agent.county.v_averageIncome + "," + 
+	    agent.county.v_incomeMobility + "," + 
+	    agent.county.v_gini + "\n");
 	}
 catch (IOException e) {
 	e.printStackTrace();
@@ -2261,27 +2265,52 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
- String name = p_filePath+"parameters.csv";
- File f = new File(name);
- v_mortalityData = new BufferedWriter(new FileWriter(f));
- v_mortalityData.write("date,id,generation,time,age,income_type,income,nkids,smoker,nmoves,county,county_avg_income,county_gini,county_income_mobility"+ "\n");
+	String name = p_filePath+"parameters.csv";
+	File f = new File(name);
+	v_parameterData = new BufferedWriter(new FileWriter(f));
+	v_parameterData.write("iteration;replicate;counties;people_per_county;move_rate;move_random;move_threshold;" +
+        "max_generation;mobility_regime;income_exposure_coef;smoking_mobility_exposure_coef;" +
+        "smoking_income_exposure_coef;smoking_income_coef; mortality_smoking_coef;" +
+        "mortality_income_coef"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
 	e.printStackTrace();
-}
-]]></Body>
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1599549399949</Id>
-					<Name><![CDATA[v_exportParameterData]]></Name>
+					<Name><![CDATA[f_exportParameterData]]></Name>
 					<X>-950</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[// export parameter
+try {
+   	v_parameterData.write(
+	   	v_iteration + ";" + 
+	   	v_replicate + ";" +
+	   	counties.size() + ";" +
+	    p_peoplePerCounty + ";" +
+	    p_moveRate + ";" +
+	    p_moveRandom + ";" +
+	    p_movingThreshold + ";" +
+	    p_maxGeneration + ";" +
+	    p_incomeMobilityRegime + ";" +
+	    p_incomeAssignmentCoeffIncomeExposure + ";" +
+	    p_smokingCoeffMobilityExposure + ";" +
+	    p_smokingCoeffIncomeExposure + ";" +
+	    Arrays.toString(p_smokingCoeffIncomeType) + ";" +
+	    p_mortalityCoeffSmoking + ";" +
+	    Arrays.toString(p_mortalityCoeffIncomeType)  + "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}
+]]></Body>
 				</Function>
 			</Functions>
 			<TableFunctions>
@@ -5199,9 +5228,6 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="170" Height="210">
-						<EntryAction><![CDATA[
-
-]]></EntryAction>
 						<FillColor>-32</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -5333,9 +5359,7 @@ ev_computeAge.restart();
 main.c_peopleAlive.add(this);
 
 ev_computeAge.restart();
-//ev_move.restart();
-//ev_startWorking.restart();
-// ev_smokingInitiation.restart();]]></Action>
+if (main.p_exportData) { main.f_exportMigrationData(this);}]]></Action>
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
@@ -5509,7 +5533,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 							<Code><![CDATA[main.p_moveRate]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
-						<Guard><![CDATA[p_alive && p_age >= 18]]></Guard>
+						<Guard><![CDATA[p_age >= 18]]></Guard>
 						<MessageType><![CDATA[Object]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
@@ -5712,11 +5736,9 @@ ev_smokingInitiation.reset();]]></Action>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Agents older than 18 years old move randomly
-if (p_alive && p_age >= 18 && main.p_moveRandom) {
-	f_moving();
-} 
+if (main.p_moveRandom) { f_moving(); } 
 // Agents older than 18 years old move when a threshold is met
-else if (p_alive && p_age >= 18 && f_proportionSimilarity() < main.p_movingThreshold) {
+else if (f_proportionSimilarity() < main.p_movingThreshold) {
 	this.f_moving();
 }]]></Body>
 				</Function>
@@ -5902,10 +5924,9 @@ if (this.c_kids.size() != 0 ) {
 
 // stop recurrent events
 ev_computeAge.reset();
-//ev_move.reset();
-// ev_startWorking.reset();
 
 v_numberKids = 0;
+v_numberMoves = 0;
 
 // remove agent from collections
 county.c_peopleAlive.remove(this);
@@ -5996,6 +6017,9 @@ newKid.v_timeInCounty = newKid.p_birthTime;
 
 send("live again", newKid);
 c_kids.add(newKid);
+
+newKid.v_numberKids = 0;
+newKid.v_numberMoves = 0;
 
 // make them visible
 newKid.oval.setVisible(true);
@@ -6621,6 +6645,7 @@ import java.io.IOException;]]></Import>
 			<BeforeSimulationRunCode><![CDATA[root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[try {
 	if (root.p_exportData) {
+		root.v_parameterData.close();
 		root.v_countyData.close();
 		root.v_migrationData.close();
 		root.v_familyData.close();
@@ -6697,7 +6722,7 @@ import java.io.IOException;]]></Import>
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1597069911814</Id>
-					<Name><![CDATA[v_typeIncomeMobility]]></Name>
+					<Name><![CDATA[v_incomeMobilityRegime]]></Name>
 					<X>-260</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -7263,7 +7288,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 						<MinValue><![CDATA[0]]></MinValue>
 						<MaxValue><![CDATA[5]]></MaxValue>
 						<LinkTo>true</LinkTo>
-						<Link>v_typeIncomeMobility</Link>
+						<Link>v_incomeMobilityRegime</Link>
 					</ExtendedProperties>
 				</Control>
 				<Text>
@@ -7400,7 +7425,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599578403841</Id>
 					<Name><![CDATA[incomeAssignmentCoeffIncomeExposure]]></Name>
-					<X>720</X><Y>250</Y>
+					<X>730</X><Y>250</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7422,7 +7447,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643894417</Id>
 					<Name><![CDATA[editbox3]]></Name>
-					<X>720</X><Y>290</Y>
+					<X>730</X><Y>290</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7444,7 +7469,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643896987</Id>
 					<Name><![CDATA[editbox4]]></Name>
-					<X>720</X><Y>330</Y>
+					<X>730</X><Y>330</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7466,7 +7491,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643901181</Id>
 					<Name><![CDATA[editbox5]]></Name>
-					<X>720</X><Y>370</Y>
+					<X>730</X><Y>370</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7697,9 +7722,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_numIncomeTypes]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_typeIncomeMobility]]></ParameterName>
+					<ParameterName><![CDATA[p_incomeMobilityRegime]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_typeIncomeMobility]]></Code>
+						<Code><![CDATA[v_incomeMobilityRegime]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
