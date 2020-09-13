@@ -31,16 +31,23 @@ prop.table(table(f[parent_generation %in% c(1:10), parent_type]))
 prop.table(table(f[kid_age > 0, .(parent_type, kid_type)]), 1)
 prop.table(table(f[kid_age == 0, .(parent_type, kid_type)]), 1)
 
-hist(f[parent_generation == 2, parent_age])
-
 # read mortality data
 m = fread("models/MobHealthRecycling/output/mortality.csv")
 print(paste0("Date of simulation: ", m$date[1]))
 
-prop.table(table(m[generation == 0, smoker]))
+anyDuplicated(m$id)
 
+prop.table(table(m[generation == 0, smoker]))
 mean(m[generation == 4, age])
 
+# proportion people moving by generation
+m[, .(prop_moves = mean(as.numeric(nmoves > 0))), generation]
+
+# number of kids
+m[, .(prop_kids = mean(as.numeric(nkids > 0))), generation]
+m[, .(average_kids = mean(nkids)), generation]
+
+# age average by group
 m[generation == 4, mean(age), income_type]
 m[generation == 6, mean(age), .(smoker)]
 
@@ -53,7 +60,7 @@ test
 hist(m[generation == 2, age], breaks = 10)
 
 # county data
-c = fread("models/MobHealthRecycling/output/county_data.csv")
+c = fread("models/MobHealthRecycling/output/county.csv")
 
 hist(c$avg_age)
 hist(c$avg_income)
@@ -66,4 +73,49 @@ hist(c$gini)
 c[time == 100, test := scale(income_mobility)]
 c[time ==100]
 hist(c[time == 100, income_mobility])
-hist(c[time == 100, z_income_mobility])
+hist(c[time == 100, income_mobility])
+
+# migration
+mi = fread("models/MobHealthRecycling/output/migration.csv")
+names(mi)
+head(mi)
+
+# check movement of kids
+f[parent_generation == 1]
+table(m$nkids)
+m[id == 7966]
+f[parent_id == 7966 & kid_age == 0]
+
+kid_ids = f[parent_id == 7966, kid_id]
+
+mi[age > 10 & id == 7966, .(id, time, county)]
+mi[id %in% kid_ids, .(id, age, time, county)]
+
+test = mi[age > 0 & generation > 2 & generation < 5 & age < 18]
+hist(test$age)
+
+mi = mi[age > 0]
+mi[, ntime := floor(time)]
+
+nrow(mi)
+
+mi = unique(mi[, .(ntime, id)])
+nrow(mi)
+
+mi[, .N, .(ntime)][ntime > 100]
+
+mi
+# hist(mi$average_income)
+summary(mi$average_income)
+
+mi[generation == 1]
+mi[generation == 2]
+
+hist(mi[generation == 0, .N, id]$N)
+table(mi[generation == 2, .N, id]$N)
+
+mi[generation == 2]
+
+# parameters
+p = fread("models/MobHealthRecycling/output/parameters.csv")
+names(p)
