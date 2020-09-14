@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241834" AlpVersion="8.5.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241833" AlpVersion="8.5.1">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -23,6 +23,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Collectors;  
 import java.text.*;
@@ -2267,9 +2268,9 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	String name = p_filePath+"parameters.csv";
 	File f = new File(name);
 	v_parameterData = new BufferedWriter(new FileWriter(f));
-	v_parameterData.write("iteration,replicate,counties,people_per_county,move_rate,move_random,move_threshold," +
-        "max_generation,mobility_regime,income_exposure_coef,smoking_mobility_exposure_coef," +
-        "smoking_income_exposure_coef,smoking_income_coef, mortality_smoking_coef," +
+	v_parameterData.write("iteration;replicate;counties;people_per_county;move_rate;move_random;move_threshold;" +
+        "max_generation;mobility_regime;income_exposure_coef;smoking_mobility_exposure_coef;" +
+        "smoking_income_exposure_coef;smoking_income_coef; mortality_smoking_coef;" +
         "mortality_income_coef"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
@@ -2290,21 +2291,21 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<Body><![CDATA[// export parameter
 try {
    	v_parameterData.write(
-	   	v_iteration + "," + 
-	   	v_replicate + "," +
-	   	counties.size() + "," +
-	    p_peoplePerCounty + "," +
-	    p_moveRate + "," +
-	    p_moveRandom + "," +
-	    p_movingThreshold + "," +
-	    p_maxGeneration + "," +
-	    p_incomeMobilityRegime + "," +
-	    p_incomeAssignmentCoeffIncomeExposure + "," +
-	    p_smokingCoeffMobilityExposure + "," +
-	    p_smokingCoeffIncomeExposure + "," +
-	    p_smokingCoeffIncomeType.toString() + "," +
-	    p_mortalityCoeffSmoking + "," +
-	    p_mortalityCoeffIncomeType.toString()  + "\n");
+	   	v_iteration + ";" + 
+	   	v_replicate + ";" +
+	   	counties.size() + ";" +
+	    p_peoplePerCounty + ";" +
+	    p_moveRate + ";" +
+	    p_moveRandom + ";" +
+	    p_movingThreshold + ";" +
+	    p_maxGeneration + ";" +
+	    p_incomeMobilityRegime + ";" +
+	    p_incomeAssignmentCoeffIncomeExposure + ";" +
+	    p_smokingCoeffMobilityExposure + ";" +
+	    p_smokingCoeffIncomeExposure + ";" +
+	    Arrays.toString(p_smokingCoeffIncomeType) + ";" +
+	    p_mortalityCoeffSmoking + ";" +
+	    Arrays.toString(p_mortalityCoeffIncomeType)  + "\n");
 	}
 catch (IOException e) {
 	e.printStackTrace();
@@ -4683,7 +4684,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1567156647192</Id>
 					<Name><![CDATA[v_averageIncomeMobilityExposure]]></Name>
-					<X>-378.604</X><Y>319.975</Y>
+					<X>-378.604</X><Y>289.975</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4713,7 +4714,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1596995996317</Id>
 					<Name><![CDATA[v_numberKids]]></Name>
-					<X>-380</X><Y>280</Y>
+					<X>-380</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4743,7 +4744,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1597909992530</Id>
 					<Name><![CDATA[v_averageIncomeExposure]]></Name>
-					<X>-379.302</X><Y>299.988</Y>
+					<X>-379.302</X><Y>269.988</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4802,7 +4803,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="Parameter">
 					<Id>1516979080864</Id>
 					<Name><![CDATA[p_thresholdMoving]]></Name>
-					<X>-610</X><Y>190</Y>
+					<X>-610</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5208,7 +5209,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1596626508124</Id>
 					<Name><![CDATA[Dead]]></Name>
-					<X>370</X><Y>330</Y>
+					<X>400</X><Y>310</Y>
 					<Label><X>20</X><Y>25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5221,7 +5222,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1566676405826</Id>
 					<Name><![CDATA[Alive]]></Name>
-					<X>130</X><Y>240</Y>
+					<X>160</X><Y>220</Y>
 					<Label><X>35</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5233,7 +5234,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="State" ParentState="Alive" ParentStateId="1566676405826">
 					<Id>1597672051853</Id>
 					<Name><![CDATA[NoSmoking]]></Name>
-					<X>170</X><Y>300</Y>
+					<X>200</X><Y>280</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5246,7 +5247,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="State" ParentState="Alive" ParentStateId="1566676405826">
 					<Id>1597672060706</Id>
 					<Name><![CDATA[Smoking]]></Name>
-					<X>170</X><Y>370</Y>
+					<X>200</X><Y>350</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5259,7 +5260,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
 					<Id>1566676401648</Id>
 					<Name><![CDATA[st_lifecourse]]></Name>
-					<X>180</X><Y>205</Y>
+					<X>210</X><Y>185</Y>
 					<Label><X>15</X><Y>10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5280,7 +5281,7 @@ ev_computeAge.restart();
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1566676449394</Id>
 					<Name><![CDATA[reproduce]]></Name>
-					<X>130</X><Y>300</Y>
+					<X>160</X><Y>280</Y>
 					<Label><X>-115</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5313,7 +5314,7 @@ ev_computeAge.restart();
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596994522454</Id>
 					<Name><![CDATA[die]]></Name>
-					<X>300</X><Y>340</Y>
+					<X>330</X><Y>320</Y>
 					<Label><X>25</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5343,7 +5344,7 @@ ev_computeAge.restart();
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596995265505</Id>
 					<Name><![CDATA[transition3]]></Name>
-					<X>370</X><Y>370</Y>
+					<X>400</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5357,8 +5358,7 @@ ev_computeAge.restart();
 						<Action><![CDATA[county.c_peopleAlive.add(this);
 main.c_peopleAlive.add(this);
 
-ev_computeAge.restart();
-if (main.p_exportData) { main.f_exportMigrationData(this);}]]></Action>
+ev_computeAge.restart();]]></Action>
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
@@ -5378,7 +5378,7 @@ if (main.p_exportData) { main.f_exportMigrationData(this);}]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596995386440</Id>
 					<Name><![CDATA[transition5]]></Name>
-					<X>300</X><Y>355</Y>
+					<X>330</X><Y>335</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5408,7 +5408,7 @@ if (main.p_exportData) { main.f_exportMigrationData(this);}]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1597072132651</Id>
 					<Name><![CDATA[startWorking]]></Name>
-					<X>130</X><Y>430</Y>
+					<X>160</X><Y>410</Y>
 					<Label><X>-130</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5422,7 +5422,6 @@ if (main.p_exportData) { main.f_exportMigrationData(this);}]]></Action>
 					<IconOffset>70.0</IconOffset>
 					<Properties Source="1566676405826" Target="1566676405826" Trigger="message">
 						<Action><![CDATA[// traceln("start working");
-
 p_economicallyActive = true;
 
 // estimate average exposure
@@ -5439,7 +5438,7 @@ Income i = new Income(p_id, p_income);
 main.c_income.add(i);
 county.c_income.add(i);
 
-// Add income mobility data
+// add income mobility data
 IncomeParentKid t = new IncomeParentKid(p_id, p_generation, p_parentIncome, p_income);
 main.c_incomeParentKid.add(t);
 county.c_incomeParentKid.add(t);]]></Action>
@@ -5452,7 +5451,6 @@ county.c_incomeParentKid.add(t);]]></Action>
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
-						<Guard><![CDATA[p_economicallyActive == false;]]></Guard>
 						<MessageType><![CDATA[String]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[equalsTo]]></FilterType>
@@ -5463,7 +5461,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="Alive" ParentStateId="1566676405826">
 					<Id>1597672069177</Id>
 					<Name><![CDATA[smoking]]></Name>
-					<X>220</X><Y>330</Y>
+					<X>250</X><Y>310</Y>
 					<Label><X>-60</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5483,7 +5481,6 @@ county.c_incomeParentKid.add(t);]]></Action>
 							<Code><![CDATA[f_smokingHazard();]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
-						<Guard><![CDATA[//st_smoking.receiveMessage("you have died!") == false && time() > 10;]]></Guard>
 						<MessageType><![CDATA[Object]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
@@ -5494,7 +5491,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="InitialStatePointer" ParentState="Alive" ParentStateId="1566676405826">
 					<Id>1599227997478</Id>
 					<Name><![CDATA[st_smoking]]></Name>
-					<X>220</X><Y>270</Y>
+					<X>250</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5509,7 +5506,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1599254459335</Id>
 					<Name><![CDATA[moving]]></Name>
-					<X>130</X><Y>360</Y>
+					<X>160</X><Y>340</Y>
 					<Label><X>-110</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5545,7 +5542,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<Event>
 					<Id>1596634470482</Id>
 					<Name><![CDATA[ev_computeAge]]></Name>
-					<X>-380</X><Y>100</Y>
+					<X>-380</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5576,38 +5573,6 @@ county.c_incomeParentKid.add(t);]]></Action>
 if (p_age == 18.0) send("time to work", this);
 // force to people die after 110 years old
 if (p_age > 110) send("you should die", this);]]></Action>
-				</Event>
-				<Event>
-					<Id>1596639212145</Id>
-					<Name><![CDATA[ev_move]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-380</X><Y>120</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties TriggerType="rate" Mode="occuresOnce">
-						<Timeout Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</Timeout>
-						<Rate Class="CodeUnitValue">
-							<Code><![CDATA[main.p_moveRate]]></Code>
-							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
-						</Rate>
-						<OccurrenceAtTime>true</OccurrenceAtTime>
-						<OccurrenceDate>1596700800000</OccurrenceDate>
-						<OccurrenceTime Class="CodeUnitValue">
-							<Code><![CDATA[0]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</OccurrenceTime>
-						<RecurrenceCode Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</RecurrenceCode>
-						<Condition><![CDATA[false]]></Condition>
-					</Properties>
-					<Action><![CDATA[if (main.p_allowMovement && randomTrue(main.p_probabilityToMove)) f_migrate();]]></Action>
 				</Event>
 				<Event>
 					<Id>1597519999012</Id>
@@ -5641,42 +5606,6 @@ if (p_age > 110) send("you should die", this);]]></Action>
 					</Properties>
 					<Action><![CDATA[v_currentSmoker = true;
 ev_smokingInitiation.reset();]]></Action>
-				</Event>
-				<Event>
-					<Id>1598020326049</Id>
-					<Name><![CDATA[ev_startWorking]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-380</X><Y>140</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties TriggerType="timeout" Mode="cyclic">
-						<Timeout Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</Timeout>
-						<Rate Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
-							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
-						</Rate>
-						<OccurrenceAtTime>true</OccurrenceAtTime>
-						<OccurrenceDate>1598083200000</OccurrenceDate>
-						<OccurrenceTime Class="CodeUnitValue">
-							<Code><![CDATA[17]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</OccurrenceTime>
-						<RecurrenceCode Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
-							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-						</RecurrenceCode>
-						<Condition><![CDATA[p_age >= 18.0]]></Condition>
-					</Properties>
-					<Action><![CDATA[if (p_age >= 18.0) {
-	send("time to work", this);
-	p_economicallyActive = true;
-	ev_startWorking.reset();
-}]]></Action>
 				</Event>
 			</Events>
 			<Functions>
@@ -5891,42 +5820,39 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[main.c_deadPeople.add(this);
 
-// change parameters
-p_alive = false;
-p_economicallyActive = false;
-
 // save data
 if (main.p_exportData) {
 	main.f_exportMortalityData(this);
-	if (this.p_age < 18) main.f_exportFamilyData(this);
 }
 
 // change parameters
-this.p_recycled = false;
 
-// clear exposure collections
+
+// clear exposure collections and variables
 this.c_countyIncomeExposure.clear();
 this.c_countyIncomeMobilityExposure.clear();
 
+// reset variables and parameters
+v_numberKids = 0;
+v_numberMoves = 0;
 v_averageIncomeExposure = 0.0; 
 v_averageIncomeMobilityExposure = 0.0;
+v_currentSmoker = false;
+v_timeInCounty = 0;
 
-this.oval.setVisible(false);
+p_alive = false;
+p_economicallyActive = false;
+p_recycled = false;
+
+oval.setVisible(false);
 
 // remove intergenerational links
-if (this.c_kids.size() != 0 ) {
-	for (Person k : this.c_kids) {
+if (c_kids.size() != 0) {
+	for (Person k : c_kids) {
 		k.p_parentAlive = false;
 	}
-	this.c_kids.clear();
+    c_kids.clear();
 }
-
-// stop recurrent events
-ev_computeAge.reset();
-//ev_move.reset();
-// ev_startWorking.reset();
-
-v_numberKids = 0;
 
 // remove agent from collections
 county.c_peopleAlive.remove(this);
@@ -5952,9 +5878,8 @@ if (county.c_income.size() > 0) {
 	county.c_income.remove(i);
 }
 
-
 // reset id
-this.p_id = 0;
+p_id = 0;
 
 send("you have died!", this);]]></Body>
 				</Function>
@@ -5974,6 +5899,7 @@ send("you have died!", this);]]></Body>
 					</Parameter>
 					<Body><![CDATA[// assing newKid new values
 newKid.p_id = main.p_id++;
+newKid.p_parentId = p_id;
 newKid.p_alive = true;
 
 newKid.p_age = 0.0;
@@ -5990,6 +5916,7 @@ newKid.p_parentIncome = p_income;
 newKid.p_parentGeneration = p_generation;
 newKid.p_parentAverageIncomeExposure = v_averageIncomeExposure;
 newKid.p_parentAge = p_age;
+
 
 // assing income variables
 newKid.p_income = p_income;
@@ -6018,6 +5945,9 @@ newKid.v_timeInCounty = newKid.p_birthTime;
 send("live again", newKid);
 c_kids.add(newKid);
 
+newKid.v_numberKids = 0;
+newKid.v_numberMoves = 0;
+
 // make them visible
 newKid.oval.setVisible(true);
 
@@ -6028,12 +5958,10 @@ if (main.v_lastGeneration != newKid.p_generation && main.v_lastGeneration < newK
 }
 
 // save initial residential info
-/*
 if (main.p_exportData) {
-	//main.f_exportIndividualMigration(newKid);
 	main.f_exportFamilyData(newKid);
-}
-*/]]></Body>
+    main.f_exportMigrationData(newKid);
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -7422,7 +7350,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599578403841</Id>
 					<Name><![CDATA[incomeAssignmentCoeffIncomeExposure]]></Name>
-					<X>720</X><Y>250</Y>
+					<X>730</X><Y>250</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7444,7 +7372,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643894417</Id>
 					<Name><![CDATA[editbox3]]></Name>
-					<X>720</X><Y>290</Y>
+					<X>730</X><Y>290</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7466,7 +7394,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643896987</Id>
 					<Name><![CDATA[editbox4]]></Name>
-					<X>720</X><Y>330</Y>
+					<X>730</X><Y>330</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7488,7 +7416,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1599643901181</Id>
 					<Name><![CDATA[editbox5]]></Name>
-					<X>720</X><Y>370</Y>
+					<X>730</X><Y>370</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
