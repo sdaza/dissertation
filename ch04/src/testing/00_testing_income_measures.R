@@ -40,7 +40,6 @@ assign_income_based_on_type = function(type) {
 }
 
 # simulate
-
 nsim = 700 * 3
 type_1_parent = runif(nsim, 0, 15000)
 type_2_parent = runif(nsim, 25000, 45000)
@@ -101,7 +100,6 @@ sum(p1, p2, p3)
 
 
 # testing rank-rank
-
 cor(dd[, .(income_parent, income_kid)], method = 'spearman')
 
 # test 1
@@ -115,8 +113,6 @@ dd[, prank_parent := perc.rank(income_parent)]
 cor(dd[, .(prank_parent, prank_kid)])
 
 # check some anylogic output
-
-setwd('/Users/sdaza/Documents/github/dissertation/ch04/models/mob_health_testing/output')
 data = fread('family.csv')
 
 head(data)
@@ -130,13 +126,13 @@ head(data)
 
 
 # explore chetty's data
-covs = data.table(read_dta('ch04/data/cty_full_covariates.dta'))
+covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
 
 dim(covs)
 head(covs)
 
 covs[, relative_mob := s_rank / 100.0]
-
+summary(covs$relative_mob)
 hist(covs$relative_mob)
 hist(covs$gini99)
 names(covs)
