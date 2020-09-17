@@ -959,7 +959,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.7, 0.0, -0.9}
+							<Code><![CDATA[{0.04, 0.0, -0.03}
 
 ]]></Code>
 						</DefaultValue>
@@ -6016,13 +6016,13 @@ if (main.p_exportData) {
 //traceln(v_averageIncomeMobilityExposure);
 double value = main.f_baselineSmokingInitiation(p_age) *
 	exp(0 +
-		// income effect = parent for people < 18, own income for people >=  18
+		// income effect = parent for people < 18, own income for people >=  19
 		main.p_smokingCoeffIncomeType[p_incomeType-1] + 
 	   // network effect
        // 0.3 * f_smokingConnections +
-       // income average exposure by age X, smoking could start before age 19
+       // income average exposure
        main.p_smokingCoeffIncomeExposure * v_averageIncomeExposure + 
-       // income mobility average exposure by age X
+       // income mobility average exposure
        main.p_smokingCoeffMobilityExposure * v_averageIncomeMobilityExposure);
 // traceln(value);
 return value;
