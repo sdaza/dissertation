@@ -2521,16 +2521,24 @@ catch (IOException e) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<InterpolationMethod>STEP</InterpolationMethod>
-					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
+					<OutOfRangeBehaviour>EXTRAPOLATE</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
-					<LoadFromDatabase><![CDATA[false]]></LoadFromDatabase>
+					<LoadFromDatabase><![CDATA[true]]></LoadFromDatabase>
 					<ValuesQuery>
 						<TableReference>
+							<PackageName><![CDATA[mobhealth8]]></PackageName>
+							<ClassName><![CDATA[smoking_rates]]></ClassName>
 						</TableReference>
 							<ArgumentColumnReference>
+								<PackageName><![CDATA[mobhealth8]]></PackageName>
+								<ClassName><![CDATA[smoking_rates]]></ClassName>
+								<ItemName><![CDATA[age]]></ItemName>
 							</ArgumentColumnReference>
 							<ValueColumnReference>
+								<PackageName><![CDATA[mobhealth8]]></PackageName>
+								<ClassName><![CDATA[smoking_rates]]></ClassName>
+								<ItemName><![CDATA[rate]]></ItemName>
 							</ValueColumnReference>
 					</ValuesQuery>
 // arguments and values
@@ -3255,7 +3263,7 @@ catch (IOException e) {
 				<Group>
 					<Id>1567600997824</Id>
 					<Name><![CDATA[groupMainMenu1]]></Name>
-					<X>480</X><Y>960</Y>
+					<X>500</X><Y>950</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5241,7 +5249,8 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="70" Height="50">
-						<EntryAction><![CDATA[f_dying();]]></EntryAction>
+						<EntryAction><![CDATA[f_dying();
+ev_computeAge.reset();]]></EntryAction>
 						<FillColor>-360334</FillColor>
 					</Properties>
 				</StatechartElement>
@@ -5299,9 +5308,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 						<Action><![CDATA[county.c_peopleAlive.add(this);
 main.c_peopleAlive.add(this);
 
-ev_computeAge.restart();
-//ev_move.restart();
-//ev_startWorking.restart();]]></Action>
+ev_computeAge.restart();]]></Action>
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
@@ -5545,17 +5552,16 @@ county.c_incomeParentKid.add(t);]]></Action>
 					</Points>
 					<IconOffset>70.0</IconOffset>
 					<Properties Source="1566676405826" Target="1566676405826" Trigger="rate">
-						<Action><![CDATA[f_migrate();]]></Action>
+						<Action><![CDATA[f_migrate()]]></Action>
 						<Timeout Class="CodeUnitValue">
 							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</Timeout>
 						<Condition><![CDATA[true]]></Condition>
 						<Rate Class="CodeUnitValue">
-							<Code><![CDATA[main.p_movingRate]]></Code>
+							<Code><![CDATA[p_age >= 18 ? main.p_movingRate : 0.0]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
-						<Guard><![CDATA[p_age >= 18]]></Guard>
 						<MessageType><![CDATA[Object]]></MessageType>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
@@ -5585,7 +5591,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<OccurrenceAtTime>true</OccurrenceAtTime>
 						<OccurrenceDate>1596700800000</OccurrenceDate>
 						<OccurrenceTime Class="CodeUnitValue">
-							<Code><![CDATA[0]]></Code>
+							<Code><![CDATA[p_birthTime]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</OccurrenceTime>
 						<RecurrenceCode Class="CodeUnitValue">
@@ -5595,10 +5601,13 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[p_age = floor(f_currentAge());
-
 if (p_age == 18.0) send("time to work", this);
 // force to people die after 110 years old
-if (p_age > 110) send("you should die", this);]]></Action>
+if (p_age > 110) send("you should die", this);
+
+v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
+v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
+]]></Action>
 				</Event>
 				<Event>
 					<Id>1597519999012</Id>
@@ -5905,6 +5914,9 @@ if (county.c_income.size() > 0) {
 // reset id
 p_id = 0;
 
+// stop compute age
+ev_computeAge.reset();
+
 send("you have died!", this);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -6002,15 +6014,15 @@ if (main.p_exportData) {
 
 //traceln(v_averageIncomeExposure);
 //traceln(v_averageIncomeMobilityExposure);
-double value = main.f_baselineSmokingInitiation(p_age) * 1.4 *
+double value = main.f_baselineSmokingInitiation(p_age) *
 	exp(0 +
-		// income effect = parent for people < 18, own income for people >=  19
+		// income effect = parent for people < 18, own income for people >=  18
 		main.p_smokingCoeffIncomeType[p_incomeType-1] + 
 	   // network effect
        // 0.3 * f_smokingConnections +
-       // income average exposure
+       // income average exposure by age X, smoking could start before age 19
        main.p_smokingCoeffIncomeExposure * v_averageIncomeExposure + 
-       // income mobility average exposure
+       // income mobility average exposure by age X
        main.p_smokingCoeffMobilityExposure * v_averageIncomeMobilityExposure);
 // traceln(value);
 return value;
@@ -6057,7 +6069,7 @@ if (values.size() > 0) {
 	double tt = values.stream().mapToDouble(p -> p.time).sum();
 	return vv/tt;
 } else { 
-	if (main.p_updateStats)	traceln("no elements in the exposure class"); 
+	// if (main.p_updateStats)	traceln("no elements in the exposure class"); 
 	return 0.0;
 }
 ]]></Body>
@@ -6509,6 +6521,27 @@ if (values.size() > 0) {
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
 			<ExternalConnection>
+				<Id>1600348849515</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[mobhealth8]]></PackageName>
+					<ClassName><![CDATA[data/smoking-rates.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
+			<ExternalConnection>
 				<Id>1567671608924</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
@@ -6541,9 +6574,18 @@ if (values.size() > 0) {
 			<TableImportSettings>
 				<TableReference>
 					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[mortality_rates]]></ClassName>
+					<ClassName><![CDATA[smoking_rates]]></ClassName>
 				</TableReference>
 				<ConnectionIndex>1</ConnectionIndex>
+				<ExternalTableName><![CDATA["Sheet1"]]></ExternalTableName>
+				<AutoImport>true</AutoImport>
+			</TableImportSettings>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[mobhealth8]]></PackageName>
+					<ClassName><![CDATA[mortality_rates]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>2</ConnectionIndex>
 				<ExternalTableName><![CDATA["mortality-rates"]]></ExternalTableName>
 				<AutoImport>false</AutoImport>
 			</TableImportSettings>
@@ -8499,6 +8541,10 @@ class Income {
 		</Resource>
 		<Resource>
 			<Path><![CDATA[data/fertility-rate.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data/smoking-rates.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 	</ModelResources>
