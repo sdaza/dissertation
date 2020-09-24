@@ -170,7 +170,6 @@ nrow(dat)
 nvars = paste0("smoking_", years)
 renameColumns(dat, hash(ovars, nvars))
 
-
 # number of days smoking last 30 days
 # number of cigarretes per day was asked until 2011
 ovars = c("r0358100", "r2189500", "r3508600", "r4906700", "r6534200",

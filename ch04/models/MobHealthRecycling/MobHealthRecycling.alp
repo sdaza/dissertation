@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -178,9 +178,6 @@ f_defineInitialValues();]]></StartupCode>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -193,9 +190,6 @@ f_defineInitialValues();]]></StartupCode>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
@@ -597,7 +591,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597044700978</Id>
-					<Name><![CDATA[p_adjustmentFertilityFactor]]></Name>
+					<Name><![CDATA[p_fertilityAdjustment]]></Name>
 					<X>-420</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -608,7 +602,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.74]]></Code>
+							<Code><![CDATA[1.68]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597044700976</Id>
@@ -767,7 +761,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1598693562391</Id>
-					<Name><![CDATA[p_recurrentTimeStratificationMeasures]]></Name>
+					<Name><![CDATA[p_recurrentTimeStratData]]></Name>
 					<X>-950</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -842,7 +836,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1517009065179</Id>
-					<Name><![CDATA[p_randomMoving]]></Name>
+					<Name><![CDATA[p_movingRandom]]></Name>
 					<X>-410</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -892,7 +886,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597483579245</Id>
-					<Name><![CDATA[p_incomeMobilityRegime]]></Name>
+					<Name><![CDATA[p_incomeMobRegime]]></Name>
 					<Description><![CDATA[Income mobility regime
 
 0 = no income mobility
@@ -921,7 +915,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597410585018</Id>
-					<Name><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></Name>
+					<Name><![CDATA[p_incomeTypeCoeffIncExp]]></Name>
 					<X>-800</X><Y>230</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -947,7 +941,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597523476580</Id>
-					<Name><![CDATA[p_smokingCoeffIncomeType]]></Name>
+					<Name><![CDATA[p_smokingCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients: {0.7, 0.0, -0.9}]]></Description>
 					<X>-800</X><Y>290</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -959,9 +953,8 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.04, 0.0, -0.03}
-
-]]></Code>
+							<Code><![CDATA[//{0.76, 0.0, -0.78}
+{0.0, 0.0, 0.0}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597523476578</Id>
@@ -974,7 +967,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1599596275483</Id>
-					<Name><![CDATA[p_smokingCoeffIncomeExposure]]></Name>
+					<Name><![CDATA[p_smokingCoeffIncExp]]></Name>
 					<X>-800</X><Y>270</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -999,7 +992,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1598619156839</Id>
-					<Name><![CDATA[p_smokingCoeffMobilityExposure]]></Name>
+					<Name><![CDATA[p_smokingCoeffMobExp]]></Name>
 					<X>-800</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1024,7 +1017,7 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1597518968143</Id>
-					<Name><![CDATA[p_mortalityCoeffIncomeType]]></Name>
+					<Name><![CDATA[p_mortalityCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
 					<X>-800</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -1036,7 +1029,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{0.3, 0.0, -0.3}]]></Code>
+							<Code><![CDATA[{0.0, 0.0, 0.0}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597518968141</Id>
@@ -1061,10 +1054,34 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.098612]]></Code>
+							<Code><![CDATA[0.0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1599596944689</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1600583800233</Id>
+					<Name><![CDATA[p_smokingAdjustment]]></Name>
+					<X>-420</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1.60]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1600583800231</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1246,7 +1263,7 @@ if (p_updateStats) {
 
 	// update county collections
 	c_countyIncome.clear();
-	if (time() % p_recurrentTimeStratificationMeasures == 0) c_countyIncomeMobility.clear();
+	if (time() % p_recurrentTimeStratData == 0) c_countyIncomeMobility.clear();
 	
 	for (County c : counties) { 
 		c.v_averageIncome = c.c_income.stream().collect(Collectors.averagingDouble(s->s.income));
@@ -1256,7 +1273,7 @@ if (p_updateStats) {
 		c.v_averageStandardizedIncome = c.c_standardizedIncome.stream().collect(Collectors.averagingDouble(s->s));	
 		
 		// stratification
-		if (time() % p_recurrentTimeStratificationMeasures == 0) {
+		if (time() % p_recurrentTimeStratData == 0) {
 			if (p_computeGiniCoeff) c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);
 	    	c.v_incomeMobility = f_rankRankSlope(c.c_incomeParentKid);
 	    	c_countyIncomeMobility.add(c.v_incomeMobility);
@@ -1280,7 +1297,7 @@ if (p_updateStats) {
 		c_countyIncome.stream().mapToDouble(p->p).average().getAsDouble());
 		
 	// stratification
-	if (time() % p_recurrentTimeStratificationMeasures == 0) {
+	if (time() % p_recurrentTimeStratData == 0) {
 	    // overall Gini coefficient
 	    if (p_computeGiniCoeff) v_gini = f_giniCoeff(totalIncome, v_averageIncome);
 		// overall income mobility
@@ -1310,7 +1327,7 @@ if (v_lastGeneration >= p_lastGeneration) {
     //traceln("People alive from generation " + p_maxGeneration + ": " + countGeneration);
 	if (countGeneration == 0) {
 		traceln("Total agents " + f_numberAgents() + " by year " + round(time()));
-		stopSimulation();
+		finishSimulation();
 	}
 }]]></Action>
 				</Event>
@@ -1488,7 +1505,7 @@ f_incomeMobilityModel();
 // income mobility model and income values
 for (County c : counties) {
 	// income mobility regime is defined at the county level
-	c.p_typeIncomeMobility = p_incomeMobilityRegime;
+	c.p_typeIncomeMobility = p_incomeMobRegime;
 	c.v_incomeMobilityModelCoefficients = c_incomeTypeCoefficients.get(c.p_typeIncomeMobility);
 	for (Person p : c.people) {	
 		// initial type of income mobility (random)
@@ -1503,18 +1520,7 @@ for (County c : counties) {
 // create list with average income per county
 for (County c : counties) {
 	c_countyIncome.add(c.v_averageIncome);
-}
-
-// Define output files
-if (p_exportData) {
-	f_defineParameterData();
-	f_exportParameterData();
-	f_defineCountyData();
-	f_defineMigrationData();
-	f_defineFamilyData();
-	f_defineMortalityData();
-}
-]]></Body>
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1889,10 +1895,10 @@ catch (IOException e) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[try {
-	String name = p_filePath+"mortality.csv";
+	String name = p_filePath+"mortality_t" + v_iteration + "_r" + v_replicate + ".csv";
  	File f = new File(name);
  	v_mortalityData = new BufferedWriter(new FileWriter(f));
- 	v_mortalityData.write("iteration,replicate,date,id,generation,time,age,income_type,income,nkids,smoker,nmoves,county,county_avg_income,county_gini,county_income_mobility"+ "\n");
+ 	v_mortalityData.write("iteration,replicate,date,id,generation,time,age,income_type,income,nkids,smoker,smoker30,nmoves,county,county_avg_income,county_gini,county_income_mobility"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -1927,7 +1933,8 @@ try {
 	    agent.p_incomeType + "," +
 	    agent.p_income + "," +
 	    agent.v_numberKids + "," +
-	    agent.v_currentSmoker + "," +
+	    agent.v_everSmoker + "," +
+	    agent.v_smokerAge30 + "," +
 	    agent.v_numberMoves + "," +
 	    agent.county.getId() + "," +
 	    agent.county.v_averageIncome + "," +
@@ -2267,16 +2274,16 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][] {
 		{0, 0, 0, 0},
-		{0.02877906, -0.1006914, -0.07947808, p_incomeAssignmentCoeffIncomeExposure},
-		{0.03584616, -0.1121550, -0.02042906, p_incomeAssignmentCoeffIncomeExposure}
+		{0.02877906, -0.1006914, -0.07947808, p_incomeTypeCoeffIncExp},
+		{0.03584616, -0.1121550, -0.02042906, p_incomeTypeCoeffIncExp}
 	}));
 
 // 60% prob to get same income as parent
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][]{
 		{0, 0, 0, 0},
-		{-1.069781, 2.151785, 1.065077, p_incomeAssignmentCoeffIncomeExposure},
-		{-1.148864, 1.139409, 2.225323, p_incomeAssignmentCoeffIncomeExposure}
+		{-1.069781, 2.151785, 1.065077, p_incomeTypeCoeffIncExp},
+		{-1.148864, 1.139409, 2.225323, p_incomeTypeCoeffIncExp}
 }));
 	]]></Body>
 				</Function>
@@ -2322,16 +2329,16 @@ try {
 	   	counties.size() + ";" +
 	    p_peoplePerCounty + ";" +
 	    p_movingRate + ";" +
-	    p_randomMoving + ";" +
+	    p_movingRandom + ";" +
 	    p_movingThreshold + ";" +
 	    p_lastGeneration + ";" +
-	    p_incomeMobilityRegime + ";" +
-	    p_incomeAssignmentCoeffIncomeExposure + ";" +
-	    p_smokingCoeffMobilityExposure + ";" +
-	    p_smokingCoeffIncomeExposure + ";" +
-	    Arrays.toString(p_smokingCoeffIncomeType) + ";" +
+	    p_incomeMobRegime + ";" +
+	    p_incomeTypeCoeffIncExp + ";" +
+	    p_smokingCoeffMobExp + ";" +
+	    p_smokingCoeffIncExp + ";" +
+	    Arrays.toString(p_smokingCoeffIncType) + ";" +
 	    p_mortalityCoeffSmoking + ";" +
-	    Arrays.toString(p_mortalityCoeffIncomeType)  + "\n");
+	    Arrays.toString(p_mortalityCoeffIncType)  + "\n");
 	}
 catch (IOException e) {
 	e.printStackTrace();
@@ -2391,24 +2398,24 @@ catch (IOException e) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<InterpolationMethod>STEP</InterpolationMethod>
-					<OutOfRangeBehaviour>EXTRAPOLATE</OutOfRangeBehaviour>
+					<OutOfRangeBehaviour>NEAREST</OutOfRangeBehaviour>
 					<OutOfRangeCustomValue><![CDATA[0.0]]></OutOfRangeCustomValue>
 					<ApproximationOrder><![CDATA[1]]></ApproximationOrder>
 					<LoadFromDatabase><![CDATA[true]]></LoadFromDatabase>
 					<ValuesQuery>
 						<TableReference>
 							<PackageName><![CDATA[mobhealth8]]></PackageName>
-							<ClassName><![CDATA[mortality_rates]]></ClassName>
+							<ClassName><![CDATA[rates]]></ClassName>
 						</TableReference>
 							<ArgumentColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[mortality_rates]]></ClassName>
+								<ClassName><![CDATA[rates]]></ClassName>
 								<ItemName><![CDATA[age]]></ItemName>
 							</ArgumentColumnReference>
 							<ValueColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[mortality_rates]]></ClassName>
-								<ItemName><![CDATA[rate]]></ItemName>
+								<ClassName><![CDATA[rates]]></ClassName>
+								<ItemName><![CDATA[mortality]]></ItemName>
 							</ValueColumnReference>
 					</ValuesQuery>
 // arguments and values
@@ -2463,17 +2470,17 @@ catch (IOException e) {
 					<ValuesQuery>
 						<TableReference>
 							<PackageName><![CDATA[mobhealth8]]></PackageName>
-							<ClassName><![CDATA[fertility_rates]]></ClassName>
+							<ClassName><![CDATA[rates]]></ClassName>
 						</TableReference>
 							<ArgumentColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[fertility_rates]]></ClassName>
+								<ClassName><![CDATA[rates]]></ClassName>
 								<ItemName><![CDATA[age]]></ItemName>
 							</ArgumentColumnReference>
 							<ValueColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[fertility_rates]]></ClassName>
-								<ItemName><![CDATA[rate]]></ItemName>
+								<ClassName><![CDATA[rates]]></ClassName>
+								<ItemName><![CDATA[fertiliy]]></ItemName>
 							</ValueColumnReference>
 					</ValuesQuery>
 // arguments and values
@@ -2514,7 +2521,7 @@ catch (IOException e) {
 				</TableFunction>
 				<TableFunction AccessType="public" StaticFunction="true">
 					<Id>1597516041116</Id>
-					<Name><![CDATA[f_baselineSmokingInitiation]]></Name>
+					<Name><![CDATA[f_baselineSmokingInit]]></Name>
 					<X>-420</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -2528,17 +2535,17 @@ catch (IOException e) {
 					<ValuesQuery>
 						<TableReference>
 							<PackageName><![CDATA[mobhealth8]]></PackageName>
-							<ClassName><![CDATA[smoking_rates]]></ClassName>
+							<ClassName><![CDATA[rates]]></ClassName>
 						</TableReference>
 							<ArgumentColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[smoking_rates]]></ClassName>
+								<ClassName><![CDATA[rates]]></ClassName>
 								<ItemName><![CDATA[age]]></ItemName>
 							</ArgumentColumnReference>
 							<ValueColumnReference>
 								<PackageName><![CDATA[mobhealth8]]></PackageName>
-								<ClassName><![CDATA[smoking_rates]]></ClassName>
-								<ItemName><![CDATA[rate]]></ItemName>
+								<ClassName><![CDATA[rates]]></ClassName>
+								<ItemName><![CDATA[smoking]]></ItemName>
 							</ValueColumnReference>
 					</ValuesQuery>
 // arguments and values
@@ -3837,7 +3844,6 @@ catch (IOException e) {
     			<TimePlot>
 					<Id>1597045505594</Id>
 					<Name><![CDATA[plot1]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>690</X><Y>90</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -4706,7 +4712,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1567152580824</Id>
 					<Name><![CDATA[v_timeInCounty]]></Name>
-					<X>-380</X><Y>200</Y>
+					<X>-380</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4718,7 +4724,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1567156647192</Id>
 					<Name><![CDATA[v_averageIncomeMobilityExposure]]></Name>
-					<X>-378.604</X><Y>289.975</Y>
+					<X>-378.604</X><Y>339.975</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4733,7 +4739,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1567157728374</Id>
 					<Name><![CDATA[v_numberMoves]]></Name>
-					<X>-380</X><Y>220</Y>
+					<X>-380</X><Y>270</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4748,7 +4754,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1596995996317</Id>
 					<Name><![CDATA[v_numberKids]]></Name>
-					<X>-380</X><Y>250</Y>
+					<X>-380</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4762,7 +4768,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1597519964194</Id>
-					<Name><![CDATA[v_currentSmoker]]></Name>
+					<Name><![CDATA[v_everSmoker]]></Name>
 					<X>-380</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -4778,7 +4784,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<Variable Class="PlainVariable">
 					<Id>1597909992530</Id>
 					<Name><![CDATA[v_averageIncomeExposure]]></Name>
-					<X>-379.302</X><Y>269.988</Y>
+					<X>-379.302</X><Y>319.988</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4787,6 +4793,21 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1600442075779</Id>
+					<Name><![CDATA[v_smokerAge30]]></Name>
+					<X>-380</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -5243,7 +5264,7 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1596626508124</Id>
 					<Name><![CDATA[Dead]]></Name>
-					<X>400</X><Y>310</Y>
+					<X>370</X><Y>310</Y>
 					<Label><X>20</X><Y>25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5262,33 +5283,32 @@ ev_computeAge.reset();]]></EntryAction>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Properties Width="170" Height="210">
+					<Properties Width="140" Height="210">
 						<FillColor>-32</FillColor>
 					</Properties>
 				</StatechartElement>
-				<StatechartElement Class="State" ParentState="Alive" ParentStateId="1566676405826">
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672051853</Id>
 					<Name><![CDATA[NoSmoking]]></Name>
-					<X>200</X><Y>280</Y>
+					<X>500</X><Y>270</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="30">
-						<EntryAction><![CDATA[v_currentSmoker = false;]]></EntryAction>
 						<FillColor/>
 					</Properties>
 				</StatechartElement>
-				<StatechartElement Class="State" ParentState="Alive" ParentStateId="1566676405826">
+				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672060706</Id>
 					<Name><![CDATA[Smoking]]></Name>
-					<X>200</X><Y>350</Y>
+					<X>500</X><Y>350</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Width="100" Height="30">
-						<EntryAction><![CDATA[v_currentSmoker = true;]]></EntryAction>
+						<EntryAction><![CDATA[v_everSmoker = true;]]></EntryAction>
 						<FillColor/>
 					</Properties>
 				</StatechartElement>
@@ -5315,7 +5335,7 @@ ev_computeAge.restart();]]></Action>
 					<Id>1566676449394</Id>
 					<Name><![CDATA[reproduce]]></Name>
 					<X>160</X><Y>280</Y>
-					<Label><X>-115</X><Y>-25</Y></Label>
+					<Label><X>-130</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -5325,7 +5345,7 @@ ev_computeAge.restart();]]></Action>
 						<Point><X>-50</X><Y>-40</Y></Point>
 						<Point><X>0</X><Y>-40</Y></Point>
 					</Points>
-					<IconOffset>20.0</IconOffset>
+					<IconOffset>70.0</IconOffset>
 					<Properties Source="1566676405826" Target="1566676405826" Trigger="rate">
 						<Action><![CDATA[f_reproduce();]]></Action>
 						<Timeout Class="CodeUnitValue">
@@ -5334,7 +5354,7 @@ ev_computeAge.restart();]]></Action>
 						</Timeout>
 						<Condition><![CDATA[p_age == 25]]></Condition>
 						<Rate Class="CodeUnitValue">
-							<Code><![CDATA[(main.f_baselineFertilityRate(p_age) / 1000.0) / main.p_adjustmentFertilityFactor;]]></Code>
+							<Code><![CDATA[(main.f_baselineFertilityRate(p_age) / 1000.0) / main.p_fertilityAdjustment;]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
 						<MessageType><![CDATA[Object]]></MessageType>
@@ -5347,7 +5367,7 @@ ev_computeAge.restart();]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596994522454</Id>
 					<Name><![CDATA[die]]></Name>
-					<X>330</X><Y>320</Y>
+					<X>300</X><Y>320</Y>
 					<Label><X>25</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5377,7 +5397,7 @@ ev_computeAge.restart();]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596995265505</Id>
 					<Name><![CDATA[transition3]]></Name>
-					<X>400</X><Y>350</Y>
+					<X>370</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5411,7 +5431,7 @@ ev_computeAge.restart();]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1596995386440</Id>
 					<Name><![CDATA[transition5]]></Name>
-					<X>330</X><Y>335</Y>
+					<X>300</X><Y>335</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5491,17 +5511,17 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
 					</Properties>	
 				</StatechartElement>
-				<StatechartElement Class="Transition" ParentState="Alive" ParentStateId="1566676405826">
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1597672069177</Id>
 					<Name><![CDATA[smoking]]></Name>
-					<X>250</X><Y>310</Y>
+					<X>530</X><Y>300</Y>
 					<Label><X>-60</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>0</X><Y>40</Y></Point>
+						<Point><X>0</X><Y>50</Y></Point>
 					</Points>
 					<IconOffset>20.0</IconOffset>
 					<Properties Source="1597672051853" Target="1597672060706" Trigger="rate">
@@ -5511,7 +5531,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 						</Timeout>
 						<Condition><![CDATA[true]]></Condition>
 						<Rate Class="CodeUnitValue">
-							<Code><![CDATA[f_smokingHazard();]]></Code>
+							<Code><![CDATA[p_alive ? f_smokingHazard() : 0.0;]]></Code>
 							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
 						</Rate>
 						<MessageType><![CDATA[Object]]></MessageType>
@@ -5519,21 +5539,6 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
 						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
-					</Properties>	
-				</StatechartElement>
-				<StatechartElement Class="InitialStatePointer" ParentState="Alive" ParentStateId="1566676405826">
-					<Id>1599227997478</Id>
-					<Name><![CDATA[st_smoking]]></Name>
-					<X>250</X><Y>250</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<Points>
-						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>0</X><Y>30</Y></Point>
-					</Points>
-					<Properties Target="1597672051853">
 					</Properties>	
 				</StatechartElement>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
@@ -5566,6 +5571,51 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<DefaultTransition>true</DefaultTransition>
 						<FilterType><![CDATA[unconditionally]]></FilterType>
 						<EqualsExpression><![CDATA["text"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
+					<Id>1600496047133</Id>
+					<Name><![CDATA[st_smoking]]></Name>
+					<X>550</X><Y>230</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>40</Y></Point>
+					</Points>
+					<Properties Target="1597672051853">
+					</Properties>	
+				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1600496157492</Id>
+					<Name><![CDATA[transition6]]></Name>
+					<X>570</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>-50</Y></Point>
+					</Points>
+					<IconOffset>20.0</IconOffset>
+					<Properties Source="1597672060706" Target="1597672051853" Trigger="message">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[true]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[String]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[equalsTo]]></FilterType>
+						<EqualsExpression><![CDATA["you have died!"]]></EqualsExpression>
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
 					</Properties>	
 				</StatechartElement>
@@ -5604,7 +5654,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 if (p_age == 18.0) send("time to work", this);
 // force to people die after 110 years old
 if (p_age > 110) send("you should die", this);
-
+if (p_age >= 30 & p_age <= 40 & v_everSmoker == true) v_smokerAge30 = true;
 v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
 v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
 ]]></Action>
@@ -5699,7 +5749,7 @@ ev_smokingInitiation.reset();]]></Action>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Agents older than 18 years old move randomly
-if (main.p_randomMoving) { f_moving(); } 
+if (main.p_movingRandom) { f_moving(); } 
 // Agents older than 18 years old move when a threshold is met
 else if (f_proportionSimilarity() < main.p_movingThreshold) {
 	this.f_moving();
@@ -5860,7 +5910,6 @@ if (main.p_exportData) {
 
 // change parameters
 
-
 // clear exposure collections and variables
 this.c_countyIncomeExposure.clear();
 this.c_countyIncomeMobilityExposure.clear();
@@ -5870,7 +5919,8 @@ v_numberKids = 0;
 v_numberMoves = 0;
 v_averageIncomeExposure = 0.0; 
 v_averageIncomeMobilityExposure = 0.0;
-v_currentSmoker = false;
+v_everSmoker = false;
+v_smokerAge30 = false;
 v_timeInCounty = 0;
 
 p_alive = false;
@@ -5943,7 +5993,7 @@ newKid.p_birthTime = time();
 newKid.p_generation = p_generation + 1;
 
 newKid.p_thresholdMoving = main.p_movingThreshold;
-newKid.v_currentSmoker = false;
+newKid.v_everSmoker = false;
 newKid.p_economicallyActive = false;
 
 // assign parent variables
@@ -5989,7 +6039,7 @@ newKid.oval.setVisible(true);
 // update generation info
 if (main.v_lastGeneration != newKid.p_generation && main.v_lastGeneration < newKid.p_generation) {
 	main.v_lastGeneration = newKid.p_generation;
-	traceln("Last generation: " + main.v_lastGeneration); 
+	// traceln("Last generation: " + main.v_lastGeneration); 
 }
 
 // save initial residential info
@@ -6014,16 +6064,16 @@ if (main.p_exportData) {
 
 //traceln(v_averageIncomeExposure);
 //traceln(v_averageIncomeMobilityExposure);
-double value = main.f_baselineSmokingInitiation(p_age) *
+double value = main.f_baselineSmokingInit(p_age) * main.p_smokingAdjustment *
 	exp(0 +
 		// income effect = parent for people < 18, own income for people >=  19
-		main.p_smokingCoeffIncomeType[p_incomeType-1] + 
+		main.p_smokingCoeffIncType[p_incomeType-1] + 
 	   // network effect
        // 0.3 * f_smokingConnections +
        // income average exposure
-       main.p_smokingCoeffIncomeExposure * v_averageIncomeExposure + 
+       main.p_smokingCoeffIncExp * v_averageIncomeExposure + 
        // income mobility average exposure
-       main.p_smokingCoeffMobilityExposure * v_averageIncomeMobilityExposure);
+       main.p_smokingCoeffMobExp * v_averageIncomeMobilityExposure);
 // traceln(value);
 return value;
 ]]></Body>
@@ -6038,13 +6088,14 @@ return value;
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double value = 
-	(main.f_baselineMortalityRate(p_age) / 100000.0) * 
-	
+					<Body><![CDATA[//traceln(main.p_mortalityCoeffSmoking);
+//traceln(main.p_mortalityCoeffIncType[p_incomeType-1]);
+// v_everSmoker ? 1.0 : (0.0 * main.p_mortalityCoeffSmoking) + 
+double value = 
+	(main.f_baselineMortalityRate(p_age) / 100000.0) *	
 	// smoking effect 1.098621
-	exp(v_currentSmoker ? 1.0 : 0.0 * main.p_mortalityCoeffSmoking + 
-		main.p_mortalityCoeffIncomeType[p_incomeType-1]
-	);
+	exp(main.p_mortalityCoeffIncType[p_incomeType-1])
+	;
 return value;
 
 ]]></Body>
@@ -6092,6 +6143,11 @@ if (values.size() > 0) {
 						<PackageName><![CDATA[mobhealth8]]></PackageName>
 						<ClassName><![CDATA[Person]]></ClassName>
 						<ItemName><![CDATA[st_lifecourse]]></ItemName>
+					</StatechartReference>
+					<StatechartReference>
+						<PackageName><![CDATA[mobhealth8]]></PackageName>
+						<ClassName><![CDATA[Person]]></ClassName>
+						<ItemName><![CDATA[st_smoking]]></ItemName>
 					</StatechartReference>
 					<LineStyle>SOLID</LineStyle>
 					<LineWidth>1</LineWidth>
@@ -6500,7 +6556,7 @@ if (values.size() > 0) {
 		<ShutdownCompact>false</ShutdownCompact>
 		<ImportSettings>
 			<ExternalConnection>
-				<Id>1596981941790</Id>
+				<Id>1600770262702</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
 				<Label><X>10</X><Y>0</Y></Label>
@@ -6513,49 +6569,7 @@ if (values.size() > 0) {
 				<DatabaseName><![CDATA[]]></DatabaseName>
 				<ResourceReference>
 					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[data/fertility-rate.xlsx]]></ClassName>
-				</ResourceReference>
-				<Host><![CDATA[localhost]]></Host>
-				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
-				<Login><![CDATA[]]></Login>
-				<Password><![CDATA[]]></Password>
-			</ExternalConnection>
-			<ExternalConnection>
-				<Id>1600348849515</Id>
-				<Name><![CDATA[database]]></Name>
-				<X>0</X><Y>0</Y>
-				<Label><X>10</X><Y>0</Y></Label>
-				<PublicFlag>false</PublicFlag>
-				<PresentationFlag>true</PresentationFlag>
-				<ShowLabel>true</ShowLabel>
-				<DatabaseType>EXCEL_ACCESS</DatabaseType>
-				<ConnectionURL><![CDATA[]]></ConnectionURL>
-				<ConnectOnStartup>true</ConnectOnStartup>
-				<DatabaseName><![CDATA[]]></DatabaseName>
-				<ResourceReference>
-					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[data/smoking-rates.xlsx]]></ClassName>
-				</ResourceReference>
-				<Host><![CDATA[localhost]]></Host>
-				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
-				<Login><![CDATA[]]></Login>
-				<Password><![CDATA[]]></Password>
-			</ExternalConnection>
-			<ExternalConnection>
-				<Id>1567671608924</Id>
-				<Name><![CDATA[database]]></Name>
-				<X>0</X><Y>0</Y>
-				<Label><X>10</X><Y>0</Y></Label>
-				<PublicFlag>false</PublicFlag>
-				<PresentationFlag>true</PresentationFlag>
-				<ShowLabel>true</ShowLabel>
-				<DatabaseType>EXCEL_ACCESS</DatabaseType>
-				<ConnectionURL><![CDATA[]]></ConnectionURL>
-				<ConnectOnStartup>true</ConnectOnStartup>
-				<DatabaseName><![CDATA[]]></DatabaseName>
-				<ResourceReference>
-					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[data/mortality-rate.xlsx]]></ClassName>
+					<ClassName><![CDATA[data/rates.xlsx]]></ClassName>
 				</ResourceReference>
 				<Host><![CDATA[localhost]]></Host>
 				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
@@ -6565,29 +6579,11 @@ if (values.size() > 0) {
 			<TableImportSettings>
 				<TableReference>
 					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[fertility_rates]]></ClassName>
+					<ClassName><![CDATA[rates]]></ClassName>
 				</TableReference>
 				<ConnectionIndex>0</ConnectionIndex>
-				<ExternalTableName><![CDATA["fertility_rates"]]></ExternalTableName>
-				<AutoImport>true</AutoImport>
-			</TableImportSettings>
-			<TableImportSettings>
-				<TableReference>
-					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[smoking_rates]]></ClassName>
-				</TableReference>
-				<ConnectionIndex>1</ConnectionIndex>
 				<ExternalTableName><![CDATA["Sheet1"]]></ExternalTableName>
 				<AutoImport>true</AutoImport>
-			</TableImportSettings>
-			<TableImportSettings>
-				<TableReference>
-					<PackageName><![CDATA[mobhealth8]]></PackageName>
-					<ClassName><![CDATA[mortality_rates]]></ClassName>
-				</TableReference>
-				<ConnectionIndex>2</ConnectionIndex>
-				<ExternalTableName><![CDATA["mortality-rates"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 		</ImportSettings>
 		<ExportSettings>
@@ -6630,11 +6626,22 @@ import java.io.FileWriter;
 import java.io.IOException;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>8192</MaximumMemory>
-			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
-			<BeforeSimulationRunCode><![CDATA[getEngine().setSimultaneousEventsSelectionMode(Engine.EVENT_SELECTION_RANDOM);
-root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
-root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCode>
+			<BeforeSimulationRunCode><![CDATA[root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
+root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;
+
+root.v_iteration = 1;
+root.v_replicate = 1;
+
+
+if (root.p_exportData) {
+	root.f_defineParameterData();
+	root.f_defineCountyData();
+	root.f_defineMigrationData();
+	root.f_defineFamilyData();
+	root.f_defineMortalityData();
+}]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[try {
 	if (root.p_exportData) {
 		root.v_parameterData.close();
@@ -7700,7 +7707,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_incomeAssignmentCoeffIncomeExposure]]></ParameterName>
+					<ParameterName><![CDATA[p_incomeTypeCoeffIncExp]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_incomeAssignmentCoeffIncomeExposure]]></Code>
 					</ParameterValue>
@@ -7736,7 +7743,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_filePath]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_adjustmentFertilityFactor]]></ParameterName>
+					<ParameterName><![CDATA[p_fertilityAdjustment]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_fertilityAdjustment]]></Code>
 					</ParameterValue>
@@ -7748,7 +7755,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_computeGiniCoeff]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_recurrentTimeStratificationMeasures]]></ParameterName>
+					<ParameterName><![CDATA[p_recurrentTimeStratData]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
 					</ParameterValue>
@@ -7766,7 +7773,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_randomMoving]]></ParameterName>
+					<ParameterName><![CDATA[p_movingRandom]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_randomMovement]]></Code>
 					</ParameterValue>
@@ -7781,34 +7788,37 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_numIncomeTypes]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_incomeMobilityRegime]]></ParameterName>
+					<ParameterName><![CDATA[p_incomeMobRegime]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_incomeMobilityRegime]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_smokingCoeffIncomeType]]></ParameterName>
+					<ParameterName><![CDATA[p_smokingCoeffIncType]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_smokingCoeffIncomeExposure]]></ParameterName>
+					<ParameterName><![CDATA[p_smokingCoeffIncExp]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_smokingCoeffIncomeExposure]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_smokingCoeffMobilityExposure]]></ParameterName>
+					<ParameterName><![CDATA[p_smokingCoeffMobExp]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_smokingCoeffMobilityExposure]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_mortalityCoeffIncomeType]]></ParameterName>
+					<ParameterName><![CDATA[p_mortalityCoeffIncType]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_mortalityCoeffSmoking]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_mortalityCoeffSmoking]]></Code>
 					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -7965,6 +7975,9 @@ import java.io.IOException;]]></Import>
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1600583800233</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8107,6 +8120,10 @@ import java.io.IOException;]]></Import>
 				<Id>1600093012847</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1600583800233</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -8147,15 +8164,27 @@ import java.io.FileWriter;
 import java.io.IOException;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<MaximumMemory>4096</MaximumMemory>
-			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
-			<BeforeSimulationRunCode><![CDATA[// set random seed for reproducibility
-// root.setDefaultRandomGenerator(new Random(r.nextInt()));
-root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCode>
+			<BeforeSimulationRunCode><![CDATA[root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
+root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;
+
+root.v_iteration = getCurrentIteration();
+root.v_replicate = getCurrentReplication();
+
+
+if (root.p_exportData) {
+	root.f_defineParameterData();
+	root.f_defineCountyData();
+	root.f_defineMigrationData();
+	root.f_defineFamilyData();
+	root.f_defineMortalityData();
+}]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[try {
 	if (root.p_exportData) {
+		root.v_parameterData.close();
 		root.v_countyData.close();
-		//root.v_individualMigration.close();
+		root.v_migrationData.close();
 		root.v_familyData.close();
 		root.v_mortalityData.close();
 	}
@@ -8256,6 +8285,9 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1600583800233</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8293,6 +8325,9 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1517370041664</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1517448376387</Id>
@@ -8309,13 +8344,13 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1567149540086</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[4]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1567692999575</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[true]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1567759712274</Id>
@@ -8331,6 +8366,9 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1597044700978</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[1.68]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1597069674406</Id>
@@ -8343,9 +8381,6 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1597483579245</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[1]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1597518968143</Id>
@@ -8354,10 +8389,16 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1597523476580</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[{0.0, 0.0, 0.0}]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1598010504830</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[false]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1598619156839</Id>
@@ -8374,6 +8415,9 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<RangeVariationParamValue>	
 				<Id>1599596944691</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.0]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1599645461621</Id>
@@ -8381,6 +8425,10 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1600093012847</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1600583800233</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -8399,7 +8447,7 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;]]></BeforeSimulationRunCo
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>20</ReplicationPerIteration>
+				<ReplicationPerIteration>5</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
@@ -8536,15 +8584,7 @@ class Income {
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 		<Resource>
-			<Path><![CDATA[data/mortality-rate.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data/fertility-rate.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data/smoking-rates.xlsx]]></Path>
+			<Path><![CDATA[data/rates.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 	</ModelResources>
