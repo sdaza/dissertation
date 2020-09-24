@@ -72,10 +72,9 @@ cf[1, 1]
 cf[1, 2] + cf[1,3]
 
 exp(0)  + exp(1.1) + exp(-1.3)
-
 exp(0 * 1.1 * -1.3)
 
-# compute probabilities 
+# compute probabilities
 den1 = 1 + exp(cf[1,1]) + exp(cf[2,1])
 den1
 p1 = 1 / den1
@@ -87,7 +86,7 @@ sum(p1, p2, p3)
 den2 = 1 + exp(cf[1,1] + cf[1,2]) + exp(cf[2,1] + cf[2,2])
 p1 = 1 / den2
 p2 =  exp(cf[1,1] + cf[1,2]) / den2
-p3 = exp(cf[2,1]) + cf[2,2]) / den2
+p3 = exp(cf[2,1] + cf[2,2]) / den2
 print(c(p1, p2, p3))
 sum(p1, p2, p3)
 

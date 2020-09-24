@@ -7,6 +7,8 @@ pardiso.lic
 /notes
 /ch0*/data
 /ch0*/output/data
+!/ch04/data/cty_full_covariates.dta
+!/ch04/data/nats_2013.sas7bdat
 dissertation.*
 !disseration.tex
 !disseration.bib

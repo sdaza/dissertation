@@ -5,6 +5,7 @@
 
 
 library(data.table)
+library(fmsb)
 
 # read family data
 f = fread("models/MobHealthRecycling/output/family.csv")
@@ -32,12 +33,48 @@ prop.table(table(f[kid_age > 0, .(parent_type, kid_type)]), 1)
 prop.table(table(f[kid_age == 0, .(parent_type, kid_type)]), 1)
 
 # read mortality data
+path = "models/MobHealthRecycling/output/"
+files = list.files(path = "models/MobHealthRecycling/output/", pattern = "mortality")
+files = paste0(path, files)
+l = lapply(files, fread)
+m =  rbindlist(l)
+
+mean(m[generation %in% 5:10, age])
+mean(m[generation %in% 5:10, mean(age), replicate]$V1)
+
+mean(m[generation %in% 5:10, smoker])
+
+
+
+hist(m[generation %in% 10, age])
+summary(m[generation %in% 5:10, as.numeric(nkids == 0)])
+summary(m[generation %in% 5:10, nkids])
+
+mx = c(567.0,24.3 ,11.6 ,15.5 ,51.5 ,51.5 ,95.6 ,121.0 ,145.4 ,173.8 ,218.4,
+    313.2 ,488.0 ,736.5 ,1050.2 ,1473.5 ,2206.9 ,3517.8 ,5871.7,13573.6)
+length(mx)
+mx = mx / 100000
+le = lifetable(mx, ns = c(1, 4, rep(5, 2), 3, 2, rep(5, 14)))[1, "ex"]
+
+table(m$generation)
+
+
 m = fread("models/MobHealthRecycling/output/mortality.csv")
+table(m$replicate)
+
 print(paste0("Date of simulation: ", m$date[1]))
 
 anyDuplicated(m$id)
+table(m[, smoker30, smoker])
 
-prop.table(table(m[generation == 0, smoker]))
+table(m$smoker30)
+table(m$smoker)
+prop.table(table(m[generation == 10, smoker30]))
+prop.table(table(m[generation == 10, smoker]))
+prop.table(table(m[, smoker]))
+prop.table(table(m[, smoker30]))
+
+prop.table(table(m[generation == 0, smoker30]))
 mean(m[generation == 4, age])
 
 # proportion people moving by generation
