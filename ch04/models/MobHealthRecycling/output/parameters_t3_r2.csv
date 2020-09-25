@@ -1,2 +1,0 @@
-iteration;replicate;counties;people_per_county;move_rate;move_random;move_threshold;max_generation;mobility_regime;income_exposure_coef;smoking_mobility_exposure_coef;smoking_income_exposure_coef;smoking_income_coef; mortality_smoking_coef;mortality_income_coef
-3;2;30;100;0.1;false;0.2;4;0;0.0;0.0;0.0;[0.0, 0.0, 0.0];0.0;[0.0, 0.0, 0.0]
