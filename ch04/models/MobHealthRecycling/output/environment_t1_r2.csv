@@ -1,2 +1,2 @@
-iteration,replicate,gini,income_mobility,avg_income,nsi,last_generation,population
-1,2,0.4,0.8796534638916214,46895.35184872471,0.05676738170319199,11,8293
+iteration,replicate,time,gini,income_mobility,avg_income,nsi,last_generation,population
+1,2,398.0,0.4,0.8834142120597119,47389.141145552465,0.03295387224901731,17,28879
