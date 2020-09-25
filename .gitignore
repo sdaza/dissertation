@@ -20,3 +20,5 @@ dissertation.*
 /ch03/src/old
 /ch03/src/psid/old
 /ch03/src/testing
+
+/ch0*/models/*/output
