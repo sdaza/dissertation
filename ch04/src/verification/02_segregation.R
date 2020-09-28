@@ -13,4 +13,4 @@ path = "models/MobHealthRecycling/output/"
 par = readMultipleFiles("parameters", path)
 dat = readMultipleFiles("environ", path)
 
-dat
+dat[, mean(nsi), iteration]

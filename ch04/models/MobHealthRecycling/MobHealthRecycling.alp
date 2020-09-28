@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -195,7 +195,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1566808450759</Id>
 					<Name><![CDATA[v_countyData]]></Name>
-					<X>-950</X><Y>710</Y>
+					<X>-950</X><Y>680</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -207,7 +207,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1566809923631</Id>
 					<Name><![CDATA[v_migrationData]]></Name>
-					<X>-950</X><Y>780</Y>
+					<X>-950</X><Y>750</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -219,7 +219,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1567103068046</Id>
 					<Name><![CDATA[v_familyData]]></Name>
-					<X>-950</X><Y>990</Y>
+					<X>-950</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -231,7 +231,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1567150019935</Id>
 					<Name><![CDATA[v_mortalityData]]></Name>
-					<X>-950</X><Y>850</Y>
+					<X>-950</X><Y>820</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -362,7 +362,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1599549375347</Id>
 					<Name><![CDATA[v_parameterData]]></Name>
-					<X>-950</X><Y>920</Y>
+					<X>-950</X><Y>890</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -374,7 +374,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1601023091633</Id>
 					<Name><![CDATA[v_environmentData]]></Name>
-					<X>-800</X><Y>780</Y>
+					<X>-800</X><Y>740</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -651,8 +651,34 @@ f_defineInitialValues();]]></StartupCode>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1567692999575</Id>
-					<Name><![CDATA[p_exportData]]></Name>
-					<X>-950</X><Y>680</Y>
+					<Name><![CDATA[p_exportModelData]]></Name>
+					<X>-800</X><Y>810</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[true]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1567692999573</Id>
+							<Label><![CDATA[p_exportModelData]]></Label>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>SEPARATE_SECTION</DelimeterType>
+							<StartSection><![CDATA[Data]]></StartSection>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601100881287</Id>
+					<Name><![CDATA[p_exportFamilyData]]></Name>
+					<X>-800</X><Y>870</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -665,7 +691,79 @@ f_defineInitialValues();]]></StartupCode>
 							<Code><![CDATA[false]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1567692999573</Id>
+							<Id>1601100881285</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601100873770</Id>
+					<Name><![CDATA[p_exportMigrationData]]></Name>
+					<X>-800</X><Y>830</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1601100873768</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601100877946</Id>
+					<Name><![CDATA[p_exportMortalityData]]></Name>
+					<X>-800</X><Y>850</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1601100877944</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601100885163</Id>
+					<Name><![CDATA[p_exportCountyData]]></Name>
+					<X>-800</X><Y>890</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1601100885161</Id>
 							<EditorContolType>CHECK_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1327,7 +1425,7 @@ if (p_updateStats) {
 	//dh_age.reset();
 	
 	// expoert county data		
-	if (p_exportData && time() > 30) f_exportCountyData();
+	if (p_exportCountyData && time() > 30) f_exportCountyData();
 }
 
 // stop simulation after x generation
@@ -1339,9 +1437,7 @@ if (v_lastGeneration >= p_lastGeneration) {
     //traceln("People alive from generation " + p_maxGeneration + ": " + countGeneration);
 	if (countGeneration == 0) {
 		traceln("Total agents " + f_numberAgents() + " by year " + round(time()));
-		if (p_exportData) {
-			f_exportEnvironmentData();
-		}
+		if (p_exportModelData) f_exportEnvironmentData();
 		finishSimulation();
 	}
 }]]></Action>
@@ -1625,7 +1721,7 @@ return values[randomIndex];
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1566808450755</Id>
 					<Name><![CDATA[f_defineCountyData]]></Name>
-					<X>-950</X><Y>730</Y>
+					<X>-950</X><Y>700</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1650,7 +1746,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1566808450757</Id>
 					<Name><![CDATA[f_exportCountyData]]></Name>
-					<X>-950</X><Y>750</Y>
+					<X>-950</X><Y>720</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1686,7 +1782,7 @@ for (County c : counties) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1566809923629</Id>
 					<Name><![CDATA[f_defineMigrationData]]></Name>
-					<X>-950</X><Y>800</Y>
+					<X>-950</X><Y>770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1846,7 +1942,7 @@ return result;*/]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567103098194</Id>
 					<Name><![CDATA[f_defineFamilyData]]></Name>
-					<X>-950</X><Y>1010</Y>
+					<X>-950</X><Y>980</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1868,7 +1964,7 @@ return result;*/]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567106330980</Id>
 					<Name><![CDATA[f_exportFamilyData]]></Name>
-					<X>-950</X><Y>1030</Y>
+					<X>-950</X><Y>1000</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1906,7 +2002,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567150019930</Id>
 					<Name><![CDATA[f_defineMortalityData]]></Name>
-					<X>-950</X><Y>870</Y>
+					<X>-950</X><Y>840</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1928,7 +2024,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567150019933</Id>
 					<Name><![CDATA[f_exportMortalityData]]></Name>
-					<X>-950</X><Y>890</Y>
+					<X>-950</X><Y>860</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1967,7 +2063,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567150747710</Id>
 					<Name><![CDATA[f_exportMigrationData]]></Name>
-					<X>-950</X><Y>820</Y>
+					<X>-950</X><Y>790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2309,7 +2405,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1599549385547</Id>
 					<Name><![CDATA[f_defineParameterData]]></Name>
-					<X>-950</X><Y>940</Y>
+					<X>-950</X><Y>910</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2333,7 +2429,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1599549399949</Id>
 					<Name><![CDATA[f_exportParameterData]]></Name>
-					<X>-950</X><Y>960</Y>
+					<X>-950</X><Y>930</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2367,7 +2463,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1601023125710</Id>
 					<Name><![CDATA[f_defineEnvironmentData]]></Name>
-					<X>-800</X><Y>800</Y>
+					<X>-800</X><Y>760</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2389,7 +2485,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1601023125713</Id>
 					<Name><![CDATA[f_exportEnvironmentData]]></Name>
-					<X>-800</X><Y>820</Y>
+					<X>-800</X><Y>780</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5549,9 +5645,7 @@ v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobili
 main.f_assignIncomeType(this);
 
 // Export family data
-if (main.p_exportData) {
-	main.f_exportFamilyData(this);
-}
+if (main.p_exportFamilyData) main.f_exportFamilyData(this);
 
 Income i = new Income(p_id, p_income);
 main.c_income.add(i);
@@ -5916,7 +6010,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     
 	// Save moving data (target agent)
 	v_numberMoves++;
-	if (main.p_exportData) { main.f_exportMigrationData(this); }
+	if (main.p_exportMigrationData) { main.f_exportMigrationData(this); }
 
 	// move kids?
 	/// condition to move kids
@@ -5950,7 +6044,7 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
     		
     			// save moving data (kids)
     			kid.v_numberMoves++;
-    			if (main.p_exportData) { main.f_exportMigrationData(kid); }
+    			if (main.p_exportMigrationData) { main.f_exportMigrationData(kid); }
 	
 			}
 		}
@@ -5970,9 +6064,8 @@ if (destination.c_peopleAlive.size() < main.p_countyPopLimit) {
 					<Body><![CDATA[main.c_deadPeople.add(this);
 
 // save data
-if (main.p_exportData) {
-	main.f_exportMortalityData(this);
-}
+if (main.p_exportMortalityData) main.f_exportMortalityData(this);
+
 
 // change parameters
 
@@ -6109,10 +6202,8 @@ if (main.v_lastGeneration != newKid.p_generation && main.v_lastGeneration < newK
 }
 
 // save initial residential info
-if (main.p_exportData) {
-	main.f_exportFamilyData(newKid);
-    main.f_exportMigrationData(newKid);
-}]]></Body>
+if (main.p_exportFamilyData) main.f_exportFamilyData(newKid);
+if (main.p_exportMigrationData) main.f_exportMigrationData(newKid);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -6705,22 +6796,19 @@ root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;
 root.v_iteration = 1;
 root.v_replicate = 1;
 
-
-if (root.p_exportData) {
-	root.f_defineParameterData();
-	root.f_defineCountyData();
-	root.f_defineMigrationData();
-	root.f_defineFamilyData();
-	root.f_defineMortalityData();
-}]]></BeforeSimulationRunCode>
+if (root.p_exportModelData) root.f_defineParameterData();
+if (root.p_exportCountyData) root.f_defineCountyData();
+if (root.p_exportMigrationData) root.f_defineMigrationData();
+if (root.p_exportFamilyData) root.f_defineFamilyData();
+if (root.p_exportMortalityData) root.f_defineMortalityData();
+if (root.p_exportModelData) root.f_defineEnvironmentData();]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[try {
-	if (root.p_exportData) {
-		root.v_parameterData.close();
-		root.v_countyData.close();
-		root.v_migrationData.close();
-		root.v_familyData.close();
-		root.v_mortalityData.close();
-	}
+	if (root.p_exportModelData) root.v_parameterData.close();
+	if (root.p_exportCountyData) root.v_countyData.close();
+	if (root.p_exportMigrationData)	root.v_migrationData.close();
+	if (root.p_exportFamilyData)root.v_familyData.close();
+	if (root.p_exportMortalityData) root.v_mortalityData.close();
+	if (root.p_exportModelData) root.v_environmentData.close();
 } catch (IOException e)	 {
 	traceln("--> An Exception happened during initialization, continue? ...");
 	e.printStackTrace();
@@ -6823,6 +6911,7 @@ if (root.p_exportData) {
 				<Variable Class="PlainVariable">
 					<Id>1597133915033</Id>
 					<Name><![CDATA[v_exportData]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-440</X><Y>220</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -6986,7 +7075,7 @@ if (root.p_exportData) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.2]]></Code>
+							<Code><![CDATA[0.20]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -7223,6 +7312,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1597133928752</Id>
 					<Name><![CDATA[exportData]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>320</X><Y>70</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -7805,10 +7895,19 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_exportData]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_exportData]]></Code>
-					</ParameterValue>
+					<ParameterName><![CDATA[p_exportModelData]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_exportFamilyData]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_exportMigrationData]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_exportMortalityData]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_exportCountyData]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_filePath]]></ParameterName>
@@ -7913,6 +8012,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 		<ParamVariationExperiment ActiveObjectClassId="1516978677339">
 			<Id>1598466388903</Id>
 			<Name><![CDATA[Test1]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<AdditionalClassCode><![CDATA[// Random r = getDefaultRandomGenerator();]]></AdditionalClassCode>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
 			<Import><![CDATA[import java.io.BufferedWriter;
@@ -8045,6 +8145,18 @@ if (root.p_exportData) {
 			<FreeformParamValue>	
 				<Id>1600583800233</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100873770</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100877946</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100881287</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100885163</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8082,9 +8194,6 @@ if (root.p_exportData) {
 			<RangeVariationParamValue>	
 				<Id>1517370041664</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[0]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1517448376387</Id>
@@ -8188,6 +8297,22 @@ if (root.p_exportData) {
 				<Id>1600583800233</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100873770</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100877946</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100881287</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100885163</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -8221,13 +8346,22 @@ if (root.p_exportData) {
 			<Import><![CDATA[import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;]]></Import>
+import java.io.IOException;
+import org.postgresql.core.SetupQueryRunner;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<InitialSetupCode><![CDATA[// 4 iterations
-vr_movingThreshold = new double[] {0.0, 0.10, 0.20, 0.30};
-vr_movingRandom = new boolean[] {true, false, false, false};]]></InitialSetupCode>
+vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, .10};
+vr_movingThreshold = new double[] {0.25, 0.25, 0.25, 0.30, 0.30, 0.30};
+vr_movingRandom = new boolean[] {true, false, false, true, false, false};
+vr_lastGeneration = new int[] {2, 2, 2, 2, 2, 2};
+
+// number of iterations
+vr_numberIterations = vr_movingRate.length;
+// number of replicatesc
+setUseReplications(true);
+setFixedReplicationsNumber(2);]]></InitialSetupCode>
 			<MaximumMemory>4096</MaximumMemory>
-			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
 			<BeforeSimulationRunCode><![CDATA[getEngine().setSimultaneousEventsSelectionMode(Engine.EVENT_SELECTION_FIFO);
 // set random seed for reproducibility
@@ -8243,26 +8377,26 @@ root.v_replicate = getCurrentReplication();
 // define experiment variables 
 // set parameters
 int current = getCurrentIteration() - 1;
+root.p_movingRate = vr_movingRate[current];
 root.p_movingThreshold = vr_movingThreshold[current];
 root.p_movingRandom = vr_movingRandom[current];
+root.p_movingRandom = vr_movingRandom[current];
+root.p_lastGeneration = vr_lastGeneration[current];
 
-if (root.p_exportData) {
-	root.f_defineParameterData();
-	root.f_defineCountyData();
-	root.f_defineMigrationData();
-	root.f_defineFamilyData();
-	root.f_defineMortalityData();
-	root.f_defineEnvironmentData();
-}]]></BeforeSimulationRunCode>
+if (root.p_exportModelData) root.f_defineParameterData();
+if (root.p_exportCountyData) root.f_defineCountyData();
+if (root.p_exportMigrationData) root.f_defineMigrationData();
+if (root.p_exportFamilyData) root.f_defineFamilyData();
+if (root.p_exportMortalityData) root.f_defineMortalityData();
+if (root.p_exportModelData) root.f_defineEnvironmentData();
+]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[try {
-	if (root.p_exportData) {
-		root.v_parameterData.close();
-		root.v_countyData.close();
-		root.v_migrationData.close();
-		root.v_familyData.close();
-		root.v_mortalityData.close();
-		root.v_environmentData.close();
-	}
+	if (root.p_exportModelData) root.v_parameterData.close();
+	if (root.p_exportCountyData) root.v_countyData.close();
+	if (root.p_exportMigrationData)	root.v_migrationData.close();
+	if (root.p_exportFamilyData)root.v_familyData.close();
+	if (root.p_exportMortalityData) root.v_mortalityData.close();
+	if (root.p_exportModelData) root.v_environmentData.close();
 } catch (IOException e)	 {
 	traceln("--> An Exception happened during initialization, continue? ...");
 	e.printStackTrace();
@@ -8270,7 +8404,7 @@ if (root.p_exportData) {
 
 vr_replicates++;
 
-if (vr_replicates % 20 == 0) {
+if (vr_replicates % 10 == 0) {
 	traceln("Number of replicates: " + vr_replicates);
 }]]></AfterSimulationRunCode>
 			<SeedValue>251015</SeedValue>
@@ -8305,7 +8439,7 @@ if (vr_replicates % 20 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1601031462290</Id>
 					<Name><![CDATA[vr_replicates]]></Name>
-					<X>50</X><Y>190</Y>
+					<X>280</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8317,12 +8451,51 @@ if (vr_replicates % 20 == 0) {
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1601101947977</Id>
+					<Name><![CDATA[vr_movingRate]]></Name>
+					<X>50</X><Y>190</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1601213609198</Id>
+					<Name><![CDATA[vr_lastGeneration]]></Name>
+					<X>50</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1601280372622</Id>
+					<Name><![CDATA[vr_numberIterations]]></Name>
+					<X>280</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+					</Properties>
+				</Variable>
 			</Variables>
 
 
+			<AfterIterationCode><![CDATA[if (getCurrentIteration() >= vr_numberIterations) {
+	stop();
+}]]></AfterIterationCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>4</NumberOfRuns>
+			<NumberOfRuns>9999</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -8358,9 +8531,6 @@ if (vr_replicates % 20 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1567149540086</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[8]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1567692999575</Id>
@@ -8412,6 +8582,9 @@ if (vr_replicates % 20 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1599596275483</Id>
@@ -8427,12 +8600,24 @@ if (vr_replicates % 20 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[100]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600583800233</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100873770</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100877946</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100881287</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601100885163</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[false]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -8592,6 +8777,22 @@ if (vr_replicates % 20 == 0) {
 				<Id>1600583800233</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100873770</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100877946</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100881287</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601100885163</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -8608,7 +8809,7 @@ if (vr_replicates % 20 == 0) {
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>100</ReplicationPerIteration>
+				<ReplicationPerIteration>2</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
