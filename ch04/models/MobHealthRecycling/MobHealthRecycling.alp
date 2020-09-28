@@ -6099,7 +6099,7 @@ if (main.p_movingRandom) {
 else {
 	v_proportionSimilar = f_proportionSimilarity();
 	v_satisfied = (v_proportionSimilar >= main.p_movingThreshold);
-	County destination = f_selectSimilarCounties(p_incomeType, 6);
+	County destination = f_selectSimilarCounties(p_incomeType, 8);
 	if (!v_satisfied && destination != null) f_moving(destination);
 }]]></Body>
 				</Function>
