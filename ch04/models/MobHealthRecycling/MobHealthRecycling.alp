@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -555,28 +555,6 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1517244721401</Id>
-					<Name><![CDATA[p_countyPopLimit]]></Name>
-					<X>-950</X><Y>110</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<ParameterEditor>
-							<Id>1517244721399</Id>
-							<Label><![CDATA[p_countyPopLimit]]></Label>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
 					<Id>1567149540086</Id>
 					<Name><![CDATA[p_lastGeneration]]></Name>
 					<X>-950</X><Y>170</Y>
@@ -970,6 +948,53 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
+					<Id>1517244721401</Id>
+					<Name><![CDATA[p_countyPopLimit]]></Name>
+					<X>-950</X><Y>110</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1517244721399</Id>
+							<Label><![CDATA[p_countyPopLimit]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601302259963</Id>
+					<Name><![CDATA[p_populationMaxRatio]]></Name>
+					<X>-950</X><Y>190</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1.30]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1601302259961</Id>
+							<Label><![CDATA[p_populationMaxRatio]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
 					<Id>1567759712274</Id>
 					<Name><![CDATA[p_numIncomeTypes]]></Name>
 					<X>-800</X><Y>180</Y>
@@ -1199,31 +1224,6 @@ f_defineInitialValues();]]></StartupCode>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
-				<Variable Class="Parameter">
-					<Id>1601302259963</Id>
-					<Name><![CDATA[p_populationMaxRatio]]></Name>
-					<X>-950</X><Y>190</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[100]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1601302259961</Id>
-							<Label><![CDATA[parameter]]></Label>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1596568999023</Id>
 					<Name><![CDATA[c_deadPeople]]></Name>
@@ -1364,7 +1364,10 @@ f_defineInitialValues();]]></StartupCode>
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
-					<Action><![CDATA[// reset databases
+					<Action><![CDATA[// update county limit
+p_countyPopLimit = round((c_peopleAlive.size() / p_numCounties) * p_populationMaxRatio);
+
+// reset databases
 dh_probabilityIncomeType.reset();
 dh_incomeCounties.reset();
 		
@@ -6093,7 +6096,8 @@ ev_smokingInitiation.reset();]]></Action>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Agents older than 18 years old move randomly
 if (main.p_movingRandom) { 
-	County destination = randomWhere(main.counties, c -> c != this.county);
+	County destination = randomWhere(main.counties, c -> c != this.county &
+		c.c_peopleAlive.size() <= main.p_countyPopLimit);
 	f_moving(destination); } 
 // Agents older than 18 years old move when a threshold is met
 else {
@@ -6502,22 +6506,25 @@ if (values.size() > 0) {
 						<Name><![CDATA[potentialCounties]]></Name>
 						<Type><![CDATA[int]]></Type>
 					</Parameter>
-					<Body><![CDATA[traceln("print this id");
-List<County> pcounties = sortDescending(main.counties, c -> c.v_proportionIncomeType[incomeType - 1])
+					<Body><![CDATA[List<County> pcounties = sortDescending(main.counties, c -> c.v_proportionIncomeType[incomeType - 1])
 	.stream()
-	//.filter(c -> c.c_peopleAlive.size() < main.p_countyPopLimit)
+	.filter(c -> c.c_peopleAlive.size() <= main.p_countyPopLimit)
 	.limit(potentialCounties)
 	.collect(Collectors.toList());
 	
+/*
 for (County p : pcounties) {
 	traceln(p.getIndex() + ": " + p.v_proportionIncomeType[incomeType - 1]);
 }
+*/
 
 County destination = randomWhere(pcounties, c -> c != this.county);
 
+/*
 if (destination != null) {
 	traceln("Selected county: " + destination.getIndex() + " " + destination.v_proportionIncomeType[incomeType-1]);
 }
+*/
 return destination;]]></Body>
 				</Function>
 			</Functions>
@@ -8113,9 +8120,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_countyPopLimit]]></ParameterName>
-				</Parameter>
-				<Parameter>
 					<ParameterName><![CDATA[p_lastGeneration]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_maxGeneration]]></Code>
@@ -8191,6 +8195,12 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
+					<ParameterName><![CDATA[p_countyPopLimit]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_populationMaxRatio]]></ParameterName>
+				</Parameter>
+				<Parameter>
 					<ParameterName><![CDATA[p_updateStats]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_descriptiveStats]]></Code>
@@ -8234,9 +8244,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_populationMaxRatio]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -8606,9 +8613,9 @@ import org.postgresql.core.SetupQueryRunner;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<InitialSetupCode><![CDATA[// 4 iterations
 vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, .10};
-vr_movingThreshold = new double[] {0.25, 0.25, 0.25, 0.30, 0.30, 0.30};
-vr_movingRandom = new boolean[] {true, false, false, true, false, false};
-vr_lastGeneration = new int[] {2, 2, 2, 2, 2, 2};]]></InitialSetupCode>
+vr_movingThreshold = new double[] {0.20, 0.20, 0.21, 0.22, 0.23, 0.25};
+vr_movingRandom = new boolean[] {true, false, false, false, false, false};
+vr_lastGeneration = new int[] {20, 20, 20, 20, 20, 20};]]></InitialSetupCode>
 			<MaximumMemory>4096</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
@@ -8740,6 +8747,9 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903263</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[200]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1517009065179</Id>
@@ -8836,6 +8846,9 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[60]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600583800233</Id>
