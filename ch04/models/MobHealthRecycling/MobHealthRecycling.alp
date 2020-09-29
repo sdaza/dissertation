@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -131,7 +131,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1516978903197</Id>
 					<Name><![CDATA[v_gini]]></Name>
-					<X>-950</X><Y>410</Y>
+					<X>-960</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -146,7 +146,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1516978903199</Id>
 					<Name><![CDATA[v_incomeMobility]]></Name>
-					<X>-950</X><Y>430</Y>
+					<X>-960</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -159,7 +159,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1516978903203</Id>
 					<Name><![CDATA[v_NSI]]></Name>
 					<Description><![CDATA[Neighborhood. Sorting Index (NSI) ]]></Description>
-					<X>-950</X><Y>560</Y>
+					<X>-960</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -272,7 +272,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1568713978708</Id>
 					<Name><![CDATA[v_lastGeneration]]></Name>
-					<X>-950</X><Y>580</Y>
+					<X>-960</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -302,7 +302,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597933160651</Id>
 					<Name><![CDATA[v_averageIncome]]></Name>
-					<X>-950</X><Y>450</Y>
+					<X>-960</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -314,7 +314,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597954971894</Id>
 					<Name><![CDATA[v_incomeStandardDeviation]]></Name>
-					<X>-950</X><Y>470</Y>
+					<X>-960</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -326,7 +326,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597958930430</Id>
 					<Name><![CDATA[v_incomeCountyStandardDeviation]]></Name>
-					<X>-950</X><Y>490</Y>
+					<X>-960</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -338,7 +338,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1598007867636</Id>
 					<Name><![CDATA[v_countyIncomeMobilityStandardDeviation]]></Name>
-					<X>-950</X><Y>530</Y>
+					<X>-960</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -350,7 +350,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1598043831735</Id>
 					<Name><![CDATA[v_averageCountyIncomeMobility]]></Name>
-					<X>-950</X><Y>510</Y>
+					<X>-960</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -381,6 +381,18 @@ f_defineInitialValues();]]></StartupCode>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1601387837399</Id>
+					<Name><![CDATA[v_lastCompleteGeneration]]></Name>
+					<X>-960</X><Y>570</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -850,7 +862,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1598693562391</Id>
 					<Name><![CDATA[p_recurrentTimeStratData]]></Name>
-					<X>-950</X><Y>370</Y>
+					<X>-960</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1333,12 +1345,27 @@ f_defineInitialValues();]]></StartupCode>
 					</Properties>
 
 				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1601387574113</Id>
+					<Name><![CDATA[c_deaths]]></Name>
+					<X>-680</X><Y>550</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Deaths]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
 			</Variables>
 			<Events>
 				<Event>
 					<Id>1516978903251</Id>
 					<Name><![CDATA[ev_updateStats]]></Name>
-					<X>-950</X><Y>350</Y>
+					<X>-960</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1480,8 +1507,19 @@ if (p_updateStats) {
 	if (p_exportCountyData && time() > 30) f_exportCountyData();
 }
 
+if (v_lastGeneration > 0) {
+	v_lastCompleteGeneration = c_peopleAlive.stream().mapToInt(p -> p.p_generation).min().getAsInt() - 1;
+}
+
+d_deaths.add(
+	c_deaths.stream().filter(p -> p.generation < v_lastCompleteGeneration)
+	.mapToDouble(p -> p.age).average().getAsDouble()
+);
+	
 // stop simulation after x generation
 int countGeneration = 0;
+if (p_exportModelData) f_exportEnvironmentData();
+
 if (v_lastGeneration >= p_lastGeneration) {
     for (Person p : c_peopleAlive) {
         if (p.p_generation == p_lastGeneration) countGeneration++;
@@ -3091,6 +3129,28 @@ catch (IOException e) {
 					<HighPercent>10</HighPercent>
 					<Title><![CDATA[]]></Title>
 				</HistogramData>
+    			<DataSet>
+					<Id>1601389500761</Id>
+					<Name><![CDATA[d_deaths]]></Name>
+					<X>-260</X><Y>460</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1517040000000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>true</FreezeXAxis>
+					<SamplesToKeep>100</SamplesToKeep>
+				</DataSet>
 			</AnalysisData>
 			<AgentLinks>
 				<AgentLink>
@@ -4233,6 +4293,72 @@ catch (IOException e) {
 						<Title><![CDATA[Income by county]]></Title>							
 					</HistogramDataExpression>
     			</Histogram>
+    			<TimePlot>
+					<Id>1601389818713</Id>
+					<Name><![CDATA[plot2]]></Name>
+					<X>690</X><Y>710</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1597046400000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>300</Width>
+					<Height>220</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>20</YOffset>
+						<Width>220</Width>
+						<Height>140</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[LE]]></Title>
+					<Expression><![CDATA[d_deaths]]></Expression>
+					<Color>-65536</Color>
+					<Expression2><![CDATA[d_deaths]]></Expression2>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<FillAreaUnderLine>false</FillAreaUnderLine>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimePlot>
 			</Presentation>
 
 				</Level>
@@ -5634,7 +5760,7 @@ ev_computeAge.reset();]]></EntryAction>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672051853</Id>
 					<Name><![CDATA[NoSmoking]]></Name>
-					<X>500</X><Y>270</Y>
+					<X>490</X><Y>230</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5646,7 +5772,7 @@ ev_computeAge.reset();]]></EntryAction>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672060706</Id>
 					<Name><![CDATA[Smoking]]></Name>
-					<X>500</X><Y>350</Y>
+					<X>490</X><Y>310</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5860,7 +5986,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1597672069177</Id>
 					<Name><![CDATA[smoking]]></Name>
-					<X>530</X><Y>300</Y>
+					<X>520</X><Y>260</Y>
 					<Label><X>-60</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5923,7 +6049,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
 					<Id>1600496047133</Id>
 					<Name><![CDATA[st_smoking]]></Name>
-					<X>550</X><Y>230</Y>
+					<X>540</X><Y>190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5938,7 +6064,7 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1600496157492</Id>
 					<Name><![CDATA[transition6]]></Name>
-					<X>570</X><Y>350</Y>
+					<X>560</X><Y>310</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6103,7 +6229,7 @@ if (main.p_movingRandom) {
 else {
 	v_proportionSimilar = f_proportionSimilarity();
 	v_satisfied = (v_proportionSimilar >= main.p_movingThreshold);
-	County destination = f_selectSimilarCounties(p_incomeType, 8);
+	County destination = f_selectSimilarCounties(p_incomeType, 10);
 	if (!v_satisfied && destination != null) f_moving(destination);
 }]]></Body>
 				</Function>
@@ -6256,6 +6382,7 @@ if (c_kids.size() > 0) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[main.c_deadPeople.add(this);
+main.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
 
 // save data
 if (main.p_exportMortalityData) main.f_exportMortalityData(this);
@@ -8612,11 +8739,18 @@ import java.io.IOException;
 import org.postgresql.core.SetupQueryRunner;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<InitialSetupCode><![CDATA[// 4 iterations
-vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, .10};
-vr_movingThreshold = new double[] {0.20, 0.20, 0.21, 0.22, 0.23, 0.25};
-vr_movingRandom = new boolean[] {true, false, false, false, false, false};
-vr_lastGeneration = new int[] {20, 20, 20, 20, 20, 20};]]></InitialSetupCode>
-			<MaximumMemory>4096</MaximumMemory>
+/*
+vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
+vr_movingThreshold = new double[] {0.20, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25};
+vr_movingRandom = new boolean[] {true, false, false, false, false, false, false};
+vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
+*/
+
+vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
+vr_movingThreshold = new double[] {0.21, 0.25, 0.22, 0.23, 0.24, 0.25};
+vr_movingRandom = new boolean[] {false, false, false, false, false, false};
+vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};]]></InitialSetupCode>
+			<MaximumMemory>8192</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
 			<BeforeSimulationRunCode><![CDATA[getEngine().setSimultaneousEventsSelectionMode(Engine.EVENT_SELECTION_FIFO);
@@ -8735,7 +8869,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>6</NumberOfRuns>
+			<NumberOfRuns>2</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -9065,7 +9199,7 @@ if (vr_replicates % 10 == 0) {
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>2</ReplicationPerIteration>
+				<ReplicationPerIteration>30</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
@@ -9192,6 +9326,24 @@ class Income {
 	public Income(int id, double income) {
 		this.id = id;
 		this.income = income;
+	}
+}]]></Text>
+		</JavaClass>
+		<!--   =========   Java Class   ========  -->
+		<JavaClass>
+			<Id>1601387364753</Id>
+			<Name><![CDATA[Deaths]]></Name>
+			<Text><![CDATA[// Deaths
+class Deaths {
+	// fields of the class
+	int id;
+	int generation;
+	double age;
+
+	public Deaths(int id,int generation, double age) {
+		this.id = id;
+		this.generation = generation;
+		this.age = age;
 	}
 }]]></Text>
 		</JavaClass>
