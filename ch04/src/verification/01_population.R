@@ -1,6 +1,6 @@
 ##############################
 # generative model income mobility and mortality
-# verify segregation
+# verify population dynamics
 # author: sebastian daza
 ##############################
 
@@ -26,19 +26,14 @@ path = "models/MobHealthRecycling/output/"
 # read RDS
 dat = readRDS("output/data/nsi_21_25.rds")
 
-# create plots
-savepdf("output/plots/nsi_21")
-ggplot(dat[iteration == 1], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.2, size = 0.1) +
-    labs(x = "\nYear", y = "Neighborhood sorting index (NSI)\n")  +
-    xlim(0, 1550) + ylim(0, 1) +
+savepdf("output/plots/population")
+ggplot(dat[iteration == 2], aes(time, population, group = replicate)) + geom_line( alpha = 0.2, size = 0.1) +
+    labs(x = "\nYear", y = "Population\n")  +
     theme_minimal()
 dev.off()
 
-savepdf("output/plots/nsi_25")
-ggplot(dat[iteration == 2], aes(time, nsi, group = replicate)) + geom_line(alpha = 0.2, size = 0.1) +
-    labs(x = "\nYear", y = "Neighborhood sorting index (NSI)\n")  +
-    xlim(0, 1550) + ylim(0, 1) +
+savepdf("output/plots/le")
+ggplot(dat[iteration == 2], aes(time, le, group = replicate)) + geom_line( alpha = 0.2, size = 0.1) +
+    labs(x = "\nYear", y = "Life expectancy\n")  +
     theme_minimal()
 dev.off()
-
-

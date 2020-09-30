@@ -5,8 +5,7 @@
 pardiso.lic
 .Renviron
 /notes
-/ch0*/data
-/ch0*/output/data
+
 !/ch04/data/cty_full_covariates.dta
 !/ch04/data/nats_2013.sas7bdat
 dissertation.*
@@ -14,11 +13,16 @@ dissertation.*
 !disseration.bib
 ~$*.*
 
-/ch0*/output/*.rds
+
+# data
+/ch0*/data
+/ch03/output/data
+/ch02/output/*.rds
+/ch0*/models/*/output
+
+# others
 /ch02/inla
 /ch03/.slackr
 /ch03/src/old
 /ch03/src/psid/old
 /ch03/src/testing
-
-/ch0*/models/*/output
