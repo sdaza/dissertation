@@ -22,3 +22,5 @@ dissertation.*
 /ch03/src/testing
 
 /ch0*/models/*/output
+/ch0*/models/*/database
+/ch0*/models/*/*.autosave
