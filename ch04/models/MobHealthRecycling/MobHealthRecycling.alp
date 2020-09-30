@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -401,11 +401,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1601463482899</Id>
 					<Name><![CDATA[v_lifeExpectancy]]></Name>
-<<<<<<< HEAD
 					<X>-970</X><Y>570</Y>
-=======
-					<X>-960</X><Y>590</Y>
->>>>>>> cae97f7001cf1de13f8f6ebe64681f516a3b248a
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -564,7 +560,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1597069674406</Id>
 					<Name><![CDATA[p_showAgents]]></Name>
-					<X>-370</X><Y>710</Y>
+					<X>-410</X><Y>710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -637,7 +633,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1598010504830</Id>
 					<Name><![CDATA[p_standardizedExposure]]></Name>
-					<X>-370</X><Y>730</Y>
+					<X>-410</X><Y>730</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -807,7 +803,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1596632808742</Id>
 					<Name><![CDATA[p_updateStats]]></Name>
-					<X>-370</X><Y>690</Y>
+					<X>-410</X><Y>690</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -857,7 +853,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1599645461621</Id>
 					<Name><![CDATA[p_computeGiniCoeff]]></Name>
-					<X>-370</X><Y>750</Y>
+					<X>-410</X><Y>750</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -956,7 +952,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1517009065179</Id>
 					<Name><![CDATA[p_movingRandom]]></Name>
-					<X>-370</X><Y>670</Y>
+					<X>-410</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1185,11 +1181,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1597518968143</Id>
 					<Name><![CDATA[p_mortalityCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
-<<<<<<< HEAD
 					<X>-790</X><Y>330</Y>
-=======
-					<X>-790</X><Y>350</Y>
->>>>>>> cae97f7001cf1de13f8f6ebe64681f516a3b248a
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1214,11 +1206,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1599596944691</Id>
 					<Name><![CDATA[p_mortalityCoeffSmoking]]></Name>
 					<Description><![CDATA[Generation coefficient = 1.098612]]></Description>
-<<<<<<< HEAD
 					<X>-790</X><Y>350</Y>
-=======
-					<X>-790</X><Y>330</Y>
->>>>>>> cae97f7001cf1de13f8f6ebe64681f516a3b248a
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1256,30 +1244,6 @@ f_defineInitialValues();]]></StartupCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1600583800231</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1601476055944</Id>
-					<Name><![CDATA[p_generationToInclude]]></Name>
-					<X>-570</X><Y>740</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int[]]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[{30,35,40}]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1601476055942</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -4046,7 +4010,7 @@ catch (IOException e) {
 				<Text>
 					<Id>1596632730189</Id>
 					<Name><![CDATA[text2]]></Name>
-					<X>-390</X><Y>640</Y>
+					<X>-430</X><Y>640</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8335,9 +8299,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_generationToInclude]]></ParameterName>
-				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -8508,9 +8469,6 @@ if (root.p_exportData) {
 			<FreeformParamValue>	
 				<Id>1601302259963</Id>
 			</FreeformParamValue>
-			<FreeformParamValue>	
-				<Id>1601476055944</Id>
-			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8671,10 +8629,6 @@ if (root.p_exportData) {
 				<Id>1601302259963</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
-				<Id>1601476055944</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -8720,13 +8674,8 @@ vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
 */
 
 vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-<<<<<<< HEAD
 vr_movingThreshold = new double[] {0.0, 0.15, 0.19, 0.21, 0.25, 0.24};
 vr_movingRandom = new boolean[] {true, false, false, false, false, false};
-=======
-vr_movingThreshold = new double[] {0.15, 0.19, 0.21, 0.25, 0.24, 0.25};
-vr_movingRandom = new boolean[] {false, false, false, false, false, false};
->>>>>>> cae97f7001cf1de13f8f6ebe64681f516a3b248a
 vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};]]></InitialSetupCode>
 			<MaximumMemory>8192</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -8847,11 +8796,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-<<<<<<< HEAD
 			<NumberOfRuns>1</NumberOfRuns>
-=======
-			<NumberOfRuns>4</NumberOfRuns>
->>>>>>> cae97f7001cf1de13f8f6ebe64681f516a3b248a
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -8986,9 +8931,6 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601302259963</Id>
-			</FreeformParamValue>
-			<FreeformParamValue>	
-				<Id>1601476055944</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -9166,10 +9108,6 @@ if (vr_replicates % 10 == 0) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601302259963</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
-				<Id>1601476055944</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
