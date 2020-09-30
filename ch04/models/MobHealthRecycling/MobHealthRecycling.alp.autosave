@@ -619,7 +619,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.68]]></Code>
+							<Code><![CDATA[1.71]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597044700976</Id>
@@ -2576,7 +2576,7 @@ catch (IOException e) {
 	String name = p_filePath+"environment_t" + v_iteration + "_r" + v_replicate + ".csv";
 	File f = new File(name);
 	v_environmentData = new BufferedWriter(new FileWriter(f));
-	v_environmentData.write("iteration,replicate,time,gini,income_mobility,avg_income,nsi,last_generation,population"+ "\n");
+	v_environmentData.write("iteration,replicate,time,gini,income_mobility,avg_income,le,nsi,last_generation,population"+ "\n");
 } catch (IOException e)	 {
 	getEngine().pause();
 	traceln("--> An Exception happened during initialization, continue? ...");
@@ -2603,6 +2603,7 @@ try {
     	v_gini + "," +
     	v_incomeMobility + "," +
     	v_averageIncome + "," +
+    	v_lifeExpectancy + "," +
     	v_NSI + "," +
     	v_lastGeneration + "," +
     	c_peopleAlive.size()+ "\n");
@@ -3143,28 +3144,6 @@ catch (IOException e) {
 					<HighPercent>10</HighPercent>
 					<Title><![CDATA[]]></Title>
 				</HistogramData>
-    			<DataSet>
-					<Id>1601466111433</Id>
-					<Name><![CDATA[dataset]]></Name>
-					<X>-260</X><Y>470</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<AutoUpdate>false</AutoUpdate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1601539200000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
-					</RecurrenceCode>
-					<FreezeXAxis>true</FreezeXAxis>
-					<SamplesToKeep>100</SamplesToKeep>
-				</DataSet>
 			</AnalysisData>
 			<AgentLinks>
 				<AgentLink>
@@ -8817,7 +8796,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>5</NumberOfRuns>
+			<NumberOfRuns>1</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
