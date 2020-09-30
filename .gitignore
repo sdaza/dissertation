@@ -6,8 +6,6 @@ pardiso.lic
 .Renviron
 /notes
 
-!/ch04/data/cty_full_covariates.dta
-!/ch04/data/nats_2013.sas7bdat
 dissertation.*
 !disseration.tex
 !disseration.bib
@@ -18,7 +16,6 @@ dissertation.*
 /ch0*/data
 /ch03/output/data
 /ch02/output/*.rds
-/ch0*/models/*/output
 
 # others
 /ch02/inla
@@ -27,6 +24,7 @@ dissertation.*
 /ch03/src/psid/old
 /ch03/src/testing
 
-/ch0*/models/*/output
-/ch0*/models/*/database
-/ch0*/models/*/*.autosave
+# chapter 04
+/ch04/models/MobHealthRecycling/output
+/ch04/models/MobHealthRecycling/database
+/ch04/models/*.autosave
