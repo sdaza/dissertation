@@ -131,7 +131,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1516978903197</Id>
 					<Name><![CDATA[v_gini]]></Name>
-					<X>-960</X><Y>390</Y>
+					<X>-970</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -146,7 +146,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1516978903199</Id>
 					<Name><![CDATA[v_incomeMobility]]></Name>
-					<X>-960</X><Y>410</Y>
+					<X>-970</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -159,7 +159,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1516978903203</Id>
 					<Name><![CDATA[v_NSI]]></Name>
 					<Description><![CDATA[Neighborhood. Sorting Index (NSI) ]]></Description>
-					<X>-960</X><Y>530</Y>
+					<X>-970</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -272,7 +272,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1568713978708</Id>
 					<Name><![CDATA[v_lastGeneration]]></Name>
-					<X>-960</X><Y>550</Y>
+					<X>-970</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -302,7 +302,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597933160651</Id>
 					<Name><![CDATA[v_averageIncome]]></Name>
-					<X>-960</X><Y>430</Y>
+					<X>-970</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -314,7 +314,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597954971894</Id>
 					<Name><![CDATA[v_incomeStandardDeviation]]></Name>
-					<X>-960</X><Y>450</Y>
+					<X>-970</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -326,7 +326,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1597958930430</Id>
 					<Name><![CDATA[v_incomeCountyStandardDeviation]]></Name>
-					<X>-960</X><Y>470</Y>
+					<X>-970</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -338,7 +338,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1598007867636</Id>
 					<Name><![CDATA[v_countyIncomeMobilityStandardDeviation]]></Name>
-					<X>-960</X><Y>510</Y>
+					<X>-970</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -350,7 +350,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1598043831735</Id>
 					<Name><![CDATA[v_averageCountyIncomeMobility]]></Name>
-					<X>-960</X><Y>490</Y>
+					<X>-970</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -386,7 +386,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1601387837399</Id>
 					<Name><![CDATA[v_lastCompleteGeneration]]></Name>
-					<X>-960</X><Y>570</Y>
+					<X>-970</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -401,7 +401,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="PlainVariable">
 					<Id>1601463482899</Id>
 					<Name><![CDATA[v_lifeExpectancy]]></Name>
-					<X>-960</X><Y>590</Y>
+					<X>-970</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -877,7 +877,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1598693562391</Id>
 					<Name><![CDATA[p_recurrentTimeStratData]]></Name>
-					<X>-960</X><Y>370</Y>
+					<X>-970</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1181,7 +1181,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1597518968143</Id>
 					<Name><![CDATA[p_mortalityCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
-					<X>-790</X><Y>350</Y>
+					<X>-790</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1206,7 +1206,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Id>1599596944691</Id>
 					<Name><![CDATA[p_mortalityCoeffSmoking]]></Name>
 					<Description><![CDATA[Generation coefficient = 1.098612]]></Description>
-					<X>-790</X><Y>330</Y>
+					<X>-790</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1380,7 +1380,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Event>
 					<Id>1516978903251</Id>
 					<Name><![CDATA[ev_updateStats]]></Name>
-					<X>-960</X><Y>350</Y>
+					<X>-970</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3144,16 +3144,16 @@ catch (IOException e) {
 					<Title><![CDATA[]]></Title>
 				</HistogramData>
     			<DataSet>
-					<Id>1601389500761</Id>
-					<Name><![CDATA[d_deaths]]></Name>
-					<X>-260</X><Y>460</Y>
+					<Id>1601466111433</Id>
+					<Name><![CDATA[dataset]]></Name>
+					<X>-260</X><Y>470</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<AutoUpdate>false</AutoUpdate>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1517040000000</OccurrenceDate>
+					<OccurrenceDate>1601539200000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
 						<Code><![CDATA[0]]></Code>
 						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
@@ -8695,8 +8695,8 @@ vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
 */
 
 vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-vr_movingThreshold = new double[] {0.15, 0.19, 0.21, 0.25, 0.24, 0.25};
-vr_movingRandom = new boolean[] {false, false, false, false, false, false};
+vr_movingThreshold = new double[] {0.0, 0.15, 0.19, 0.21, 0.25, 0.24};
+vr_movingRandom = new boolean[] {true, false, false, false, false, false};
 vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};]]></InitialSetupCode>
 			<MaximumMemory>8192</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -8817,7 +8817,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>4</NumberOfRuns>
+			<NumberOfRuns>5</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
