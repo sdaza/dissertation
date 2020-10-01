@@ -11,34 +11,35 @@ source("src/utils.R")
 path = "models/MobHealthRecycling/output/"
 
 # read files
-# par = readMultipleFiles("parameters", path)
-# dat = readMultipleFiles("environ", path)
+par = readMultipleFiles("parameters", path)
+dat = readMultipleFiles("environ", path)
 
-# sel = par[, .(iteration, replicate, counties, people_per_county, move_random, move_threshold, max_generation)]
+sel = par[, .(iteration, replicate, counties, people_per_county, move_random, move_threshold, max_generation)]
 
-# dat = merge(dat, sel, by = c("iteration", "replicate"))
-# temp = dat[, .(.N, avg_nsi = mean(nsi, na.rm = TRUE), min = min(nsi, na.rm = TRUE), max = max(nsi, na.rm = TRUE),
-#         avg_time = mean(time), avg_pop = mean(population)),
-#     .(iteration, move_random, move_threshold, max_generation)]
-
-# saveRDS(dat, "output/data/nsi_21_25.rds")
+dat = merge(dat, sel, by = c("iteration", "replicate"))
+temp = dat[, .(.N, avg_nsi = mean(nsi, na.rm = TRUE), min = min(nsi, na.rm = TRUE), max = max(nsi, na.rm = TRUE),
+        avg_time = mean(time), avg_pop = mean(population)),
+    .(iteration, move_random, move_threshold, max_generation)]
 
 # read RDS
-dat = readRDS("output/data/nsi_21_25.rds")
+saveRDS(dat, "output/data/segregation.rds")
+dat = readRDS("output/data/segregation.rds")
+
+
+unique(par[, names(par) != "replicate", with=FALSE])
 
 # create plots
-savepdf("output/plots/nsi_21")
-ggplot(dat[iteration == 1], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.2, size = 0.1) +
-    labs(x = "\nYear", y = "Neighborhood sorting index (NSI)\n")  +
-    xlim(0, 1550) + ylim(0, 1) +
-    theme_minimal()
-dev.off()
 
-savepdf("output/plots/nsi_25")
-ggplot(dat[iteration == 2], aes(time, nsi, group = replicate)) + geom_line(alpha = 0.2, size = 0.1) +
-    labs(x = "\nYear", y = "Neighborhood sorting index (NSI)\n")  +
-    xlim(0, 1550) + ylim(0, 1) +
-    theme_minimal()
-dev.off()
+plot_names = c("random", "15", "19", "21", "25")
 
-
+for (i in 1:5) {
+    savepdf(paste0("output/plots/nsi_", plot_names[i]))
+    print(
+    ggplot(dat[!is.na(nsi) & iteration == i], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.25, size = 0.1) +
+        labs(x = "\nYear", y = "NSI\n")  +
+        scale_y_continuous(limits = c(0, 1), breaks = scales::pretty_breaks(n = 6)) +
+        scale_x_continuous(limits = c(0, 1550), breaks = scales::pretty_breaks(n = 8)) + 
+        theme_minimal()
+    )
+    dev.off()
+}
