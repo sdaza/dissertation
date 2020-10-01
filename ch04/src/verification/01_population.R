@@ -64,3 +64,8 @@ ggplot(unique(dat[le > 0, .(le)]), aes(x = le)) + geom_histogram(color = "black"
             color="gray", linetype="dashed", size = 0.4) + 
 theme_minimal() 
 dev.off()
+
+# number of moves
+summary(m$nmoves)
+prop.table(table(m$nmoves)) * 100
+
