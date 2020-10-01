@@ -25,6 +25,6 @@ dissertation.*
 /ch03/src/testing
 
 # chapter 04
-/ch04/models/MobHealthRecycling/output
-/ch04/models/MobHealthRecycling/database
+/ch04/models/MobHealthRecycling/output/
+/ch04/models/MobHealthRecycling/database/
 /ch04/models/*.autosave

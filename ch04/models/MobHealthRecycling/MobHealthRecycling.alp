@@ -619,7 +619,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.71]]></Code>
+							<Code><![CDATA[1.69]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597044700976</Id>
@@ -1244,6 +1244,30 @@ f_defineInitialValues();]]></StartupCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1600583800231</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1601479356164</Id>
+					<Name><![CDATA[p_selectedGenerations]]></Name>
+					<X>-570</X><Y>740</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[List<Integer>]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[Arrays.asList(30, 35, 40)]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1601479356162</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -6312,7 +6336,9 @@ if (c_kids.size() > 0) {
 main.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
 
 // save data
-if (main.p_exportMortalityData) main.f_exportMortalityData(this);
+boolean selectedGeneration = main.p_selectedGenerations
+	.stream().anyMatch(x -> x == p_generation);
+if (main.p_exportMortalityData && selectedGeneration ) main.f_exportMortalityData(this);
 
 // change parameters
 
@@ -8299,6 +8325,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_selectedGenerations]]></ParameterName>
+				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -8469,6 +8498,9 @@ if (root.p_exportData) {
 			<FreeformParamValue>	
 				<Id>1601302259963</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601479356164</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8627,6 +8659,10 @@ if (root.p_exportData) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601302259963</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601479356164</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -8919,6 +8955,9 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601100877946</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[true]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601100881287</Id>
@@ -8931,6 +8970,9 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601302259963</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1601479356164</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -9110,6 +9152,10 @@ if (vr_replicates % 10 == 0) {
 				<Id>1601302259963</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1601479356164</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -9126,7 +9172,7 @@ if (vr_replicates % 10 == 0) {
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>30</ReplicationPerIteration>
+				<ReplicationPerIteration>60</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
