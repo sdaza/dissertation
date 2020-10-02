@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -1009,7 +1009,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.30]]></Code>
+							<Code><![CDATA[1.2]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1601302259961</Id>
@@ -1436,31 +1436,10 @@ p_countyPopLimit = round((c_peopleAlive.size() / p_numCounties) * p_populationMa
 // reset databases
 dh_probabilityIncomeType.reset();
 dh_incomeCounties.reset();
+dh_incomeMobilityCounties.reset();
 		
 // compute descriptive stats every year
 if (p_updateStats) {
-	
-	// loop over agents
-	for (County c : counties) {
-		//dh_giniCounties.add(c.v_gini);
-		//dh_incomeCounties.add(c.v_averageIncome);
-		//dh_incomeMobilityCounties.add(c.v_incomeMobility);
-
-		// exposure measures
-		for (Person p : c.people) { 
-		    if (p.f_currentAge() < 18) { 
-		    	// add exposures
-		    	double thistime = time();
-		    	double timediff = thistime - p.v_timeInCounty;
-		    	p.v_timeInCounty = thistime;
-				p.c_countyIncomeExposure.add(new Exposure(timediff, p_standardizedExposure ? 
-					p.county.v_averageStandardizedIncome : p.county.v_averageIncome));
-				p.c_countyIncomeMobilityExposure.add(new Exposure(timediff, p_standardizedExposure ? 
-					p.county.v_standardizedIncomeMobility : p.county.v_incomeMobility));		
-		}   	
-		// dh_age.add(p.f_currentAge()); 
-		}	
-	}
 	
 	// auxiliary list for total income from class Income
 	List<Double> totalIncome = c_income.stream().map(p -> p.income).collect(Collectors.toList());
@@ -1483,7 +1462,7 @@ if (p_updateStats) {
 		
 		// stratification
 		if (time() % p_recurrentTimeStratData == 0) {
-			if (p_computeGiniCoeff) c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);
+			if (p_computeGiniCoeff) { c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);}
 	    	c.v_incomeMobility = f_rankRankSlope(c.c_incomeParentKid);
 	    	c_countyIncomeMobility.add(c.v_incomeMobility);
 	    }
@@ -1527,7 +1506,7 @@ if (p_updateStats) {
 	// stratification
 	if (time() % p_recurrentTimeStratData == 0) {
 	    // overall Gini coefficient
-	    if (p_computeGiniCoeff) v_gini = f_giniCoeff(totalIncome, v_averageIncome);
+	    if (p_computeGiniCoeff) {v_gini = f_giniCoeff(totalIncome, v_averageIncome);}
 		// overall income mobility
 		v_incomeMobility = f_rankRankSlope(c_incomeParentKid);
 	}
@@ -1553,7 +1532,11 @@ if (v_lastCompleteGeneration > -1) {
     v_lifeExpectancy = c_deaths.stream().filter(p -> p.generation <= v_lastCompleteGeneration)
 		.mapToDouble(p -> p.age).average().getAsDouble();
 }
-	
+
+for (double i : c_countyIncomeMobility) {
+	dh_incomeMobilityCounties.add(i);
+}
+
 // stop simulation after x generation
 int countGeneration = 0;
 if (p_exportModelData) f_exportEnvironmentData();
@@ -3108,7 +3091,6 @@ catch (IOException e) {
     			<HistogramData>
 					<Id>1567691285934</Id>
 					<Name><![CDATA[dh_incomeMobilityCounties]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-260</X><Y>440</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -3343,7 +3325,7 @@ catch (IOException e) {
 					<Id>1516998606034</Id>
 					<Name><![CDATA[chart]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1100</X><Y>80</Y>
+					<X>1460</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3970,8 +3952,7 @@ catch (IOException e) {
     			<Histogram>
 					<Id>1567691453792</Id>
 					<Name><![CDATA[chart2]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1500</X><Y>80</Y>
+					<X>1100</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4018,7 +3999,7 @@ catch (IOException e) {
 					<ShowMean>false</ShowMean>
 					<Bars>
 						<Direction>UP</Direction>
-						<RelativeWidth>0.8</RelativeWidth>
+						<RelativeWidth>0.66</RelativeWidth>
 					</Bars>
 					<HistogramDataExpression>
 					<Expression><![CDATA[dh_incomeMobilityCounties]]></Expression>
@@ -4187,7 +4168,7 @@ catch (IOException e) {
 					<Id>1601299096084</Id>
 					<Name><![CDATA[chart3]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1190</X><Y>730</Y>
+					<X>1130</X><Y>630</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5899,8 +5880,17 @@ ev_computeAge.restart();]]></Action>
 p_economicallyActive = true;
 
 // estimate average exposure
+double thistime = time();
+double timediff = thistime - v_timeInCounty;
+v_timeInCounty = thistime;
+c_countyIncomeExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+	this.county.v_averageStandardizedIncome : this.county.v_averageIncome));
+c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+		this.county.v_standardizedIncomeMobility : this.county.v_incomeMobility));		
 v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
 v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
+
+// assign income
 main.f_assignIncomeType(this);
 
 // update agent color
@@ -6068,19 +6058,29 @@ county.c_incomeParentKid.add(t);]]></Action>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</OccurrenceTime>
 						<RecurrenceCode Class="CodeUnitValue">
-							<Code><![CDATA[0.6]]></Code>
+							<Code><![CDATA[1]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[p_age = floor(f_currentAge());
-if (p_age == 18.0 & p_economicallyActive == false) send("time to work", this);
+if (p_age == 18 & p_economicallyActive == false) send("time to work", this);
 // force to people die after 110 years old
 if (p_age > 110) send("you should die", this);
 if (p_age >= 30 & p_age <= 40 & v_everSmoker == true) v_smokerAge30 = true;
-v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
-v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
-]]></Action>
+
+if (p_age < 18) {
+	double thistime = time();
+	double timediff = thistime - v_timeInCounty;
+	v_timeInCounty = thistime;
+	c_countyIncomeExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+		this.county.v_averageStandardizedIncome : this.county.v_averageIncome));
+	c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
+		this.county.v_standardizedIncomeMobility : this.county.v_incomeMobility));		
+	
+	v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
+	v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
+}]]></Action>
 				</Event>
 				<Event>
 					<Id>1597519999012</Id>
@@ -6561,6 +6561,7 @@ return value;
 if (values.size() > 0) {
 	double vv = values.stream().mapToDouble(p -> p.value * p.time).sum();
 	double tt = values.stream().mapToDouble(p -> p.time).sum();
+	//traceln(tt);
 	return vv/tt;
 } else { 
 	// if (main.p_updateStats)	traceln("no elements in the exposure class"); 
@@ -7379,7 +7380,7 @@ if (root.p_exportModelData) root.f_defineEnvironmentData();]]></BeforeSimulation
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.2]]></Code>
+							<Code><![CDATA[0.22]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -8249,6 +8250,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_computeGiniCoeff]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_computeGiniCoeff]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_recurrentTimeStratData]]></ParameterName>
