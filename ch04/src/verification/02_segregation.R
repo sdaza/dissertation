@@ -28,13 +28,15 @@ dat = readRDS("output/data/segregation.rds")
 tab = dat[!is.na(nsi), .(nsi = mean(nsi), threshold = max(move_threshold), sd = sd(nsi)), iteration]
 tab[, prop := sd / nsi]
 tab
+
+# parameters
 unique(dat[, .(iteration, move_threshold)])
 
 # create plots
 
-plot_names = c("random", "15", "19", "21", "25")
+plot_names = c("random", "19", "21", "22", "23", "25")
 
-for (i in 1:5) {
+for (i in seq_along(plot_names)) {
     savepdf(paste0("output/plots/nsi_", plot_names[i]))
     print(
     ggplot(dat[!is.na(nsi) & iteration == i], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.25, size = 0.1) +
