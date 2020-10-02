@@ -8702,6 +8702,7 @@ import java.io.IOException;
 import org.postgresql.core.SetupQueryRunner;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<InitialSetupCode><![CDATA[// 4 iterations
+
 /*
 vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
 vr_movingThreshold = new double[] {0.20, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25};
@@ -8709,10 +8710,12 @@ vr_movingRandom = new boolean[] {true, false, false, false, false, false, false}
 vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
 */
 
+
 vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-vr_movingThreshold = new double[] {0.0, 0.15, 0.19, 0.21, 0.25, 0.24};
+vr_movingThreshold = new double[] {0.0, 0.19, 0.21, 0.22, 0.23, 0.25};
 vr_movingRandom = new boolean[] {true, false, false, false, false, false};
-vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};]]></InitialSetupCode>
+vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};
+]]></InitialSetupCode>
 			<MaximumMemory>8192</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
@@ -8832,7 +8835,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>1</NumberOfRuns>
+			<NumberOfRuns>6</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -8955,9 +8958,6 @@ if (vr_replicates % 10 == 0) {
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601100877946</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[true]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1601100881287</Id>

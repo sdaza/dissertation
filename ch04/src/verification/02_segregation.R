@@ -35,7 +35,7 @@ plot_names = c("random", "15", "19", "21", "25")
 for (i in 1:5) {
     savepdf(paste0("output/plots/nsi_", plot_names[i]))
     print(
-    ggplot(dat[!is.na(nsi) & iteration == i], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.25, size = 0.1) +
+    ggplot(dat[!is.na(nsi) & iteration == i], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.20, size = 0.1) +
         labs(x = "\nYear", y = "NSI\n")  +
         scale_y_continuous(limits = c(0, 1), breaks = scales::pretty_breaks(n = 6)) +
         scale_x_continuous(limits = c(0, 1550), breaks = scales::pretty_breaks(n = 8)) + 
