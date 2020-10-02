@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.5.2.202001241834" AlpVersion="8.5.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1424287302354</Id>
 	<Name><![CDATA[SmokingDisparitiesV8]]></Name>
@@ -1875,7 +1875,7 @@ for (Person person : population)
 				<Variable Class="Parameter">
 					<Id>1425172838494</Id>
 					<Name><![CDATA[baselineCessationHazard]]></Name>
-					<X>530</X><Y>470</Y>
+					<X>350</X><Y>260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2870,7 +2870,7 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 				<TableFunction AccessType="public" StaticFunction="true">
 					<Id>1424295271374</Id>
 					<Name><![CDATA[initiationBaselineHazardByAge]]></Name>
-					<X>250</X><Y>160</Y>
+					<X>350</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3071,7 +3071,7 @@ offspring.setXY(mother.getX() + offspringDistanceFromMother * Math.cos(dOffsprin
 				<TableFunction AccessType="public" StaticFunction="true">
 					<Id>1425172951903</Id>
 					<Name><![CDATA[annualRelapseHazardBasedOnTimeQuitInYears]]></Name>
-					<X>21</X><Y>790</Y>
+					<X>350</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3429,6 +3429,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -3538,6 +3539,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -3647,6 +3649,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -3756,6 +3759,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -3865,6 +3869,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -3977,6 +3982,7 @@ else
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4089,6 +4095,7 @@ else
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4201,6 +4208,7 @@ else
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4313,6 +4321,7 @@ else
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4425,6 +4434,7 @@ else
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4534,6 +4544,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4643,6 +4654,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4756,6 +4768,7 @@ personOnWhomToIntervene.fractionalReductionInRelapseDueToIntervention = 0.5;]]><
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4867,6 +4880,7 @@ personOnWhomToIntervene.fractionalReductionInInitiationDueToIntervention = 0.50;
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -4976,6 +4990,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5085,6 +5100,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5194,6 +5210,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5303,6 +5320,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5412,6 +5430,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5521,6 +5540,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5630,6 +5650,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5739,6 +5760,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5845,6 +5867,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1424287302359">
@@ -5954,7 +5977,14 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<FinalDate><![CDATA[1426636800000]]></FinalDate>	
 				<FinalTime><![CDATA[100.0]]></FinalTime>	
 			</ModelTimeProperties>
+			<BypassInitialScreen>false</BypassInitialScreen>
 		</SimulationExperiment>	
 	</Experiments>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
 </Model>
 </AnyLogicWorkspace>
