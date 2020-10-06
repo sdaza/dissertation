@@ -17,7 +17,7 @@ path = "models/MobHealthRecycling/output/"
 # sel = par[, .(iteration, replicate, counties, people_per_county, move_random,
 #     move_threshold, max_generation)]
 # dat = merge(dat, sel, by = c("iteration", "replicate"))
-# d RDS
+# read RDS
 # saveRDS(dat, "output/data/population.rds")
 dat = readRDS("output/data/population.rds")
 
@@ -68,4 +68,3 @@ dev.off()
 # number of moves
 summary(m$nmoves)
 prop.table(table(m$nmoves> 0))
-
