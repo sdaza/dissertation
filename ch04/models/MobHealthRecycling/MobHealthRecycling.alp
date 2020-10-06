@@ -2514,9 +2514,9 @@ else return (value - average)/sd;]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// create matrix of coefficients
+					<Body><![CDATA[/// create matrix of coefficients
 
-// no income mobility
+// no income mobility = 0
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][] {
 		{0, 0, 0, 0},
@@ -2524,7 +2524,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 		{-50, -150, 100, 00}
 	}));
 
-// almost random assignment with income effect
+// almost random assignment with income effect = 1
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][] {
 		{0, 0, 0, 0},
@@ -2532,14 +2532,40 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 		{0.03584616, -0.1121550, -0.02042906, p_incomeTypeCoeffIncExp}
 	}));
 
-// 60% prob to get same income as parent
+// 54% prob to get same income as parent = 2
+c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
+	new double[][]{
+		{0, 0, 0, 0},
+		{-0.8990462, 1.7547116, 0.9643717, p_incomeTypeCoeffIncExp},
+		{-0.8556163, 0.8827722, 1.7976621, p_incomeTypeCoeffIncExp}
+}));
+
+
+// 60% prob to get same income as parent = 3
 c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 	new double[][]{
 		{0, 0, 0, 0},
 		{-1.069781, 2.151785, 1.065077, p_incomeTypeCoeffIncExp},
 		{-1.148864, 1.139409, 2.225323, p_incomeTypeCoeffIncExp}
 }));
-	]]></Body>
+
+// 70% prob to get same income as parent = 4
+c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
+	new double[][]{
+		{0, 0, 0, 0},
+		{-1.508535, 3.011577, 1.500680, p_incomeTypeCoeffIncExp},
+		{-1.480867, 1.526537, 3.059933, p_incomeTypeCoeffIncExp}
+}));
+
+
+// 45% prob to get same income as parent = 5
+c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
+	new double[][]{
+		{0, 0, 0, 0},
+		{-0.5373798, 1.0178413, 0.5571007, p_incomeTypeCoeffIncExp},
+		{-0.4964127, 0.4896853, 0.9964951, p_incomeTypeCoeffIncExp}
+
+}));]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -8791,10 +8817,10 @@ vr_movingRandom = new boolean[] {true, false, false, false, false, false, false}
 vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
 */
 
-vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-vr_movingThreshold = new double[] {0.0, 0.21, 0.23, 0.24, 0.25, 0.28, 0.35, 0.40, 0.45};
-vr_movingRandom = new boolean[] {true, false, false, false, false, false, false, false, false};
-vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40, 40, 40};
+vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
+vr_movingThreshold = new double[] {0.0, 0.15, 0.21, 0.26, 0.28, 0.35};
+vr_movingRandom = new boolean[] {true, false, false, false, false, false};
+vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};
 ]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -8915,7 +8941,7 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>9</NumberOfRuns>
+			<NumberOfRuns>6</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 				<Expression Class="CodeValue">
