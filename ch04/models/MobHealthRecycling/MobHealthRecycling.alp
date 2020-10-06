@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -139,7 +139,7 @@ f_defineInitialValues();]]></StartupCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.4]]></Code>
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -1009,7 +1009,7 @@ f_defineInitialValues();]]></StartupCode>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.2]]></Code>
+							<Code><![CDATA[1.1]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1601302259961</Id>
@@ -1372,7 +1372,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="CollectionVariable">
 					<Id>1598606428324</Id>
 					<Name><![CDATA[c_incomeTypeCoefficients]]></Name>
-					<X>-680</X><Y>530</Y>
+					<X>-680</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1387,7 +1387,7 @@ f_defineInitialValues();]]></StartupCode>
 				<Variable Class="CollectionVariable">
 					<Id>1601387574113</Id>
 					<Name><![CDATA[c_deaths]]></Name>
-					<X>-680</X><Y>550</Y>
+					<X>-680</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1395,6 +1395,22 @@ f_defineInitialValues();]]></StartupCode>
 					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
 						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
 						<ElementClass><![CDATA[Deaths]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1601640198949</Id>
+					<Name><![CDATA[c_countyGini]]></Name>
+					<Description><![CDATA[Collection of income mobility by county]]></Description>
+					<X>-680</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
 						<ValueElementClass><![CDATA[String]]></ValueElementClass>
 					</Properties>
 
@@ -1437,6 +1453,7 @@ p_countyPopLimit = round((c_peopleAlive.size() / p_numCounties) * p_populationMa
 dh_probabilityIncomeType.reset();
 dh_incomeCounties.reset();
 dh_incomeMobilityCounties.reset();
+dh_giniCounties.reset();
 		
 // compute descriptive stats every year
 if (p_updateStats) {
@@ -1451,7 +1468,10 @@ if (p_updateStats) {
 
 	// update county collections
 	c_countyIncome.clear();
-	if (time() % p_recurrentTimeStratData == 0) c_countyIncomeMobility.clear();
+	if (time() % p_recurrentTimeStratData == 0) {
+		c_countyIncomeMobility.clear();
+		c_countyGini.clear();
+	}
 	
 	for (County c : counties) { 
 		c.v_averageIncome = c.c_income.stream().collect(Collectors.averagingDouble(s -> s.income));
@@ -1462,9 +1482,11 @@ if (p_updateStats) {
 		
 		// stratification
 		if (time() % p_recurrentTimeStratData == 0) {
-			if (p_computeGiniCoeff) { c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);}
+			if (p_computeGiniCoeff & time() > 20) { c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);}
 	    	c.v_incomeMobility = f_rankRankSlope(c.c_incomeParentKid);
-	    	c_countyIncomeMobility.add(c.v_incomeMobility);
+	    	if (!Double.isNaN(c.v_incomeMobility)) c_countyIncomeMobility.add(c.v_incomeMobility);
+	    	if (!Double.isNaN(c.v_incomeMobility))  c_countyGini.add(c.v_gini);
+	
 	    }
 	    
 	    c.v_proportionIncomeType[0] = c.f_countTypeIncomePeople(1) / c.c_peopleAlive.stream()
@@ -1533,8 +1555,16 @@ if (v_lastCompleteGeneration > -1) {
 		.mapToDouble(p -> p.age).average().getAsDouble();
 }
 
+
+// distribution plots
 for (double i : c_countyIncomeMobility) {
 	dh_incomeMobilityCounties.add(i);
+}
+
+if (c_countyGini.size() > 0) {
+	for (double i : c_countyGini) {
+		dh_giniCounties.add(i);
+	}
 }
 
 // stop simulation after x generation
@@ -2996,8 +3026,7 @@ catch (IOException e) {
     			<HistogramData>
 					<Id>1516998508571</Id>
 					<Name><![CDATA[dh_giniCounties]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-420</X><Y>510</Y>
+					<X>-260</X><Y>460</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3060,7 +3089,7 @@ catch (IOException e) {
 					<Id>1517927580372</Id>
 					<Name><![CDATA[dh_age]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-420</X><Y>490</Y>
+					<X>-420</X><Y>570</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3324,8 +3353,7 @@ catch (IOException e) {
     			<Histogram>
 					<Id>1516998606034</Id>
 					<Name><![CDATA[chart]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1460</X><Y>80</Y>
+					<X>1000</X><Y>340</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3389,7 +3417,7 @@ catch (IOException e) {
 					<Id>1516999476208</Id>
 					<Name><![CDATA[chart1]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1110</X><Y>360</Y>
+					<X>1500</X><Y>360</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3952,7 +3980,7 @@ catch (IOException e) {
     			<Histogram>
 					<Id>1567691453792</Id>
 					<Name><![CDATA[chart2]]></Name>
-					<X>1100</X><Y>80</Y>
+					<X>1000</X><Y>70</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4947,6 +4975,54 @@ import java.io.IOException;]]></Import>
 					<Color>-65536</Color>
 					<Text><![CDATA[text]]></Text>
 					<TextCode><![CDATA["Population: " + people.size()
+]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>8</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1601638973869</Id>
+					<Name><![CDATA[textIM1]]></Name>
+					<X>55</X><Y>190</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[main.showCountyStats.isSelected()]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16776961</Color>
+					<Text><![CDATA[text]]></Text>
+					<TextCode><![CDATA["Income Type 1: " + (Math.round(v_proportionIncomeType[0] * 100.0) / 100.0)
+]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>8</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1601638978634</Id>
+					<Name><![CDATA[textIM2]]></Name>
+					<X>55</X><Y>200</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<VisibleCode><![CDATA[main.showCountyStats.isSelected()]]></VisibleCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16776961</Color>
+					<Text><![CDATA[text]]></Text>
+					<TextCode><![CDATA["Income Type 3: " + (Math.round(v_proportionIncomeType[2] * 100.0) / 100.0)
 ]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
@@ -6180,7 +6256,8 @@ if (main.p_movingRandom) {
 else {
 	v_proportionSimilar = f_proportionSimilarity();
 	v_satisfied = (v_proportionSimilar >= main.p_movingThreshold);
-	County destination = f_selectSimilarCounties(p_incomeType, 10);
+	int ncounties = (int) floor(main.counties.size() * 0.50);
+	County destination = f_selectSimilarCounties(p_incomeType, ncounties);
 	if (!v_satisfied && destination != null) f_moving(destination);
 }]]></Body>
 				</Function>
@@ -8714,13 +8791,12 @@ vr_movingRandom = new boolean[] {true, false, false, false, false, false, false}
 vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40};
 */
 
-
-vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
-vr_movingThreshold = new double[] {0.0, 0.19, 0.21, 0.22, 0.23, 0.25};
-vr_movingRandom = new boolean[] {true, false, false, false, false, false};
-vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};
+vr_movingRate = new double[] {0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10};
+vr_movingThreshold = new double[] {0.0, 0.21, 0.23, 0.24, 0.25, 0.28, 0.35, 0.40, 0.45};
+vr_movingRandom = new boolean[] {true, false, false, false, false, false, false, false, false};
+vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40, 40, 40, 40};
 ]]></InitialSetupCode>
-			<MaximumMemory>8192</MaximumMemory>
+			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
 			<BeforeSimulationRunCode><![CDATA[getEngine().setSimultaneousEventsSelectionMode(Engine.EVENT_SELECTION_FIFO);
@@ -8728,7 +8804,7 @@ vr_lastGeneration = new int[] {40, 40, 40, 40, 40, 40};
 // root.setDefaultRandomGenerator(new Random(r.nextInt()));
 
 root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
-root.p_countyPopLimit = 1.30 * root.p_peoplePerCounty;
+root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
 
 root.v_iteration = getCurrentIteration();
 root.v_replicate = getCurrentReplication();
@@ -8839,9 +8915,12 @@ if (vr_replicates % 10 == 0) {
 
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>6</NumberOfRuns>
+			<NumberOfRuns>9</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[150]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903257</Id>
@@ -9176,7 +9255,7 @@ if (vr_replicates % 10 == 0) {
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>60</ReplicationPerIteration>
+				<ReplicationPerIteration>30</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
