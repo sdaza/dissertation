@@ -36,7 +36,7 @@ tab
 unique(dat[, .(iteration, move_threshold)])
 
 # create plots
-plot_names = c("random", as.character(c(21, 23:25, 28, 35, 40, 45)))
+plot_names = c("random", as.character(c(15, 21, 26, 28, 35)))
 
 for (i in seq_along(plot_names)) {
     savepdf(paste0("output/plots/nsi_", plot_names[i]))
