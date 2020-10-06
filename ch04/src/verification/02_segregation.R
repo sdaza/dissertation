@@ -10,22 +10,25 @@ library(ggplot2)
 source("src/utils.R")
 path = "models/MobHealthRecycling/output/"
 
-# # read files
-# par = readMultipleFiles("parameters", path)
-# dat = readMultipleFiles("environ", path)
+# read files
+par = readMultipleFiles("parameters", path)
+dat = readMultipleFiles("environ", path)
 
-# sel = par[, .(iteration, replicate, counties, people_per_county, move_random, move_threshold, max_generation)]
+sel = par[, .(iteration, replicate, counties, people_per_county, move_random,
+    move_threshold, max_generation)]
 
-# dat = merge(dat, sel, by = c("iteration", "replicate"))
-# temp = dat[, .(.N, avg_nsi = mean(nsi, na.rm = TRUE), min = min(nsi, na.rm = TRUE), max = max(nsi, na.rm = TRUE),
-#         avg_time = mean(time), avg_pop = mean(population)),
-#     .(iteration, move_random, move_threshold, max_generation)]
+dat = merge(dat, sel, by = c("iteration", "replicate"))
+temp = dat[, .(.N, avg_nsi = mean(nsi, na.rm = TRUE),
+    min = min(nsi, na.rm = TRUE), max = max(nsi, na.rm = TRUE),
+    avg_time = mean(time), avg_pop = mean(population)),
+    .(iteration, move_random, move_threshold, max_generation)]
 
 # read RDS
-# saveRDS(dat, "output/data/segregation.rds")
+saveRDS(dat, "output/data/segregation.rds")
 dat = readRDS("output/data/segregation.rds")
 
-tab = dat[!is.na(nsi), .(nsi = mean(nsi), threshold = max(move_threshold), sd = sd(nsi)), iteration]
+tab = dat[!is.na(nsi), .(nsi = mean(nsi), threshold = max(move_threshold),
+    sd = sd(nsi)), iteration]
 tab[, prop := sd / nsi]
 tab
 
@@ -33,8 +36,7 @@ tab
 unique(dat[, .(iteration, move_threshold)])
 
 # create plots
-
-plot_names = c("random", "19", "21", "22", "23", "25")
+plot_names = c("random", as.character(c(21, 23:25, 28, 35, 40, 45)))
 
 for (i in seq_along(plot_names)) {
     savepdf(paste0("output/plots/nsi_", plot_names[i]))
