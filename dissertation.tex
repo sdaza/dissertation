@@ -1,0 +1,256 @@
+\documentclass[12pt]{report}
+
+\usepackage{standalone}
+\usepackage{import}
+
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{hyperref}
+
+\usepackage{tagging}
+\usepackage{enumerate}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage{lipsum}
+\usepackage{dcolumn}
+\usepackage{rotating}
+\usepackage{supertabular}
+\usepackage{graphicx}
+\usepackage{ltablex}
+\usepackage{setspace}
+\usepackage{enumitem,kantlipsum}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage[blocks]{authblk}% The option is for block layout
+\usepackage{atbegshi} % http://ctan.org/pkg/atbegshi
+\usepackage[stable]{footmisc}
+
+\usepackage{tocloft}
+% \setlength{\cftbeforesecskip}{6pt}
+\renewcommand\cftchapafterpnum{\vskip10pt}
+\renewcommand\cftsecafterpnum{\vskip10pt}
+\setlength{\cftbeforesecskip}{6pt}
+% \setlength{\cftbeforesecskip}{6pt}
+
+
+\usepackage[natbib, style=apa, doi=false, uniquename=false, eprint=false,
+    isbn=false, url=false, backend=biber]{biblatex}
+\addbibresource{dissertation.bib}
+
+% \usepackage[american]{babel}
+% \DeclareLanguageMapping{american}{american-apa}
+
+% \usepackage[authoryear, sectionbib]{natbib}
+% \bibliographystyle{apa}
+\newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
+
+% \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}
+
+% \usepackage[capposition=top]{floatrow} % Notes for figures
+% \usepackage[textsize=tiny]{todonotes}
+
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+
+% caption format
+\usepackage{varwidth}
+\DeclareCaptionFormat{myformat}{%
+  % #1: label (e.g. "Table 1")
+  % #2: separator (e.g. ": ")
+  % #3: caption text
+  \begin{varwidth}{\linewidth}%
+    \centering
+    #1#2#3%
+  \end{varwidth}%
+}
+
+\captionsetup{format=myformat}% global activation
+
+% more on captions
+\setlength{\abovecaptionskip}{5pt}   % 0.5cm as an example
+\setlength{\belowcaptionskip}{5pt}   % 0.5cm as an example
+% \setlength\parskip{11pt}
+%\renewcommand{\sfdefault}{lmss}
+%\renewcommand{\ttdefault}{lmtt}
+
+% tables
+\setlength{\tabcolsep}{1pt}
+\setlength{\defaultaddspace}{.60ex} % space between numbers
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% siunitx
+
+\usepackage{siunitx} % centering in tables
+    \sisetup{
+        detect-mode,
+        tight-spacing        = true,
+        group-digits        = false ,
+        input-signs        = ,
+        input-symbols        = ( ) [ ] - + *,
+        input-open-uncertainty    = ,
+        input-close-uncertainty    = ,
+        table-align-text-post    = false
+        }
+
+% margins
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+\setlength\topmargin{0in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\textheight{9in}
+\setlength\textwidth{6.5in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+\setlength{\footskip}{.7in}
+
+% Alter some LaTeX defaults for better treatment of figures:
+\renewcommand{\topfraction}{0.9}  % max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}  % max fraction of floats at bottom
+
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pag es
+\renewcommand{\dbltopfraction}{0.9}    % fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}    % allow minimal text w. figs
+
+\renewcommand{\floatpagefraction}{0.7}    % require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}    % require fuller float pages
+% remember to use [htp] or [htpb] for placement
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\bfseries}
+{\filright
+\LARGE
+% \enspace
+Chapter \thechapter\enspace}
+{100pt}
+{\Large\bfseries\filright}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\itshape}
+% \titleformat*{\paragraph}{\large\bfseries}
+% \titleformat*{\subparagraph}{\large\bfseries}
+% \renewcommand\bibname{\Large{References}}
+
+% tables
+\setlength{\tabcolsep}{10pt}
+\setlength{\defaultaddspace}{.60ex} % space between numbers
+\captionsetup{belowskip=12pt,aboveskip=8pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% start document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%TC:ignore
+
+\thispagestyle{empty}
+
+\renewcommand{\baselinestretch}{1}
+
+\vspace*{60pt}
+
+\begin{center}
+\LARGE \textbf{Income Mobility, Mortality and Health in the US} \\
+\vspace*{24pt}
+
+% \section
+
+\end{center}
+
+\begin{center}
+\normalsize
+by \\
+\vspace*{12pt}
+Sebastian Daza \\
+\textit{Center for Demography and Ecology \\University of Wisconsin-Madison}\\
+\url{sdaza@ssc.wisc.edu}\\
+\vspace*{40pt}
+A dissertation submitted in partial fulfillment of \\
+the requirements for the degree of\\
+\vspace{12pt}
+\textit{Doctor of Philosophy (Sociology)} \\
+\vspace{12pt}
+at the \\
+\vspace{12pt}
+UNIVERSITY OF WISCONSIN‐MADISON \\
+\vspace{12pt}
+2019
+\end{center}
+
+\vspace{60pt}
+\noindent Date of final oral examination: 01/01/2020\\
+\\
+\noindent The dissertation is approved by the following members of the Final Oral Committee:\\
+\\
+\noindent Jenna Nobles, Romnes Professor, Sociology \\
+\noindent Alberto Palloni, Samuel Preston Professor (Emeritus), Sociology\\
+\noindent Christine Schwartz, Achievement Professor, Sociology\\
+\noindent Michal Engelman, Associate Professor, Sociology \\
+\noindent John Mullahy, Professor of Population Health Sciences
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+ Thanks Mum!
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+\listoftables
+\newpage
+\listoffigures
+
+% dedication and acknowledge pages later
+\newpage
+
+% \renewcommand\Authands{ and }
+% \thanks{Incomplete draft. Please do not cite.}
+
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% chapters
+
+\newpage
+
+% final format
+\setlength\parskip{12pt}
+% \doublespacing
+
+\import{ch00/manuscript/}{manuscript}
+\import{ch01/manuscript/}{manuscript}
+\import{ch02/manuscript/}{manuscript}
+\import{ch03/manuscript/}{manuscript}
+% \import{ch04/manuscript/}{manuscript}
+\import{ch05/manuscript/}{manuscript}
+
+
+%TC:ignore
+
+\newpage
+% \setlength\bibitemsep{5pt}
+\printbibliography[heading=bibintoc]
+
+%TC:endignore
+
+\end{document}
