@@ -27,4 +27,6 @@ dissertation.*
 # chapter 04
 /ch04/models/MobHealthRecycling/output/
 /ch04/models/MobHealthRecycling/database/
-/ch04/models/*.autosave
+/ch04/models/*/*.alp.autosave
+/ch04/models/*/*.log
+/ch04/models/*/*.original.alp
