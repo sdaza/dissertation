@@ -8,7 +8,7 @@
 library(data.table)
 library(ggplot2)
 source("src/utils.R")
-path = "models/MobHealthRecycling/output/"
+path = "models/MobHealthRecycling/output/segregation/"
 
 # read files
 par = readMultipleFiles("parameters", path)
