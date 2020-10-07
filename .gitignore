@@ -1,8 +1,8 @@
 
 .vscode
-.gitignore
 .DS_store
 pardiso.lic
+.gitignore
 .Renviron
 /notes
 
@@ -13,7 +13,8 @@ dissertation.*
 
 
 # data
-/ch0*/data
+/ch03/data
+/ch02/data
 /ch03/output/data
 /ch02/output/*.rds
 
@@ -26,7 +27,9 @@ dissertation.*
 
 # chapter 04
 /ch04/models/MobHealthRecycling/output/
+/ch04/data/
 /ch04/models/MobHealthRecycling/database/
-/ch04/models/*/*.alp.autosave
-/ch04/models/*/*.log
-/ch04/models/*/*.original.alp
+
+/ch04/models/MobHealthRecycling/*.alp.autosave
+/ch04/models/MobHealthRecycling/*.log
+/ch04/models/MobHealthR =ecycling/*.original.alp 
