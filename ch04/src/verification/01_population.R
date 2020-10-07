@@ -8,22 +8,25 @@
 library(data.table)
 library(ggplot2)
 source("src/utils.R")
-path = "models/MobHealthRecycling/output/"
+path = "models/MobHealthRecycling/output/population/"
 
 # read files
-# par = readMultipleFiles("parameters", path)
-# dat = readMultipleFiles("environ", path)
+par = readMultipleFiles("parameters", path)
+dat = readMultipleFiles("environ", path)
 
-# sel = par[, .(iteration, replicate, counties, people_per_county, move_random,
-#     move_threshold, max_generation)]
-# dat = merge(dat, sel, by = c("iteration", "replicate"))
+sel = par[, .(iteration, replicate, counties, people_per_county, move_random,
+    move_threshold, max_generation)]
+dat = merge(dat, sel, by = c("iteration", "replicate"))
+
+summary(dat$population)
+
 # read RDS
-# saveRDS(dat, "output/data/population.rds")
+saveRDS(dat, "output/data/population.rds")
 dat = readRDS("output/data/population.rds")
 
 # population
 savepdf("output/plots/population")
-ggplot(dat, aes(time, population, group = replicate)) + geom_line( alpha = 0.2, size = 0.1) +
+ggplot(dat, aes(time, population, group = replicate)) + geom_line( alpha = 0.3, size = 0.1) +
     labs(x = "\nYear", y = "Population\n")  +
     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
     scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
@@ -31,8 +34,8 @@ ggplot(dat, aes(time, population, group = replicate)) + geom_line( alpha = 0.2, 
 dev.off()
 
 # age of death distribution
-# m = readMultipleFiles("mort", path)
-# saveRDS(m, "output/data/mortality.rds")
+m = readMultipleFiles("mort", path)
+saveRDS(m, "output/data/mortality.rds")
 m = readRDS("output/data/mortality.rds")
 
 savepdf("output/plots/age_death")
@@ -64,7 +67,3 @@ ggplot(unique(dat[le > 0, .(le)]), aes(x = le)) + geom_histogram(color = "black"
             color="gray", linetype="dashed", size = 0.4) +
 theme_minimal()
 dev.off()
-
-# number of moves
-summary(m$nmoves)
-prop.table(table(m$nmoves> 0))
