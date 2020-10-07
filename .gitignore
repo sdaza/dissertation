@@ -2,7 +2,6 @@
 .vscode
 .DS_store
 pardiso.lic
-.gitignore
 .Renviron
 /notes
 
@@ -29,7 +28,6 @@ dissertation.*
 /ch04/models/MobHealthRecycling/output/
 /ch04/data/
 /ch04/models/MobHealthRecycling/database/
-
 /ch04/models/MobHealthRecycling/*.alp.autosave
 /ch04/models/MobHealthRecycling/*.log
 /ch04/models/MobHealthRecycling/*.original.alp 
