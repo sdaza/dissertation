@@ -1,13 +1,47 @@
 
-# read NATS data and estimate initiation rates
+# National Health Interview Survey (NHIS) and NATS data and estimate initiation rates
 
-options(scipen = 999)
 library(haven)
 library(data.table)
-library(survival)
+library(survey)
 library(muhaz)
 library(xlsx)
 table = function (...) base::table(..., useNA = 'ifany')
+
+
+# read NHIS 2019
+h = fread("data/health_survey_adults.csv")
+setnames(h, names(h), tolower(names(h)))
+setnames(i, names(i), tolower(names(i)))
+setnames(h, "wtfa_a", "wt")
+
+table(h$smkev_a)
+table(h$smknow_a)
+table(h$srvy_yr)
+
+names(h)
+h[, smoking := 0]
+h[smkev_a == 1 & smknow_a %in% c(1, 2), smoking := 1]
+h[smkev_a %in% c(7, 8, 9), smoking := NA]
+h[smknow_a %in% c(7, 8), smoking := NA]
+table(h$smoking)
+
+h[, age_group := ifelse(agep_a >= 30 & agep_a <= 50, 1, 0)]
+h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a, probs = 0:3/3),
+    labels = 1:3, right = TRUE, include.lowest = TRUE)]
+
+table(h[age_group == 1, incomeType])
+
+h[, incomeType2 := ifelse(incomeType == 2, 1, 0)]
+h[, incomeType3 := ifelse(incomeType == 3, 1, 0)]
+
+s = h[age_group == 1]
+
+design = svydesign(ids=~hhx, weights=~wt, data=s)
+h[, weighted.mean(smoking, wt, na.rm = TRUE), incomeType]
+
+m = svyglm(smoking ~ incomeType2 + incomeType3, design = design, family=quasibinomial)
+summary(m)
 
 # read date
 dat = data.table(read_sas("data/nats_2013.sas7bdat"))
@@ -84,19 +118,4 @@ summary(mh)
 plot(mh, xlab = "Age", ylab = "Smoking initiation hazard rate")
 rates = data.table(age = 1:length(mh$haz.est), rate = mh$haz.est)
 rates =  rates[age > 64, rate := 0][age <= 65]
-write.xlsx(rates, "models/MobHealthRecycling/data/smoking-rates.xlsx", row.names = FALSE)
-
-
-
-# difference between highest and lowes income
-log((22.3+18.8)/(7.1+21.4))
-current_smokers = c(22.3, 11.3, 17.8, 14.0, 13.2, 7.1)
-former_smokers = c(18.8, 22.0, 21.4, 22.1, 23.8, 21.4)
-
-smokers = current_smokers + former_smokers
-smokers
-avg_middle_group = mean(smokers[2:5])
-avg_middle_group
-
-log(smokers[1]/avg_middle_group)
-log(smokers[6]/avg_middle_group)
+# write.xlsx(rates, "models/MobHealthRecycling/data/smoking-rates.xlsx", row.names = FALSE)

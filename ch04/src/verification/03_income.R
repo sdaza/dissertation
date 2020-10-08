@@ -16,7 +16,6 @@ par = readMultipleFiles("parameters", path)
 dat = readMultipleFiles("environ", path)
 county = readMultipleFiles("county", path)
 
-
 table(county$replicate)
 summary(county$county)
 
