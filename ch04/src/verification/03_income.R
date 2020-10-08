@@ -1,6 +1,6 @@
 ##############################
 # generative model income mobility and mortality
-# verify income generation
+# verify income generation and mobility
 # author: sebastian daza
 ##############################
 
