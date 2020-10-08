@@ -1,7 +1,6 @@
 
-# read National Health Interview Survey (NHIS) and NATS data and estimate initiation rates
+# National Health Interview Survey (NHIS) and NATS data and estimate initiation rates
 
-options(scipen = 999)
 library(haven)
 library(data.table)
 library(survey)
@@ -18,7 +17,9 @@ setnames(h, "wtfa_a", "wt")
 
 table(h$smkev_a)
 table(h$smknow_a)
+table(h$srvy_yr)
 
+names(h)
 h[, smoking := 0]
 h[smkev_a == 1 & smknow_a %in% c(1, 2), smoking := 1]
 h[smkev_a %in% c(7, 8, 9), smoking := NA]
