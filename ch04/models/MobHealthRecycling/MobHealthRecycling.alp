@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201530" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -1547,7 +1547,9 @@ if (p_updateStats) {
 	//dh_age.reset();
 	
 	// expoert county data		
-	if (p_exportCountyData && v_lastGeneration >= 30) f_exportCountyData();
+	if (p_exportCountyData && v_lastGeneration >= 30 && (time() % p_recurrentTimeStratData == 0)) {
+		f_exportCountyData();
+	}
 }
 
 
