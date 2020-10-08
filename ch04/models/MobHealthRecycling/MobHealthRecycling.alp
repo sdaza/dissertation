@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201530" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -1278,6 +1278,30 @@ f_defineInitialValues();]]></StartupCode>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1602145231926</Id>
+					<Name><![CDATA[p_countyExportDataStart]]></Name>
+					<X>-970</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[30]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1602145231924</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1596568999023</Id>
 					<Name><![CDATA[c_deadPeople]]></Name>
@@ -1423,8 +1447,8 @@ f_defineInitialValues();]]></StartupCode>
 				<Event>
 					<Id>1516978903251</Id>
 					<Name><![CDATA[ev_updateStats]]></Name>
-					<X>-970</X><Y>330</Y>
-					<Label><X>10</X><Y>0</Y></Label>
+					<X>-970</X><Y>310</Y>
+					<Label><X>10</X><Y>-5</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -1485,7 +1509,9 @@ if (p_updateStats) {
 		
 		// stratification
 		if (time() % p_recurrentTimeStratData == 0) {
-			if (p_computeGiniCoeff & time() > 20) { c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);}
+			if (p_computeGiniCoeff && v_lastGeneration >= p_countyExportDataStart) { 
+				c.v_gini = f_giniCoeff(countyIncome, c.v_averageIncome);
+			}
 	    	c.v_incomeMobility = f_rankRankSlope(c.c_incomeParentKid);
 	    	if (!Double.isNaN(c.v_incomeMobility)) c_countyIncomeMobility.add(c.v_incomeMobility);
 	    	if (!Double.isNaN(c.v_incomeMobility))  c_countyGini.add(c.v_gini);
@@ -1531,7 +1557,9 @@ if (p_updateStats) {
 	// stratification
 	if (time() % p_recurrentTimeStratData == 0) {
 	    // overall Gini coefficient
-	    if (p_computeGiniCoeff) {v_gini = f_giniCoeff(totalIncome, v_averageIncome);}
+	    if (p_computeGiniCoeff && v_lastGeneration >= p_countyExportDataStart) {
+	    	v_gini = f_giniCoeff(totalIncome, v_averageIncome);
+	    }
 		// overall income mobility
 		v_incomeMobility = f_rankRankSlope(c_incomeParentKid);
 	}
@@ -1547,7 +1575,8 @@ if (p_updateStats) {
 	//dh_age.reset();
 	
 	// expoert county data		
-	if (p_exportCountyData && v_lastGeneration >= 30 && (time() % p_recurrentTimeStratData == 0)) {
+	if (p_exportCountyData && v_lastGeneration >= p_countyExportDataStart &&
+		(time() % p_recurrentTimeStratData == 0)) {
 		f_exportCountyData();
 	}
 }
@@ -1876,7 +1905,7 @@ return values[randomIndex];
 	String name = p_filePath+"county_t" + v_iteration + "_r" + v_replicate + ".csv";
 	File f = new File(name);
 	v_countyData = new BufferedWriter(new FileWriter(f));
-    v_countyData.write("iteration,replicate,time,county,avg_age, avg_income, avg_zincome,gini,income_mobility,z_income_mobility,population"+ "\n");
+    v_countyData.write("iteration,replicate, time, county, avg_age, life_expectancy, avg_income, avg_zincome, gini, income_mobility, z_income_mobility, population"+ "\n");
 } 
 catch (IOException e) {
 	getEngine().pause();
@@ -1904,10 +1933,12 @@ for (County c : counties) {
    		v_iteration + "," + 
    		v_replicate + "," +
    		time() + "," + 
-		c.getId() + "," +
+		c.getIndex() + "," +
 		c.c_peopleAlive.stream()
-			.mapToDouble(p->p.p_age)
+			.mapToDouble(p -> p.p_age)
 			.average().getAsDouble() + "," + 
+		c.c_deaths.stream().filter(p -> p.generation <= v_lastCompleteGeneration)
+			.mapToDouble(p -> p.age).average().getAsDouble() + "," + 
 		c.v_averageIncome + "," + 
 		c.v_averageStandardizedIncome + "," + 
         c.v_gini + "," + 
@@ -4678,6 +4709,21 @@ import java.io.IOException;]]></Import>
 					</Properties>
 
 				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1602144909439</Id>
+					<Name><![CDATA[c_deaths]]></Name>
+					<X>-530</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Deaths]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
@@ -6442,7 +6488,7 @@ if (c_kids.size() > 0) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[main.c_deadPeople.add(this);
 main.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
-
+this.county.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
 // save data
 boolean selectedGeneration = main.p_selectedGenerations
 	.stream().anyMatch(x -> x == p_generation);
@@ -8440,6 +8486,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_selectedGenerations]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_countyExportDataStart]]></ParameterName>
+				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -8613,6 +8662,9 @@ if (root.p_exportData) {
 			<FreeformParamValue>	
 				<Id>1601479356164</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1602145231926</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -8775,6 +8827,10 @@ if (root.p_exportData) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601479356164</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1602145231926</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -9090,6 +9146,9 @@ if (vr_replicates % 10 == 0) {
 			<FreeformParamValue>	
 				<Id>1601479356164</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1602145231926</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -9270,6 +9329,10 @@ if (vr_replicates % 10 == 0) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601479356164</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1602145231926</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -9584,6 +9647,9 @@ if (vr_replicates % 10 == 0) {
 			<FreeformParamValue>	
 				<Id>1601479356164</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1602145231926</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -9764,6 +9830,10 @@ if (vr_replicates % 10 == 0) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601479356164</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1602145231926</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -10075,6 +10145,9 @@ if (vr_replicates % 10 == 0) {
 			<FreeformParamValue>	
 				<Id>1601479356164</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1602145231926</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -10255,6 +10328,10 @@ if (vr_replicates % 10 == 0) {
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1601479356164</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1602145231926</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>

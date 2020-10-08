@@ -1,12 +1,29 @@
 ##############################
 # generative model income mobility and mortality
-# verify income generation
+# verify income generation and mobility
 # author: sebastian daza
 ##############################
 
 
 library(data.table)
 library(haven)
+library(ggplot2)
+source("src/utils.R")
+path = "models/MobHealthRecycling/output/income/"
+
+# read files
+par = readMultipleFiles("parameters", path)
+dat = readMultipleFiles("environ", path)
+county = readMultipleFiles("county", path)
+
+
+table(county$replicate)
+summary(county$county)
+
+county[, .(avg_income = mean(avg_income), gini = mean(gini),
+    income_mobility = mean(income_mobility), population = mean(population)),
+    .(county, iteration)]
+
 
 # read chetty's data
 covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
