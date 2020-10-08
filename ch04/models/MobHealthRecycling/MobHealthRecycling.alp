@@ -1119,7 +1119,7 @@ f_defineInitialValues();]]></StartupCode>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
 							<Code><![CDATA[//{0.76, 0.0, -0.78}
-{0.0, 0.0, 0.0}]]></Code>
+{0.0, -0.63635, -1.53870}]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1597523476578</Id>
@@ -1580,7 +1580,6 @@ if (p_updateStats) {
 		f_exportCountyData();
 	}
 }
-
 
 v_lastCompleteGeneration = c_peopleAlive.stream().mapToInt(p -> p.p_generation).min().getAsInt() - 1;
 
@@ -2223,8 +2222,7 @@ try {
 	    agent.p_incomeType + "," +
 	    agent.p_income + "," +
 	    agent.v_numberKids + "," +
-	    agent.v_everSmoker + "," +
-	    agent.v_smokerAge30 + "," +
+	    agent.v_smoker + "," +
 	    agent.v_numberMoves + "," +
 	    agent.county.getId() + "," +
 	    agent.county.v_averageIncome + "," +
@@ -5299,8 +5297,8 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1597519964194</Id>
-					<Name><![CDATA[v_everSmoker]]></Name>
-					<X>-380</X><Y>180</Y>
+					<Name><![CDATA[v_smoker]]></Name>
+					<X>-380</X><Y>230</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5324,21 +5322,6 @@ import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1600442075779</Id>
-					<Name><![CDATA[v_smokerAge30]]></Name>
-					<X>-380</X><Y>200</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -5845,7 +5828,8 @@ ev_computeAge.reset();]]></EntryAction>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672051853</Id>
 					<Name><![CDATA[NoSmoking]]></Name>
-					<X>490</X><Y>230</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>70</X><Y>700</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5857,7 +5841,8 @@ ev_computeAge.reset();]]></EntryAction>
 				<StatechartElement Class="State" ParentState="ROOT_NODE">
 					<Id>1597672060706</Id>
 					<Name><![CDATA[Smoking]]></Name>
-					<X>490</X><Y>310</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>70</X><Y>780</Y>
 					<Label><X>20</X><Y>15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6036,6 +6021,7 @@ p_economicallyActive = true;
 double thistime = time();
 double timediff = thistime - v_timeInCounty;
 v_timeInCounty = thistime;
+
 c_countyIncomeExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
 	this.county.v_averageStandardizedIncome : this.county.v_averageIncome));
 c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
@@ -6080,7 +6066,8 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1597672069177</Id>
 					<Name><![CDATA[smoking]]></Name>
-					<X>520</X><Y>260</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>100</X><Y>730</Y>
 					<Label><X>-60</X><Y>20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6143,7 +6130,8 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="EntryPoint" ParentState="ROOT_NODE">
 					<Id>1600496047133</Id>
 					<Name><![CDATA[st_smoking]]></Name>
-					<X>540</X><Y>190</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>120</X><Y>660</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6158,7 +6146,8 @@ county.c_incomeParentKid.add(t);]]></Action>
 				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
 					<Id>1600496157492</Id>
 					<Name><![CDATA[transition6]]></Name>
-					<X>560</X><Y>310</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>140</X><Y>780</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6185,12 +6174,45 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
 					</Properties>	
 				</StatechartElement>
+				<StatechartElement Class="Transition" ParentState="ROOT_NODE">
+					<Id>1602155080645</Id>
+					<Name><![CDATA[currentSmoker]]></Name>
+					<X>200</X><Y>430</Y>
+					<Label><X>-15</X><Y>45</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>30</Y></Point>
+						<Point><X>60</X><Y>30</Y></Point>
+						<Point><X>60</X><Y>0</Y></Point>
+					</Points>
+					<IconOffset>60.0</IconOffset>
+					<Properties Source="1566676405826" Target="1566676405826" Trigger="message">
+						<Action><![CDATA[v_smoker = f_smokingProportion();]]></Action>
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[18]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+						</Timeout>
+						<Condition><![CDATA[p_age == 18;]]></Condition>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_YEAR]]></Unit>
+						</Rate>
+						<MessageType><![CDATA[String]]></MessageType>
+						<DefaultTransition>true</DefaultTransition>
+						<FilterType><![CDATA[equalsTo]]></FilterType>
+						<EqualsExpression><![CDATA["start smoking?"]]></EqualsExpression>
+						<SatisfiesExpression><![CDATA[true]]></SatisfiesExpression>
+					</Properties>	
+				</StatechartElement>
 			</StatechartElements>
 			<Events>
 				<Event>
 					<Id>1596634470482</Id>
 					<Name><![CDATA[ev_computeAge]]></Name>
-					<X>-380</X><Y>140</Y>
+					<X>-380</X><Y>190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6217,11 +6239,17 @@ county.c_incomeParentKid.add(t);]]></Action>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[p_age = floor(f_currentAge());
+
+// start working
 if (p_age == 18 & p_economicallyActive == false) send("time to work", this);
+
 // force to people die after 110 years old
 if (p_age > 110) send("you should die", this);
-if (p_age >= 30 & p_age <= 40 & v_everSmoker == true) v_smokerAge30 = true;
 
+// start smoking
+if (p_age == 30 & v_smoker == false) send("start smoking?", this);
+
+// record exposures
 if (p_age < 18) {
 	double thistime = time();
 	double timediff = thistime - v_timeInCounty;
@@ -6231,8 +6259,8 @@ if (p_age < 18) {
 	c_countyIncomeMobilityExposure.add(new Exposure(timediff, main.p_standardizedExposure ? 
 		this.county.v_standardizedIncomeMobility : this.county.v_incomeMobility));		
 	
-	v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
-	v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
+	//v_averageIncomeExposure = f_estimateAverageExposure(c_countyIncomeExposure);
+	//v_averageIncomeMobilityExposure = f_estimateAverageExposure(c_countyIncomeMobilityExposure);
 }]]></Action>
 				</Event>
 				<Event>
@@ -6489,10 +6517,11 @@ if (c_kids.size() > 0) {
 					<Body><![CDATA[main.c_deadPeople.add(this);
 main.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
 this.county.c_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
+
 // save data
 boolean selectedGeneration = main.p_selectedGenerations
 	.stream().anyMatch(x -> x == p_generation);
-if (main.p_exportMortalityData && selectedGeneration ) main.f_exportMortalityData(this);
+if (main.p_exportMortalityData && selectedGeneration) main.f_exportMortalityData(this);
 
 // change parameters
 
@@ -6505,8 +6534,7 @@ v_numberKids = 0;
 v_numberMoves = 0;
 v_averageIncomeExposure = 0.0; 
 v_averageIncomeMobilityExposure = 0.0;
-v_everSmoker = false;
-v_smokerAge30 = false;
+v_smoker = false;
 v_timeInCounty = 0;
 
 p_alive = false;
@@ -6587,7 +6615,7 @@ newKid.p_birthTime = time();
 newKid.p_generation = p_generation + 1;
 
 newKid.p_thresholdMoving = main.p_movingThreshold;
-newKid.v_everSmoker = false;
+newKid.v_smoker = false;
 newKid.p_economicallyActive = false;
 
 // assign parent variables
@@ -6645,7 +6673,8 @@ if (main.p_exportMigrationData) main.f_exportMigrationData(newKid);]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1597516192253</Id>
 					<Name><![CDATA[f_smokingHazard]]></Name>
-					<X>-960</X><Y>350</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-1180</X><Y>220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6687,10 +6716,9 @@ return value;
 
 double value = 
 	(main.f_baselineMortalityRate(p_age) / 100000.0) *	
-	// smoking effect 1.098621
 	exp(
 		main.p_mortalityCoeffIncType[p_incomeType-1] + 
-		((v_everSmoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking)
+		((v_smoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking)
 	)
 	;
 return value;
@@ -6762,6 +6790,53 @@ if (destination != null) {
 */
 return destination;]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[boolean]]></ReturnType>
+					<Id>1602152555141</Id>
+					<Name><![CDATA[f_smokingProportion]]></Name>
+					<X>-960</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[// testing income retrieval
+// traceln("p income type "  + p_incomeType);
+// traceln("coef "  + main.p_smokingIncomeCoeffs[p_incomeType-1]);
+
+//traceln(v_averageIncomeExposure);
+//traceln(v_averageIncomeMobilityExposure);
+
+
+// probability
+double odds = exp(-1.04287 + main.p_smokingCoeffIncType[p_incomeType-1] + 
+	main.p_smokingCoeffIncExp * v_averageIncomeExposure +
+	main.p_smokingCoeffMobExp * v_averageIncomeMobilityExposure
+);
+double prob = odds / (1.0 + odds);
+boolean smoker = randomTrue(prob);
+traceln(smoker);
+return smoker;
+
+
+// rates
+
+/*
+double value = main.f_baselineSmokingInit(p_age) * main.p_smokingAdjustment *
+	exp(
+		// income effect = parent for people < 18, own income for people >=  19
+		main.p_smokingCoeffIncType[p_incomeType-1] + 
+	   // network effect
+       // 0.3 * f_smokingConnections +
+       // income average exposure
+       main.p_smokingCoeffIncExp * v_averageIncomeExposure + 
+       // income mobility average exposure
+       main.p_smokingCoeffMobExp * v_averageIncomeMobilityExposure
+     );
+// traceln(value);
+return value;
+*/]]></Body>
+				</Function>
 			</Functions>
 			<AgentLinks>
 				<AgentLink>
@@ -6780,11 +6855,6 @@ return destination;]]></Body>
 						<PackageName><![CDATA[mobhealth8]]></PackageName>
 						<ClassName><![CDATA[Person]]></ClassName>
 						<ItemName><![CDATA[st_lifecourse]]></ItemName>
-					</StatechartReference>
-					<StatechartReference>
-						<PackageName><![CDATA[mobhealth8]]></PackageName>
-						<ClassName><![CDATA[Person]]></ClassName>
-						<ItemName><![CDATA[st_smoking]]></ItemName>
 					</StatechartReference>
 					<LineStyle>SOLID</LineStyle>
 					<LineWidth>1</LineWidth>
