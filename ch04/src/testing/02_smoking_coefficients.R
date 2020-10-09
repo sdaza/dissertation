@@ -1,4 +1,8 @@
+##################################
 # National Health Interview Survey (NHIS) and NATS data and estimate initiation rates
+# author: sebastian daza
+##################################
+
 
 library(haven)
 library(data.table)
@@ -6,7 +10,6 @@ library(survey)
 library(muhaz)
 library(xlsx)
 table = function (...) base::table(..., useNA = 'ifany')
-
 
 # read NHIS 2019
 h = fread("data/health_survey_adults.csv")
