@@ -1,19 +1,21 @@
+﻿
+# latex
+dissertation.*
+!dissertation.tex
+!dissertation.bib
 
+# licenses and notes
 .vscode
-.gitignore
 .DS_store
 pardiso.lic
 .Renviron
 /notes
-
-dissertation.*
-!disseration.tex
-!disseration.bib
 ~$*.*
 
 
 # data
-/ch0*/data
+/ch03/data
+/ch02/data
 /ch03/output/data
 /ch02/output/*.rds
 
@@ -26,5 +28,10 @@ dissertation.*
 
 # chapter 04
 /ch04/models/MobHealthRecycling/output/
-/ch04/models/MobHealthRecycling/database/
-/ch04/models/*.autosave
+/ch04/data/
+/ch04/models/*/database/db.*
+!/ch04/models/*/database/db.script
+!/ch04/models/*/database/db.properties
+/ch04/models/*/*.alp.autosave
+/ch04/models/*/*.log
+/ch04/models/*/*.original.alp 
