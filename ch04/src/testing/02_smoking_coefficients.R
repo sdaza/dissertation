@@ -30,10 +30,22 @@ h[smknow_a %in% c(7, 8), smoking := NA]
 table(h$smoking)
 
 h[, age_group := ifelse(agep_a >= 30 & agep_a <= 50, 1, 0)]
-h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a, probs = 0:3/3),
+
+h[, incomeGroup := cut(faminctc_a, breaks = quantile(faminctc_a,
+    probs = 0:3/3),
+    labels = 1:3, right = TRUE, include.lowest = TRUE)]
+
+s = h[, .(incomeGroup, faminctc_a, wt)]
+setnames(s, names(s), c("incomeType", "income", "weight"))
+write.xlsx(s, "data/incomeDistribution.xlsx", row.names = FALSE)
+
+h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a,
+    probs = 0:3/3),
     labels = 1:3, right = TRUE, include.lowest = TRUE)]
 
 hist(h[faminctc_a < quantile(h$faminctc_a, 0.33), faminctc_a])
+
+gini(h$faminctc_a)
 
 quantile(h$faminctc_a, 0.66)
 quantile(h$faminctc_a, 1)
