@@ -10,9 +10,15 @@ library(ggplot2)
 source("src/utils.R")
 path = "models/MobHealthRecycling/output/segregation/"
 
+dat = fread(paste0(path, "environment.csv"))
+par = fread(paste0(path, "parameter.csv"))
+
 # read files
 par = readMultipleFiles("parameters", path)
 dat = readMultipleFiles("environ", path)
+
+summary(dat$le)
+summary(dat$avg_income)
 
 sel = par[, .(iteration, replicate, counties, people_per_county, move_random,
     move_threshold, max_generation)]
@@ -23,6 +29,7 @@ temp = dat[, .(.N, avg_nsi = mean(nsi, na.rm = TRUE),
     avg_time = mean(time), avg_pop = mean(population)),
     .(iteration, move_random, move_threshold, max_generation)]
 
+temp
 # read RDS
 saveRDS(dat, "output/data/segregation.rds")
 dat = readRDS("output/data/segregation.rds")
