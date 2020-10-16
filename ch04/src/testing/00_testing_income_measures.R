@@ -8,7 +8,8 @@
 library(data.table)
 library(nnet)
 library(haven)
-
+library(ipumsr)
+library(reldist)
 
 # functions
 table = function (...) base::table(..., useNA = 'ifany')
@@ -153,3 +154,53 @@ hist(dd[type_kid == "type2", income_kid])
 
 hist(m[income_type == 3, income])
 hist(dd[type_kid == "type3", income_kid])
+
+# read ipums data
+ddi = ipumsr::read_ipums_ddi("data/ipums/usa_00001.xml")
+ip = ipumsr::read_ipums_micro(ddi)
+ip = data.table(ip)
+
+names(ip)
+nrow(ip)
+
+setnames(ip, names(ip), tolower(names(ip)))
+ip[ftotinc == 9999999, ftotinc := NA]
+ip[ftotinc < 0, ftotinc := 0]
+ip = ip[!is.na(ftotinc) & ftotinc > 0]
+summary(ip$ftotinc)
+gini(ip$ftotinc, weights = ip$perwt)
+
+ip[inctot == 9999999, inctot := NA]
+ip[inctot <0, inctot := 0]
+ip = ip[!is.na(inctot) & inctot > 0]
+
+p1 = Hmisc::wtd.quantile(ip$inctot, ip$perwt, 1/3, na.rm = TRUE)
+p2 = Hmisc::wtd.quantile(ip$inctot, ip$perwt, 2/3, na.rm = TRUE)
+
+p1
+p2
+
+hist(ip$inctot)
+
+ip[inctot < p1, incomeType := 1]
+ip[inctot >= p1 & ftotinc < p2, incomeType := 2]
+ip[inctot >= p2, incomeType := 3]
+
+hist(ip[incomeType == 1, inctot])
+
+ip[ip[, sample(.N, 1000), incomeType], b[i.V1], on = "incomeType", by=.EACHI]
+
+sampleIncome = ip[,.SD[sample(.N,min(.N,10000))], by = incomeType]
+
+DT[ DT[, sample(.N, 3), by=a], b[i.V1], on="a", by=.EACHI]
+p1 = Hmisc::wtd.quantile(ip$ftotinc, ip$perwt, 1/3, na.rm = TRUE)
+p2 = Hmisc::wtd.quantile(ip$ftotinc, ip$perwt, 2/3, na.rm = TRUE)
+
+ip[ftotinc > p2, incomeCat := cut(ftotinc,
+    breaks = quantile(ftotinc, probs = 0:20/20), right = TRUE, include.lowest = TRUE, labels = FALSE)]
+
+
+table(ip[ftotinc > p2, incomeCat])
+
+hist(ip[ftotinc > p2, ftotinc])
+
