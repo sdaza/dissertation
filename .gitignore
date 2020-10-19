@@ -27,6 +27,7 @@ pardiso.lic
 /ch03/src/testing
 
 # chapter 04
+slack.*
 /ch04/models/MobHealthRecycling/output/
 /ch04/data/
 /ch04/models/*/database/db.*

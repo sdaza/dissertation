@@ -45,11 +45,10 @@
     isbn=false, url=false, backend=biber]{biblatex}
 \addbibresource{dissertation.bib}
 
-% \usepackage[american]{babel}
-% \DeclareLanguageMapping{american}{american-apa}
+\usepackage{xpatch}
+\xpatchnameformat{labelname}
+  {\ifciteseen}{\ifnumcomp{\value{listtotal}}{>}{\value{maxnames}}}{}{}
 
-% \usepackage[authoryear, sectionbib]{natbib}
-% \bibliographystyle{apa}
 \newcommand\fnote[1]{\captionsetup{font=small}\caption*{#1}}
 
 % \AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}}

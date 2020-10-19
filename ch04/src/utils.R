@@ -7,12 +7,24 @@
 
 readMultipleFiles = function(pattern, path) {
     files = list.files(path, pattern)
-    files = paste0(path, files)
-    l = lapply(files, fread)
-    m =  rbindlist(l)
-    return(m)
+    if (length(files) == 0) {
+        warning("No files found!")
+    } else {
+        files = paste0(path, files)
+        l = lapply(files, fread)
+        m =  rbindlist(l)
+        return(m)
+    }
 }
 
+
+saveRDSFile = function(dt, path, overwrite = FALSE) {
+    if (file.exists(path) & overwrite == FALSE) {
+        warning("File already exist!")
+    } else {
+        saveRDS(dt, path)
+    }
+}
 
 savepdf <- function(file, width = 16, height = 10) {
   fname <- paste0(file, ".pdf")
