@@ -36,3 +36,4 @@ slack.*
 /ch04/models/*/*.alp.autosave
 /ch04/models/*/*.log
 /ch04/models/*/*.original.alp 
+/ch04/output/data
