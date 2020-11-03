@@ -30,9 +30,9 @@ pardiso.lic
 slack.*
 /ch04/models/MobHealthRecycling/output/
 /ch04/data/
-/ch04/models/*/database/db.*
-!/ch04/models/*/database/db.script
-!/ch04/models/*/database/db.properties
+# /ch04/models/*/database/db.*
+# !/ch04/models/*/database/db.script
+# !/ch04/models/*/database/db.properties
 /ch04/models/*/*.alp.autosave
 /ch04/models/*/*.log
 /ch04/models/*/*.original.alp 

@@ -8,14 +8,25 @@
 library(data.table)
 library(ggplot2)
 source("src/utils.R")
+
 sim_path = "models/MobHealthRecycling/output/verification/segregation/"
 data_path = "output/data/verification/segregation/"
 plots_path = "output/plots/verification/segregation/"
 
+# read excel file
+m = fread(paste0(sim_path, "mortality.csv"))
+dim(m)
+
+e = fread(paste0(sim_path, "environment.csv"))
+p = fread(paste0(sim_path, "model_parameters.csv"))
+
+anyDuplicated(m[, al_id])
+anyDuplicated(m[, .(iteration, replicate,id)])
+
 # create data tables
-m = readMultipleFiles("mortality", sim_path)
-p = readMultipleFiles("parameter", sim_path)
-e = readMultipleFiles("environ", sim_path)
+# m = readMultipleFiles("mortality", sim_path)
+# p = readMultipleFiles("parameter", sim_path)
+# e = readMultipleFiles("environ", sim_path)
 
 nrow(p)
 nrow(unique(m[, .(iteration, replicate)]))

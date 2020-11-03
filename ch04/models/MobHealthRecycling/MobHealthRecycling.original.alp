@@ -17,9 +17,9 @@
 			<Id>1516978677339</Id>
 			<Name><![CDATA[Main]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<Import><![CDATA[//import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-//import org.apache.commons.math3.stat.StatUtils;
-//import org.apache.commons.math3.linear.MatrixUtils;
+			<Import><![CDATA[import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
@@ -33,14 +33,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.eclipse.jdt.internal.compiler.codegen.FloatCache;
-import com.querydsl.core.types.dsl.MathExpressions;
-
-//import org.apache.poi.ss.usermodel.Workbook;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//import java.io.FileOutputStream;
-//import org.apache.poi.ss.usermodel.Sheet;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.ss.usermodel.Cell;]]></Import>
+import com.querydsl.core.types.dsl.MathExpressions;]]></Import>
 			<StartupCode><![CDATA[f_defineInitialValues();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -203,7 +196,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 					<Id>1567714823732</Id>
 					<Name><![CDATA[v_incomeMortalityRatios]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3110</Y>
+					<X>-960</X><Y>980</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -219,7 +212,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 					<Id>1567759003049</Id>
 					<Name><![CDATA[v_incomeModelCoefficientsMatrix]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3130</Y>
+					<X>-960</X><Y>1000</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -399,6 +392,78 @@ import com.querydsl.core.types.dsl.MathExpressions;
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[0]]></Code>
 						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322979</Id>
+					<Name><![CDATA[v_countyData]]></Name>
+					<X>70</X><Y>1450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322981</Id>
+					<Name><![CDATA[v_migrationData]]></Name>
+					<X>70</X><Y>1490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322983</Id>
+					<Name><![CDATA[v_familyData]]></Name>
+					<X>70</X><Y>1430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322985</Id>
+					<Name><![CDATA[v_mortalityData]]></Name>
+					<X>70</X><Y>1390</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322989</Id>
+					<Name><![CDATA[v_parameterData]]></Name>
+					<X>70</X><Y>1410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1602968322991</Id>
+					<Name><![CDATA[v_environmentData]]></Name>
+					<X>70</X><Y>1470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[BufferedWriter]]></Type>        
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -674,7 +739,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 				<Variable Class="Parameter">
 					<Id>1601100873770</Id>
 					<Name><![CDATA[p_exportMigrationData]]></Name>
-					<X>70</X><Y>1360</Y>
+					<X>70</X><Y>1300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -698,7 +763,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 				<Variable Class="Parameter">
 					<Id>1601100877946</Id>
 					<Name><![CDATA[p_exportMortalityData]]></Name>
-					<X>70</X><Y>1300</Y>
+					<X>70</X><Y>1320</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -746,7 +811,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 				<Variable Class="Parameter">
 					<Id>1601100885163</Id>
 					<Name><![CDATA[p_exportCountyData]]></Name>
-					<X>70</X><Y>1320</Y>
+					<X>70</X><Y>1360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -820,7 +885,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 					<Id>1517286810012</Id>
 					<Name><![CDATA[p_incomeQuantiles]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3210</Y>
+					<X>-960</X><Y>1080</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1300,7 +1365,7 @@ import com.querydsl.core.types.dsl.MathExpressions;
 					<Id>1600583800233</Id>
 					<Name><![CDATA[p_smokingAdjustment]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3270</Y>
+					<X>-960</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1510,9 +1575,6 @@ import com.querydsl.core.types.dsl.MathExpressions;
 					</Properties>
 					<Action><![CDATA[// compute descriptive stats every year
 
-// last complete generation
-f_lastCompleteGeneration();
-
 if (p_updateStats) {
 	// reset databases
 	if (p_descriptivePlots) f_resetDatasets();
@@ -1535,6 +1597,9 @@ if (p_updateStats) {
     // export data
 	f_dataExport();
 }
+
+// last complete generation
+f_lastCompleteGeneration();
 	
 // stop simulation
 f_stopSimulation();
@@ -1583,7 +1648,7 @@ f_stopSimulation();
 					<Id>1516978902982</Id>
 					<Name><![CDATA[f_updateIncomeData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>2980</Y>
+					<X>-960</X><Y>850</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1681,8 +1746,7 @@ for (County c : counties) {
 	col_countyIncome.add(c.v_averageIncome);
 }
 
-//if (p_exportModelData) f_exportParameterData();
-if (p_exportModelData) f_writeParameterData();]]></Body>
+if (p_exportModelData) f_exportParameterData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1690,7 +1754,7 @@ if (p_exportModelData) f_writeParameterData();]]></Body>
 					<Id>1517193799981</Id>
 					<Name><![CDATA[f_randomInteger]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>2940</Y>
+					<X>-960</X><Y>790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1711,7 +1775,7 @@ if (p_exportModelData) f_writeParameterData();]]></Body>
 					<Id>1517861744318</Id>
 					<Name><![CDATA[f_weightedSampling]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>460</X><Y>2940</Y>
+					<X>-960</X><Y>1190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1758,7 +1822,7 @@ return values[randomIndex];
 					<Id>1566737457868</Id>
 					<Name><![CDATA[f_numberAliveAgents]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3020</Y>
+					<X>-960</X><Y>890</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1771,7 +1835,7 @@ return values[randomIndex];
 					<Id>1566808450757</Id>
 					<Name><![CDATA[f_exportCountyData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3040</Y>
+					<X>-1320</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1822,7 +1886,7 @@ else { return 0.0; }]]></Body>
 					<Id>1566896593370</Id>
 					<Name><![CDATA[f_NSI]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3190</Y>
+					<X>-960</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1856,7 +1920,7 @@ return a / b;]]></Body>
 					<Id>1567106330980</Id>
 					<Name><![CDATA[f_exportFamilyData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3020</Y>
+					<X>-1320</X><Y>900</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1889,7 +1953,7 @@ return a / b;]]></Body>
 					<Id>1567150019933</Id>
 					<Name><![CDATA[f_exportMortalityData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>2980</Y>
+					<X>-1320</X><Y>860</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1925,7 +1989,7 @@ return a / b;]]></Body>
 					<Id>1567150747710</Id>
 					<Name><![CDATA[f_exportMigrationData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3060</Y>
+					<X>-1320</X><Y>940</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1986,7 +2050,7 @@ return uniform(y, (y + p_sizeRectangle));]]></Body>
 					<Id>1567677580985</Id>
 					<Name><![CDATA[f_assignIncomeMortalityRatio]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3000</Y>
+					<X>-960</X><Y>870</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2005,7 +2069,7 @@ return uniform(y, (y + p_sizeRectangle));]]></Body>
 					<Id>1567759571387</Id>
 					<Name><![CDATA[f_extractMortalityCoef]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>2960</Y>
+					<X>-960</X><Y>830</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2040,7 +2104,7 @@ return uniform(y, (y + p_sizeRectangle));]]></Body>
 					<Id>1568374274608</Id>
 					<Name><![CDATA[f_zscore]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3170</Y>
+					<X>-960</X><Y>1040</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2065,7 +2129,7 @@ return uniform(y, (y + p_sizeRectangle));]]></Body>
 					<Id>1568379657633</Id>
 					<Name><![CDATA[f_standardizedValues]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3070</Y>
+					<X>-960</X><Y>940</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2196,7 +2260,7 @@ else return (value - average)/sd;]]></Body>
 					<Id>1598620272465</Id>
 					<Name><![CDATA[f_incomeMobilityModel]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>460</X><Y>2960</Y>
+					<X>-960</X><Y>1210</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2260,7 +2324,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<Id>1599549399949</Id>
 					<Name><![CDATA[f_exportParameterData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3000</Y>
+					<X>-1320</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2288,7 +2352,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<Id>1601023125713</Id>
 					<Name><![CDATA[f_exportEnvironmentData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3080</Y>
+					<X>-1320</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2611,7 +2675,6 @@ for (County c : counties) {
 	    if (!Double.isNaN(c.v_gini)) col_countyGini.add(c.v_gini);
 	   
 	}
-	
 	 
 	// proportion of income groups   
 	c.v_activePeople = c.col_peopleAlive.stream().filter(p -> p.p_economicallyActive).collect(Collectors.counting());
@@ -2619,10 +2682,7 @@ for (County c : counties) {
 	for (int i = 0; i < p_numIncomeTypes; i++) {
 		c.v_proportionIncomeType[i] = c.f_countTypeIncomePeople(i+1) / c.v_activePeople;
 	}
-	
-	// average age
-	c.v_age = c.col_peopleAlive.stream().mapToDouble(p -> p.p_age).average().getAsDouble();
-	
+
 }
 
 if (col_countyRelativeIncomeMobility.size() > 0) {
@@ -2635,7 +2695,7 @@ if (col_countyRelativeIncomeMobility.size() > 0) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602754587851</Id>
 					<Name><![CDATA[f_lastCompleteGeneration]]></Name>
-					<X>800</X><Y>1030</Y>
+					<X>570</X><Y>1130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2644,10 +2704,10 @@ if (col_countyRelativeIncomeMobility.size() > 0) {
 
 // life expectancy
 if (v_lastCompleteGeneration > -1) {
-    v_lifeExpectancy = f_lifeExpectancy(col_deaths, v_lastCompleteGeneration);
-    for (County c : counties) {
-    	c.v_lifeExpectancy = f_lifeExpectancy(c.col_deaths, v_lastCompleteGeneration);
-    }
+    v_lifeExpectancy = col_deaths.stream()
+    	.filter(p -> p.generation <= v_lastCompleteGeneration)
+		.mapToDouble(p -> p.age)
+		.average().getAsDouble();
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -2679,7 +2739,7 @@ for (County c: counties) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602755283688</Id>
 					<Name><![CDATA[f_updatePlots]]></Name>
-					<X>800</X><Y>990</Y>
+					<X>570</X><Y>1090</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2735,7 +2795,7 @@ if (v_incomeStandardDeviation > 0) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602755574312</Id>
 					<Name><![CDATA[f_dataExport]]></Name>
-					<X>800</X><Y>1010</Y>
+					<X>570</X><Y>1110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2743,22 +2803,22 @@ if (v_incomeStandardDeviation > 0) {
 					<Body><![CDATA[// export county data		
 if (p_exportCountyData && v_lastGeneration >= p_countyExportDataStart &&
 	(time() % p_recurrentTimeStratData == 0)) {
-	f_writeCountyData();
+	f_exportCountyData();
 }
 
-if (p_exportModelData) f_writeEnvironmentData();]]></Body>
+if (p_exportModelData) f_exportEnvironmentData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602755818099</Id>
 					<Name><![CDATA[f_stopSimulation]]></Name>
-					<X>570</X><Y>1110</Y>
+					<X>570</X><Y>1150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// stop simulation after N generation
+					<Body><![CDATA[// stop simulation after x generation
 int countGeneration = 0;
 if (v_lastGeneration >= p_lastGeneration) {
     for (Person p : col_peopleAlive) {
@@ -2766,7 +2826,7 @@ if (v_lastGeneration >= p_lastGeneration) {
     }
 	if (countGeneration == 0) {
 		traceln("Total agents " + f_numberAgents() + " by year " + round(time()));
-		if (p_exportModelData) f_writeEnvironmentData();
+		if (p_exportModelData) f_exportEnvironmentData();
 		finishSimulation();
 	}
 }]]></Body>
@@ -2777,7 +2837,7 @@ if (v_lastGeneration >= p_lastGeneration) {
 					<Id>1602834049539</Id>
 					<Name><![CDATA[f_defineTextFile]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>2933</Y>
+					<X>-1319</X><Y>813</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2799,7 +2859,7 @@ file.setMode(file.WRITE_APPEND);]]></Body>
 					<Id>1602837504875</Id>
 					<Name><![CDATA[f_defineTextFiles]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>2953</Y>
+					<X>-1319</X><Y>833</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2813,83 +2873,43 @@ if (p_exportModelData) f_defineTextFile(t_environmentData, "environment");]]></B
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[List]]></ReturnType>
-					<Id>1604156100297</Id>
-					<Name><![CDATA[f_exportDBToExcel]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3120</Y>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1602968322955</Id>
+					<Name><![CDATA[f_exportCountyData]]></Name>
+					<X>240</X><Y>1470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[tables]]></Name>
-						<Type><![CDATA[String[]]]></Type>
-					</Parameter>
-					<Parameter>
-						<Name><![CDATA[filename]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Parameter>
-						<Name><![CDATA[path]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[// create excel file
-try (FileOutputStream fileOut = new FileOutputStream(path+filename)) {
-
-	Workbook wb = new XSSFWorkbook();
-   		
-   	for (int i = 0; i < tables.length; i++) {
-   		
-   		// create list of column names
-   		List <String> columnNames= selectValues(
-		"Select column_name from INFORMATION_SCHEMA.COLUMNS where table_name='"+
-		tables[i].toUpperCase()+"'"
-		);
-		columnNames.remove(0);
-    	
-    	traceln(columnNames);
-    	// create a worksheet for the table
-    	Sheet sheet = wb.createSheet(tables[i]); 
-    	Row row = sheet.createRow(0);
-    
-    	// create a header row with the required column names in. Row indices are 0 based
- 		for (int h = 0; h < columnNames.size(); h ++) {
-    		row.createCell(h).setCellValue(columnNames.get(h).toLowerCase());
-    	}
+					<Body><![CDATA[for (County c : counties) {
+	try {
+   		v_countyData.write(
+   		v_iteration + ";" +
+   		v_replicate + ";" +
+   		time() + ";" +
+		c.getIndex() + ";" +
+		c.col_peopleAlive.stream()
+			.mapToDouble(p -> p.p_age)
+			.average().getAsDouble() + ";" +
+		c.col_deaths.stream().filter(p -> p.generation <= v_lastCompleteGeneration)
+			.mapToDouble(p -> p.age).average().getAsDouble() + ";" +
+		c.v_averageIncome + ";" +
+        c.v_gini + ";" +
+        c.v_relativeIncomeMob + ";" +
+        c.v_absoluteIncomeMob + ";" +
+        c.col_peopleAlive.size() + "\n");
+	}
+	catch (IOException e) {
+		e.printStackTrace();
     }
-    
-    // write the output to a file
-    wb.write(fileOut);      
-} catch ( Exception e ) {
-
-}
-
-// export database to excel
-Database outExcel = new Database(this, "ExcelOutput", path+filename);
-outExcel.connect();
-
-ModelDatabase modelDB = getEngine().getModelDatabase();
-Connection connection = outExcel.getConnection();
-
-for (int i = 0; i < tables.length; i++) {
-
-	modelDB.exportToExternalDB(tables[i],  
-        connection,        
-        tables[i],   
-        false, // clear table prior to copy
-        true); // auto-commit
-
-}
-
-outExcel.disconnect();]]></Body>
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604157311766</Id>
-					<Name><![CDATA[f_writeMortalityData]]></Name>
-					<X>240</X><Y>1330</Y>
+					<Id>1602968322961</Id>
+					<Name><![CDATA[f_exportFamilyData]]></Name>
+					<X>240</X><Y>1450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2898,133 +2918,298 @@ outExcel.disconnect();]]></Body>
 						<Name><![CDATA[agent]]></Name>
 						<Type><![CDATA[Person]]></Type>
 					</Parameter>
-					<Body><![CDATA[insertInto(mortality)
-	.columns(mortality.iteration, mortality.replicate, mortality.model_time, mortality.id,
-        mortality.parent_id, mortality.generation, mortality.age, mortality.income_type, 
-        mortality.income, mortality.parent_income_type, mortality.parent_income, mortality.nkids, 
-        mortality.nmoves, mortality.nmoves_kid, mortality.smoker, mortality.county, 
-        mortality.county_avg_income, mortality.county_gini, mortality.county_relative_mob)
-    .values(v_iteration, v_replicate, time(), agent.p_id,
-        agent.p_parentId, agent.p_generation, agent.p_age, agent.p_incomeType, 
-        agent.p_income, agent.p_parentIncomeType, agent.p_parentIncome, agent.v_numberKids, 
-        agent.v_numberMoves, agent.v_numberMovesKid, agent.v_smoker, agent.county.getIndex(), 
-        agent.county.v_averageIncome, agent.county.v_gini, agent.county.v_relativeIncomeMob)
-    .execute();]]></Body>
+					<Body><![CDATA[try {
+   	v_familyData.write(
+   		v_iteration + ";" +
+   		v_replicate + ";" +
+    	agent.p_parentId + ";" +
+	    agent.p_parentGeneration + ";" +
+	    agent.p_parentAge + ";" +
+	    agent.p_id + ";" +
+	    agent.p_generation + ";" +
+	    agent.p_age + ";" +
+	    agent.p_alive + ";" +
+	    time() + ";" +
+	    agent.p_parentIncomeType + ";" +
+	    agent.p_incomeType + ";" +
+	    agent.p_parentIncome + ";" +
+	    agent.p_income + ";" +
+	    agent.p_parentAverageIncomeExposure + ";" +
+	    agent.v_averageIncomeExposure + "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604158093076</Id>
-					<Name><![CDATA[f_clearDatabases]]></Name>
-					<X>240</X><Y>1420</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// close files
-
-if (p_exportModelData) {
-	deleteFrom(environment).execute();
-	deleteFrom(model_parameters).execute();
-}
-if (p_exportCountyData) deleteFrom(county).execute();
-if (p_exportMigrationData) deleteFrom(migration).execute();
-if (p_exportFamilyData) deleteFrom(family).execute();
-if (p_exportMortalityData) deleteFrom(mortality).execute();
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604158342720</Id>
-					<Name><![CDATA[f_writeParameterData]]></Name>
-					<X>240</X><Y>1350</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[insertInto(model_parameters)
-	.columns(model_parameters.model_date, model_parameters.iteration, model_parameters.replicate, model_parameters.counties, 
-        model_parameters.people_per_county, model_parameters.move_decision_rate, model_parameters.prob_move_random,
-        model_parameters.move_threshold, model_parameters.max_generation, model_parameters.prob_same_parent_income_type, 
-        model_parameters.min_prob_income_type_exp, model_parameters.weight_income_exp, model_parameters.mortality_income_coeff, 
-        model_parameters.smoking_mob_exp, model_parameters.smoking_income_coeff)
-    .values(v_systemDate, v_iteration, v_replicate, counties.size(), 
-        p_peoplePerCounty, p_movingDecisionRate, p_randomMobilityProb,
-        p_movingThreshold , p_lastGeneration, p_probSameParentIncType, 
-        p_minProbMaxIncTypeExp, p_weightVectorCountyIncExp, Arrays.toString(p_mortalityCoeffIncType), 
-        p_smokingCoeffMobExp, Arrays.toString(p_smokingCoeffIncType))
-    .execute();]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604158373643</Id>
-					<Name><![CDATA[f_writeEnvironmentData]]></Name>
-					<X>240</X><Y>1370</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[insertInto(environment)
-	.columns(environment.iteration, environment.replicate, environment.model_time, environment.gini,
-        environment.relative_income_mob, environment.avg_income, environment.le, environment.nsi, 
-        environment.avg_moves, environment.last_generation, environment.population)
-    .values(v_iteration, v_replicate, time(), v_gini, v_relativeIncomeMob, v_averageIncome, 
-        v_lifeExpectancy, v_NSI, v_averageNumberMoves, v_lastGeneration, col_peopleAlive.size())
-    .execute();
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604350035215</Id>
-					<Name><![CDATA[f_writeCountyData]]></Name>
+					<Id>1602968322965</Id>
+					<Name><![CDATA[f_exportMortalityData]]></Name>
 					<X>240</X><Y>1390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[for (County c : counties) {
-	insertInto(county)
-		.columns(county.iteration, county.replicate, county.model_time, county.county, 
-			county.population, county.income, county.relative_income_mob, county.absolute_income_mob,
-			county.gini, county.le, county.age)
-    	.values(v_iteration, v_replicate, time(), c.getIndex(), c.col_peopleAlive.size(), c.v_averageIncome, 
-    		c.v_relativeIncomeMob, c.v_absoluteIncomeMob, c.v_gini, 
-  			c.v_lifeExpectancy,  	
-    		c.v_age)
-    	.execute();
+					<Parameter>
+						<Name><![CDATA[agent]]></Name>
+						<Type><![CDATA[Person]]></Type>
+					</Parameter>
+					<Body><![CDATA[try {
+   	v_mortalityData.write(
+	   	v_iteration + ";" +
+	   	v_replicate + ";" +
+	   	time() + ";" +
+	    agent.p_id + ";" +
+	    agent.p_parentId + ";" +
+	    agent.p_generation + ";" +
+	    agent.p_age + ";" +
+	    agent.p_incomeType + ";" +
+	    agent.p_income + ";" +
+	    agent.p_parentIncomeType + ";" +
+	    agent.p_parentIncome + ";" +
+	    agent.v_numberKids + ";" +
+	    agent.v_smoker + ";" +
+	    agent.v_numberMoves + ";" +
+	    agent.v_numberMovesKid + ";" +
+	    agent.county.getIndex() + ";" +
+	    agent.county.v_averageIncome + ";" +
+	    agent.county.v_gini + ";" +
+	    agent.county.v_relativeIncomeMob + "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1602968322973</Id>
+					<Name><![CDATA[f_exportParameterData]]></Name>
+					<X>240</X><Y>1410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[try {
+   	v_parameterData.write(
+	   	v_iteration + ";" +
+	   	v_replicate + ";" +
+	   	counties.size() + ";" +
+	    p_peoplePerCounty + ";" +
+	    p_movingDecisionRate + ";" +
+	    p_randomMobilityProb + ";" +
+	    p_movingThreshold + ";" +
+	    p_lastGeneration + ";" +
+	    p_probSameParentIncType + ";" +
+	    p_weightVectorCountyIncExp + ";" +
+	    p_smokingCoeffMobExp + ";" +
+	    p_smokingCoeffIncExp + ";" +
+	    Arrays.toString(p_smokingCoeffIncType) + ";" +
+	    p_mortalityCoeffSmoking + ";" +
+	    Arrays.toString(p_mortalityCoeffIncType) + "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
 }
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604391304064</Id>
-					<Name><![CDATA[f_lifeExpectancy]]></Name>
-					<X>570</X><Y>1090</Y>
+					<Id>1602968322977</Id>
+					<Name><![CDATA[f_exportEnvironmentData]]></Name>
+					<X>240</X><Y>1430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[try {
+   	v_environmentData.write(
+   		v_iteration + ";" +
+   		v_replicate + ";" +
+   		time() + ";" +
+    	v_gini + ";" +
+    	v_relativeIncomeMob + ";" +
+    	v_averageIncome + ";" +
+    	v_lifeExpectancy + ";" +
+    	v_NSI + ";" +
+    	v_averageNumberMoves + ";"  +
+    	v_lastGeneration + ";" +
+    	col_peopleAlive.size()+ "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1602969296329</Id>
+					<Name><![CDATA[f_exportMigrationData]]></Name>
+					<X>240</X><Y>1490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Parameter>
-						<Name><![CDATA[deaths]]></Name>
-						<Type><![CDATA[ArrayList<Deaths>]]></Type>
+						<Name><![CDATA[agent]]></Name>
+						<Type><![CDATA[Person]]></Type>
 					</Parameter>
-					<Parameter>
-						<Name><![CDATA[lastGeneration]]></Name>
-						<Type><![CDATA[int]]></Type>
-					</Parameter>
-					<Body><![CDATA[double ndeaths = deaths.stream().filter(p -> p.generation <= lastGeneration).count();
+					<Body><![CDATA[try {
+   	v_migrationData.write(
+	   	v_iteration + ";" +
+	   	v_replicate + ";" +
+	   	time() + ";" +
+	    agent.p_id + ";" +
+	    agent.p_age + ";" +
+	    agent.p_generation + ";" +
+	    agent.county.getId() + ";" +
+	    agent.county.v_averageIncome + ";" +
+	    agent.county.v_relativeIncomeMob + ";" +
+	    agent.county.v_gini + "\n");
+	}
+catch (IOException e) {
+	e.printStackTrace();
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1602969718385</Id>
+					<Name><![CDATA[f_defineDatasets]]></Name>
+					<X>240</X><Y>1330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[if (p_exportMortalityData) {
+    String header = "iteration;replicate;time;id;parent_id;generation;age;income_type;" + 
+	"income;parent_income_type;parent_income;nkids;smoker;nmoves;nmoves_kid;" + 
+	"county;county_avg_income;county_gini;county_relative_income_mobility\n";
+    
+	try {
+		String name = p_filePath + "mortality" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_mortalityData = new BufferedWriter(new FileWriter(f));
+ 	    v_mortalityData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
 
-if (ndeaths > 0) {
-	return deaths.stream()
-    	.filter(p -> p.generation <= lastGeneration)
-		.mapToDouble(p -> p.age)
-		.average().getAsDouble();
-} else {
-	return 0;
+
+if (p_exportModelData) {
+	
+	String header = "iteration;replicate;counties;people_per_county;move_rate;move_random;move_threshold;" +
+    "max_generation;mobility_regime;income_exposure_coef;smoking_mobility_exposure_coef;" +
+    "smoking_income_exposure_coef;smoking_income_coef;mortality_smoking_coef;" +
+    "mortality_income_coef\n";
+	try {
+		String name = p_filePath + "parameter" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_parameterData = new BufferedWriter(new FileWriter(f));
+ 	    v_parameterData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
+
+if (p_exportModelData) {
+	
+	String header = "iteration;replicate;time;gini;relative_income_mobility;avg_income;" + 
+	"le;nsi;avg_moves;last_generation;population\n";
+	try {
+		String name = p_filePath + "environment" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_environmentData = new BufferedWriter(new FileWriter(f));
+ 	    v_environmentData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
+
+
+if (p_exportFamilyData) {
+	
+	String header = "iteration;replicate;parent_id;parent_generation;parent_age;kid_id;"  + 
+	"kid_generation;kid_age;kid_alive;time;parent_type;kid_type;parent_income;" + 
+	"kid_income;parent_income_exposure;kid_income_exposure\n";
+	try {
+		String name = p_filePath + "family" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_familyData = new BufferedWriter(new FileWriter(f));
+ 	    v_familyData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
+
+
+if (p_exportCountyData) {
+	
+	String header = "iteration;replicate;time;county; avg_age;life_expectancy;" + 
+    "avg_income; gini; relative_income_mobility; absolute_income_mobility; population\n";
+	try {
+		String name = p_filePath + "county" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_countyData = new BufferedWriter(new FileWriter(f));
+ 	    v_countyData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
+
+
+if (p_exportMigrationData) {
+	
+	String header = "iteration;replicate;time;id;age;generation;county;average_income;income_mobility;gini\n";
+	try {
+		String name = p_filePath + "migration" + "_" + v_iteration + "_" + v_replicate + ".csv";
+ 		File f = new File(name);
+ 		v_migrationData = new BufferedWriter(new FileWriter(f));
+ 	    v_migrationData.write(header);
+	} catch (IOException e)	 {
+		getEngine().pause();
+		traceln("--> An Exception happened during initialization, continue? ...");
+		e.printStackTrace();
+	}
+}
+
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1602970868525</Id>
+					<Name><![CDATA[f_closeDatasets]]></Name>
+					<X>240</X><Y>1350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[// close files
+try {
+	if (p_exportModelData) v_parameterData.close();
+	if (p_exportCountyData) v_countyData.close();
+	if (p_exportMigrationData)	v_migrationData.close();
+	if (p_exportFamilyData) v_familyData.close();
+	if (p_exportMortalityData) v_mortalityData.close();
+	if (p_exportModelData) v_environmentData.close();
+} catch (IOException e)	 {
+	traceln("--> An Exception happened during initialization, continue? ...");
+	e.printStackTrace();
 }]]></Body>
 				</Function>
 			</Functions>
@@ -3033,7 +3218,7 @@ if (ndeaths > 0) {
 					<Id>1517871483337</Id>
 					<Name><![CDATA[f_upperLimitAge]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3050</Y>
+					<X>-960</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3205,7 +3390,7 @@ if (ndeaths > 0) {
 					<Id>1597516041116</Id>
 					<Name><![CDATA[f_baselineSmokingInit]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>260</X><Y>3250</Y>
+					<X>-960</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3257,7 +3442,7 @@ if (ndeaths > 0) {
 					<Id>1602582174101</Id>
 					<Name><![CDATA[d_incomeDistribution]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>460</X><Y>2990</Y>
+					<X>-960</X><Y>1240</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3678,8 +3863,8 @@ if (ndeaths > 0) {
 					<Id>1517927580372</Id>
 					<Name><![CDATA[dh_age]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>80</X><Y>3100</Y>
-					<Label><X>15</X><Y>-5</Y></Label>
+					<X>-1280</X><Y>1120</Y>
+					<Label><X>50</X><Y>10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -3827,7 +4012,7 @@ if (ndeaths > 0) {
 					<Id>1602834035522</Id>
 					<Name><![CDATA[t_mortalityData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3149</Y>
+					<X>-1159</X><Y>859</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3842,7 +4027,7 @@ if (ndeaths > 0) {
 					<Id>1602837388462</Id>
 					<Name><![CDATA[t_parameterData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3169</Y>
+					<X>-1159</X><Y>879</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3857,7 +4042,7 @@ if (ndeaths > 0) {
 					<Id>1602837409078</Id>
 					<Name><![CDATA[t_familyData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3189</Y>
+					<X>-1159</X><Y>899</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3872,7 +4057,7 @@ if (ndeaths > 0) {
 					<Id>1602837425897</Id>
 					<Name><![CDATA[t_countyData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3209</Y>
+					<X>-1159</X><Y>919</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3887,7 +4072,7 @@ if (ndeaths > 0) {
 					<Id>1602837456396</Id>
 					<Name><![CDATA[t_migrationData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3229</Y>
+					<X>-1159</X><Y>939</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3902,7 +4087,7 @@ if (ndeaths > 0) {
 					<Id>1602837479361</Id>
 					<Name><![CDATA[t_environmentData]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>81</X><Y>3249</Y>
+					<X>-1159</X><Y>959</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5710,18 +5895,18 @@ if (ndeaths > 0) {
 			<Id>1516978695663</Id>
 			<Name><![CDATA[County]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<Import><![CDATA[//import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-//import org.apache.commons.math3.stat.StatUtils;
-//import org.apache.commons.math3.linear.MatrixUtils;
-//import org.apache.commons.math3.linear.RealMatrix;
-//import org.apache.commons.math3.linear.RealVector;
-//import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
-//import java.util.stream.IntStream;
+			<Import><![CDATA[import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
+import java.util.stream.IntStream;
 
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.FileWriter;
-//import java.io.IOException;]]></Import>
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;]]></Import>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1516978695662</Id>
@@ -5848,7 +6033,7 @@ if (ndeaths > 0) {
 				<Variable Class="PlainVariable">
 					<Id>1566895483362</Id>
 					<Name><![CDATA[v_averageIncome]]></Name>
-					<X>260</X><Y>460</Y>
+					<X>260</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5876,7 +6061,7 @@ if (ndeaths > 0) {
 				<Variable Class="PlainVariable">
 					<Id>1598002587694</Id>
 					<Name><![CDATA[v_averageStandardizedIncome]]></Name>
-					<X>260</X><Y>480</Y>
+					<X>260</X><Y>410</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5891,7 +6076,7 @@ if (ndeaths > 0) {
 				<Variable Class="PlainVariable">
 					<Id>1598008064359</Id>
 					<Name><![CDATA[v_standardizedRelativeIncomeMobility]]></Name>
-					<X>260</X><Y>440</Y>
+					<X>260</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5906,7 +6091,7 @@ if (ndeaths > 0) {
 				<Variable Class="PlainVariable">
 					<Id>1601293389905</Id>
 					<Name><![CDATA[v_proportionIncomeType]]></Name>
-					<X>260</X><Y>500</Y>
+					<X>260</X><Y>430</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5933,43 +6118,13 @@ if (ndeaths > 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602763329310</Id>
 					<Name><![CDATA[v_activePeople]]></Name>
-					<X>260</X><Y>520</Y>
+					<X>260</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1604393365394</Id>
-					<Name><![CDATA[v_lifeExpectancy]]></Name>
-					<X>260</X><Y>360</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1604393511844</Id>
-					<Name><![CDATA[v_age]]></Name>
-					<X>260</X><Y>380</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="CollectionVariable">
@@ -6662,24 +6817,21 @@ if (ndeaths > 0) {
 			<Id>1516978704497</Id>
 			<Name><![CDATA[Person]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<Import><![CDATA[import java.util.stream.IntStream;
+			<Import><![CDATA[import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import java.util.stream.IntStream;
 import java.util.stream.Collectors;  
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-
-//import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-//import org.apache.commons.math3.stat.StatUtils;
-//import org.apache.commons.math3.linear.MatrixUtils;
-//import org.apache.commons.math3.linear.RealMatrix;
-//import org.apache.commons.math3.linear.RealVector;
-
-
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.FileWriter;
-
-//import com.vividsolutions.jts.math.Matrix;
-//import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification;
-//import com.querydsl.core.types.dsl.MathExpressions;]]></Import>
+import com.vividsolutions.jts.math.Matrix;
+import com.microsoft.sqlserver.jdbc.dataclassification.SensitivityClassification;
+import com.querydsl.core.types.dsl.MathExpressions;]]></Import>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1516978704496</Id>
@@ -7660,7 +7812,7 @@ oval.setFillColor(f_fillColor());
 oval.setLineColor(f_fillColor());
 
 // Export family data
-//if (main.p_exportFamilyData) main.f_exportFamilyData(this);
+if (main.p_exportFamilyData) main.f_exportFamilyData(this);
 
 Income i = new Income(p_id, p_income);
 main.col_income.add(i);
@@ -8088,7 +8240,7 @@ if (pair != null) { destination.col_incomeParentKid.add(pair); }
 if (i != null) { destination.col_income.add(i); }
 
 // save migration data (target agent)
-//if (main.p_exportMigrationData) { main.f_exportMigrationData(this); }
+if (main.p_exportMigrationData) { main.f_exportMigrationData(this); }
 
 /// move kids
 if (col_kids.size() > 0) f_moveKids();]]></Body>
@@ -8111,9 +8263,7 @@ county.col_deaths.add(new Deaths(this.p_id, this.p_generation, this.p_age));
 // save data
 boolean selectedGeneration = main.p_selectedGenerations
 	.stream().anyMatch(x -> x == p_generation);
-//if (main.p_exportMortalityData && selectedGeneration) main.f_exportMortalityData(this);
-if (main.p_exportMortalityData && selectedGeneration) main.f_writeMortalityData(this);
-
+if (main.p_exportMortalityData && selectedGeneration) main.f_exportMortalityData(this);
 
 //trace 
 //traceln("dying id " + p_id);
@@ -8276,8 +8426,8 @@ if (main.v_lastGeneration != newKid.p_generation && main.v_lastGeneration < newK
 }
 
 // save initial residential info
-//if (main.p_exportFamilyData) main.f_exportFamilyData(newKid);
-//if (main.p_exportMigrationData) main.f_exportMigrationData(newKid);]]></Body>
+if (main.p_exportFamilyData) main.f_exportFamilyData(newKid);
+if (main.p_exportMigrationData) main.f_exportMigrationData(newKid);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -8756,7 +8906,7 @@ if (p_generation > 0) {
     	// save moving data (kids)
     	k.v_numberMoves++;
     		
-    	//if (main.p_exportMigrationData) { main.f_exportMigrationData(k); }
+    	if (main.p_exportMigrationData) { main.f_exportMigrationData(k); }
     }
 }]]></Body>
 				</Function>
@@ -9594,16 +9744,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.*;
-
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import com.slack.api.methods.SlackApiException;
-import com.slack.api.model.Message;]]></Import>
+import com.slack.api.model.Message;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.FileOutputStream;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<InitialSetupCode><![CDATA[// create databases before start
-f_clearDatabases();]]></InitialSetupCode>
 			<MaximumMemory>8192</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -9611,10 +9764,14 @@ f_clearDatabases();]]></InitialSetupCode>
 
 root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
 root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
+
 root.v_iteration = 1;
-root.v_replicate = 1;]]></BeforeSimulationRunCode>
-			<AfterSimulationRunCode><![CDATA[f_exportTables(v_filePath);
-f_clearDatabases();
+root.v_replicate = 1;
+
+// define datafiles to be exported
+root.f_defineDatasets();]]></BeforeSimulationRunCode>
+			<AfterSimulationRunCode><![CDATA[// close data files
+root.f_closeDatasets();
 f_sendSlackMessage();]]></AfterSimulationRunCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>random</SelectionModeForSimultaneousEvents>
@@ -10061,112 +10218,6 @@ try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath
 	e.printStackTrace();
 }
 return token;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604159615156</Id>
-					<Name><![CDATA[f_clearDatabases]]></Name>
-					<X>230</X><Y>890</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// close files
-
-if (v_exportModelData) {
-	deleteFrom(environment).execute();
-	deleteFrom(model_parameters).execute();
-}
-if (v_exportCountyData) deleteFrom(county).execute();
-if (v_exportMigrationData) deleteFrom(migration).execute();
-if (v_exportFamilyData) deleteFrom(family).execute();
-if (v_exportMortalityData) deleteFrom(mortality).execute();
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
-					<ReturnType><![CDATA[ArrayList<String>]]></ReturnType>
-					<Id>1604160078045</Id>
-					<Name><![CDATA[f_getDBTables]]></Name>
-					<X>230</X><Y>940</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[ArrayList<String> tables = new ArrayList<String>();
-
-if (v_exportModelData) {
-	tables.add("model_parameters");
-	tables.add("environment");
-}
-if (v_exportCountyData) tables.add("county");
-if (v_exportMigrationData) tables.add("migration");
-if (v_exportFamilyData) tables.add("family");
-if (v_exportMortalityData) tables.add("mortality");
-
-return tables;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604222198271</Id>
-					<Name><![CDATA[f_SQLToCSV]]></Name>
-					<X>230</X><Y>920</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[query]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Parameter>
-						<Name><![CDATA[filename]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ResultSet rs = selectResultSet(query);
-
-try {
-	FileWriter fw = new FileWriter(filename + ".csv");
-  	int cols = rs.getMetaData().getColumnCount();
-	for(int i = 1; i <= cols; i ++){
-		fw.append(rs.getMetaData().getColumnLabel(i).toLowerCase());
-        if(i < cols) fw.append(';');
-        else fw.append('\n');
-    }
-	while (rs.next()) {
-		for(int i = 1; i <= cols; i ++){
-            fw.append(rs.getString(i));
-            if(i < cols) fw.append(';');
-            }
-        fw.append('\n');
-     }
-     fw.flush();
-     fw.close();
-} catch (Exception e) {
-
-}]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604262355262</Id>
-					<Name><![CDATA[f_exportTables]]></Name>
-					<X>230</X><Y>960</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[path]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ArrayList<String> tables = f_getDBTables();
-
-for (String t : tables) {
-	f_SQLToCSV("select * from " + t, path + t);
-}]]></Body>
 				</Function>
 			</Functions>
 
@@ -11177,7 +11228,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_selectedGenerations]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[Arrays.asList(0, 1, 10)]]></Code>
+						<Code><![CDATA[Arrays.asList(10, 11, 12)]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -11326,8 +11377,8 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import org.postgresql.core.SetupQueryRunner;
 import java.text.*;
-
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
@@ -11335,10 +11386,9 @@ import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.Message;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<InitialSetupCode><![CDATA[f_clearDatabases();
-
-vr_movingThreshold = new double[] {0.0, 0.21, 0.23, 0.28, 0.32, 0.35};
-vr_randomMobilityProb = new double[] {1.0, 0.1, 0.1, 0.1, 0.1, 0.1};]]></InitialSetupCode>
+			<InitialSetupCode><![CDATA[vr_movingThreshold = new double[] {0.0, 0.21, 0.23, 0.28, 0.32, 0.35};
+vr_randomMobilityProb = new double[] {1.0, 0.1, 0.1, 0.1, 0.1, 0.1};
+]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>Random r = getDefaultRandomGenerator();</CustomGeneratorCode>
@@ -11355,7 +11405,7 @@ root.p_movingThreshold = vr_movingThreshold[current];
 root.p_randomMobilityProb = vr_randomMobilityProb[current];
 
 // define datafiles to be exported
-//root.f_defineDatasets();]]></BeforeSimulationRunCode>
+root.f_defineDatasets();]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -11363,7 +11413,7 @@ if (vr_replicates % 10 == 0) {
 }
 
 // close data files
-//root.f_closeDatasets();]]></AfterSimulationRunCode>
+root.f_closeDatasets();]]></AfterSimulationRunCode>
 			<SeedValue>251015</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
@@ -11411,7 +11461,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428109</Id>
 					<Name><![CDATA[v_filePath]]></Name>
-					<X>50</X><Y>750</Y>
+					<X>-220</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11426,7 +11476,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428112</Id>
 					<Name><![CDATA[v_exportMortalityData]]></Name>
-					<X>50</X><Y>650</Y>
+					<X>-220</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11441,7 +11491,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428114</Id>
 					<Name><![CDATA[v_exportModelData]]></Name>
-					<X>50</X><Y>730</Y>
+					<X>-220</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11456,7 +11506,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428117</Id>
 					<Name><![CDATA[v_exportFamilyData]]></Name>
-					<X>50</X><Y>670</Y>
+					<X>-220</X><Y>90</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11471,7 +11521,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428119</Id>
 					<Name><![CDATA[v_exportCountyData]]></Name>
-					<X>50</X><Y>690</Y>
+					<X>-220</X><Y>110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11486,7 +11536,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1602840428122</Id>
 					<Name><![CDATA[v_exportMigrationData]]></Name>
-					<X>50</X><Y>710</Y>
+					<X>-220</X><Y>130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11505,7 +11555,7 @@ if (vr_replicates % 10 == 0) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1603054144005</Id>
 					<Name><![CDATA[f_sendSlackMessage]]></Name>
-					<X>260</X><Y>660</Y>
+					<X>-220</X><Y>258</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11531,7 +11581,7 @@ try {
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1603054581996</Id>
 					<Name><![CDATA[f_systemDate]]></Name>
-					<X>260</X><Y>642</Y>
+					<X>-220</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11545,7 +11595,7 @@ return formatter.format(date);]]></Body>
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1603058890780</Id>
 					<Name><![CDATA[f_readSlackFile]]></Name>
-					<X>260</X><Y>682</Y>
+					<X>-220</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11558,112 +11608,6 @@ try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath
 	e.printStackTrace();
 }
 return token;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604162689763</Id>
-					<Name><![CDATA[f_clearDatabases]]></Name>
-					<X>260</X><Y>720</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// close files
-
-if (v_exportModelData) {
-	deleteFrom(environment).execute();
-	deleteFrom(model_parameters).execute();
-}
-if (v_exportCountyData) deleteFrom(county).execute();
-if (v_exportMigrationData) deleteFrom(migration).execute();
-if (v_exportFamilyData) deleteFrom(family).execute();
-if (v_exportMortalityData) deleteFrom(mortality).execute();
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
-					<ReturnType><![CDATA[ArrayList<String>]]></ReturnType>
-					<Id>1604162689765</Id>
-					<Name><![CDATA[f_getDBTables]]></Name>
-					<X>260</X><Y>740</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[ArrayList<String> tables = new ArrayList<String>();
-
-if (v_exportModelData) {
-	tables.add("model_parameters");
-	tables.add("environment");
-}
-if (v_exportCountyData) tables.add("county");
-if (v_exportMigrationData) tables.add("migration");
-if (v_exportFamilyData) tables.add("family");
-if (v_exportMortalityData) tables.add("mortality");
-
-return tables;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604263352839</Id>
-					<Name><![CDATA[f_SQLToCSV]]></Name>
-					<X>260</X><Y>760</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[query]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Parameter>
-						<Name><![CDATA[filename]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ResultSet rs = selectResultSet(query);
-
-try {
-	FileWriter fw = new FileWriter(filename + ".csv");
-  	int cols = rs.getMetaData().getColumnCount();
-	for(int i = 1; i <= cols; i ++){
-		fw.append(rs.getMetaData().getColumnLabel(i).toLowerCase());
-        if(i < cols) fw.append(';');
-        else fw.append('\n');
-    }
-	while (rs.next()) {
-		for(int i = 1; i <= cols; i ++){
-            fw.append(rs.getString(i));
-            if(i < cols) fw.append(';');
-            }
-        fw.append('\n');
-     }
-     fw.flush();
-     fw.close();
-} catch (Exception e) {
-
-}]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604263352841</Id>
-					<Name><![CDATA[f_exportTables]]></Name>
-					<X>260</X><Y>780</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[path]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ArrayList<String> tables = f_getDBTables();
-
-for (String t : tables) {
-	f_SQLToCSV("select * from " + t, path + t);
-}]]></Body>
 				</Function>
 			</Functions>
 
@@ -11823,9 +11767,7 @@ for (String t : tables) {
 				</Text>
 			</Presentation>
 
-			<AfterExperimentCode><![CDATA[f_exportTables(v_filePath);
-f_clearDatabases();
-f_sendSlackMessage();]]></AfterExperimentCode>
+			<AfterExperimentCode><![CDATA[f_sendSlackMessage();]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
 			<NumberOfRuns>6</NumberOfRuns>
@@ -12213,18 +12155,16 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import org.postgresql.core.SetupQueryRunner;
 import java.text.*;
-
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import com.slack.api.methods.SlackApiException;
-import com.slack.api.model.Message;
-]]></Import>
+import com.slack.api.model.Message;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<InitialSetupCode><![CDATA[f_clearDatabases();
-vr_randomMobilityProb = new double[]    {1.0, 1.0, 0.10, 0.10};
+			<InitialSetupCode><![CDATA[vr_randomMobilityProb = new double[]    {1.0, 1.0, 0.10, 0.10};
 vr_probSameParentIncType = new double[] {1.0/3.0, 0.5,1.0/3.0, 0.5};]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -12239,12 +12179,18 @@ root.v_replicate = getCurrentReplication();
 
 int current = getCurrentIteration() - 1;
 root.p_randomMobilityProb = vr_randomMobilityProb[current];
-root.p_probSameParentIncType = vr_probSameParentIncType[current];]]></BeforeSimulationRunCode>
+root.p_probSameParentIncType = vr_probSameParentIncType[current];
+
+// define datafiles to be exported
+root.f_defineDatasets();]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
 	traceln("Number of replicates: " + vr_replicates);
-}]]></AfterSimulationRunCode>
+}
+
+// close data files
+root.f_closeDatasets();]]></AfterSimulationRunCode>
 			<SeedValue>251015</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
 			<VmArgs><![CDATA[]]></VmArgs>
@@ -12280,7 +12226,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885671</Id>
 					<Name><![CDATA[v_filePath]]></Name>
-					<X>60</X><Y>740</Y>
+					<X>-220</X><Y>170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12295,7 +12241,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885673</Id>
 					<Name><![CDATA[v_exportMortalityData]]></Name>
-					<X>60</X><Y>640</Y>
+					<X>-220</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12310,7 +12256,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885675</Id>
 					<Name><![CDATA[v_exportModelData]]></Name>
-					<X>60</X><Y>720</Y>
+					<X>-220</X><Y>150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12325,7 +12271,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885677</Id>
 					<Name><![CDATA[v_exportFamilyData]]></Name>
-					<X>60</X><Y>660</Y>
+					<X>-220</X><Y>90</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12340,7 +12286,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885679</Id>
 					<Name><![CDATA[v_exportCountyData]]></Name>
-					<X>60</X><Y>680</Y>
+					<X>-220</X><Y>110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12355,7 +12301,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1603099885681</Id>
 					<Name><![CDATA[v_exportMigrationData]]></Name>
-					<X>60</X><Y>700</Y>
+					<X>-220</X><Y>130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12386,7 +12332,7 @@ if (vr_replicates % 10 == 0) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1603099885655</Id>
 					<Name><![CDATA[f_sendSlackMessage]]></Name>
-					<X>270</X><Y>660</Y>
+					<X>-220</X><Y>260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12412,7 +12358,7 @@ try {
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1603099885657</Id>
 					<Name><![CDATA[f_systemDate]]></Name>
-					<X>270</X><Y>640</Y>
+					<X>-220</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12426,7 +12372,7 @@ return formatter.format(date);]]></Body>
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1603099885659</Id>
 					<Name><![CDATA[f_readSlackFile]]></Name>
-					<X>270</X><Y>680</Y>
+					<X>-220</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12439,112 +12385,6 @@ try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath
 	e.printStackTrace();
 }
 return token;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604349677023</Id>
-					<Name><![CDATA[f_clearDatabases]]></Name>
-					<X>270</X><Y>720</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// close files
-
-if (v_exportModelData) {
-	deleteFrom(environment).execute();
-	deleteFrom(model_parameters).execute();
-}
-if (v_exportCountyData) deleteFrom(county).execute();
-if (v_exportMigrationData) deleteFrom(migration).execute();
-if (v_exportFamilyData) deleteFrom(family).execute();
-if (v_exportMortalityData) deleteFrom(mortality).execute();
-]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
-					<ReturnType><![CDATA[ArrayList<String>]]></ReturnType>
-					<Id>1604349677028</Id>
-					<Name><![CDATA[f_getDBTables]]></Name>
-					<X>270</X><Y>740</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[ArrayList<String> tables = new ArrayList<String>();
-
-if (v_exportModelData) {
-	tables.add("model_parameters");
-	tables.add("environment");
-}
-if (v_exportCountyData) tables.add("county");
-if (v_exportMigrationData) tables.add("migration");
-if (v_exportFamilyData) tables.add("family");
-if (v_exportMortalityData) tables.add("mortality");
-
-return tables;]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604349677030</Id>
-					<Name><![CDATA[f_SQLToCSV]]></Name>
-					<X>270</X><Y>760</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[query]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Parameter>
-						<Name><![CDATA[filename]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ResultSet rs = selectResultSet(query);
-
-try {
-	FileWriter fw = new FileWriter(filename + ".csv");
-  	int cols = rs.getMetaData().getColumnCount();
-	for(int i = 1; i <= cols; i ++){
-		fw.append(rs.getMetaData().getColumnLabel(i).toLowerCase());
-        if(i < cols) fw.append(';');
-        else fw.append('\n');
-    }
-	while (rs.next()) {
-		for(int i = 1; i <= cols; i ++){
-            fw.append(rs.getString(i));
-            if(i < cols) fw.append(';');
-            }
-        fw.append('\n');
-     }
-     fw.flush();
-     fw.close();
-} catch (Exception e) {
-
-}]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1604349677032</Id>
-					<Name><![CDATA[f_exportTables]]></Name>
-					<X>270</X><Y>780</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[path]]></Name>
-						<Type><![CDATA[String]]></Type>
-					</Parameter>
-					<Body><![CDATA[ArrayList<String> tables = f_getDBTables();
-
-for (String t : tables) {
-	f_SQLToCSV("select * from " + t, path + t);
-}]]></Body>
 				</Function>
 			</Functions>
 
@@ -12704,9 +12544,7 @@ for (String t : tables) {
 				</Text>
 			</Presentation>
 
-			<AfterExperimentCode><![CDATA[f_exportTables(v_filePath);
-f_clearDatabases();
-f_sendSlackMessage();]]></AfterExperimentCode>
+			<AfterExperimentCode><![CDATA[f_sendSlackMessage();]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
 			<NumberOfRuns>4</NumberOfRuns>
@@ -13320,230 +13158,6 @@ class ExposureProportion {
 		<VersionMinor>0</VersionMinor>
 		<VersionBuild>0</VersionBuild>
     </RequiredLibraryReference>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/annotations-13.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/aws-lambda-java-core-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/bolt-aws-lambda-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/bolt-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/gson-2.8.6.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/kotlin-stdlib-1.4.10.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/kotlin-stdlib-common-1.4.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/okhttp-4.9.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/okio-2.8.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-api-client-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-api-model-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-app-backend-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slf4j-api-1.7.30.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/commons-math3-3.6.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/annotations-13.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/aws-lambda-java-core-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/bolt-aws-lambda-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/bolt-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/gson-2.8.6.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/kotlin-stdlib-1.4.10.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/kotlin-stdlib-common-1.4.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/okhttp-4.9.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/okio-2.8.0.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-api-client-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-api-model-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slack-app-backend-1.2.1.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/slf4j-api-1.7.30.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
-	<ClassPathEntry>
-		<ResourceReference>
-			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-			<ClassName><![CDATA[jarfiles/commons-math3-3.6.jar]]></ClassName>
-		</ResourceReference>
-		<Imported>false</Imported>
-		<Folder>false</Folder>
-	</ClassPathEntry>
 	<ClassPathEntry>
 		<ResourceReference>
 			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
