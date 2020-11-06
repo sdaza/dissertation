@@ -27,10 +27,20 @@ county[, .(avg_income = mean(avg_income), gini = mean(gini),
 # read chetty's data
 covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
 
-summary(covs$e_rank_b)
-
-summary(covs$s_rank)
 covs[, relative_income_mob := s_rank / 100]
+
+summary(covs$e_rank_b)
+summary(covs$s_rank)
+
+summary(covs$relative_income_mob)
+sd(covs$relative_income_mob, na.rm = TRUE)
+summary(covs$hhinc00)
+covs[, income := log(hhinc00)]
+
+plot(covs$income, covs$relative_income_mob)
+
+cor(covs[, .(income, relative_income_mob)])
+
 hist(covs$relative_income_mob)
 hist(covs$gini99)
 
