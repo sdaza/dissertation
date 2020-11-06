@@ -5,6 +5,12 @@
 ################################
 
 
+
+table = function (...) base::table(..., useNA = 'ifany')
+cor = function(...) stats::cor(..., use = "complete.obs")
+perc.rank = function(x) trunc(rank(x))/length(x)
+
+
 readMultipleFiles = function(pattern, path) {
     files = list.files(path, pattern)
     if (length(files) == 0) {
