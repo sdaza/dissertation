@@ -187,6 +187,30 @@ ip[inctot == 9999999, inctot := NA]
 ip[inctot <0, inctot := 0]
 ip = ip[!is.na(inctot) & inctot > 0]
 
+
+ip[, incomeGroup3 := cut(inctot, breaks = quantile(inctot,
+    probs = 0:3/3), labels = 1:3, right = TRUE, include.lowest = TRUE)]
+ip[, incomeGroup4 := cut(inctot, breaks = quantile(inctot,
+    probs = 0:4/4), labels = 1:4, right = TRUE, include.lowest = TRUE)]
+ip[, incomeGroup5 := cut(inctot, breaks = quantile(inctot,
+    probs = 0:5/5), labels = 1:5, right = TRUE, include.lowest = TRUE)]
+
+table(ip$year)
+
+names(ip)
+s = ip[, .(incomeGroup3, incomeGroup4, incomeGroup5, inctot, perwt)]
+setnames(s, names(s), c("incomeType3", "incomeType4", "incomeType5", "income", "weight"))
+s = s[sample(250000)]
+hist(s[incomeType4 == 4, income])
+
+write.xlsx(s, "data/incomeDistribution.xlsx", row.names = FALSE)
+
+
+hist(ip[incomeGroup4 == 4, inctot])
+gini(ip[incomeGroup4 == 4, inctot])
+hist(ip[incomeGroup4 == 1, inctot])
+hist(ip[incomeGroup4 == 3, inctot])
+
 p1 = Hmisc::wtd.quantile(ip$inctot, ip$perwt, 1/3, na.rm = TRUE)
 p2 = Hmisc::wtd.quantile(ip$inctot, ip$perwt, 2/3, na.rm = TRUE)
 

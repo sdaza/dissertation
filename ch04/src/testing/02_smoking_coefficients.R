@@ -5,7 +5,6 @@
 
 
 library(haven)
-
 library(data.table)
 library(survey)
 library(muhaz)
@@ -16,7 +15,6 @@ table = function (...) base::table(..., useNA = 'ifany')
 # read NHIS 2019
 h = fread("data/health_survey_adults.csv")
 setnames(h, names(h), tolower(names(h)))
-setnames(i, names(i), tolower(names(i)))
 setnames(h, "wtfa_a", "wt")
 
 table(h$smkev_a)
@@ -31,45 +29,35 @@ h[smknow_a %in% c(7, 8), smoking := NA]
 table(h$smoking)
 
 h[, age_group := ifelse(agep_a >= 30 & agep_a <= 50, 1, 0)]
+h[, incomeGroup3 := cut(faminctc_a, breaks = quantile(faminctc_a,
+    probs = 0:3/3), labels = 1:3, right = TRUE, include.lowest = TRUE)]
+h[, incomeGroup4 := cut(faminctc_a, breaks = quantile(faminctc_a,
+    probs = 0:4/4), labels = 1:4, right = TRUE, include.lowest = TRUE)]
+h[, incomeGroup5 := cut(faminctc_a, breaks = quantile(faminctc_a,
+    probs = 0:5/5), labels = 1:5, right = TRUE, include.lowest = TRUE)]
 
-h[, incomeGroup := cut(faminctc_a, breaks = quantile(faminctc_a,
-    probs = 0:3/3),
-    labels = 1:3, right = TRUE, include.lowest = TRUE)]
+s = h[, .(incomeGroup3, incomeGroup4, incomeGroup5, faminctc_a, wt)]
+setnames(s, names(s), c("incomeType3", "incomeType4", "incomeType5", "income", "weight"))
 
-s = h[, .(incomeGroup, faminctc_a, wt)]
-
-mean(s$income)
-sd(s$income)
-
-setnames(s, names(s), c("incomeType", "income", "weight"))
-
-write.xlsx(s, "data/incomeDistribution.xlsx", row.names = FALSE)
+hist(s[incomeType4 ==1, income])
+gini(s[incomeType4 == 4, income])
 
 h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a,
-    probs = 0:3/3),
-    labels = 1:3, right = TRUE, include.lowest = TRUE)]
+    probs = 0:5/5),
+    labels = 1:5, right = TRUE, include.lowest = TRUE)]
 
 hist(h[faminctc_a < quantile(h$faminctc_a, 0.33), faminctc_a])
 
-gini(h$faminctc_a)
 
-quantile(h$faminctc_a, 0.66)
-quantile(h$faminctc_a, 1)
-
-hist(h$faminctc_a)
 gini(h$faminctc_a)
 
 table(h[age_group == 1, incomeType])
-
-h[, incomeType2 := ifelse(incomeType == 2, 1, 0)]
-h[, incomeType3 := ifelse(incomeType == 3, 1, 0)]
-
 s = h[age_group == 1]
-
+dim(s)
 design = svydesign(ids=~hhx, weights=~wt, data=s)
 h[, weighted.mean(smoking, wt, na.rm = TRUE), incomeType]
 
-m = svyglm(smoking ~ incomeType2 + incomeType3, design = design, family=quasibinomial)
+m = svyglm(smoking ~ as.factor(incomeType), design = design, family=quasibinomial)
 summary(m)
 
 # read date
@@ -148,3 +136,7 @@ plot(mh, xlab = "Age", ylab = "Smoking initiation hazard rate")
 rates = data.table(age = 1:length(mh$haz.est), rate = mh$haz.est)
 rates =  rates[age > 64, rate := 0][age <= 65]
 # write.xlsx(rates, "models/MobHealthRecycling/data/smoking-rates.xlsx", row.names = FALSE)
+
+odds = exp(-0.91034)
+prop = odds / (1 + odds)
+prop
