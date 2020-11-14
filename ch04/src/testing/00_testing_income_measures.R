@@ -10,11 +10,13 @@ library(nnet)
 library(haven)
 library(ipumsr)
 library(reldist)
+library(texreg)
 
 # functions
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function(...) stats::cor(..., use = "complete.obs")
 perc.rank = function(x) trunc(rank(x))/length(x)
+
 
 sample_based_on_type = function(type, hprob = 0.50) {
 
@@ -68,6 +70,17 @@ cor(dd[, .(income_parent, income_kid)], method = 'spearman')
 
 dd[, .(mean(as.numeric(upward)), .N), .(type_parent, type_kid)]
 dd[, .(mean(as.numeric(upward)), .N), .(type_parent)]
+dd[, rkid := perc.rank(income_kid)]
+dd[, rparent := perc.rank(income_parent) - .25]
+
+
+m1 = lm(rkid ~ rparent, data = dd)
+screenreg(m1)
+coef(m1)
+
+plot(dd$rkid, dd$rparent)
+
+cor(dd$rkid, dd$rparent)
 
 # get coefficients from a multinnomial
 m = multinom(type_kid ~ type_parent, data = dd)

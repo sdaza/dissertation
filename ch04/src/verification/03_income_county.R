@@ -28,5 +28,8 @@ sd(covs$relative_income_mob, na.rm = TRUE)
 summary(covs$hhinc00)
 covs[, income := log(hhinc00)]
 
+mean(covs$hhinc00)
+sd(covs$hhinc00)
+summary(covs$hhinc00)
 
 plot(covs$income, covs$relative_income_mob)

@@ -5,6 +5,7 @@
 
 
 library(haven)
+
 library(data.table)
 library(survey)
 library(muhaz)
@@ -36,7 +37,12 @@ h[, incomeGroup := cut(faminctc_a, breaks = quantile(faminctc_a,
     labels = 1:3, right = TRUE, include.lowest = TRUE)]
 
 s = h[, .(incomeGroup, faminctc_a, wt)]
+
+mean(s$income)
+sd(s$income)
+
 setnames(s, names(s), c("incomeType", "income", "weight"))
+
 write.xlsx(s, "data/incomeDistribution.xlsx", row.names = FALSE)
 
 h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a,
