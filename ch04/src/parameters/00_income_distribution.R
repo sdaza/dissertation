@@ -17,12 +17,9 @@ cor = function(...) stats::cor(..., use = "complete.obs")
 perc.rank = function(x) trunc(rank(x))/length(x)
 
 # read ipums data
-ddi = ipumsr::read_ipums_ddi("data/ipums/usa_00001.xml")
+ddi = ipumsr::read_ipums_ddi("data/ipums/usa_00003.xml")
 ip = ipumsr::read_ipums_micro(ddi)
 ip = data.table(ip)
-
-names(ip)
-nrow(ip)
 
 setnames(ip, names(ip), tolower(names(ip)))
 
@@ -31,6 +28,17 @@ ip[inctot == 9999999, inctot := NA]
 ip[inctot <0, inctot := 0]
 ip = ip[!is.na(inctot) & inctot > 0]
 gini(ip$inctot, weights = ip$perwt)
+
+dim(ip)
+names(ip)
+
+table(ip$statefip)
+ip[, cty:= paste0(statefip, countyfip)]
+length(unique(ip$cty))
+
+table(ip[statefip == 4, cty])
+
+
 
 ip[, incomeGroup3 := cut(inctot, breaks = quantile(inctot,
     probs = 0:3/3), labels = 1:3, right = TRUE, include.lowest = TRUE)]

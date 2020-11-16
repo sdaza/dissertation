@@ -26,20 +26,70 @@ covs[, relative_income_mob := s_rank / 100]
 covs[, absolute_income_mob := e_rank_b / 100]
 cor(covs[, .(relative_income_mob, absolute_income_mob)])
 
+
+names(covs)
+covs[, income := hhinc00]
+covs[, lincome := log(hhinc00)]
+
+cor(covs[, .(lincome, gini99)])
+hist(log(covs$cs00_seg_inc))
+plot(covs$lincome, covs$relative_income_mob)
+plot(covs$lincome, covs$absolute_income_mob)
+
+cor(covs$cs00_seg_inc, covs$relative_income_mob)
+plot(covs$lincome, covs$absolute_income_mob)
+
+
 # read data
 income = fread(paste0(path, "income_generation.csv"))
 strat = fread(paste0(path, "stratification.csv"))
 
-strat
+prop.table(table(income$parent_type, income$kid_type), 1)
+
+hist(strat$nsi)
+
+table(strat$generation)
 table(strat$size1 == strat$size2)
 
+summary(strat$im)
+
 # check of parameters
-t = strat[generation == 5]
-dim(t)
-t$size1
+t = strat[generation == 17]
+t
+
+hist()
+hist(log(t$income))
+hist(t$income)
+
+summary(t$im)
+summary(t$spearman)
 
 plot(t$income, t$im)
+plot(t$income, t$am)
+
 cor(t$income, t$im)
+cor(t$income, t$am)
+
+cor(log(t$income), t$spearman)
+cor(log(t$income), t$gini)
+plot(t$income, t$gini)
+
+plot(t$income, t$income_sd)
+cor(t$income_sd, t$im)
+cor(t$income_sd, t$im)
+
+setorder(t, gini)
+t[county == 6, .(county, income, gini, im, am)]
+
+i = income[county == 6 & generation == 17]
+nrow(i)
+median(i$kid_income)
+median(i$parent_income)
+
+table(i[, .(parent_type, kid_type)])
+prop.table(table(i[, .(parent_type, kid_type)]), 1)
+
+table(i$kid_type)
 
 
 ggplot(t, aes(spearman, im, color = income)) + geom_point()  +
@@ -49,10 +99,8 @@ ggplot(t, aes(spearman, im, color = income)) + geom_point()  +
         title = paste0("Correlation = ",
             round(cor(t[, .(spearman, im)])[1, 2], 2),
             ", NSI = ", round(t$nsi[1],2))) +
-    xlim(0,.5) + ylim(0, .5)  +
+    xlim(0,1) + ylim(0, 1)  +
     theme_minimal()
-
-t[spearman < .25 & im > 0.45]
 
 cor(t[, .(income, im)])
 cor(t[, .(income_sd, im)])
@@ -143,7 +191,6 @@ cor(tt[, .(pr, kr)])
 
 s[county == 1]
 
-s
 plot(s[, .(spearman, im)])
 cor(s[, .(spearman, im)])
 
