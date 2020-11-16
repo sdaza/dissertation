@@ -39,6 +39,7 @@ ip[, incomeGroup4 := cut(inctot, breaks = quantile(inctot,
 ip[, incomeGroup5 := cut(inctot, breaks = quantile(inctot,
     probs = 0:5/5), labels = 1:5, right = TRUE, include.lowest = TRUE)]
 
+ip
 table(ip$year)
 s = ip[, .(incomeGroup3, incomeGroup4, incomeGroup5, inctot, perwt)]
 setnames(s, names(s), c("incomeType3", "incomeType4", "incomeType5", "ind_income", "weight"))
