@@ -17,6 +17,11 @@ library(patchwork)
 source("src/utils.R")
 path = "models/MobHealthRecycling/output/verification/testing/"
 
+# functions
+table = function (...) base::table(..., useNA = 'ifany')
+cor = function(...) stats::cor(..., use = "complete.obs")
+perc.rank = function(x) trunc(rank(x))/length(x)
+
 
 # read chetty's data
 covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
@@ -64,6 +69,7 @@ p = fread(paste0(path, "model_parameters.csv"))
 m = fread(paste0(path, "mortality.csv"))
 cty = fread(paste0(path, "county.csv"))
 ind = fread(paste0(path, "individuals.csv"))
+testing = fread(paste0(path, "testing.csv"))
 
 # check of parameters
 p
@@ -157,7 +163,7 @@ m3 = lm(le ~  lincome +  pop, data = test)
 
 screenreg(list(m0, m1, m2, m3))
 
-# check for mortality 
+# check for mortality
 dim(m)
 table(m$generation)
 
@@ -168,9 +174,9 @@ print(setorder(m[, .(mean(age)),  .(smoker, income_type)], income_type))
 m[, status := 1]
 
 setorder(m, income_type)
-m[, .(im = mean(county_relative_income_mob), 
-    lincome = mean(income), 
-    nmoves = mean(nmoves), 
+m[, .(im = mean(county_relative_income_mob),
+    lincome = mean(income),
+    nmoves = mean(nmoves),
     kid_moves = mean(nmoves_kid)), income_type]
 
 prop.table(table(m$parent_income_type, m$income_type), 1)
@@ -206,3 +212,61 @@ im = it[active == TRUE, .(im_test = cor(parent_income, income, method = 'spearma
 summary(im$im_test)
 
 
+# check income mobility
+dim(testing)
+t = testing[generation == 5]
+
+t[, kid_rank := perc.rank(kid_income)]
+t[, parent_rank := perc.rank(parent_income)]
+t[, kid_rank_c := perc.rank(kid_income), county]
+t[, parent_rank_c := perc.rank(parent_income), county]
+
+setorder(t, county)
+
+reg = function(kid_income, parent_income, relative = TRUE) {
+    m = lm(kid_income ~ parent_income)
+    c = coef(m)
+    if (relative) { return(c[2])}
+    else {
+        return (c[1]  + 0.25 * c[2])
+    }
+}
+
+a = t[, .(spearman = cor(kid_income, parent_income, method = "spearman")), county]
+b = t[, .(global_rank = cor(kid_rank, parent_rank), .N), county]
+c = t[, .(im = reg(kid_rank, parent_rank, TRUE)), county]
+d = t[, .(am = reg(kid_rank, parent_rank, FALSE)), county]
+
+s = merge(a, b, by = "county")
+s = merge(s, c, by = "county")
+s = merge(s, d, by ="county")
+
+cor(s[, .(spearman, global_rank, im, am)])
+tt = t[county == 1]
+
+tt[, kr := perc.rank(kid_rank)]
+tt[, pr := perc.rank(parent_rank)]
+
+lm(kid_rank ~ parent_rank, data = tt)
+lm(kr ~ pr, data = tt)
+
+cor(tt[, .(pr, kr)])
+
+s[county == 1]
+
+s
+plot(s[, .(spearman, im)])
+cor(s[, .(spearman, im)])
+
+plot(t[county == 2, .(parent_rank, kid_rank)])
+plot(t[county == 2, .(kid_rank_c, parent_rank_c)])
+
+
+a = runif(100)
+b= runif(100)
+
+
+mm = lm(a ~ b)
+
+
+coef(mm)[2]

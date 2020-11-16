@@ -13,11 +13,7 @@ library(reldist)
 library(texreg)
 
 # functions
-table = function (...) base::table(..., useNA = 'ifany')
-cor = function(...) stats::cor(..., use = "complete.obs")
-perc.rank = function(x) trunc(rank(x))/length(x)
-
-
+q
 sample_based_on_type = function(type, hprob = 0.50) {
 
     type_probs = list(
@@ -54,9 +50,57 @@ type_3_parent = runif(nsim, 90000, 110000)
 dd = data.table(income_parent = c(type_1_parent, type_2_parent, type_3_parent),
            type_parent = c(rep('type1', nsim), rep('type2', nsim), rep('type3', nsim)))
 
-dd[type_parent == "type1", type_kid := sample_based_on_type(type_parent, .90)]
-dd[type_parent == "type2", type_kid := sample_based_on_type(type_parent, .50)]
-dd[type_parent == "type3", type_kid := sample_based_on_type(type_parent, .50)]
+dd[type_parent == "type1", type_kid := sample_based_on_type(type_parent, .30)]
+dd[type_parent == "type2", type_kid := sample_based_on_type(type_parent, .30)]
+dd[type_parent == "type3", type_kid := sample_based_on_type(type_parent, .30)]
+dd[, income_kid := assign_income_based_on_type(type_kid)]
+
+dd[, group := 1]
+
+tt = data.table(income_parent = c(type_1_parent, type_2_parent, type_3_parent),
+           type_parent = c(rep('type1', nsim), rep('type2', nsim), rep('type3', nsim)))
+
+tt[type_parent == "type1", type_kid := sample_based_on_type(type_parent, .50)]
+tt[type_parent == "type2", type_kid := sample_based_on_type(type_parent, .50)]
+tt[type_parent == "type3", type_kid := sample_based_on_type(type_parent, .50)]
+tt[, income_kid := assign_income_based_on_type(type_kid)]
+
+tt[, group := 2]
+
+tt = rbind(dd, tt)
+tt
+
+# create rankst
+tt[, rkid := perc.rank(income_kid)]
+tt[, rparent := perc.rank(income_parent)]
+
+cor(tt$rkid, tt$rparent)
+
+dd[type_parent == "type1"]
+dim(dd)
+
+
+m1 = lm(rkid ~ rparent, data = tt)
+screenreg(m1)
+m2 = lm(rkid ~ rparent, data = tt[group == 1])
+m3 = lm(rkid ~ rparent, data = tt[group == 2])
+
+screenreg(list(m1, m2, m3))
+
+0.52 + 0.25 * - 0.04
+0.38 + 0.25 * 0.24
+
+tt[, rkid2 := perc.rank(income_kid), group]
+tt[, rparent2 := perc.rank(income_parent), group]
+
+cor(tt[group == 1, .(rkid2, rparent2)])
+cor(tt[group == 2, .(rkid2, rparent2)])
+
+cor(tt[group == 1, .(rkid, rparent)])
+cor(tt[group == 2, .(rkid, rparent)])
+
+screenreg(list(m1, m2, m3))
+
 dd[, income_kid := assign_income_based_on_type(type_kid)]
 dd[, upward := income_kid > income_parent]
 
@@ -70,12 +114,34 @@ cor(dd[, .(income_parent, income_kid)], method = 'spearman')
 
 dd[, .(mean(as.numeric(upward)), .N), .(type_parent, type_kid)]
 dd[, .(mean(as.numeric(upward)), .N), .(type_parent)]
-dd[, rkid := perc.rank(income_kid)]
-dd[, rparent := perc.rank(income_parent) - .25]
 
+# chetty's analysis
+
+
+table(dd$type_parent)
+
+dd[, rkid := perc.rank(income_kid)]
+dd[, rparent := perc.rank(income_parent)]
+
+dd
+hist(dd[type_parent  == "type2", rkid])
+cor(dd[type_parent == "type2", .(rkid, rparent)])
+
+cor(dd$rkid, dd$rparent)
+
+dd[type_parent == "type1"]
+dim(dd)
 
 m1 = lm(rkid ~ rparent, data = dd)
 screenreg(m1)
+
+0.45 + 0.25 * 0.11
+
+m2 = lm(rkid ~ rparent, data = dd[type_parent == "type2"])
+m3 = lm(rkid ~ rparent, data = dd[type_parent == "type3"])
+
+screenreg(list(m1, m2, m3))
+
 coef(m1)
 
 plot(dd$rkid, dd$rparent)
