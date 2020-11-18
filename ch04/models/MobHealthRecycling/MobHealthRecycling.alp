@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -45,7 +45,8 @@ import com.querydsl.core.types.dsl.MathExpressions;
 //import org.apache.poi.ss.usermodel.Row;
 //import org.apache.poi.ss.usermodel.Cell;
 import javax.print.attribute.standard.MediaName;]]></Import>
-			<StartupCode><![CDATA[f_defineInitialValues();]]></StartupCode>
+			<StartupCode><![CDATA[//pyCom.run("import plotter");
+f_defineInitialValues();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1516978677338</Id>
@@ -1614,7 +1615,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 					<Id>1598007569913</Id>
 					<Name><![CDATA[col_countyRankSlope]]></Name>
 					<Description><![CDATA[Collection of income mobility by county]]></Description>
-					<X>350.737</X><Y>1131.627</Y>
+					<X>350</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1645,7 +1646,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 					<Id>1601640198949</Id>
 					<Name><![CDATA[col_countyGini]]></Name>
 					<Description><![CDATA[Collection of income mobility by county]]></Description>
-					<X>350</X><Y>1170</Y>
+					<X>350</X><Y>1160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1661,7 +1662,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 					<Id>1602228819267</Id>
 					<Name><![CDATA[col_countyRankAbsoluteMob]]></Name>
 					<Description><![CDATA[Collection of income mobility by county]]></Description>
-					<X>350</X><Y>1150</Y>
+					<X>350</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1739,7 +1740,22 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 				<Variable Class="CollectionVariable">
 					<Id>1605695964093</Id>
 					<Name><![CDATA[col_countyRankCorrelation]]></Name>
-					<X>350</X><Y>1110</Y>
+					<X>350</X><Y>1100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1605715305506</Id>
+					<Name><![CDATA[col_countyLE]]></Name>
+					<X>350</X><Y>1180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1843,17 +1859,18 @@ f_stopSimulation();
 						<OccurrenceAtTime>true</OccurrenceAtTime>
 						<OccurrenceDate>1597996800000</OccurrenceDate>
 						<OccurrenceTime Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
+							<Code><![CDATA[10]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</OccurrenceTime>
 						<RecurrenceCode Class="CodeUnitValue">
-							<Code><![CDATA[1]]></Code>
+							<Code><![CDATA[30]]></Code>
 							<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
 					<Action><![CDATA[f_testPopulation();
 
+//f_pythonPlots();
 //double[] x = {1, 3, 4, 5, 6, 6, 8, 3};
 //double[] y = {2, 6, 8, 10, 12, 12, 16, 6};
 //traceln(f_computeRanks(y));
@@ -2807,9 +2824,6 @@ col_countyAvgIncome.clear();
 col_countyMedIncome.clear();
 
 if (time() % p_recurrentTimeStratData == 0) {
-	col_countyRankSlope.clear();
-	col_countyRankAbsoluteMob.clear();
-	col_countyRankCorrelation.clear();
 	col_countyGini.clear();
 }
 
@@ -2928,7 +2942,16 @@ for (County c: counties) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[for (double i : col_countyRankSlope) {
+					<Body><![CDATA[dh_im_le.reset();
+
+if ( col_countyLE.size() > 0) {
+	for (int i = 0; i < col_countyRankSlope.size(); i++) {
+		dh_im_le.add(col_countyRankSlope.get(i), col_countyLE.get(i));
+	}
+}
+
+/*
+for (double i : col_countyRankSlope) {
     dh_relativeIncomeMobilityCounties.add(i);
 }
 
@@ -2951,7 +2974,8 @@ for (Person p : col_peopleAlive) {
 	if (p.p_economicallyActive) {
 		dh_incomeExposure.add(p.v_incomeExposure);
 	}
-}]]></Body>
+}
+*/]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -3516,6 +3540,10 @@ return new double[] {regression.getIntercept(), regression.getSlope()};]]></Body
 		}
 	}
 
+	col_countyRankCorrelation.clear();
+	col_countyRankSlope.clear();
+	col_countyRankAbsoluteMob.clear();
+	
 	for (County c : counties) {
 		//traceln("county " + c.getIndex());
 	
@@ -3664,9 +3692,6 @@ if (size == active) {
 	.filter(p -> p.p_birthTime > v_lastMortalityCohort & p.p_birthTime <= v_lastMortalityCohort + p_cohortSize)
 	.count();
 
-/*
-
-*/
 		
 if (peopleInCohort == 0 & col_deaths.size() > 100) {
 	//traceln("Number of deaths: " + deaths.size());
@@ -3676,10 +3701,12 @@ if (peopleInCohort == 0 & col_deaths.size() > 100) {
 		.collect(Collectors.toList());
 		
 	v_lifeExpectancy = f_lifeExpectancy(deaths);
+	col_countyLE.clear();
 	    for (County c : counties) {
 	    	List<Deaths> cty_deaths = deaths.stream().filter(p -> p.county == c.getIndex()).collect(Collectors.toList());
     		//traceln("County deaths: " + cty_deaths.size());
     		c.v_lifeExpectancy = f_lifeExpectancy(cty_deaths);
+    		col_countyLE.add(c.v_lifeExpectancy);
     	}
 	v_lastMortalityCohort = v_lastMortalityCohort + p_cohortSize;
 	List<Deaths> newdeaths = col_deaths.stream()
@@ -3710,6 +3737,25 @@ for (Person p : peopleAlive) {
 	if (p.p_age>=30) total++;
 }
 return total > 0 ?  smokers / total : 0.0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1605712489455</Id>
+					<Name><![CDATA[f_pythonPlots]]></Name>
+					<X>750</X><Y>1480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[if (col_countyLE.size() > 0) {
+
+	//traceln(col_countyRankSlope.toArray());
+	//traceln(col_countyLE.toArray());
+	pyCom.run("x = " + pyCom.toJson(col_countyRankSlope.toArray()));
+	pyCom.run("y = " + pyCom.toJson(col_countyLE.toArray()));
+	pyCom.run("plotter.create_plot(x, y)");
+}]]></Body>
 				</Function>
 			</Functions>
 			<TableFunctions>
@@ -4295,6 +4341,28 @@ return total > 0 ?  smokers / total : 0.0;]]></Body>
 					<FreezeXAxis>true</FreezeXAxis>
 					<SamplesToKeep>100</SamplesToKeep>
 				</DataSet>
+    			<DataSet>
+					<Id>1605717775266</Id>
+					<Name><![CDATA[dh_im_le]]></Name>
+					<X>770</X><Y>400</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1605772800000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</RecurrenceCode>
+					<FreezeXAxis>true</FreezeXAxis>
+					<SamplesToKeep>1000</SamplesToKeep>
+				</DataSet>
 			</AnalysisData>
 			<Connectivity>
 				<TextFile>
@@ -4439,6 +4507,90 @@ return total > 0 ?  smokers / total : 0.0;]]></Body>
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InEnvironment>true</InEnvironment>	
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1605712152688</Id>
+					<Name><![CDATA[pyCom]]></Name>
+					<X>40</X><Y>1510</Y>
+					<Label><X>40</X><Y>20</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.pypeline]]></PackageName>
+						<ClassName><![CDATA[PyCommunicator]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.pypeline]]></PackageName>
+							<ClassName><![CDATA[PyCommunicator]]></ClassName>
+							<ItemName><![CDATA[1569858524853]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[loadLastWorkingConfig]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[pythonCommandType]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[self.PYTHON_PATH]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[pythonCommand]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[pythonExecPath]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA["/usr/local/bin/python3" ]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[throwErrorOnFailedAttempt]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[redirectPyOutput]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
@@ -6245,6 +6397,71 @@ return total > 0 ?  smokers / total : 0.0;]]></Body>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+    			<Plot>
+					<Id>1605717723909</Id>
+					<Name><![CDATA[plot]]></Name>
+					<X>610</X><Y>130</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1605772800000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[YEAR]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>360</Width>
+					<Height>250</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>280</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[Dataset Title]]></Title>
+					<Expression><![CDATA[dh_im_le]]></Expression>
+					<Color>-65536</Color>
+					<Expression2><![CDATA[0]]></Expression2>
+					<Expression2Flag>false</Expression2Flag>
+						<PointStyle>CIRCLE</PointStyle>
+						<LineWidth>0.0</LineWidth>
+						<HorizontalAxisExpression><![CDATA[0]]></HorizontalAxisExpression>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<HorScaleFromExpression><![CDATA[0]]></HorScaleFromExpression>
+					<HorScaleToExpression><![CDATA[1]]></HorScaleToExpression>
+					<HorScaleType>AUTO</HorScaleType>
+    			</Plot>
 			</Presentation>
 
 				</Level>
@@ -15159,6 +15376,12 @@ class Deaths {
 		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
 		<VersionMajor>1</VersionMajor>
 		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.pypeline]]></LibraryName>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>4</VersionMinor>
 		<VersionBuild>0</VersionBuild>
     </RequiredLibraryReference>
 	<ClassPathEntry>
