@@ -3181,14 +3181,16 @@ outExcel.disconnect();]]></Body>
         mortality.parent_id, mortality.generation, mortality.birthdate, mortality.age, mortality.income_type, 
         mortality.income, mortality.parent_income_type, mortality.parent_income, mortality.nkids, 
         mortality.nmoves, mortality.nmoves_kid, mortality.smoker, mortality.county, 
-        mortality.county_avg_income, mortality.county_gini, mortality.county_relative_income_mob, 
-        mortality.exposure_relative_income_mob, mortality.county_income_mobility)
+        mortality.county_mean_income, mortality.county_gini, mortality.county_rank_slope, 
+        mortality.county_rank_correlation,
+        mortality.exposure_rank_slope, mortality.exposure_rank_correlation
+        )
     .values(v_iteration, v_replicate, time(), agent.p_id,
         agent.p_parentId, agent.p_generation, agent.p_birthTime, agent.p_age, agent.p_incomeType, 
         agent.p_income, agent.p_parentIncomeType, agent.p_parentIncome, agent.v_numberKids, 
         agent.v_numberMoves, agent.v_numberMovesKid, agent.v_smoker, agent.county.getIndex(), 
         agent.county.v_averageIncome, agent.county.v_gini, agent.county.v_rankCorrelation, 
-        agent.v_incomeMobilityExposure,  Arrays.toString(agent.col_incomeMoblity.toArray())
+        agent.v_rankSlopeExp, agent.v_rankCorrelationExp, agent.county.v_rankCorrelation
         )
     .execute();]]></Body>
 				</Function>
@@ -3269,11 +3271,13 @@ if (p_exportMortalityData) deleteFrom(mortality).execute();
 					<Body><![CDATA[for (County c : counties) {
 	insertInto(county)
 		.columns(county.iteration, county.replicate, county.model_time, county.county, 
-			county.population, county.income, county.median_income, county.income_sd, county.rank_slope, county.rank_absolute_mob,
+			county.population, county.mean_income, county.median_income, county.income_sd, 
+			county.rank_slope, county.rank_correlation, county.rank_absolute_mob,
+			county.absolute_mob,
 			county.gini, county.le, county.age, county.nsi)
     	.values(v_iteration, v_replicate, time(), c.getIndex(), c.col_peopleAlive.size(), 
-    		c.v_averageIncome, c.v_medianIncome, c.v_averageIncomeSD, c.v_rankCorrelation, 
-    		c.v_absoluteMob, c.v_gini, 
+    		c.v_averageIncome, c.v_medianIncome, c.v_averageIncomeSD, 
+    		c.v_rankSlope,  c.v_rankCorrelation, c.v_rankAbsoluteMob, c.v_absoluteMob, c.v_gini, 
   			c.v_lifeExpectancy,  	
     		c.v_age, v_NSI)
     	.execute();
@@ -7887,7 +7891,7 @@ import java.io.IOException;
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1567156647192</Id>
-					<Name><![CDATA[v_incomeMobilityExposure]]></Name>
+					<Name><![CDATA[v_rankSlopeExp]]></Name>
 					<X>780</X><Y>830</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -7948,7 +7952,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1597909992530</Id>
 					<Name><![CDATA[v_incomeExposure]]></Name>
-					<X>780</X><Y>850</Y>
+					<X>780</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7963,7 +7967,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1601292468796</Id>
 					<Name><![CDATA[v_satisfied]]></Name>
-					<X>780</X><Y>1030</Y>
+					<X>780</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7975,7 +7979,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1601292839297</Id>
 					<Name><![CDATA[v_proportionSimilar]]></Name>
-					<X>780</X><Y>1010</Y>
+					<X>780</X><Y>1040</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8002,7 +8006,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1604589116890</Id>
 					<Name><![CDATA[v_incomeTypeYears]]></Name>
-					<X>780</X><Y>940</Y>
+					<X>780</X><Y>970</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8017,7 +8021,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1604590421802</Id>
 					<Name><![CDATA[v_incomeExposureYears]]></Name>
-					<X>780</X><Y>920</Y>
+					<X>780</X><Y>950</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8032,7 +8036,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1604652048183</Id>
 					<Name><![CDATA[v_incomeTypeProp]]></Name>
-					<X>780</X><Y>980</Y>
+					<X>780</X><Y>1010</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8047,7 +8051,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1604652783259</Id>
 					<Name><![CDATA[v_sameParentIncomeType]]></Name>
-					<X>780</X><Y>960</Y>
+					<X>780</X><Y>990</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8063,7 +8067,7 @@ import java.io.IOException;
 					<Id>1604921037533</Id>
 					<Name><![CDATA[v_incomeExposureZ]]></Name>
 					<Description><![CDATA[Standardized version]]></Description>
-					<X>780</X><Y>870</Y>
+					<X>780</X><Y>900</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8075,7 +8079,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1604994376489</Id>
 					<Name><![CDATA[v_parentIncomeZ]]></Name>
-					<X>780</X><Y>890</Y>
+					<X>780</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8087,7 +8091,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1605278714762</Id>
 					<Name><![CDATA[v_absoluteMobClass]]></Name>
-					<X>780</X><Y>1050</Y>
+					<X>780</X><Y>1080</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8117,7 +8121,7 @@ import java.io.IOException;
 				<Variable Class="PlainVariable">
 					<Id>1605791021049</Id>
 					<Name><![CDATA[v_incomeExposureType]]></Name>
-					<X>610</X><Y>920</Y>
+					<X>780</X><Y>1110</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8126,6 +8130,21 @@ import java.io.IOException;
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes)]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1605813320693</Id>
+					<Name><![CDATA[v_rankCorrelationExp]]></Name>
+					<X>780</X><Y>850</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -8596,8 +8615,8 @@ import java.io.IOException;
 				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1567153132277</Id>
-					<Name><![CDATA[col_countyRelativeIncMobExp]]></Name>
-					<X>780</X><Y>1100</Y>
+					<Name><![CDATA[col_countyRankSlopeExp]]></Name>
+					<X>570</X><Y>970</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8612,7 +8631,7 @@ import java.io.IOException;
 				<Variable Class="CollectionVariable">
 					<Id>1597052228217</Id>
 					<Name><![CDATA[col_kids]]></Name>
-					<X>780</X><Y>1080</Y>
+					<X>570</X><Y>950</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8627,7 +8646,7 @@ import java.io.IOException;
 				<Variable Class="CollectionVariable">
 					<Id>1598003783175</Id>
 					<Name><![CDATA[col_countyIncomeExp]]></Name>
-					<X>780</X><Y>1120</Y>
+					<X>570</X><Y>1010</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8642,7 +8661,7 @@ import java.io.IOException;
 				<Variable Class="CollectionVariable">
 					<Id>1604919569485</Id>
 					<Name><![CDATA[col_incomeMoblity]]></Name>
-					<X>780</X><Y>1160</Y>
+					<X>570</X><Y>1050</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8657,7 +8676,7 @@ import java.io.IOException;
 				<Variable Class="CollectionVariable">
 					<Id>1604921201652</Id>
 					<Name><![CDATA[col_countyIncomeExpZ]]></Name>
-					<X>780</X><Y>1140</Y>
+					<X>570</X><Y>1030</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8672,7 +8691,7 @@ import java.io.IOException;
 				<Variable Class="CollectionVariable">
 					<Id>1605790263151</Id>
 					<Name><![CDATA[col_countyIncomeTypeExp]]></Name>
-					<X>780</X><Y>1180</Y>
+					<X>570</X><Y>1070</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8680,6 +8699,21 @@ import java.io.IOException;
 					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
 						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
 						<ElementClass><![CDATA[ExposureType]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1605813213415</Id>
+					<Name><![CDATA[col_countyRankCorrelationExp]]></Name>
+					<X>570</X><Y>990</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Exposure]]></ElementClass>
 						<ValueElementClass><![CDATA[String]]></ValueElementClass>
 					</Properties>
 
@@ -9348,13 +9382,13 @@ if (main.p_exportMortalityData && selectedGeneration) main.f_writeMortalityData(
 
 // clear exposure collections
 col_countyIncomeExp.clear();
-col_countyRelativeIncMobExp.clear();
+col_countyRankSlopeExp.clear();
 col_incomeMoblity.clear();
 col_countyIncomeExpZ.clear();
 col_countyIncomeTypeExp.clear();
 
 // reset exposure variables
-v_incomeMobilityExposure = 0.0;
+v_rankSlopeExp = 0.0;
 v_incomeExposure = 0.0;
 v_incomeExposureZ = 0.0;
 v_parentIncomeZ = 0.0;
@@ -9476,7 +9510,7 @@ newKid.p_parentAlive = true;
 newKid.p_parentSmoker = v_smoker;
 newKid.p_parentAbsoluteMobClass = v_absoluteMobClass;
 f_recordExposure();
-newKid.p_parentIncomeMobExp = f_estimateExposureValues(col_countyRelativeIncMobExp);
+newKid.p_parentIncomeMobExp = f_estimateExposureValues(col_countyRankSlopeExp);
 newKid.p_parentIncomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);
 
 // assing income variables
@@ -9626,7 +9660,7 @@ double odds = exp(
 	((p_incomeType - 1) == 0 ? main.p_smokingCoeffIncType[0] : 
 		main.p_smokingCoeffIncType[0] +  main.p_smokingCoeffIncType[p_incomeType-1]) +
 	main.p_smokingCoeffIncExp * v_incomeExposure +
-	main.p_smokingCoeffMobExp * v_incomeMobilityExposure + 
+	main.p_smokingCoeffMobExp * v_rankSlopeExp + 
 	(p_parentSmoker ? 0.542324291 : 0.0)
 );
 
@@ -9677,7 +9711,8 @@ double timediff = thistime - v_timeCounty;
 col_countyIncomeExp.add(new Exposure(timediff, county.v_averageIncome));
 col_countyIncomeTypeExp.add(new ExposureType(timediff, county.v_proportionIncomeType));
 col_countyIncomeExpZ.add(new Exposure(timediff, county.v_averageIncomeZ));
-col_countyRelativeIncMobExp.add(new Exposure(timediff, county.v_rankSlope)); 
+col_countyRankSlopeExp.add(new Exposure(timediff, county.v_rankSlope)); 
+col_countyRankCorrelationExp.add(new Exposure(timediff, county.v_rankCorrelation)); 
 
 if (!main.f_allEqual(county.v_proportionIncomeType)) {
     //traceln(v_incomeTypeYears);
@@ -10058,7 +10093,8 @@ if (p_generation > 0) {
 	v_incomeExposure = f_estimateExposureValues(col_countyIncomeExp);
 	v_incomeExposureZ = f_estimateExposureValues(col_countyIncomeExpZ);
 	v_incomeExposureYears = f_estimateIncomeExposureYears(v_incomeTypeYears);
-	v_incomeMobilityExposure = f_estimateExposureValues(col_countyRelativeIncMobExp);
+	v_rankSlopeExp = f_estimateExposureValues(col_countyRankSlopeExp);
+	v_rankCorrelationExp = f_estimateExposureValues(col_countyRankCorrelationExp);
 	v_incomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);
 }
 
