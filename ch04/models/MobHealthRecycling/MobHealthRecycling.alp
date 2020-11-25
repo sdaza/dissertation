@@ -19597,12 +19597,6 @@ class CorrelationLE {
 		<VersionMinor>0</VersionMinor>
 		<VersionBuild>0</VersionBuild>
     </RequiredLibraryReference>
-    <RequiredLibraryReference>
-		<LibraryName><![CDATA[com.anylogic.libraries.pypeline]]></LibraryName>
-		<VersionMajor>1</VersionMajor>
-		<VersionMinor>4</VersionMinor>
-		<VersionBuild>0</VersionBuild>
-    </RequiredLibraryReference>
 	<ClassPathEntry>
 		<ResourceReference>
 			<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
