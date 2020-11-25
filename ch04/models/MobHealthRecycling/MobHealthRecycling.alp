@@ -18377,6 +18377,7 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 		<ParamVariationExperiment ActiveObjectClassId="1516978677339">
 			<Id>1606249934760</Id>
 			<Name><![CDATA[TestingExogenousIM]]></Name>
+			<Description><![CDATA[Just a set of experiments to check the general behavior of the model.]]></Description>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
 			<Import><![CDATA[import java.io.BufferedWriter;
 import java.io.File;
