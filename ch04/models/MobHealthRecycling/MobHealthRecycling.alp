@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -11366,7 +11366,7 @@ return m;]]></Body>
 	<Database>
 		<Logging>false</Logging>
 		<AutoExport>false</AutoExport>
-		<ShutdownCompact>false</ShutdownCompact>
+		<ShutdownCompact>true</ShutdownCompact>
 		<ImportSettings>
 			<ExternalConnection>
 				<Id>1600770262702</Id>
@@ -11390,7 +11390,7 @@ return m;]]></Body>
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
 			<ExternalConnection>
-				<Id>1605115150574</Id>
+				<Id>1606293671003</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
 				<Label><X>10</X><Y>0</Y></Label>
