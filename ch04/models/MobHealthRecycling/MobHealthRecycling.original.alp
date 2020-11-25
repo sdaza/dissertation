@@ -597,7 +597,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1606218125252</Id>
 					<Name><![CDATA[p_colorRankSlope]]></Name>
-					<X>50</X><Y>1490</Y>
+					<X>50</X><Y>1510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1088,7 +1088,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1602145231926</Id>
 					<Name><![CDATA[p_exportSinceGeneration]]></Name>
-					<X>50</X><Y>1470</Y>
+					<X>50</X><Y>1490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1108,9 +1108,9 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1598693562391</Id>
-					<Name><![CDATA[p_recurrentTimeGini]]></Name>
-					<X>50</X><Y>1450</Y>
+					<Id>1606290379069</Id>
+					<Name><![CDATA[p_recurrentTimeCountyData]]></Name>
+					<X>50</X><Y>1470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1120,11 +1120,11 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[10]]></Code>
+							<Code><![CDATA[20]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
-							<Id>1598693562389</Id>
-							<Label><![CDATA[p_recurrentTimeGini]]></Label>
+							<Id>1606290379067</Id>
+							<Label><![CDATA[p_recurrentTimeCountyData]]></Label>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1173,6 +1173,31 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1606207595949</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1598693562391</Id>
+					<Name><![CDATA[p_recurrentTimeGini]]></Name>
+					<X>50</X><Y>1450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[10]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1598693562389</Id>
+							<Label><![CDATA[p_recurrentTimeGini]]></Label>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1893,7 +1918,7 @@ import javax.print.attribute.standard.MediaName;]]></Import>
 					<Id>1606226037690</Id>
 					<Name><![CDATA[col_correlationLE]]></Name>
 					<X>250</X><Y>2010</Y>
-					<Label><X>15</X><Y>0</Y></Label>
+					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
@@ -2067,7 +2092,7 @@ for (County c : counties) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1516996662033</Id>
 					<Name><![CDATA[f_giniCoeff]]></Name>
-					<X>50</X><Y>1630</Y>
+					<X>50</X><Y>1650</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2220,7 +2245,7 @@ if (p_exportParameterData) f_writeParameterData();]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1566891077818</Id>
 					<Name><![CDATA[f_rankRankCorrelation]]></Name>
-					<X>50</X><Y>1590</Y>
+					<X>50</X><Y>1610</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2372,7 +2397,7 @@ return a / b;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567592807886</Id>
 					<Name><![CDATA[f_randomPositionX]]></Name>
-					<X>50</X><Y>1570</Y>
+					<X>50</X><Y>1590</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2389,7 +2414,7 @@ return uniform(x, (x + p_sizeRectangle));]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1567592998611</Id>
 					<Name><![CDATA[f_randomPositionY]]></Name>
-					<X>50</X><Y>1550</Y>
+					<X>50</X><Y>1570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2444,7 +2469,7 @@ return uniform(y, (y + p_sizeRectangle));]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1567764446235</Id>
 					<Name><![CDATA[f_queryToDoubleArray]]></Name>
-					<X>50</X><Y>1770</Y>
+					<X>50</X><Y>1790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2509,7 +2534,7 @@ return f_zscore(sd, mean, value);]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1596640249829</Id>
 					<Name><![CDATA[f_numberAgents]]></Name>
-					<X>220</X><Y>1630</Y>
+					<X>220</X><Y>1650</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2521,7 +2546,7 @@ return f_zscore(sd, mean, value);]]></Body>
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1597688468685</Id>
 					<Name><![CDATA[f_systemDate]]></Name>
-					<X>220</X><Y>1650</Y>
+					<X>220</X><Y>1670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2535,7 +2560,7 @@ return formatter.format(date);]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1597935763389</Id>
 					<Name><![CDATA[f_standardDeviation]]></Name>
-					<X>50</X><Y>1650</Y>
+					<X>50</X><Y>1670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2679,7 +2704,7 @@ c_incomeTypeCoefficients.add(MatrixUtils.createRealMatrix(
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602228308295</Id>
 					<Name><![CDATA[f_absoluteMobility]]></Name>
-					<X>50</X><Y>1610</Y>
+					<X>50</X><Y>1630</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2702,7 +2727,7 @@ else { return 0.0; }]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1602446113134</Id>
 					<Name><![CDATA[f_vectorProduct]]></Name>
-					<X>50</X><Y>1710</Y>
+					<X>50</X><Y>1730</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2739,7 +2764,7 @@ return f_normalizeVector(output);]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1602446168187</Id>
 					<Name><![CDATA[f_normalizeVector]]></Name>
-					<X>50</X><Y>1730</Y>
+					<X>50</X><Y>1750</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2769,7 +2794,7 @@ return newVector;
 					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1602515439322</Id>
 					<Name><![CDATA[f_findMaxVector]]></Name>
-					<X>50</X><Y>1750</Y>
+					<X>50</X><Y>1770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3088,7 +3113,7 @@ if (v_incomeSD > 0) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// export county data		
-if ( v_lastGeneration >= p_exportSinceGeneration && (time() % p_recurrentTimeGini == 0)) {
+if ( v_lastGeneration >= p_exportSinceGeneration && (time() % p_recurrentTimeCountyData == 0)) {
 	if (p_exportCountyData) f_writeCountyData();
 	if (p_exportIndividualCSData) f_writeIndividualCSData();
 }
@@ -3272,7 +3297,8 @@ outExcel.disconnect();]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1604158093076</Id>
 					<Name><![CDATA[f_clearDatabases]]></Name>
-					<X>260</X><Y>1400</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-290</X><Y>1600</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3373,14 +3399,14 @@ if (p_exportMortalityData) deleteFrom(mortality).execute();
 						<Name><![CDATA[deaths]]></Name>
 						<Type><![CDATA[List<Deaths>]]></Type>
 					</Parameter>
-					<Body><![CDATA[return deaths.stream().mapToDouble(p -> p.age).average().getAsDouble();]]></Body>
+					<Body><![CDATA[return deaths.stream().mapToDouble(p -> p.age).average().orElse(0.0);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[boolean]]></ReturnType>
 					<Id>1604659458909</Id>
 					<Name><![CDATA[f_allEqual]]></Name>
-					<X>50</X><Y>1690</Y>
+					<X>50</X><Y>1710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3433,7 +3459,7 @@ else return false;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1605101213771</Id>
 					<Name><![CDATA[f_weightedSampling]]></Name>
-					<X>50</X><Y>1670</Y>
+					<X>50</X><Y>1690</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3478,7 +3504,7 @@ return values[randomIndex];
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1605104143270</Id>
 					<Name><![CDATA[f_arrayRepeatedValues]]></Name>
-					<X>50</X><Y>1790</Y>
+					<X>50</X><Y>1810</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3745,7 +3771,6 @@ if (p_incomeProbMatrix == 1) {
 
 		
 if (peopleInCohort == 0 & col_deaths.size() > 100) {
-
 	
 	List<Deaths> deaths = col_deaths.stream()
 		.filter(p -> p.birthdate > v_lastMortalityCohort & 
@@ -3898,7 +3923,7 @@ col_incomeTransitionMatrix.add(t0);]]></Body>
 					<ReturnType><![CDATA[ArrayList<Double>]]></ReturnType>
 					<Id>1606204531111</Id>
 					<Name><![CDATA[f_standardizedValues]]></Name>
-					<X>220</X><Y>1610</Y>
+					<X>220</X><Y>1630</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3926,7 +3951,7 @@ else {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1606204531113</Id>
 					<Name><![CDATA[f_standardizedValue]]></Name>
-					<X>220.349</X><Y>1590.003</Y>
+					<X>220.349</X><Y>1610.003</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3951,7 +3976,7 @@ else return (value - average)/sd;]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1606204531115</Id>
 					<Name><![CDATA[f_computeRanks]]></Name>
-					<X>220.698</X><Y>1570.006</Y>
+					<X>220.698</X><Y>1590.006</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3974,7 +3999,7 @@ return output;]]></Body>
 					<ReturnType><![CDATA[double[]]]></ReturnType>
 					<Id>1606204531117</Id>
 					<Name><![CDATA[f_regression]]></Name>
-					<X>221.047</X><Y>1550.009</Y>
+					<X>221.047</X><Y>1570.009</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6904,7 +6929,7 @@ return new double[] {regression.getIntercept(), regression.getSlope()};]]></Body
 				<Text>
 					<Id>1606204298407</Id>
 					<Name><![CDATA[text5]]></Name>
-					<X>40</X><Y>1510</Y>
+					<X>40</X><Y>1530</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -13394,10 +13419,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_recurrentTimeGini]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
-					</ParameterValue>
+					<ParameterName><![CDATA[p_recurrentTimeCountyData]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_descriptivePlots]]></ParameterName>
@@ -13407,6 +13429,12 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_selectedCounty]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_recurrentTimeGini]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_movingDecisionRate]]></ParameterName>
@@ -15472,10 +15500,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_recurrentTimeGini]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
-					</ParameterValue>
+					<ParameterName><![CDATA[p_recurrentTimeCountyData]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_descriptivePlots]]></ParameterName>
@@ -15485,6 +15510,12 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_selectedCounty]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_recurrentTimeGini]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_movingDecisionRate]]></ParameterName>
@@ -16293,6 +16324,9 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1606251938785</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1606290379069</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -16518,6 +16552,10 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606251938785</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1606290379069</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -17246,6 +17284,9 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1606251938785</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1606290379069</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -17471,6 +17512,10 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606251938785</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1606290379069</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -18103,6 +18148,9 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1606251938785</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1606290379069</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
 				<Type>FIXED</Type>
@@ -18297,6 +18345,10 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 				<Id>1606251938785</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1606290379069</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1516924800000]]></InitialDate>	
@@ -18353,7 +18405,10 @@ root.p_numRows = (int) round(root.p_numCounties / root.p_numColumns);
 root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
 
 root.v_iteration = getCurrentIteration();
-root.v_replicate = getCurrentReplication();]]></BeforeSimulationRunCode>
+root.v_replicate = getCurrentReplication();
+
+int currentIteration = getCurrentIteration()-1;
+root.p_mortalityFakeCoeffRankSlope = v_mortalityFakeCoeffRankSlope[currentIteration];]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -18517,7 +18572,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1606250406117</Id>
 					<Name><![CDATA[vr_replicates]]></Name>
-					<X>50</X><Y>300</Y>
+					<X>50</X><Y>310</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -18538,6 +18593,21 @@ if (vr_replicates % 10 == 0) {
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1606289918065</Id>
+					<Name><![CDATA[v_mortalityFakeCoeffRankSlope]]></Name>
+					<X>50</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[{0.5, 0.5, 0.5, 0.5, 0.5, 0.3, 0.3, 0.3, 0.3, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -18748,7 +18818,7 @@ if (v_slack) f_sendSlackMessage();
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>5</NumberOfRuns>
+			<NumberOfRuns>15</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 				<Expression Class="CodeValue">
@@ -18835,6 +18905,9 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[20]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1599596275483</Id>
@@ -18887,13 +18960,13 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1601479356164</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[Arrays.asList(15, 20, 25, 30)]]></Code>
+					<Code><![CDATA[Arrays.asList(20, 25, 30)]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1602145231926</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[15]]></Code>
+					<Code><![CDATA[20]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -18957,6 +19030,12 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 				<Id>1606251938785</Id>
 				<Expression Class="CodeValue">
 					<Code><![CDATA[v_exportEnvironmentData]]></Code>
+				</Expression>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1606290379069</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[30]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
@@ -19214,6 +19293,10 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606251938785</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1606290379069</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
