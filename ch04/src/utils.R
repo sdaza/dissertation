@@ -11,6 +11,12 @@ cor = function(...) stats::cor(..., use = "complete.obs")
 perc.rank = function(x) trunc(rank(x))/length(x)
 
 
+logIncome = function(x, center = TRUE) {
+    a = ifelse(x == 0, log(1), log(x))
+    a = scale(a, scale = FALSE)
+    return(a)
+}
+
 readMultipleFiles = function(pattern, path) {
     files = list.files(path, pattern)
     if (length(files) == 0) {
