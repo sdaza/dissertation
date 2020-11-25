@@ -26,6 +26,7 @@ covs[, relative_income_mob := s_rank / 100]
 covs[, absolute_income_mob := e_rank_b / 100]
 cor(covs[, .(relative_income_mob, absolute_income_mob)])
 
+summary(covs$absolute_income_mob)
 
 names(covs)
 covs[, income := hhinc00]
@@ -34,6 +35,8 @@ covs[, lincome := log(hhinc00)]
 cor(covs[, .(lincome, gini99)])
 hist(log(covs$cs00_seg_inc))
 plot(covs$lincome, covs$relative_income_mob)
+cor(covs$lincome, covs$relative_income_mob)
+
 plot(covs$lincome, covs$absolute_income_mob)
 
 cor(covs$cs00_seg_inc, covs$relative_income_mob)
@@ -43,24 +46,33 @@ plot(covs$lincome, covs$absolute_income_mob)
 # read data
 income = fread(paste0(path, "income_generation.csv"))
 strat = fread(paste0(path, "stratification.csv"))
+ind = fread(paste0(path, "individuals.csv"))
 
 prop.table(table(income$parent_type, income$kid_type), 1)
-
 hist(strat$nsi)
 
-table(strat$generation)
+head(income)
+
+cor(strat$spearman, strat$im)
+plot(strat$gini, strat$im)
+
+table(strat$cohort)
 table(strat$size1 == strat$size2)
 
 summary(strat$im)
+sd(strat$im)
+hist(strat$im)
+
 
 # check of parameters
-t = strat[generation == 17]
+t = strat[cohort == 550]
 t
 
-hist()
+hist(t$im)
 hist(log(t$income))
 hist(t$income)
 
+cor(t[, .(im, spearman)])
 summary(t$im)
 summary(t$spearman)
 
@@ -69,7 +81,6 @@ plot(t$income, t$am)
 
 cor(t$income, t$im)
 cor(t$income, t$am)
-
 cor(log(t$income), t$spearman)
 cor(log(t$income), t$gini)
 plot(t$income, t$gini)
@@ -81,27 +92,37 @@ cor(t$income_sd, t$im)
 setorder(t, gini)
 t[county == 6, .(county, income, gini, im, am)]
 
-i = income[county == 6 & generation == 17]
+table(income$cohort)
+i = income[county == 6 & cohort == 550]
 nrow(i)
+
+i
 median(i$kid_income)
 median(i$parent_income)
 
 table(i[, .(parent_type, kid_type)])
 prop.table(table(i[, .(parent_type, kid_type)]), 1)
 
-table(i$kid_type)
+t[county == 6]
+lm(ry ~ rx, data =i)
 
 
-ggplot(t, aes(spearman, im, color = income)) + geom_point()  +
+ggplot(t, aes(spearman, im, color = size1)) + geom_point()  +
     geom_abline(intercept = 0 , slope = 1, size = 0.5, alpha = 0.2) +
     labs(x = "Within county rank-rank correlation",
         y = "Chetty's rank-rank slope (national ranks)",
         title = paste0("Correlation = ",
             round(cor(t[, .(spearman, im)])[1, 2], 2),
             ", NSI = ", round(t$nsi[1],2))) +
-    xlim(0,1) + ylim(0, 1)  +
+    xlim(0,.5) + ylim(0, .5)  +
     theme_minimal()
 
+
+t[, df := im - spearman]
+
+cor(t[, .(income, df)])
+cor(t[, .(size1, df)])
+cor(t[, .(income_sd, df)])
 cor(t[, .(income, im)])
 cor(t[, .(income_sd, im)])
 
@@ -115,6 +136,7 @@ summary(t$im)
 summary(t$spearman)
 
 # individual income
+income
 i = income[generation == 5]
 
 i[, kid_rank := perc.rank(kid_income)]
@@ -196,3 +218,27 @@ cor(s[, .(spearman, im)])
 
 plot(t[county == 2, .(parent_rank, kid_rank)])
 plot(t[county == 2, .(kid_rank_c, parent_rank_c)])
+
+
+# county exploration
+cty = fread(paste0(path, "county.csv"))
+table(cty$model_time)
+
+test = cty[model_time == 500]
+
+cor(test[, .(income, le)])
+cor(test[, .(relative_income_mob, le)])
+
+plot(test$income, test$le)
+plot(test$income, test$im)
+
+cor(test[, .(relative_income_mob, le)])
+plot(test$relative_income_mob, test$le)
+
+m1 = lm(le ~ relative_income_mob + I(log(income)), data = test)
+screenreg(m1)
+
+# county exploration
+m = fread(paste0(path, "mortality.csv"))
+
+m
