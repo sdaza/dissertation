@@ -17,7 +17,7 @@ cor = function(...) stats::cor(..., use = "complete.obs")
 perc.rank = function(x) trunc(rank(x))/length(x)
 
 # read ipums data
-ddi = ipumsr::read_ipums_ddi("data/ipums/usa_00003.xml")
+ddi = ipumsr::read_ipums_ddi("data/ipums/usa_00001.xml")
 ip = ipumsr::read_ipums_micro(ddi)
 ip = data.table(ip)
 
@@ -32,13 +32,11 @@ gini(ip$inctot, weights = ip$perwt)
 dim(ip)
 names(ip)
 
-table(ip$statefip)
-ip[, cty:= paste0(statefip, countyfip)]
-length(unique(ip$cty))
+# table(ip$statefip)
+# ip[, cty:= paste0(statefip, countyfip)]
+# length(unique(ip$cty))
 
-table(ip[statefip == 4, cty])
-
-
+# table(ip[statefip == 4, cty])
 
 ip[, incomeGroup3 := cut(inctot, breaks = quantile(inctot,
     probs = 0:3/3), labels = 1:3, right = TRUE, include.lowest = TRUE)]
@@ -47,7 +45,8 @@ ip[, incomeGroup4 := cut(inctot, breaks = quantile(inctot,
 ip[, incomeGroup5 := cut(inctot, breaks = quantile(inctot,
     probs = 0:5/5), labels = 1:5, right = TRUE, include.lowest = TRUE)]
 
-ip
+ip[, .(min(inctot), max(inctot)), incomeGroup5]
+
 table(ip$year)
 s = ip[, .(incomeGroup3, incomeGroup4, incomeGroup5, inctot, perwt)]
 setnames(s, names(s), c("incomeType3", "incomeType4", "incomeType5", "ind_income", "weight"))
