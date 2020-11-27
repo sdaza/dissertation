@@ -27,7 +27,7 @@ setorder(test,  income_type)
 
 prop.table(table(m[,.(parent_income_type, income_type)]), 1)
 
-# exposure association with smoking 
+# exposure association with smoking
 summary(m[exposure_relative_income_mob == 0, age])
 hist(m[age > 17, exposure_relative_income_mob])
 
@@ -47,14 +47,6 @@ summary(m$income)
 m[, lincome := ifelse(income == 0, log(1), log(income))]
 summary(m$lincome)
 summary(glm(smoker ~ exposure_relative_income_mob + as.factor(income_type), data = m, family = "binomial"))
-
-0.22 / 0.086
-
-0.22
-
-0.086
-
-
 
 odds = exp(0 + 0.22/8.6 * 10)
 odds / (1 + odds)
