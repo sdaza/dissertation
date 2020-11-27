@@ -65,14 +65,12 @@ odds / (1.0 + odds);
 cor(covs$relative_income_mob, covs$absolute_income_mob)
 
 # read data
-p = fread(paste0(path, "model_parameters.csv"))
-m = fread(paste0(path, "mortality.csv"))
-cty = fread(paste0(path, "county.csv"))
-ind = fread(paste0(path, "individuals.csv"))
-testing = fread(paste0(path, "testing.csv"))
+# p = fread(paste0(path, "model_parameters.csv"))
+# m = fread(paste0(path, "mortality.csv"))
+# cty = fread(paste0(path, "county.csv"))
+# ind = fread(paste0(path, "individuals.csv"))
+# testing = fread(paste0(path, "testing.csv"))
 
-# check of parameters
-p
 
 # county data from the ABM
 dim(cty)
@@ -148,125 +146,125 @@ cor(test$le, test$absolute_income_mob)
 cor(test$gini, test$le)
 cor(test$lincome, test$relative_income_mob)
 
-# models
-m0 = lm(le ~ c_relative_income_mob, data = test)
-m1 = lm(le ~ c_relative_income_mob + c_gini +  pop, data = test)
-m2 = lm(le ~ c_relative_income_mob + c_gini +  pop + lincome, data = test)
-m3 = lm(le ~  lincome +  pop, data = test)
+# # models
+# m0 = lm(le ~ c_relative_income_mob, data = test)
+# m1 = lm(le ~ c_relative_income_mob + c_gini +  pop, data = test)
+# m2 = lm(le ~ c_relative_income_mob + c_gini +  pop + lincome, data = test)
+# m3 = lm(le ~  lincome +  pop, data = test)
 
-screenreg(list(m0, m1, m2, m3))
+# screenreg(list(m0, m1, m2, m3))
 
-m0 = lm(le ~ c_absolute_income_mob, data = test)
-m1 = lm(le ~ c_absolute_income_mob + c_gini +  pop, data = test)
-m2 = lm(le ~ c_absolute_income_mob + c_gini +  pop + lincome, data = test)
-m3 = lm(le ~  lincome +  pop, data = test)
+# m0 = lm(le ~ c_absolute_income_mob, data = test)
+# m1 = lm(le ~ c_absolute_income_mob + c_gini +  pop, data = test)
+# m2 = lm(le ~ c_absolute_income_mob + c_gini +  pop + lincome, data = test)
+# m3 = lm(le ~  lincome +  pop, data = test)
 
-screenreg(list(m0, m1, m2, m3))
+# screenreg(list(m0, m1, m2, m3))
 
-# check for mortality
-dim(m)
-table(m$generation)
+# # check for mortality
+# dim(m)
+# table(m$generation)
 
-# mortality differences
-print(setorder(m[, .(mean(age)),  income_type], income_type))
-print(setorder(m[, .(mean(age)),  .(smoker, income_type)], income_type))
+# # mortality differences
+# print(setorder(m[, .(mean(age)),  income_type], income_type))
+# print(setorder(m[, .(mean(age)),  .(smoker, income_type)], income_type))
 
-m[, status := 1]
+# m[, status := 1]
 
-setorder(m, income_type)
-m[, .(im = mean(county_relative_income_mob),
-    lincome = mean(income),
-    nmoves = mean(nmoves),
-    kid_moves = mean(nmoves_kid)), income_type]
+# setorder(m, income_type)
+# m[, .(im = mean(county_relative_income_mob),
+#     lincome = mean(income),
+#     nmoves = mean(nmoves),
+#     kid_moves = mean(nmoves_kid)), income_type]
 
-prop.table(table(m$parent_income_type, m$income_type), 1)
+# prop.table(table(m$parent_income_type, m$income_type), 1)
 
-m[, lincome := log(income + 1)]
-m[, lcty_income := log(county_avg_income)]
+# m[, lincome := log(income + 1)]
+# m[, lcty_income := log(county_avg_income)]
 
-m
-hist(m$age)
-summary(lm(age ~ county_relative_income_mob + lincome + lcty_income, data = m))
-summary(lm(age ~ county_relative_income_mob + lincome + lcty_income + county_gini, data = m))
+# m
+# hist(m$age)
+# summary(lm(age ~ county_relative_income_mob + lincome + lcty_income, data = m))
+# summary(lm(age ~ county_relative_income_mob + lincome + lcty_income + county_gini, data = m))
 
-summary(coxph(Surv(age, status) ~ county_relative_income_mob + lincome + lcty_income, data = m))
+# summary(coxph(Surv(age, status) ~ county_relative_income_mob + lincome + lcty_income, data = m))
 
-hist(m$county_relative_income_mob)
+# hist(m$county_relative_income_mob)
 
-t = m[, .(le = mean(age), relative_income_mob = mean(county_relative_income_mob), lincome = mean(lincome)), county]
-screenreg(lm(le ~ relative_income_mob +  lincome, data = t))ss
-
-
-# individual data
-dim(ind)
-
-ind
-gini(ind$income)
-
-hist(ind[income_type == 4, income])
-table(ind$model_time)
+# t = m[, .(le = mean(age), relative_income_mob = mean(county_relative_income_mob), lincome = mean(lincome)), county]
+# screenreg(lm(le ~ relative_income_mob +  lincome, data = t))ss
 
 
-it = ind[model_time == 600]
-im = it[active == TRUE, .(im_test = cor(parent_income, income, method = 'spearman')), county]
-summary(im$im_test)
+# # individual data
+# dim(ind)
+
+# ind
+# gini(ind$income)
+
+# hist(ind[income_type == 4, income])
+# table(ind$model_time)
 
 
-# check income mobility
-dim(testing)
-t = testing[generation == 5]
-
-t[, kid_rank := perc.rank(kid_income)]
-t[, parent_rank := perc.rank(parent_income)]
-t[, kid_rank_c := perc.rank(kid_income), county]
-t[, parent_rank_c := perc.rank(parent_income), county]
-
-setorder(t, county)
-
-reg = function(kid_income, parent_income, relative = TRUE) {
-    m = lm(kid_income ~ parent_income)
-    c = coef(m)
-    if (relative) { return(c[2])}
-    else {
-        return (c[1]  + 0.25 * c[2])
-    }
-}
-
-a = t[, .(spearman = cor(kid_income, parent_income, method = "spearman")), county]
-b = t[, .(global_rank = cor(kid_rank, parent_rank), .N), county]
-c = t[, .(im = reg(kid_rank, parent_rank, TRUE)), county]
-d = t[, .(am = reg(kid_rank, parent_rank, FALSE)), county]
-
-s = merge(a, b, by = "county")
-s = merge(s, c, by = "county")
-s = merge(s, d, by ="county")
-
-cor(s[, .(spearman, global_rank, im, am)])
-tt = t[county == 1]
-
-tt[, kr := perc.rank(kid_rank)]
-tt[, pr := perc.rank(parent_rank)]
-
-lm(kid_rank ~ parent_rank, data = tt)
-lm(kr ~ pr, data = tt)
-
-cor(tt[, .(pr, kr)])
-
-s[county == 1]
-
-s
-plot(s[, .(spearman, im)])
-cor(s[, .(spearman, im)])
-
-plot(t[county == 2, .(parent_rank, kid_rank)])
-plot(t[county == 2, .(kid_rank_c, parent_rank_c)])
+# it = ind[model_time == 600]
+# im = it[active == TRUE, .(im_test = cor(parent_income, income, method = 'spearman')), county]
+# summary(im$im_test)
 
 
-a = runif(100)
-b= runif(100)
+# # check income mobility
+# dim(testing)
+# t = testing[generation == 5]
+
+# t[, kid_rank := perc.rank(kid_income)]
+# t[, parent_rank := perc.rank(parent_income)]
+# t[, kid_rank_c := perc.rank(kid_income), county]
+# t[, parent_rank_c := perc.rank(parent_income), county]
+
+# setorder(t, county)
+
+# reg = function(kid_income, parent_income, relative = TRUE) {
+#     m = lm(kid_income ~ parent_income)
+#     c = coef(m)
+#     if (relative) { return(c[2])}
+#     else {
+#         return (c[1]  + 0.25 * c[2])
+#     }
+# }
+
+# a = t[, .(spearman = cor(kid_income, parent_income, method = "spearman")), county]
+# b = t[, .(global_rank = cor(kid_rank, parent_rank), .N), county]
+# c = t[, .(im = reg(kid_rank, parent_rank, TRUE)), county]
+# d = t[, .(am = reg(kid_rank, parent_rank, FALSE)), county]
+
+# s = merge(a, b, by = "county")
+# s = merge(s, c, by = "county")
+# s = merge(s, d, by ="county")
+
+# cor(s[, .(spearman, global_rank, im, am)])
+# tt = t[county == 1]
+
+# tt[, kr := perc.rank(kid_rank)]
+# tt[, pr := perc.rank(parent_rank)]
+
+# lm(kid_rank ~ parent_rank, data = tt)
+# lm(kr ~ pr, data = tt)
+
+# cor(tt[, .(pr, kr)])
+
+# s[county == 1]
+
+# s
+# plot(s[, .(spearman, im)])
+# cor(s[, .(spearman, im)])
+
+# plot(t[county == 2, .(parent_rank, kid_rank)])
+# plot(t[county == 2, .(kid_rank_c, parent_rank_c)])
 
 
-mm = lm(a ~ b)
+# a = runif(100)
+# b= runif(100)
 
 
-coef(mm)[2]
+# mm = lm(a ~ b)
+
+
+# coef(mm)[2]
