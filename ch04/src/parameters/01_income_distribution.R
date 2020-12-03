@@ -35,7 +35,6 @@ names(ip)
 # table(ip$statefip)
 # ip[, cty:= paste0(statefip, countyfip)]
 # length(unique(ip$cty))
-
 # table(ip[statefip == 4, cty])
 
 ip[, incomeGroup3 := cut(inctot, breaks = quantile(inctot,

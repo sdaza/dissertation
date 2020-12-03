@@ -6,7 +6,7 @@
 
 
 library(data.table)
-
+library(xlsx)
 
 # read data and transform transition matrices
 covs = fread("data/cz_covs.csv")
@@ -28,7 +28,7 @@ tt = melt(t, id.vars = c("cz", "children"),
     variable.name = "parent",
     value.name = c("q1", "q2", "q3", "q4", "q5"))
 tt = tt[complete.cases(tt)]
-fwrite(tt, "data/transition_matrices_cz.csv", row.names = FALSE)
+write.xlsx(tt, "data/transition_matrices_cz.xlsx", row.names = FALSE)
 
 # merge with covs
 setnames(covs, names(covs), tolower(names(covs)))
@@ -46,8 +46,9 @@ tt[, lincome := log(hhincome)]
 tp = melt(tt, id.vars = c("cz", "pop", "parent", "black", "income_seg", "seg_pov", "lincome"),
     measure = patterns("^q[1-5]"), value.name = "prop", variable.name = "child")
 tp[, child := as.numeric(gsub("q", "", child))]
+write.xlsx(tp, "data/long_transition_matrices_cz.xlsx", row.names = FALSE)
 
-
+# exploring data
 hist(tp[parent == 5 & parent == child, prop])
 hist(tp[parent == 1 & parent == child, prop])
 
@@ -57,7 +58,14 @@ s
 
 cor(tp[parent == child, .(lincome, income_seg, black, prop)])
 tp[parent == child, .(mean(prop)), parent]
-plot(tp[parent == child, .(log(black), log(prop))])
+plot(tp[parent == child, .(log_prop_black = log(black),
+    log_prop = log(prop))])
+
+plot(tp[parent %in% c(1,5) & parent == child, .(log_prop_black = log(black),
+    log_prop = log(prop))])
+
+plot(tp[parent %in% c(1,5) & parent == child, .(log_income = lincome,
+    log_prop = log(prop))])
 
 cor(tp[parent == 1 & parent == child, .(lincome, prop)])
 cor(tp[parent == 5 & parent == child, .(lincome, prop)])
