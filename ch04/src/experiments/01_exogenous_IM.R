@@ -20,7 +20,6 @@ path = "models/MobHealthRecycling/output/verification/"
 
 # iterations
 experiments = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg", "exogenous-IM-MobWeight")
-<<<<<<< HEAD
 experiments = experiments[1:3]
 
 iterations = list(1:5, 6:10, 11:15)
@@ -29,10 +28,8 @@ mtime = 810
 
 # name_of_models = c("$\\beta$ = 0.0")
 name_of_models = c("$\\beta$ = 0.0", "$\\beta$ = 0.3", "$\\beta$ = 0.5")
-=======
 iterations = list(1:5, 6:10, 11:15)
 mtime = 990
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
 
 # tables header and bottom
 header = "
@@ -59,11 +56,7 @@ bottom = "
 
 # iterate through each experiment
 for (h in seq_along(experiments)) {
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
     print(paste0("Experiment : ", experiments[h], " ::::::::::::"))
 
     m = fread(paste0(path, experiments[h], "/mortality.csv"))
@@ -77,13 +70,8 @@ for (h in seq_along(experiments)) {
 
     # individual mortality
     cox_models = list()
-<<<<<<< HEAD
     f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
     for (j in seq_along(iterations)) {
-=======
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure")
-    for (j in 1:3) {
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
         print(paste0("Iteration group: ", j))
         d = m[iteration %in% iterations[[j]]]
         d[, `:=`
@@ -113,13 +101,8 @@ for (h in seq_along(experiments)) {
 
     # county models
     county_models = list()
-<<<<<<< HEAD
     f = formula("le ~ rank_slope + lincome + lpopulation")
     for (j in seq_along(iterations)) {
-=======
-    f = formula("le ~ rank_slope")
-    for (j in 1:3) {
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
         print(paste0("Iteration group: ", j))
         d = copy(cty[iteration %in% iterations[[j]] & model_time == mtime])
         d[, `:=`
@@ -128,7 +111,6 @@ for (h in seq_along(experiments)) {
             replicate = iteration * 1000 + replicate
             )]
         replicates = sort(unique(d$replicate))
-<<<<<<< HEAD
         county_models[[j]] = linearModel(replicates, data = d, f = f, predictor = "rank_slope")
     }
 
@@ -136,24 +118,11 @@ for (h in seq_along(experiments)) {
     coeff_names = c("Individual Mortaltiy on total IM exposure (Cox)",
         "Individual Mortality on county IM (Cox)",
         "Aggregate county LE on IM (GLM)")
-=======
-        county_models[[j]] = linearModel(replicates, data = d, f = f)
-    }
-
-    models = list(cox_models, cox_models_c, county_models)
-    coeff_names = c("Individual total IM exposure (Cox)",
-        "Individual County IM (Cox)",
-        "County IM on LE (GLM)")
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
 
     tab_list = list()
     for (i in seq_along(models)) {
         tab_list[[i]] = texreg(models[[i]],
-<<<<<<< HEAD
             custom.model.names = name_of_models ,
-=======
-            custom.model.names = c("$\\beta$ = 0.5", "$\\beta$ = 0.3", "$\\beta$ = 0.0"),
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
             custom.coef.names = coeff_names[i],
             dcolumn = TRUE,
             booktabs = TRUE,
@@ -166,7 +135,3 @@ for (h in seq_along(experiments)) {
     tab = select_tab_coeff(tab_list, header, bottom)
     cat(tab, file = paste0("output/tables/", tolower(experiments[h]), ".tex"))
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
