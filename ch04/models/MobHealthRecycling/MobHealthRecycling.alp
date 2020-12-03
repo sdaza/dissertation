@@ -18502,7 +18502,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA["output/verification/exogenousIM/"]]></Code>
+							<Code><![CDATA["output/verification/exogenousIM-MobWeight/"]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -18958,7 +18958,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1597410585018</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{0.0, 0.0, 0.0, 0.0, 0.0}]]></Code>
+					<Code><![CDATA[{0.4, 0.4, 0.4, 0.4, 0.4}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19389,7 +19389,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>3</ReplicationPerIteration>
+				<ReplicationPerIteration>2</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
