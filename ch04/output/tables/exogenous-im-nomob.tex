@@ -1,0 +1,31 @@
+
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{0.95}
+\begin{table}[htp]
+\scriptsize
+\caption{Estimates fake IM effect $\beta$ on mortality}
+\label{ch04:exercise_01}
+\begin{center}
+\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
+\toprule
+& \multicolumn{1}{c}{$\beta$ = 0.5} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.0} \\
+\midrule
+
+Individual total IM exposure (Cox) & 0.40^{*}     & 0.22^{*}     & -0.12^{*}      \\
+                                   & [0.31; 0.48] & [0.15; 0.28] & [-0.18; -0.06] \\
+\addlinespace[10pt]
+
+Individual County IM (Cox) & 0.35^{*}     & 0.22^{*}     & -0.08^{*}      \\
+                           & [0.27; 0.42] & [0.15; 0.29] & [-0.13; -0.02] \\
+\addlinespace[10pt]
+
+County IM on LE (GLM) & -4.46^{*}      & -2.72^{*}      & 1.49          \\
+                      & [-6.03; -2.88] & [-5.34; -0.10] & [-0.43; 3.41] \\
+\midrule
+Replicates            & 10             & 10             & 10            \\
+
+\bottomrule
+\multicolumn{4}{l}{\tiny{$^*$ Null hypothesis value outside the confidence interval.}}
+\end{tabular}
+\end{center}
+\end{table}
