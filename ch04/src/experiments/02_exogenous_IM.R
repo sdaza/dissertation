@@ -1,8 +1,10 @@
 
 
 library(data.table)
+library(metafor)
 library(texreg)
 library(survival)
+
 
 source("src/utils.R")
 path = "models/MobHealthRecycling/output/verification/"
@@ -48,28 +50,4 @@ table(m[, .(age == 0, total_rank_correlation_exposure < 0)])
 
 m = m[age != 0]
 
-<<<<<<< HEAD
-# no residential mobility
-
-path = "models/MobHealthRecycling/output/verification/testing/"
-m = fread(paste0(path, "mortality.csv"))
-
-# pretty high
-cor(m$total_rank_correlation_exposure, m$total_rank_slope_exposure)
-cor(m$total_rank_correlation_exposure, m$income)
-
-m[, imc := cut(total_rank_slope_exposure, breaks=c(quantile(total_rank_slope_exposure,
-        probs = seq(0, 1, 1/5))),include.lowest = TRUE, labels = FALSE),]
-m[, age0 := ifelse(age == 0, 1, 0)]
-table(m$imc, m$age0)
-
-quantile(m$total_rank_slope_exposure)
-
-table(m[age0 == 1, total_rank_slope_exposure])
-
-m[, status := 1]
-screenreg(lm(age ~ total_rank_slope_exposure, data = m))
-screenreg(coxph(Surv(age, status) ~ total_rank_correlation_exposure, data = m))
-=======
 dim(m[total_rank_correlation_exposure > .20,])
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
