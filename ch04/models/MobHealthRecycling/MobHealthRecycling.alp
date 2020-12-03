@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -4078,8 +4078,8 @@ return new double[] {regression.getIntercept(), regression.getSlope()};]]></Body
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[List<Integer> cz = selectValues("select cz from transition");
 int scz = randomFrom(cz);
-//traceln(scz);
 
+//traceln(scz);
 double[][] output = new double[p_numIncomeTypes][p_numIncomeTypes];
 
 for (int i=0;i < p_numIncomeTypes;i++) {

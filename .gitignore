@@ -29,6 +29,7 @@ pardiso.lic
 # chapter 04
 slack.*
 /ch04/data/
+/ch04/models/temp_models/
 /ch04/models/MobHealthRecycling/output/
 /ch04/models/MobHealthRecycling/database/
 /ch04/models/*/*.alp.autosave
