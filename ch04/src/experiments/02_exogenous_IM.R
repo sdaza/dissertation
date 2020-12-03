@@ -1,143 +1,53 @@
-##############################
-# generative model income mobility and mortality
-# exogenous IM no segretation but residential mobility (0.05)
-# author: sebastian daza
-##############################
 
 
 library(data.table)
 library(metafor)
 library(texreg)
-library(lme4)
-library(coxme)
-library(AICcmodavg)
+library(survival)
+
 
 source("src/utils.R")
+path = "models/MobHealthRecycling/output/verification/"
+experiment = "exogenous-IM-NoMob"
+m = fread(paste0(path, experiment, "/mortality.csv"))
+m = m[iteration %in% 1:5]
+m = m[age > 18]
+mean(m$age)
 
-# no residential mobility
+# pretty high
+cor(m$total_rank_correlation_exposure, m$total_rank_slope_exposure)
+cor(m$total_rank_correlation_exposure, m$income)
 
-path = "models/MobHealthRecycling/output/verification/exogenousIM/"
+m[, status := 1]
+screenreg(lm(age ~ total_rank_slope_exposure, data = m[age > 0]))
+screenreg(coxph(Surv(age, status) ~ total_rank_slope_exposure, data = m[age > 0]))
 
-m = fread(paste0(path, "mortality.csv"))
-cty = fread(paste0(path, "county.csv"))
-p = fread(paste0(path, "model_parameters.csv"))
+m[, imc := cut(total_rank_slope_exposure, breaks=c(quantile(total_rank_slope_exposure,
+        probs = seq(0, 1, 1/5))),include.lowest = TRUE, labels = FALSE),]
 
-summary(cty$nsi)
+table(m$imc, m$age0)
+quantile(m$total_rank_slope_exposure)
 
-# individual mortality
-cox_models = list()
-iterations = list(1:5, 6:10, 11:15)
-f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome + (1|county)")
-for (j in 1:3) {
-    print(paste0("Iteration group: ", j))
-    d = m[iteration %in% iterations[[j]]]
-    d[, `:=`
-        (status = 1,
-        lincome = logIncome(income),
-        county_lincome = logIncome(county_mean_income),
-        replicate = iteration * 1000 + replicate
-        )]
-    replicates = sort(unique(d$replicate))
-    cox_models[[j]] = coxModel(replicates, data = d, f = f)
-}
+names(m)
+cor(m[, .(total_slope_correlation_exposure, total_rank_correlation_exposure)])
+# correlation total exposure and current county
+cor(m[, .(income_type, total_rank_correlation_exposure)])
+cor(m[, .(income_type, county_rank_slope, total_rank_correlation_exposure, income, county_mean_income)])
 
-cox_models
 
-cox_models_c = list()
-f = formula("Surv(age, status) ~ county_rank_slope + lincome + county_lincome + (1|county)")
-for (j in 1:3) {
-    print(paste0("Iteration group: ", j))
-    d = m[iteration %in% iterations[[j]]]
-    d[, `:=`
-        (status = 1,
-        lincome = logIncome(income),
-        county_lincome = logIncome(county_mean_income),
-        replicate = iteration * 1000 + replicate
-        )]
-    replicates = sort(unique(d$replicate))
-    cox_models_c[[j]] = coxModel(replicates, data = d, f = f, predictor = "county_rank_slope")
-}
+# exposure
+table(m[age0 ==1, total_rank_slope_exposure])
+mean(m$total_rank_slope_exposure)
+hist(m[total_rank_slope_exposure < 0.0334, age])
+hist(m[total_rank_correlation_exposure , age])
 
-cox_models_c
+hist(m[total_rank_correlation_exposure > 0 & total_rank_correlation_exposure < 0.20, age])
 
-# county models
-county_models = list()
-f = formula("le ~ rank_slope + gini + lincome + lpopulation + model_time + (1|county)")
-for (j in 1:3) {
-    print(paste0("Iteration group: ", j))
-    d = copy(cty[iteration %in% iterations[[j]]])
-    d[, `:=`
-        (lincome = logIncome(mean_income),
-        lpopulation = logIncome(population),
-        model_time = factor(model_time),
-        replicate = iteration * 1000 + replicate
-        )]
-    replicates = sort(unique(d$replicate))
-    county_models[[j]] = linearModel(replicates, data = d, f = f)
-}
+table(m[, .(age == 0, total_rank_correlation_exposure < .20)])
+table(m[, .(age == 0, total_rank_correlation_exposure < 0)])
 
-a = texreg(cox_models,
-    custom.model.names = c("$\\beta$ = 0.5", "$\\beta$ = 0.3", "$\\beta$ = 0.0"),
-    custom.coef.names = "Individual total IM exposure (Cox-mixed-model)",
-    dcolumn = TRUE,
-    booktabs = TRUE,
-    float.pos = "htp",
-    caption = "Estimates fake effect  $\\beta$  of IM on mortality",
-    caption.above = TRUE
-)
 
-b = texreg(cox_models_c,
-    custom.model.names = c("$\\beta$ = 0.5", "$\\beta$ = 0.3", "$\\beta$ = 0.0"),
-    custom.coef.names = "Individual County IM (Cox-mixed-model)",
-    dcolumn = TRUE,
-    booktabs = TRUE,
-    float.pos = "htp",
-    caption = "Estimates fake effect  $\\beta$  of IM on mortality",
-    caption.above = TRUE
-)
 
-c = texreg(county_models,
-    custom.model.names = c("$\\beta$ = 0.5", "$\\beta$ = 0.3", "$\\beta$ = 0.0"),
-    custom.coef.names = "County IM on LE (Mixed-model)",
-    dcolumn = TRUE,
-    booktabs = TRUE,
-    use.packages = FALSE,
-    float.pos = "htp",
-    caption = "Estimates fake effect  $\\beta$  of IM on mortality",
-    caption.above = TRUE
-)
+m = m[age != 0]
 
-county_models[[1]]
-
-# extract coefficients
-header = "
-\\begin{table}[htp]
-\\scriptsize
-\\caption{Estimates fake IM effect $\\beta$ on mortality}
-\\label{ch04:exercise_01}
-\\begin{center}
-\\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
-\\toprule
- & \\multicolumn{1}{c}{$\\beta$ = 0.5} & \\multicolumn{1}{c}{$\\beta$ = 0.3} & \\multicolumn{1}{c}{$\\beta$ = 0.0} \\\\
-\\midrule
-"
-
-bottom = "
-\\bottomrule
-\\multicolumn{4}{l}{\\scriptsize{$^*$ Null hypothesis value outside the confidence interval.}}
-\\end{tabular}
-\\end{center}
-\\end{table}
-"
-
-tab = list()
-tab[[1]] = header
-tab[[2]] = gsub("(.+midrule)(.+midrule)|\\\\bottomrule.+", "\\2", a)
-tab[[3]] = gsub("(.+midrule)(.+midrule)|\\\\bottomrule.+", "\\2", b)
-tab[[4]] = gsub("(.+midrule)(.+midrule)|\\\\bottomrule.+", "\\2", c)
-tab[[5]] = bottom
-
-tab = paste(tab, collapse = '')
-tab = gsub("\\\\midrule", "", tab)
-
-cat(tab, file = "output/tables/experiment_01.tex")
+dim(m[total_rank_correlation_exposure > .20,])
