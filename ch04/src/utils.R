@@ -61,6 +61,7 @@ coxModel = function(replicates, data,
         coeff_names = rownames(model$coefficients)
         yi = c(yi, model$coefficients[which(coeff_names == predictor), 1])
         sei = c(sei, model$coefficients[which(coeff_names == predictor), 3])
+        summary(sei)
         #yi = c(yi, model$coefficients[predictor])
         #sei = c(sei, AICcmodavg::extractSE(model)[predictor])
     }
