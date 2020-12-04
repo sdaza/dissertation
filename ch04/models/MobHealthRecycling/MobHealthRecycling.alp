@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -1332,7 +1332,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1567759712274</Id>
 					<Name><![CDATA[p_numIncomeTypes]]></Name>
-					<X>50</X><Y>950</Y>
+					<X>50</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1357,7 +1357,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1597410585018</Id>
 					<Name><![CDATA[p_weightVectorCountyIncExp]]></Name>
-					<X>50</X><Y>970</Y>
+					<X>50</X><Y>1000</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1383,7 +1383,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1606140655343</Id>
 					<Name><![CDATA[p_endogenousIncomeMob]]></Name>
-					<X>50</X><Y>990</Y>
+					<X>50</X><Y>1020</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1456,34 +1456,10 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1605543077011</Id>
-					<Name><![CDATA[p_incomeProbMatrix]]></Name>
-					<X>50</X><Y>1010</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[2]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1605543077009</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
 					<Id>1597523476580</Id>
 					<Name><![CDATA[p_smokingCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients: {0.7, 0.0, -0.9}]]></Description>
-					<X>50</X><Y>1110</Y>
+					<X>50</X><Y>1100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1508,7 +1484,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="Parameter">
 					<Id>1599596275483</Id>
 					<Name><![CDATA[p_smokingCoeffIncExp]]></Name>
-					<X>50</X><Y>1090</Y>
+					<X>50</X><Y>1080</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1534,7 +1510,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1598619156839</Id>
 					<Name><![CDATA[p_smokingCoeffMobExp]]></Name>
 					<Description><![CDATA[1.2]]></Description>
-					<X>50</X><Y>1070</Y>
+					<X>50</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1585,7 +1561,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1597518968143</Id>
 					<Name><![CDATA[p_mortalityCoeffIncType]]></Name>
 					<Description><![CDATA[Initial coefficients = {0.3, 0.0, -0.3}]]></Description>
-					<X>50</X><Y>1130</Y>
+					<X>50</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1611,7 +1587,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1599596944691</Id>
 					<Name><![CDATA[p_mortalityCoeffSmoking]]></Name>
 					<Description><![CDATA[Generation coefficient = 1.098612]]></Description>
-					<X>50</X><Y>1150</Y>
+					<X>50</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1636,7 +1612,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1606149445574</Id>
 					<Name><![CDATA[p_mortalityFakeCoeffRankSlope]]></Name>
 					<Description><![CDATA[Generation coefficient = 1.098612]]></Description>
-					<X>50</X><Y>1170</Y>
+					<X>50</X><Y>1160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1699,6 +1675,30 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1606299749928</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1607083288394</Id>
+					<Name><![CDATA[p_baselineSameIncomeProb]]></Name>
+					<X>50</X><Y>980</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.4]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1607083288392</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -2056,7 +2056,7 @@ f_stopSimulation();
 						</RecurrenceCode>
 						<Condition><![CDATA[false]]></Condition>
 					</Properties>
-					<Action><![CDATA[f_getRandomTransitionMatrix();
+					<Action><![CDATA[//f_getRandomTransitionMatrix();
 
 //f_testPopulation();
 
@@ -2154,10 +2154,8 @@ double totalPopulation = (p_numCounties * p_peoplePerCounty) * 3 * 1.10;
 p_countyPopLimit = totalPopulation / p_numCounties;
 
 // income transition matrix
-if (p_endogenousIncomeMob) f_incomeTransitionMatrixEndogenous();
-else f_incomeTransitionMatrixExogenous();
 
-// create collection with real income values (IPUMS
+// create collection with real income values (IPUMS)
 for (int i = 0; i < p_numIncomeTypes; i++) {
 	int h = i + 1;
 	
@@ -2175,11 +2173,11 @@ for (int i = 0; i < p_numIncomeTypes; i++) {
 
 // initiate income values
 for (County c : counties) {
-	//int matrix = uniform_discr(0, col_incomeTransitionMatrix.size()-1);
-	//traceln(matrix);
-	//c.v_incomeTransitionMatrix = col_incomeTransitionMatrix.get(matrix);
-	//traceln(c.v_incomeTransitionMatrix);
-	c.v_incomeTransitionMatrix = f_getRandomTransitionMatrix();
+	if (p_endogenousIncomeMob) {
+		c.v_incomeTransitionMatrix = f_getBaselineTransitionMatrix(p_baselineSameIncomeProb);
+	} else {
+		c.v_incomeTransitionMatrix = f_getRandomTransitionMatrix(c);
+	}
 	
 	for (Person p : c.people) {	
 		// initial type of income mobility (random)
@@ -3720,78 +3718,6 @@ v_countyRankSlope = col_countyRankSlope.stream()
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double[][]]]></ReturnType>
-					<Id>1605557779656</Id>
-					<Name><![CDATA[f_incomeTransitionMatrixExogenous]]></Name>
-					<X>680</X><Y>710</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[
-double[] probs = f_arrayRepeatedValues(0.25, p_numIncomeTypes);
-double t0[][] = new double[p_numIncomeTypes][p_numIncomeTypes];
-
-for (int i = 0; i < p_numIncomeTypes; i++) {
-	for (int j = 0; j < p_numIncomeTypes; j++) {
-		t0[i][j] = probs[j];
-	}
-}
-
-/*
-double[][]  t0 = {
-    {0.25, 0.1875, 0.1875, 0.1875, 0.1875},
-    {0.1875, 0.25, 0.1875, 0.1875, 0.1875},
-    {0.1875, 0.1875, 0.25, 0.1875, 0.1875},
-    {0.1875, 0.1875, 0.1875, 0.25, 0.1875},
-    {0.1875, 0.1875, 0.1875, 0.1875, 0.25}
-};
-*/
-
-double[][]  t1 = {
-    {0.30, 0.175, 0.175, 0.175, 0.175},
-    {0.175, 0.30, 0.175, 0.175, 0.175},
-    {0.175, 0.175, 0.30, 0.175, 0.175},
-    {0.175, 0.175, 0.175, 0.30, 0.175},
-    {0.175, 0.175, 0.175, 0.175, 0.30}
-};
-
-double[][]  t2 = {
-    {0.6, 0.1, 0.1, 0.1, 0.1},
-    {0.1, 0.6, 0.1, 0.1, 0.1},
-    {0.1, 0.1, 0.6, 0.1, 0.1},
-    {0.1, 0.1, 0.1, 0.6, 0.1},
-    {0.1, 0.1, 0.1, 0.1, 0.6}
-};
-
-col_incomeTransitionMatrix.add(t0);
-col_incomeTransitionMatrix.add(t1);
-col_incomeTransitionMatrix.add(t2);
-
-/*
-if (p_incomeProbMatrix == 1) {
-	col_incomeProbDistribution.add(new double[] {0, 0.25, 0.25, 0.25, 0.25});
-	col_incomeProbDistribution.add(new double[] {0.25, 0, 0.25, 0.25, 0.25});
-	col_incomeProbDistribution.add(new double[] {0.25, 0.25, 0.0, 0.25, 0.25});
-	col_incomeProbDistribution.add(new double[] {0.25, 0.25, 0.25, 0, 0.25});
-	col_incomeProbDistribution.add(new double[] {0.25, 0.25, 0.25, 0.25, 0});
-} else if (p_incomeProbMatrix == 2) {
-	col_incomeProbDistribution.add(new double[] {0, 0.4, 0.3, 0.2, 0.1});
-	col_incomeProbDistribution.add(new double[] {0.35, 0, 0.35, 0.20, 0.1});
-	col_incomeProbDistribution.add(new double[] {0.1, 0.4, 0.0, 0.4, 0.1});
-	col_incomeProbDistribution.add(new double[] {0.1, 0.2, 0.35, 0, 0.35});
-	col_incomeProbDistribution.add(new double[] {0.1, 0.2, 0.3, 0.4, 0});
-} else if (p_incomeProbMatrix ==3) {
-	col_incomeProbDistribution.add(new double[] {0.337, 0.280, 0.184, 0.123, 0.075});
-	col_incomeProbDistribution.add(new double[] {0.242, 0.242, 0.217, 0.176, 0.123});
-	col_incomeProbDistribution.add(new double[] {0.178, 0.198, 0.221, 0.220, 0.183});
-	col_incomeProbDistribution.add(new double[] {0.134, 0.160, 0.209, 0.244, 0.254});
-	col_incomeProbDistribution.add(new double[] {0.109, 0.119, 0.170, 0.236, 0.365});
-}
-*/]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1605686303267</Id>
 					<Name><![CDATA[f_lastCompleteMortalityCohort]]></Name>
@@ -3928,38 +3854,6 @@ return total > 0 ?  smokers / total : 0.0;]]></Body>
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double[][]]]></ReturnType>
-					<Id>1606140783078</Id>
-					<Name><![CDATA[f_incomeTransitionMatrixEndogenous]]></Name>
-					<X>680</X><Y>730</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// total income mobility
-/*
-double[] probs = f_arrayRepeatedValues(1.0/p_numIncomeTypes, p_numIncomeTypes);
-double t0[][] = new double[p_numIncomeTypes][p_numIncomeTypes];
-
-for (int i = 0; i < p_numIncomeTypes; i++) {
-	for (int j = 0; j < p_numIncomeTypes; j++) {
-		t0[i][j] = probs[j];
-	}
-}
-
-*/
-
-double[][]  t0 = {
-    {0.35, 0.175, 0.175, 0.175, 0.175},
-    {0.175, 0.35, 0.175, 0.175, 0.175},
-    {0.175, 0.175, 0.35, 0.175, 0.175},
-    {0.175, 0.175, 0.175, 0.35, 0.175},
-    {0.175, 0.175, 0.175, 0.175, 0.35}
-};
-col_incomeTransitionMatrix.add(t0);]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[ArrayList<Double>]]></ReturnType>
 					<Id>1606204531111</Id>
@@ -4071,21 +3965,63 @@ return new double[] {regression.getIntercept(), regression.getSlope()};]]></Body
 					<ReturnType><![CDATA[double[][]]]></ReturnType>
 					<Id>1606947272721</Id>
 					<Name><![CDATA[f_getRandomTransitionMatrix]]></Name>
-					<X>680</X><Y>750</Y>
+					<X>680</X><Y>710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[county]]></Name>
+						<Type><![CDATA[County]]></Type>
+					</Parameter>
 					<Body><![CDATA[List<Integer> cz = selectValues("select cz from transition");
 int scz = randomFrom(cz);
 
-//traceln(scz);
+county.p_countyCZ = scz;
+
+traceln(scz);
 double[][] output = new double[p_numIncomeTypes][p_numIncomeTypes];
 
 for (int i=0;i < p_numIncomeTypes;i++) {
-	List<Double> temp = selectValues("select q" + (i+1) + " from transition where cz =" + scz);
+	List<Double> temp = selectValues("select prop from transition where cz =" + scz + " and parent = " + (i+1));
 	for (int h=0;h < p_numIncomeTypes;h++) {
-		output[h][i] = temp.get(h);
+		output[i][h] = temp.get(h);
+	}
+}
+
+traceln(output);
+
+return output;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double[][]]]></ReturnType>
+					<Id>1607082275186</Id>
+					<Name><![CDATA[f_getBaselineTransitionMatrix]]></Name>
+					<X>680</X><Y>730</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[p]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Body><![CDATA[double[][] w = new double[][] {
+{1.0000000, 0.4229607, 0.2779456, 0.1858006, 0.1132931},
+{0.3192612, 1.0000000, 0.2862797, 0.2321900, 0.1622691},
+{0.2284981, 0.2541720, 1.0000000, 0.2824134, 0.2349166},
+{0.1770145, 0.2113606, 0.2760898, 1.0000000, 0.3355350},
+{0.1719243, 0.1876972, 0.2681388, 0.3722397, 1.0000000}
+};
+
+double np = 1.0 - p;
+double[][] output = new double[p_numIncomeTypes][p_numIncomeTypes];
+
+for (int i=0; i < p_numIncomeTypes; i++) {
+	for (int h=0; h < p_numIncomeTypes; h++) {
+		if (i == h ) { output[i][h] = w[i][h] * p; }
+		else { output[i][h] = w[i][h] * np; }
 	}
 }
 
@@ -4954,6 +4890,9 @@ return output;]]></Body>
 						</GenericParameterSubstituteReference>
 					</GenericParameterSubstitute>
 					<Parameters>
+						<Parameter>
+							<Name><![CDATA[p_countyCZ]]></Name>
+						</Parameter>
 					</Parameters>
 					<ReplicationFlag>true</ReplicationFlag>
 					<Replication Class="CodeValue">
@@ -7508,10 +7447,31 @@ return output;]]></Body>
 						<Type><![CDATA[double[][]]]></Type>        
 					</Properties>
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1607076087098</Id>
+					<Name><![CDATA[p_countyCZ]]></Name>
+					<X>60</X><Y>290</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1607076087096</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1596631263018</Id>
 					<Name><![CDATA[col_peopleAlive]]></Name>
-					<X>60</X><Y>300</Y>
+					<X>60</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7527,7 +7487,7 @@ return output;]]></Body>
 					<Id>1597922038333</Id>
 					<Name><![CDATA[col_incomeParentKid]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>60</X><Y>340</Y>
+					<X>60</X><Y>370</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7542,7 +7502,7 @@ return output;]]></Body>
 				<Variable Class="CollectionVariable">
 					<Id>1597932300261</Id>
 					<Name><![CDATA[col_income]]></Name>
-					<X>60</X><Y>320</Y>
+					<X>60</X><Y>350</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7558,7 +7518,7 @@ return output;]]></Body>
 					<Id>1602144909439</Id>
 					<Name><![CDATA[col_deaths]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>60</X><Y>360</Y>
+					<X>60</X><Y>390</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7577,7 +7537,7 @@ return output;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1597959414271</Id>
 					<Name><![CDATA[f_countTypeIncomePeople]]></Name>
-					<X>60</X><Y>270</Y>
+					<X>60</X><Y>310</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7801,9 +7761,9 @@ return output;]]></Body>
 					<HeightCode><![CDATA[main.p_sizeRectangle]]></HeightCode>
 					<Rotation>0.0</Rotation>
 					<FillColor>-1</FillColor>
-					<FillColorCode><![CDATA[main.p_colorRankSlope ?  lerpColor(v_rankSlope / 
-	main.col_countyRankSlope.stream().mapToDouble(p -> p).max().orElse(0.0), 
-	yellow, red) :
+					<FillColorCode><![CDATA[main.p_colorRankSlope ?  lerpColor(
+	v_rankSlope <= 0 ? 0.0 :
+	(v_rankSlope > 0.5 ? 1.0 : v_rankSlope), yellow, red) :
 	lerpColor(v_medianIncome / (main.v_meanIncome + main.v_countyMeanIncomeSD * 2.0),
 		yellow, green)]]></FillColorCode>
 					<FillMaterial>null</FillMaterial>
@@ -11479,7 +11439,7 @@ v_incomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);]]>
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
 			<ExternalConnection>
-				<Id>1606944683842</Id>
+				<Id>1607070320773</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
 				<Label><X>10</X><Y>0</Y></Label>
@@ -11492,7 +11452,7 @@ v_incomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);]]>
 				<DatabaseName><![CDATA[]]></DatabaseName>
 				<ResourceReference>
 					<PackageName><![CDATA[mobHealthRecycling]]></PackageName>
-					<ClassName><![CDATA[data/transition_matrices_cz.xlsx]]></ClassName>
+					<ClassName><![CDATA[data/cz_long_format_transition_matrices.xlsx]]></ClassName>
 				</ResourceReference>
 				<Host><![CDATA[localhost]]></Host>
 				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
@@ -11535,7 +11495,7 @@ v_incomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);]]>
 					<ClassName><![CDATA[transition]]></ClassName>
 				</TableReference>
 				<ConnectionIndex>1</ConnectionIndex>
-				<ExternalTableName><![CDATA["transition_matrices_cz"]]></ExternalTableName>
+				<ExternalTableName><![CDATA["Sheet1"]]></ExternalTableName>
 				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 			<TableImportSettings>
@@ -11685,7 +11645,7 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[f_arrayRepeatedValues(0.001, 5);
+							<Code><![CDATA[f_arrayRepeatedValues(0.10, 5);
 //{0.01, 0.05, 0.10, 0.15, 0.3}]]></Code>
 						</InitialValue>
 					</Properties>
@@ -11748,14 +11708,14 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[1.0]]></Code>
+							<Code><![CDATA[0.01]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1599578821413</Id>
 					<Name><![CDATA[v_weightIncTypeProb]]></Name>
-					<X>510</X><Y>850</Y>
+					<X>510</X><Y>820</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11842,7 +11802,7 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[f_arrayRepeatedValues(0.22, 5)]]></Code>
+							<Code><![CDATA[f_arrayRepeatedValues(0.25, 5)]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -12067,37 +12027,7 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[40]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1605700830641</Id>
-					<Name><![CDATA[v_incomeTransitionMatrix]]></Name>
-					<X>510</X><Y>870</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[3]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1605700976682</Id>
-					<Name><![CDATA[v_sameParentIncomeProbs]]></Name>
-					<X>510</X><Y>830</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double[]]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[//f_arrayRepeatedValues(0.4, 5)]]></Code>
+							<Code><![CDATA[60]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -12119,7 +12049,7 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 				<Variable Class="PlainVariable">
 					<Id>1606141267643</Id>
 					<Name><![CDATA[v_endogenousIncomeMob]]></Name>
-					<X>510</X><Y>890</Y>
+					<X>510</X><Y>840</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -13250,50 +13180,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-				<Text>
-					<Id>1605700885687</Id>
-					<Name><![CDATA[text18]]></Name>
-					<X>100</X><Y>550</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Income transition matrix
-]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>12</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1605700885689</Id>
-					<Name><![CDATA[incomeAssignmentCoeffIncomeExposure1]]></Name>
-					<X>240</X><Y>542</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LinkTo>true</LinkTo>
-						<Link>v_incomeTransitionMatrix</Link>
-					</ExtendedProperties>
-				</Control>
 				<Control Type="EditBox">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1605777777610</Id>
@@ -13604,12 +13490,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_exposureThreshold]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_incomeProbMatrix]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_incomeTransitionMatrix]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffIncType]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_smokingCoeffIncomeType]]></Code>
@@ -13650,6 +13530,12 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
+					</ParameterValue>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_baselineSameIncomeProb]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -15688,12 +15574,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_exposureThreshold]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_incomeProbMatrix]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[v_incomeTransitionMatrix]]></Code>
-					</ParameterValue>
-				</Parameter>
-				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffIncType]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_smokingCoeffIncomeType]]></Code>
@@ -15734,6 +15614,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_baselineSameIncomeProb]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -16420,9 +16303,6 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 				<Id>1604756048656</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1605543077011</Id>
-			</FreeformParamValue>
-			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -16454,6 +16334,9 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606299749930</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1607083288394</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -16643,10 +16526,6 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
-				<Id>1605543077011</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
 				<Id>1605638325750</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
@@ -16688,6 +16567,10 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606299749930</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1607083288394</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -17387,9 +17270,6 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 				<Id>1604756048656</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1605543077011</Id>
-			</FreeformParamValue>
-			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -17421,6 +17301,9 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606299749930</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1607083288394</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -17610,10 +17493,6 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
-				<Id>1605543077011</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
 				<Id>1605638325750</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
@@ -17655,6 +17534,10 @@ f_sendSlackMessage();]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606299749930</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1607083288394</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -18252,12 +18135,6 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1605543077011</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[1]]></Code>
-				</Expression>
-			</FreeformParamValue>
-			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -18295,6 +18172,9 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606299749930</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1607083288394</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -18451,10 +18331,6 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
-				<Id>1605543077011</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
 				<Id>1605638325750</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
@@ -18496,6 +18372,10 @@ if (v_slack) f_sendSlackMessage();]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606299749930</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1607083288394</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -19140,9 +19020,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1605543077011</Id>
-			</FreeformParamValue>
-			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 				<Expression Class="CodeValue">
 					<Code><![CDATA[40]]></Code>
@@ -19187,11 +19064,14 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1606290379069</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[30]]></Code>
+					<Code><![CDATA[10]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606299749930</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1607083288394</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -19396,10 +19276,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
-				<Id>1605543077011</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
 				<Id>1605638325750</Id>
 				<Type>FIXED</Type>
 				<Expression Class="CodeValue">
@@ -19456,6 +19332,10 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606299749930</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1607083288394</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -20175,9 +20055,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1605543077011</Id>
-			</FreeformParamValue>
-			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 				<Expression Class="CodeValue">
 					<Code><![CDATA[40]]></Code>
@@ -20221,12 +20098,12 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606290379069</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[30]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606299749930</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1607083288394</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1516978903254</Id>
@@ -20431,10 +20308,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
-				<Id>1605543077011</Id>
-				<Type>FIXED</Type>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
 				<Id>1605638325750</Id>
 				<Type>FIXED</Type>
 				<Expression Class="CodeValue">
@@ -20491,6 +20364,10 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1606299749930</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1607083288394</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
@@ -20785,6 +20662,10 @@ class CorrelationLE {
 		</Resource>
 		<Resource>
 			<Path><![CDATA[data/transition_matrices_cz.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data/cz_long_format_transition_matrices.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 	</ModelResources>
