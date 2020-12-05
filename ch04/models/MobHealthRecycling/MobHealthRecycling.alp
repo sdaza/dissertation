@@ -1660,7 +1660,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1606299749930</Id>
-					<Name><![CDATA[p_measurementWindowStrat]]></Name>
+					<Name><![CDATA[p_measurementCohortWindow]]></Name>
 					<X>230</X><Y>780</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1999,13 +1999,13 @@ if (p_updateStats) {
 	f_computeAverageNumberOfMoves();
 	
 	// aggregate income measures
-	if (time() % p_measurementWindowStrat == 0) f_aggregateIncomeMeasures();
+	if (time() % p_measurementCohortWindow == 0) f_aggregateIncomeMeasures();
 	
 	// county income measures
-	if (time() % p_measurementWindowStrat == 0) f_countyIncomeMeasures();
+	if (time() % p_measurementCohortWindow == 0) f_countyIncomeMeasures();
 
 	// nsi (segregation)
-	if (time() % p_measurementWindowStrat == 0) f_nsi();
+	if (time() % p_measurementCohortWindow == 0) f_nsi();
 	
     // update plots
     if (p_descriptivePlots) f_updatePlots();
@@ -3707,7 +3707,7 @@ v_countyRankSlope = col_countyRankSlope.stream()
 	//traceln("Cohort IM: " + v_lastMobilityCohort);
 	//traceln("Size of last cohort: " + round(cohort.size() / p_numCounties));
 
-	v_lastMobilityCohort = v_lastMobilityCohort + p_measurementWindowStrat;
+	v_lastMobilityCohort = v_lastMobilityCohort + p_measurementCohortWindow;
 	
 	f_incomeMobility(cohort);
 	List<IncomeParentKid> pkincome = col_incomeParentKid.stream()
@@ -3773,7 +3773,7 @@ if (peopleInCohort == 0 & col_deaths.size() > 100) {
 
     }
 	
-	v_lastMortalityCohort = v_lastMortalityCohort + p_measurementWindowStrat;
+	v_lastMortalityCohort = v_lastMortalityCohort + p_measurementCohortWindow;
 	
 	/*
     dh_scatterRRSLE.clear()
@@ -3979,7 +3979,7 @@ int scz = randomFrom(cz);
 
 county.p_countyCZ = scz;
 
-traceln(scz);
+//traceln(scz);
 double[][] output = new double[p_numIncomeTypes][p_numIncomeTypes];
 
 for (int i=0;i < p_numIncomeTypes;i++) {
@@ -3989,7 +3989,7 @@ for (int i=0;i < p_numIncomeTypes;i++) {
 	}
 }
 
-traceln(output);
+//traceln(output);
 
 return output;]]></Body>
 				</Function>
@@ -13604,7 +13604,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+					<ParameterName><![CDATA[p_measurementCohortWindow]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
 					</ParameterValue>
@@ -15675,7 +15675,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+					<ParameterName><![CDATA[p_measurementCohortWindow]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
 					</ParameterValue>
@@ -19454,7 +19454,6 @@ import com.slack.api.model.Message;]]></Import>
 			<InitialSetupCode><![CDATA[f_clearDatabases();
 
 // create parameters
-
 v_mortalityFakeCoeffRankSlope = new double[] {
 	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5,
@@ -19473,8 +19472,8 @@ v_movingDecisionRate = new double[] {
 v_propMovingRandom = new double[] {
 	1.0, 1.0, 1.0,
 	1.0, 1.0, 1.0,
-	0.1, 0.1, 0.1,
-	0.1, 0.1, 0.1
+	0.01, 0.01, 0.01,
+	0.01, 0.01, 0.01
 };
 
 
@@ -19484,7 +19483,6 @@ v_weightingFactor = new double[] {
 	0.0, 0.0, 0.0,
 	0.4, 0.4, 0.4
 };
-
 ]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -19950,9 +19948,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<NumberOfRuns>12</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[150]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903257</Id>
@@ -20037,9 +20032,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[20]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1599596275483</Id>
@@ -20055,9 +20047,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[50]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600583800233</Id>
@@ -20125,7 +20114,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[40]]></Code>
+					<Code><![CDATA[60]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -20454,7 +20443,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>15</ReplicationPerIteration>
+				<ReplicationPerIteration>30</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
