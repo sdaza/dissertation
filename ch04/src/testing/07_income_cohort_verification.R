@@ -11,6 +11,7 @@ income = fread(paste0(path, "income_generation.csv"))
 
 # functions
 perc.rank = function(x) trunc(rank(x))/length(x)
+
 reg = function(kid_income, parent_income, relative = TRUE) {
     m = lm(kid_income ~ parent_income)
     c = coef(m)
