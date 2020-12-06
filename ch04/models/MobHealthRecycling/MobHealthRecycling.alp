@@ -10013,11 +10013,11 @@ double value =
 	(main.f_baselineMortalityRate(p_age) / 100000.0) *	
 	exp(
 		// income individual differences 
-		main.p_mortalityCoeffIncType[p_incomeType-1]
+		//main.p_mortalityCoeffIncType[p_incomeType-1]
 		// current county income effect
-    	+ v_incomeExposureZ * -0.2 
+    	//+ v_incomeExposureZ * -0.2 
 		// smoking effect
-		+ ((v_smoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking) +  
+		//+ ((v_smoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking) +  
 		// fake IM effect 
 		v_rankSlopeExp * main.p_mortalityFakeCoeffRankSlope
     )
@@ -19457,13 +19457,11 @@ import com.slack.api.model.Message;]]></Import>
 v_mortalityFakeCoeffRankSlope = new double[] {
 	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5,
-	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5
 };
 
 v_movingDecisionRate = new double[] {
 	0.001, 0.001, 0.001,
-	0.1, 0.1, 0.1,
 	0.1, 0.1, 0.1,
 	0.1, 0.1, 0.1
 };
@@ -19472,16 +19470,13 @@ v_movingDecisionRate = new double[] {
 v_propMovingRandom = new double[] {
 	1.0, 1.0, 1.0,
 	1.0, 1.0, 1.0,
-	0.01, 0.01, 0.01,
 	0.01, 0.01, 0.01
 };
-
 
 v_weightingFactor = new double[] {
 	0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0,
-	0.0, 0.0, 0.0,
-	0.4, 0.4, 0.4
+	0.0, 0.0, 0.0
 };
 ]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
@@ -19503,8 +19498,8 @@ root.p_mortalityFakeCoeffRankSlope = v_mortalityFakeCoeffRankSlope[currentIterat
 root.p_movingDecisionRate = f_arrayRepeatedValues(v_movingDecisionRate[currentIteration],
 	root.p_numIncomeTypes);
 root.p_randomMobilityProb = v_propMovingRandom[currentIteration];
-root.p_weightVectorCountyIncExp = f_arrayRepeatedValues(v_weightingFactor[currentIteration], 
-	root.p_numIncomeTypes);]]></BeforeSimulationRunCode>
+//root.p_weightVectorCountyIncExp = f_arrayRepeatedValues(v_weightingFactor[currentIteration], 
+//	root.p_numIncomeTypes);]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -19526,7 +19521,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA["output/verification/exogenous-experiment/"]]></Code>
+							<Code><![CDATA["output/verification/exogenous-experiment-simply/"]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -19945,7 +19940,7 @@ if (v_slack) f_sendSlackMessage();
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>12</NumberOfRuns>
+			<NumberOfRuns>9</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
