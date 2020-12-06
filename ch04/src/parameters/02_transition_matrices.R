@@ -123,6 +123,9 @@ cor(tp[parent == 5 & parent == child, .(prop, rm)])
 
 cor(tp[parent == 1 & parent == child, .(prop, black)])
 cor(tp[parent == 1 & parent == child, .(rm, black)])
+cor(tp[parent == 1 & parent == child, .(lincome, black)])
+cor(tp[parent == 1 & parent == child, .(lincome, prop)])
+cor(tp[parent == 1 & parent == child, .(lincome, rm)])
 
 plot(tp[parent == 1 & parent == child, .(prop, rm)])
 plot(tp[parent == 2 & parent == child, .(prop, rm)])
