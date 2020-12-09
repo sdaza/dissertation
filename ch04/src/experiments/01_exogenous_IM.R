@@ -16,20 +16,29 @@ library(survival)
 # library(AICcmodavg)
 
 source("src/utils.R")
-path = "models/MobHealthRecycling/output/verification/"
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment-simply"
+
+# read data
+m = fread(paste0(path, "/mortality.csv"))
+cty = fread(paste0(path, "/county.csv"))
+p = fread(paste0(path, "/model_parameters.csv"))
+
+nrow(cty)
+nrow(m)
+nrow(p)
+
+# parameters
+table(p$replicate)
+table(p$iteration)
 
 # iterations
-experiments = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg", "exogenous-IM-MobWeight")
-experiments = experiments[1:3]
+iterations = list(1:3, 4:6, 7:9)
+experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
 
-iterations = list(1:5, 6:10, 11:15)
 #iterations = list(1:5)
-mtime = 810
+mtime = 800
 
-# name_of_models = c("$\\beta$ = 0.0")
 name_of_models = c("$\\beta$ = 0.0", "$\\beta$ = 0.3", "$\\beta$ = 0.5")
-iterations = list(1:5, 6:10, 11:15)
-mtime = 990
 
 # tables header and bottom
 header = "
@@ -42,7 +51,7 @@ header = "
 \\begin{center}
 \\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
 \\toprule
- & \\multicolumn{1}{c}{$\\beta$ = 0.5} & \\multicolumn{1}{c}{$\\beta$ = 0.3} & \\multicolumn{1}{c}{$\\beta$ = 0.0} \\\\
+ & \\multicolumn{1}{c}{$\\beta$ = 0.0} & \\multicolumn{1}{c}{$\\beta$ = 0.3} & \\multicolumn{1}{c}{$\\beta$ = 0.5} \\\\
 \\midrule
 "
 
@@ -54,31 +63,34 @@ bottom = "
 \\end{table}
 "
 
+
 # iterate through each experiment
-for (h in seq_along(experiments)) {
+for (h in seq_along(experiment_names)) {
+    print(paste0("Experiment : ", experiment_names[h], " ::::::::::::"))
+    iter = iterations[[h]]
 
-    print(paste0("Experiment : ", experiments[h], " ::::::::::::"))
-
-    m = fread(paste0(path, experiments[h], "/mortality.csv"))
-    cty = fread(paste0(path, experiments[h], "/county.csv"))
-    p = fread(paste0(path, experiments[h], "/model_parameters.csv"))
-
-    print(paste0("Min pop: ", min(cty$population)))
-    print(paste0("Max time: ", max(cty$model_time)))
-    print(paste0("Min IM: ", round(min(cty$rank_slope), 2), "; Max IM: ",
-        round(max(cty$rank_slope), 2), "; Average: ", round(mean(cty$rank_slope), 2)))
+    # filter data
+    print(paste0("Min pop: ", min(cty[iteration %in% iter, population])))
+    print(paste0("Max time: ", max(cty[iteration %in% iter, model_time])))
+    print(paste0("Min IM: ",
+        round(min(cty[iteration %in% iter, rank_slope]), 2),
+        "; Max IM: ",
+        round(max(cty[iteration %in% iter, rank_slope]), 2),
+        "; Average: ",
+        round(mean(cty[iteration %in% iter, rank_slope]), 2))
+    )
 
     # individual mortality
     cox_models = list()
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
-    for (j in seq_along(iterations)) {
-        print(paste0("Iteration group: ", j))
-        d = m[iteration %in% iterations[[j]]]
+    #f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
+    f = formula("Surv(age, status) ~ total_rank_slope_exposure")
+    for (j in seq_along(iter)) {
+        print(paste0("Iteration group: ", iter[j]))
+        d = copy(m[iteration %in% iter[j]])
         d[, `:=`
             (status = 1,
             lincome = logIncome(income),
-            county_lincome = logIncome(county_mean_income),
-            replicate = iteration * 1000 + replicate
+            county_lincome = logIncome(county_mean_income)
             )]
         replicates = sort(unique(d$replicate))
         cox_models[[j]] = coxModel(replicates, data = d, f = f, predictor = "total_rank_slope_exposure")
@@ -86,14 +98,13 @@ for (h in seq_along(experiments)) {
 
     cox_models_c = list()
     f = formula("Surv(age, status) ~ county_rank_slope + lincome + county_lincome")
-    for (j in seq_along(iterations)) {
-        print(paste0("Iteration group: ", j))
-        d = m[iteration %in% iterations[[j]]]
+    for (j in seq_along(iter)) {
+        print(paste0("Iteration group: ", iter[j]))
+        d = m[iteration %in% iter[j]]
         d[, `:=`
             (status = 1,
             lincome = logIncome(income),
-            county_lincome = logIncome(county_mean_income),
-            replicate = iteration * 1000 + replicate
+            county_lincome = logIncome(county_mean_income)
             )]
         replicates = sort(unique(d$replicate))
         cox_models_c[[j]] = coxModel(replicates, data = d, f = f, predictor = "county_rank_slope")
@@ -102,13 +113,12 @@ for (h in seq_along(experiments)) {
     # county models
     county_models = list()
     f = formula("le ~ rank_slope + lincome + lpopulation")
-    for (j in seq_along(iterations)) {
-        print(paste0("Iteration group: ", j))
-        d = copy(cty[iteration %in% iterations[[j]] & model_time == mtime])
+    for (j in seq_along(iter)) {
+        print(paste0("Iteration group: ", iter[j]))
+        d = copy(cty[iteration %in% iter[j] & model_time == mtime])
         d[, `:=`
             (lincome = logIncome(mean_income),
-         lpopulation = logIncome(population),
-            replicate = iteration * 1000 + replicate
+            lpopulation = logIncome(population)
             )]
         replicates = sort(unique(d$replicate))
         county_models[[j]] = linearModel(replicates, data = d, f = f, predictor = "rank_slope")
@@ -121,17 +131,16 @@ for (h in seq_along(experiments)) {
 
     tab_list = list()
     for (i in seq_along(models)) {
-        tab_list[[i]] = texreg(models[[i]],
-            custom.model.names = name_of_models ,
+    tab_list[[i]] = texreg(models[[i]],
+            custom.model.names = name_of_models,
             custom.coef.names = coeff_names[i],
             dcolumn = TRUE,
             booktabs = TRUE,
             float.pos = "htp",
             caption = "Estimates fake effect  $\\beta$  of IM on mortality",
-            caption.above = TRUE
-        )
+            caption.above = TRUE)
     }
 
     tab = select_tab_coeff(tab_list, header, bottom)
-    cat(tab, file = paste0("output/tables/", tolower(experiments[h]), ".tex"))
+    cat(tab, file = paste0("output/tables/", tolower(experiment_names[h]), ".tex"))
 }

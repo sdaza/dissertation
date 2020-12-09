@@ -7,15 +7,18 @@ library(survival)
 
 
 source("src/utils.R")
-path = "models/MobHealthRecycling/output/verification/"
-experiment = "exogenous-IM-NoMob"
-m = fread(paste0(path, experiment, "/mortality.csv"))
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment"
+m = fread(paste0(path, "/mortality.csv"))
 m = m[iteration %in% 1:5]
 m = m[age > 18]
 mean(m$age)
 
+
 # pretty high
-cor(m$total_rank_correlation_exposure, m$total_rank_slope_exposure)
+names(m)
+table(m$iteration)
+# only 50%
+cor(m[iteration %in% 10:12, .(county_rank_slope, total_rank_slope_exposure, total_rank_correlation_exposure)])
 cor(m$total_rank_correlation_exposure, m$income)
 
 m[, status := 1]

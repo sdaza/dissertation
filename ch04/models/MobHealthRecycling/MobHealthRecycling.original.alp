@@ -1660,7 +1660,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				</Variable>
 				<Variable Class="Parameter">
 					<Id>1606299749930</Id>
-					<Name><![CDATA[p_measurementWindowStrat]]></Name>
+					<Name><![CDATA[p_measurementCohortWindow]]></Name>
 					<X>230</X><Y>780</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1999,13 +1999,13 @@ if (p_updateStats) {
 	f_computeAverageNumberOfMoves();
 	
 	// aggregate income measures
-	if (time() % p_measurementWindowStrat == 0) f_aggregateIncomeMeasures();
+	if (time() % p_measurementCohortWindow == 0) f_aggregateIncomeMeasures();
 	
 	// county income measures
-	if (time() % p_measurementWindowStrat == 0) f_countyIncomeMeasures();
+	if (time() % p_measurementCohortWindow == 0) f_countyIncomeMeasures();
 
 	// nsi (segregation)
-	if (time() % p_measurementWindowStrat == 0) f_nsi();
+	if (time() % p_measurementCohortWindow == 0) f_nsi();
 	
     // update plots
     if (p_descriptivePlots) f_updatePlots();
@@ -3707,7 +3707,7 @@ v_countyRankSlope = col_countyRankSlope.stream()
 	//traceln("Cohort IM: " + v_lastMobilityCohort);
 	//traceln("Size of last cohort: " + round(cohort.size() / p_numCounties));
 
-	v_lastMobilityCohort = v_lastMobilityCohort + p_measurementWindowStrat;
+	v_lastMobilityCohort = v_lastMobilityCohort + p_measurementCohortWindow;
 	
 	f_incomeMobility(cohort);
 	List<IncomeParentKid> pkincome = col_incomeParentKid.stream()
@@ -3773,7 +3773,7 @@ if (peopleInCohort == 0 & col_deaths.size() > 100) {
 
     }
 	
-	v_lastMortalityCohort = v_lastMortalityCohort + p_measurementWindowStrat;
+	v_lastMortalityCohort = v_lastMortalityCohort + p_measurementCohortWindow;
 	
 	/*
     dh_scatterRRSLE.clear()
@@ -3979,7 +3979,7 @@ int scz = randomFrom(cz);
 
 county.p_countyCZ = scz;
 
-traceln(scz);
+//traceln(scz);
 double[][] output = new double[p_numIncomeTypes][p_numIncomeTypes];
 
 for (int i=0;i < p_numIncomeTypes;i++) {
@@ -3989,7 +3989,7 @@ for (int i=0;i < p_numIncomeTypes;i++) {
 	}
 }
 
-traceln(output);
+//traceln(output);
 
 return output;]]></Body>
 				</Function>
@@ -10013,11 +10013,11 @@ double value =
 	(main.f_baselineMortalityRate(p_age) / 100000.0) *	
 	exp(
 		// income individual differences 
-		main.p_mortalityCoeffIncType[p_incomeType-1]
+		//main.p_mortalityCoeffIncType[p_incomeType-1]
 		// current county income effect
-    	+ v_incomeExposureZ * -0.2 
+    	//+ v_incomeExposureZ * -0.2 
 		// smoking effect
-		+ ((v_smoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking) +  
+		//+ ((v_smoker ? 1.0 : 0.0) * main.p_mortalityCoeffSmoking) +  
 		// fake IM effect 
 		v_rankSlopeExp * main.p_mortalityFakeCoeffRankSlope
     )
@@ -13604,7 +13604,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+					<ParameterName><![CDATA[p_measurementCohortWindow]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
 					</ParameterValue>
@@ -13811,8 +13811,8 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[f_arrayRepeatedValues(0.4, 5);
-//{0.6, 0.5, 0.4, 0.3, 0.1}]]></Code>
+							<Code><![CDATA[//f_arrayRepeatedValues(0.4, 5);
+{0.6, 0.6, 0.3, 0.2, 0.1}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -14160,7 +14160,7 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0.3]]></Code>
+							<Code><![CDATA[0.0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -15675,7 +15675,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 					<ParameterName><![CDATA[p_smokingAdjustment]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[p_measurementWindowStrat]]></ParameterName>
+					<ParameterName><![CDATA[p_measurementCohortWindow]]></ParameterName>
 					<ParameterValue Class="CodeValue">
 						<Code><![CDATA[v_recurrentTimeStratificationMeasures]]></Code>
 					</ParameterValue>
@@ -19454,9 +19454,7 @@ import com.slack.api.model.Message;]]></Import>
 			<InitialSetupCode><![CDATA[f_clearDatabases();
 
 // create parameters
-
 v_mortalityFakeCoeffRankSlope = new double[] {
-	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5,
 	0.0, 0.3, 0.5
@@ -19465,7 +19463,6 @@ v_mortalityFakeCoeffRankSlope = new double[] {
 v_movingDecisionRate = new double[] {
 	0.001, 0.001, 0.001,
 	0.1, 0.1, 0.1,
-	0.1, 0.1, 0.1,
 	0.1, 0.1, 0.1
 };
 
@@ -19473,18 +19470,14 @@ v_movingDecisionRate = new double[] {
 v_propMovingRandom = new double[] {
 	1.0, 1.0, 1.0,
 	1.0, 1.0, 1.0,
-	0.1, 0.1, 0.1,
-	0.1, 0.1, 0.1
+	0.01, 0.01, 0.01
 };
-
 
 v_weightingFactor = new double[] {
 	0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0,
-	0.0, 0.0, 0.0,
-	0.4, 0.4, 0.4
+	0.0, 0.0, 0.0
 };
-
 ]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
@@ -19505,8 +19498,8 @@ root.p_mortalityFakeCoeffRankSlope = v_mortalityFakeCoeffRankSlope[currentIterat
 root.p_movingDecisionRate = f_arrayRepeatedValues(v_movingDecisionRate[currentIteration],
 	root.p_numIncomeTypes);
 root.p_randomMobilityProb = v_propMovingRandom[currentIteration];
-root.p_weightVectorCountyIncExp = f_arrayRepeatedValues(v_weightingFactor[currentIteration], 
-	root.p_numIncomeTypes);]]></BeforeSimulationRunCode>
+//root.p_weightVectorCountyIncExp = f_arrayRepeatedValues(v_weightingFactor[currentIteration], 
+//	root.p_numIncomeTypes);]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -19528,7 +19521,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA["output/verification/exogenous-experiment/"]]></Code>
+							<Code><![CDATA["output/verification/exogenous-experiment-simply/"]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -19947,12 +19940,9 @@ if (v_slack) f_sendSlackMessage();
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>12</NumberOfRuns>
+			<NumberOfRuns>9</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[150]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903257</Id>
@@ -20037,9 +20027,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[20]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1599596275483</Id>
@@ -20055,9 +20042,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600093012847</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[50]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1600583800233</Id>
@@ -20125,7 +20109,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1605638325750</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[40]]></Code>
+					<Code><![CDATA[60]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -20454,7 +20438,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>15</ReplicationPerIteration>
+				<ReplicationPerIteration>30</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
