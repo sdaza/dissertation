@@ -8,21 +8,21 @@
 \begin{center}
 \begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
 \toprule
-& \multicolumn{1}{c}{$\beta$ = 0.5} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.0} \\
+& \multicolumn{1}{c}{$\beta$ = 0.0} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.5} \\
 \midrule
 
-Individual Mortaltiy on total IM exposure (Cox) & 0.52^{*}     & 0.39^{*}     & 0.04          \\
-                                                & [0.47; 0.58] & [0.35; 0.43] & [-0.02; 0.10] \\
+Individual Mortaltiy on total IM exposure (Cox) & 0.92^{*}     & 1.33^{*}     & 1.41^{*}     \\
+                                                & [0.77; 1.06] & [1.19; 1.47] & [1.27; 1.54] \\
 \addlinespace[10pt]
 
-Individual Mortality on county IM (Cox) & 0.19^{*}     & 0.16^{*}     & 0.06^{*}     \\
-                                        & [0.13; 0.24] & [0.13; 0.19] & [0.02; 0.09] \\
+Individual Mortality on county IM (Cox) & 0.01          & 0.14^{*}     & 0.18^{*}     \\
+                                        & [-0.04; 0.07] & [0.08; 0.19] & [0.12; 0.23] \\
 \addlinespace[10pt]
 
-Aggregate county LE on IM (GLM) & -2.81^{*}      & -1.81^{*}      & -0.61         \\
-                                & [-4.15; -1.48] & [-3.15; -0.48] & [-1.74; 0.51] \\
+Aggregate county LE on IM (GLM) & -1.29         & -2.69^{*}      & -3.38^{*}      \\
+                                & [-2.77; 0.18] & [-4.26; -1.12] & [-4.85; -1.91] \\
 \midrule
-Replicates                      & 10             & 10             & 10            \\
+Replicates                      & 30            & 29             & 30             \\
 
 \bottomrule
 \multicolumn{4}{l}{\tiny{$^*$ Null hypothesis value outside the confidence interval.}}
