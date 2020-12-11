@@ -2007,7 +2007,6 @@ if (p_updateStats) {
 
 	// nsi (segregation)
 	if (time() % p_measurementCohortWindow == 0) f_nsi();
-
     // update plots
     if (p_descriptivePlots) f_updatePlots();
 
@@ -2089,7 +2088,6 @@ v_statsIncomeCountyAverage.clear();
 
 // Loop over counties and people
 for (County c : counties) {
-
 	// Clear all county collections
 	c.v_statsIncome.clear();
 	c.c_incomeParent.clear();
@@ -2942,7 +2940,6 @@ if (time() > 30) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// auxiliary list for total income from class Income
 List<Double> totalIncome = col_income.stream().map(p -> p.income).collect(Collectors.toList());
-
 // income average
 v_meanIncome = col_income.stream().collect(Collectors.averagingDouble(p -> p.income));
 
@@ -2994,7 +2991,6 @@ for (County c : counties) {
 			.map(p -> p.income)
 			.collect(Collectors.toList());
 		c.v_meanIncomeSD = f_standardDeviation(countyIncome, c.v_meanIncome);
-
 		// median income
 		Median median = new Median();
 		median.setData(c.col_income.stream().mapToDouble(p -> p.income).toArray());
@@ -3656,7 +3652,6 @@ return array;]]></Body>
     		.filter(p -> p.county == c.getIndex())
     		.collect(Collectors.toCollection(ArrayList::new))
     		);
-
     	c.v_absoluteMob = f_absoluteMobility(cohort.stream()
     		.filter(p -> p.county == c.getIndex())
     		.collect(Collectors.toCollection(ArrayList::new))
@@ -3716,12 +3711,10 @@ v_countyRankSlope = col_countyRankSlope.stream()
 		.filter(p -> p.birthdate > v_lastMobilityCohort &
 			 p.birthdate <= v_lastMobilityCohort + p_mobilityCohortSize)
 		.collect(Collectors.toList());
-
 	//traceln("Cohort IM: " + v_lastMobilityCohort);
 	//traceln("Size of last cohort: " + round(cohort.size() / p_numCounties));
 
 	v_lastMobilityCohort = v_lastMobilityCohort + p_measurementCohortWindow;
-
 	f_incomeMobility(cohort);
 	List<IncomeParentKid> pkincome = col_incomeParentKid.stream()
 		.filter(p -> p.birthdate >= v_lastMobilityCohort)
@@ -3804,7 +3797,6 @@ if (peopleInCohort == 0 & col_deaths.size() > 100) {
 			le.stream().mapToDouble(d -> d).toArray(),
 			avgRankSlopeExp.stream().mapToDouble(d -> d).toArray()
 		);
-
 		double rrcle = new PearsonsCorrelation().correlation(
 			le.stream().mapToDouble(d -> d).toArray(),
 			avgRankCorrelationExp.stream().mapToDouble(d -> d).toArray()
@@ -9767,7 +9759,6 @@ origin.col_peopleAlive.remove(this);
 // update income classes
 // IncomeParentKid pair = findFirst(origin.col_incomeParentKid, p -> p.id == p_id);
 Income i = findFirst(origin.col_income, p -> p.id == p_id);
-
 //if (pair != null) { origin.col_incomeParentKid.remove(pair); }
 if (i != null) { origin.col_income.remove(i); }
 v_numberMoves++;
@@ -10455,13 +10446,11 @@ v_incomeTransitionProbs =  main.f_vectorProduct(
 		k.goToPopulation(parentCounty.people);
 		k.setXY(main.f_randomPositionX(k), main.f_randomPositionY(k));
     	parentCounty.col_peopleAlive.add(k);
-
     	// restart county clock and update county exposure
     	k.f_recordExposure();
     	// save moving data (kids)
     	k.v_numberMoves++;
     	k.v_numberMovesKid++;
-
     	//if (main.p_exportMigrationData) { main.f_exportMigrationData(k); }
     }
 }]]></Body>
@@ -11603,7 +11592,6 @@ v_incomeExposureType = f_estimateIncomeExposureType(col_countyIncomeTypeExp);]]>
 			</TableReference>
 		</ExportSettings>
 	</Database>
-
 	<RunConfiguration ActiveObjectClassId="1516978677339">
 		<Id>1540609263409</Id>
 		<Name><![CDATA[RunConfiguration]]></Name>
@@ -20539,18 +20527,15 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<Name><![CDATA[RandomSampler]]></Name>
 			<Text><![CDATA[//Random sampling with probability p
 class RandomSampler {
-
 	List<SamplingElement> elements;
 	Random random = new Random();
 	double totalPro = 0;
 
 	RandomSampler(List<SamplingElement> elements) {
-
 		this.elements = elements;
 		for (SamplingElement element : elements) {
 			totalPro += element.probability;
 		}
-
 		if (totalPro != 1) {
 			for (SamplingElement element : elements) {
 				element.probability	= (element.probability / totalPro);
@@ -20578,7 +20563,6 @@ class RandomSampler {
 			<Text><![CDATA[// Element class to define a element (string) and probability
 // This will be used for random sampling with a given probability
 class SamplingElement {
-
     double probability;
     int value;
 
@@ -20604,7 +20588,6 @@ class SamplingElement {
 			<Name><![CDATA[Exposure]]></Name>
 			<Text><![CDATA[// Element class to save time and values
 class Exposure {
-
 	double time;
 	double value;
 
@@ -20621,7 +20604,6 @@ class Exposure {
 			<Name><![CDATA[IncomeParentKid]]></Name>
 			<Text><![CDATA[// Income parent kid
 class IncomeParentKid {
-
 	// fields of the class
 	int id;
 	int county;
@@ -20651,7 +20633,6 @@ class IncomeParentKid {
 			<Name><![CDATA[Income]]></Name>
 			<Text><![CDATA[//Income parent kid
 class Income {
-
 	// fields of the class
 	int id;
 	double income;
@@ -20695,7 +20676,6 @@ class Deaths {
 			<Name><![CDATA[ExposureType]]></Name>
 			<Text><![CDATA[//Element class to save time and values
 class ExposureType {
-
 	double time;
 	double[] value;
 

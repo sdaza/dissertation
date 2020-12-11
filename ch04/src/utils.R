@@ -56,7 +56,10 @@ coxModel = function(replicates, data,
     f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome"),
     predictor = "total_rank_slope_exposure") {
 
+<<<<<<< HEAD
     print(replicates)
+=======
+>>>>>>> 5aea1d1b661a0952de835d19ed8229f67a2b88ef
     yi = NULL
     sei = NULL
     for (i in replicates) {
@@ -79,8 +82,11 @@ coxModel = function(replicates, data,
 linearModel = function(replicates, data,
     f = formula("le ~ rank_slope + gini + lincome + lpopulation"),
     predictor = "rank_slope") {
+<<<<<<< HEAD
 
     print(replicates)        
+=======
+>>>>>>> 5aea1d1b661a0952de835d19ed8229f67a2b88ef
     yi = NULL
     sei = NULL
     for (i in replicates) {
