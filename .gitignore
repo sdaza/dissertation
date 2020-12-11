@@ -35,6 +35,6 @@ slack.*
 !/ch04/models/MobHealthRecycling/database/db.data
 !/ch04/models/MobHealthRecycling/database/db.properties
 !/ch04/models/MobHealthRecycling/database/db.script
-/ch04/models/*/*.alp.autosave
-/ch04/models/*/*.original.alp 
+/ch04/models/MobHealthRecycling/*.original.alp
+/ch04/models/MobHealthRecycling/*.alp.autosave
 /ch04/output/data
