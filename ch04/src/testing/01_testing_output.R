@@ -7,6 +7,44 @@
 library(data.table)
 library(fmsb)
 
+# read county data 
+c = fread("models/MobHealthRecycling/output/verification/exogenous-experiment-income/county_1_30.csv")
+p = fread("models/MobHealthRecycling/output/verification/exogenous-experiment-income/parameters_1_30.csv")
+m = fread("models/MobHealthRecycling/output/verification/exogenous-experiment-income/mortality_1_30.csv")
+
+
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment-income/"
+
+p = readMultipleFiles("parameters", path, remove_files = TRUE)
+c = readMultipleFiles("county", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = TRUE)
+
+m
+table(p$replicate)
+test = unique(m[, .(iteration, replicate)])
+table(test[, .(replicate, iteration)])
+
+table(c$model_time)
+table(c$replicate)
+
+test = unique(c[, .(iteration, replicate)])
+table(test[, .(iteration, replicate)])
+test  = test[replicate == 30]
+table(test$county, test$iteration)
+table(test$replicate)
+summary(c$nsi)
+table(c$model_time)
+summary(c$rank_slope)
+hist(c$rank_slope)
+hist(c$population)
+hist(c$mortality_cohort_size)
+hist(c$im_cohort_size)
+
+table(m$replicate)
+table(m$generation)
+
+c[iteration == 3 & replicate == 30]
+
 # read family data
 f = fread("models/MobHealthRecycling/output/family.csv")
 names(f)
@@ -43,8 +81,6 @@ mean(m[generation %in% 5:10, age])
 mean(m[generation %in% 5:10, mean(age), replicate]$V1)
 
 mean(m[generation %in% 5:10, smoker])
-
-
 
 hist(m[generation %in% 10, age])
 summary(m[generation %in% 5:10, as.numeric(nkids == 0)])

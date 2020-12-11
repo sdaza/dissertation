@@ -3,26 +3,26 @@
 \renewcommand{\arraystretch}{0.95}
 \begin{table}[htp]
 \scriptsize
-\caption{Estimates fake IM effect $\beta$ on mortality}
-\label{ch04:exercise_01}
-\begin{center}
+\scriptsize
+\scriptsize
+\scriptsize
 \begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
-\toprule
-& \multicolumn{1}{c}{$\beta$ = 0.5} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.0} \\
+\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
+& \multicolumn{1}{c}{$\beta$ = 0.0} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.5} \\
 \midrule
 
-Individual Mortaltiy on total IM exposure (Cox) & 0.54^{*}     & 0.23^{*}     & 0.02          \\
-                                                & [0.43; 0.64] & [0.15; 0.31] & [-0.11; 0.15] \\
+Individual Mortaltiy on total IM exposure (Cox) & -0.02         & 0.27^{*}     & 0.49^{*}     \\
+                                                & [-0.07; 0.04] & [0.21; 0.33] & [0.43; 0.54] \\
 \addlinespace[10pt]
 
-Individual Mortality on county IM (Cox) & 0.21^{*}     & 0.04          & -0.04         \\
-                                        & [0.11; 0.32] & [-0.03; 0.11] & [-0.14; 0.06] \\
+Individual Mortality on county IM (Cox) & 0.01          & 0.15^{*}     & 0.26^{*}     \\
+                                        & [-0.06; 0.07] & [0.08; 0.22] & [0.20; 0.31] \\
 \addlinespace[10pt]
 
-Aggregate county LE on IM (GLM) & 0.30          & 0.38          & -0.20         \\
-                                & [-2.36; 2.96] & [-1.87; 2.62] & [-2.23; 1.83] \\
+Aggregate county LE on IM (GLM) & -0.26         & -1.60^{*}      & -2.51^{*}      \\
+                                & [-0.64; 0.13] & [-1.99; -1.21] & [-2.91; -2.11] \\
 \midrule
-Replicates                      & 10            & 10            & 10            \\
+Replicates                      & 29            & 30             & 30             \\
 
 \bottomrule
 \multicolumn{4}{l}{\tiny{$^*$ Null hypothesis value outside the confidence interval.}}

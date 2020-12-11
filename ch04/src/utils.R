@@ -18,14 +18,18 @@ logIncome = function(x, center = TRUE) {
     return(a)
 }
 
-readMultipleFiles = function(pattern, path) {
-    files = list.files(path, pattern)
+readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRUE, extension = "csv") {
+    pattern_adj = paste0(pattern, ".+", extension)
+    files = list.files(path, pattern_adj)
     if (length(files) == 0) {
-        warning("No files found!")
+        warning("No files found! Trying to read RDS")
+        return(readRDS(paste0(path, pattern, ".rds")))
     } else {
         files = paste0(path, files)
         l = lapply(files, fread)
-        m =  rbindlist(l)
+        m =  rbindlist(l)  
+        if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds")) }
+        if (remove_files)  { sapply(files, unlink, recursive = TRUE) }
         return(m)
     }
 }
@@ -52,6 +56,7 @@ coxModel = function(replicates, data,
     f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome"),
     predictor = "total_rank_slope_exposure") {
 
+    print(replicates)
     yi = NULL
     sei = NULL
     for (i in replicates) {
@@ -74,6 +79,8 @@ coxModel = function(replicates, data,
 linearModel = function(replicates, data,
     f = formula("le ~ rank_slope + gini + lincome + lpopulation"),
     predictor = "rank_slope") {
+
+    print(replicates)        
     yi = NULL
     sei = NULL
     for (i in replicates) {

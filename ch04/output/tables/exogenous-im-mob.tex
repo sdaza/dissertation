@@ -3,41 +3,26 @@
 \renewcommand{\arraystretch}{0.95}
 \begin{table}[htp]
 \scriptsize
-\caption{Estimates fake IM effect $\beta$ on mortality}
-\label{ch04:exercise_01}
-\begin{center}
+\scriptsize
+\scriptsize
+\scriptsize
 \begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
-\toprule
-& \multicolumn{1}{c}{$\beta$ = 0.5} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.0} \\
+\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
+& \multicolumn{1}{c}{$\beta$ = 0.0} & \multicolumn{1}{c}{$\beta$ = 0.3} & \multicolumn{1}{c}{$\beta$ = 0.5} \\
 \midrule
 
-<<<<<<< HEAD
-Individual Mortaltiy on total IM exposure (Cox) & 0.51^{*}     & 0.35^{*}     & -0.05         \\
-                                                & [0.44; 0.58] & [0.29; 0.42] & [-0.12; 0.03] \\
+Individual Mortaltiy on total IM exposure (Cox) & 0.01          & 0.36^{*}     & 0.54^{*}     \\
+                                                & [-0.14; 0.15] & [0.24; 0.48] & [0.38; 0.69] \\
 \addlinespace[10pt]
 
-Individual Mortality on county IM (Cox) & 0.03          & 0.02          & 0.00          \\
-                                        & [-0.01; 0.07] & [-0.01; 0.05] & [-0.03; 0.03] \\
+Individual Mortality on county IM (Cox) & -0.04         & 0.06^{*}     & 0.03          \\
+                                        & [-0.10; 0.01] & [0.01; 0.12] & [-0.03; 0.10] \\
 \addlinespace[10pt]
 
-Aggregate county LE on IM (GLM) & -0.31         & -0.28         & 0.08          \\
-                                & [-1.33; 0.70] & [-1.43; 0.88] & [-0.98; 1.14] \\
+Aggregate county LE on IM (GLM) & 0.17          & -0.24         & -0.19         \\
+                                & [-0.19; 0.54] & [-0.62; 0.15] & [-0.63; 0.24] \\
 \midrule
-Replicates                      & 10            & 10            & 10            \\
-=======
-Individual total IM exposure (Cox) & 0.38^{*}     & 0.14^{*}     & -0.08         \\
-                                   & [0.31; 0.45] & [0.04; 0.25] & [-0.17; 0.01] \\
-\addlinespace[10pt]
-
-Individual County IM (Cox) & -0.01         & -0.01         & -0.01         \\
-                           & [-0.04; 0.03] & [-0.05; 0.03] & [-0.04; 0.02] \\
-\addlinespace[10pt]
-
-County IM on LE (GLM) & -0.23         & -0.92         & 1.24^{*}     \\
-                      & [-1.31; 0.86] & [-2.08; 0.25] & [0.08; 2.41] \\
-\midrule
-Replicates            & 10            & 10            & 10           \\
->>>>>>> 31c48c5067aad9337342dff1fb52a8a2d94583f8
+Replicates                      & 30            & 29            & 30            \\
 
 \bottomrule
 \multicolumn{4}{l}{\tiny{$^*$ Null hypothesis value outside the confidence interval.}}
