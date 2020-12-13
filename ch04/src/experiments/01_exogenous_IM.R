@@ -9,26 +9,32 @@ library(data.table)
 library(metafor)
 library(texreg)
 library(survival)
-
 # libraries for mixed models
 # library(lme4)
 # library(coxme)
 # library(AICcmodavg)
-
 source("src/utils.R")
-path = "models/MobHealthRecycling/output/verification/exogenous-experiment-simply"
 
 # read data
-m = fread(paste0(path, "/mortality.csv"))
-cty = fread(paste0(path, "/county.csv"))
-p = fread(paste0(path, "/model_parameters.csv"))
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment-income/"
+
+p = readMultipleFiles("parameters", path, remove_files = FALSE)
+c = readMultipleFiles("county", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = FALSE)
+
+# check number of replicates by county
+test = unique(c[, .(iteration, replicate)])
+table(test[, .(iteration, replicate)])
 
 nrow(cty)
 nrow(m)
 nrow(p)
 
+table(cty$iteration)
+
 # parameters
-table(p$replicate)
+min(p$replicate)
+max(p$replicate)
 table(p$iteration)
 
 # iterations
@@ -36,7 +42,7 @@ iterations = list(1:3, 4:6, 7:9)
 experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
 
 #iterations = list(1:5)
-mtime = 800
+mtime = 900
 
 name_of_models = c("$\\beta$ = 0.0", "$\\beta$ = 0.3", "$\\beta$ = 0.5")
 
@@ -115,12 +121,13 @@ for (h in seq_along(experiment_names)) {
     f = formula("le ~ rank_slope + lincome + lpopulation")
     for (j in seq_along(iter)) {
         print(paste0("Iteration group: ", iter[j]))
-        d = copy(cty[iteration %in% iter[j] & model_time == mtime])
+        d = copy(cty[iteration %in% iter[j]])
         d[, `:=`
             (lincome = logIncome(mean_income),
             lpopulation = logIncome(population)
             )]
         replicates = sort(unique(d$replicate))
+        print(replicates)
         county_models[[j]] = linearModel(replicates, data = d, f = f, predictor = "rank_slope")
     }
 
