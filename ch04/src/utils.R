@@ -18,12 +18,19 @@ logIncome = function(x, center = TRUE) {
     return(a)
 }
 
-readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRUE, extension = "csv") {
-    pattern_adj = paste0(pattern, ".+", extension)
-    files = list.files(path, pattern_adj)
+readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRUE, extension = "csv", rds_extension = "rds") {
+    files = list.files(path, paste0(pattern, ".+", extension))
+    files_rds = list.files(path, paste0(pattern, ".+", rds_extension))
     if (length(files) == 0) {
-        warning("No files found! Trying to read RDS")
-        return(readRDS(paste0(path, pattern, ".rds")))
+        message(paste0("No ", extension, " files found! Trying to read RDS"))
+        if (length(files_rds) > 0) {
+            files_rds = paste0(path, files_rds)
+            r = lapply(files_rds, readRDS)
+            if (remove_files)  { sapply(files_rds, unlink, recursive = TRUE) }
+            m = rbindlist(r)
+            if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds")) 
+            return(m)
+        } else { return(readRDS(paste0(path, pattern, ".rds")))}
     } else {
         files = paste0(path, files)
         l = lapply(files, fread)
@@ -55,11 +62,6 @@ savepdf <- function(file, width = 16, height = 10) {
 coxModel = function(replicates, data,
     f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome"),
     predictor = "total_rank_slope_exposure") {
-
-<<<<<<< HEAD
-    print(replicates)
-=======
->>>>>>> 5aea1d1b661a0952de835d19ed8229f67a2b88ef
     yi = NULL
     sei = NULL
     for (i in replicates) {
@@ -81,12 +83,7 @@ coxModel = function(replicates, data,
 
 linearModel = function(replicates, data,
     f = formula("le ~ rank_slope + gini + lincome + lpopulation"),
-    predictor = "rank_slope") {
-<<<<<<< HEAD
-
-    print(replicates)        
-=======
->>>>>>> 5aea1d1b661a0952de835d19ed8229f67a2b88ef
+    predictor = "rank_slope") {     
     yi = NULL
     sei = NULL
     for (i in replicates) {

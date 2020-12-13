@@ -18,9 +18,9 @@ source("src/utils.R")
 # read data
 path = "models/MobHealthRecycling/output/verification/exogenous-experiment-income/"
 
-p = readMultipleFiles("parameters", path, remove_files = TRUE)
+p = readMultipleFiles("parameters", path, remove_files = FALSE)
 c = readMultipleFiles("county", path, remove_files = TRUE)
-m = readMultipleFiles("mortality", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = FALSE)
 
 # check number of replicates by county
 test = unique(c[, .(iteration, replicate)])
