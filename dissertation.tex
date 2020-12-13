@@ -19,7 +19,6 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{pdflscape}
-\usepackage{lipsum}
 \usepackage{dcolumn}
 \usepackage{rotating}
 \usepackage{supertabular}
@@ -39,7 +38,6 @@
 \renewcommand\cftsecafterpnum{\vskip10pt}
 \setlength{\cftbeforesecskip}{6pt}
 % \setlength{\cftbeforesecskip}{6pt}
-
 
 \usepackage[natbib, style=apa, doi=false, uniquename=false, eprint=false,
     isbn=false, url=false, backend=biber]{biblatex}
@@ -87,7 +85,6 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % siunitx
-
 \usepackage{siunitx} % centering in tables
     \sisetup{
         detect-mode,
@@ -128,15 +125,22 @@
 \renewcommand{\dblfloatpagefraction}{0.7}    % require fuller float pages
 % remember to use [htp] or [htpb] for placement
 
+
+% title section
+
+% \usepackage{titlesec}
+% \titleformat{\chapter}[display]
+% {\normalfont\bfseries}
+% {\filright
+% \LARGE
+% % \enspace
+% Chapter \thechapter\enspace}
+% {100pt}
+% {\Large\bfseries\filright}
+
 \usepackage{titlesec}
 \titleformat{\chapter}[display]
-{\normalfont\bfseries}
-{\filright
-\LARGE
-% \enspace
-Chapter \thechapter\enspace}
-{100pt}
-{\Large\bfseries\filright}
+  {\normalfont\bfseries}{}{0pt}{\Large}
 
 \titleformat*{\section}{\large\bfseries}
 \titleformat*{\subsection}{\normalsize\bfseries}
@@ -144,6 +148,7 @@ Chapter \thechapter\enspace}
 % \titleformat*{\paragraph}{\large\bfseries}
 % \titleformat*{\subparagraph}{\large\bfseries}
 % \renewcommand\bibname{\Large{References}}
+
 
 % tables
 \setlength{\tabcolsep}{10pt}
@@ -208,7 +213,13 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 
 \renewcommand{\abstractname}{Acknowledgements}
 \begin{abstract}
- Thanks Mum!
+    There are many who helped me along the way on this journey. I want to take a moment to thank them.
+
+    First, I wish to thank my dissertation committee. Without their guidance, I would not have made it. Dr. Betty Rubble and Dr. Colin Slate served as wise committee members, and Dr. Barney Rubble, my Chair, went above and beyond to help me reach my goal.
+
+    To my friends, my parents, and my siblings: you put up with me being distracted and missing many events. I am forever grateful for your patience and understanding. I hope to have time now to reconnect with each of you.
+
+    Finally, to my wife, Charlotte, and my daughter, Jane: your love and understanding helped me through the dark times. Without you believing in me, I never would have made it. It is time to celebrate; you earned this degree right along with me.
 \end{abstract}
 
 \newpage
@@ -240,14 +251,13 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 \import{ch01/manuscript/}{manuscript}
 \import{ch02/manuscript/}{manuscript}
 \import{ch03/manuscript/}{manuscript}
-% \import{ch04/manuscript/}{manuscript}
+\import{ch04/manuscript/}{manuscript}
 \import{ch05/manuscript/}{manuscript}
 
 
 %TC:ignore
-
 \newpage
-% \setlength\bibitemsep{5pt}
+\setlength\bibitemsep{5pt}
 \printbibliography[heading=bibintoc]
 
 %TC:endignore

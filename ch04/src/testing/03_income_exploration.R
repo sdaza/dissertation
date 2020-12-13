@@ -24,6 +24,8 @@ perc.rank = function(x) trunc(rank(x))/length(x)
 covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
 covs[, relative_income_mob := s_rank / 100]
 covs[, absolute_income_mob := e_rank_b / 100]
+
+sd(covs$relative_income_mob, na.rm = TRUE)
 cor(covs[, .(relative_income_mob, absolute_income_mob)])
 
 summary(covs$absolute_income_mob)

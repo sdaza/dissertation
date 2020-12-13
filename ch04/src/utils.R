@@ -14,9 +14,10 @@ perc.rank = function(x) trunc(rank(x))/length(x)
 
 logIncome = function(x, center = TRUE) {
     a = ifelse(x == 0, log(1), log(x))
-    a = scale(a, scale = FALSE)
+    a = scale(a, scale = FALSE, center = center)
     return(a)
 }
+
 
 readMultipleFiles = function(pattern, path) {
     files = list.files(path, pattern)
@@ -39,8 +40,8 @@ saveRDSFile = function(dt, path, overwrite = FALSE) {
     }
 }
 
-savepdf <- function(file, width = 16, height = 10) {
-  fname <- paste0(file, ".pdf")
+savepdf = function(file, width = 16, height = 10) {
+  fname = paste0(file, ".pdf")
   pdf(fname, width = width / 2.54, height = height / 2.54,
       pointsize = 10)
   par(mgp = c(2.2, 0.45, 0), tcl = -0.4, mar = c(3.3, 3.6, 1.1, 1.1))
