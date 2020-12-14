@@ -14,7 +14,7 @@ perc.rank = function(x) trunc(rank(x))/length(x)
 
 logIncome = function(x, center = TRUE) {
     a = ifelse(x == 0, log(1), log(x))
-    a = scale(a, scale = FALSE)
+    a = scale(a, scale = FALSE, center = center)
     return(a)
 }
 
@@ -31,11 +31,11 @@ readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRU
             m = rbindlist(r)
             if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds")) }
             return(m)
-        } else { return(readRDS(paste0(path, pattern, ".rds")))}
+        } else { return(readRDS(paste0(path, pattern, ".rds"))) }
     } else {
         files = paste0(path, files)
         l = lapply(files, fread)
-        m =  rbindlist(l)  
+        m =  rbindlist(l)
         if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds")) }
         if (remove_files)  { sapply(files, unlink, recursive = TRUE) }
         return(m)
@@ -51,8 +51,8 @@ saveRDSFile = function(dt, path, overwrite = FALSE) {
     }
 }
 
-savepdf <- function(file, width = 16, height = 10) {
-  fname <- paste0(file, ".pdf")
+savepdf = function(file, width = 16, height = 10) {
+  fname = paste0(file, ".pdf")
   pdf(fname, width = width / 2.54, height = height / 2.54,
       pointsize = 10)
   par(mgp = c(2.2, 0.45, 0), tcl = -0.4, mar = c(3.3, 3.6, 1.1, 1.1))
@@ -84,7 +84,7 @@ coxModel = function(replicates, data,
 
 linearModel = function(replicates, data,
     f = formula("le ~ rank_slope + gini + lincome + lpopulation"),
-    predictor = "rank_slope") {     
+    predictor = "rank_slope") {
     yi = NULL
     sei = NULL
     for (i in replicates) {
