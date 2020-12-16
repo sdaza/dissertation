@@ -18,7 +18,7 @@ logIncome = function(x, center = TRUE) {
     return(a)
 }
 
-readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRUE, 
+readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = FALSE, 
     extension = "csv", rds_extension = "rds") {
     files = list.files(path, paste0(pattern, ".+", extension))
     files_rds = list.files(path, paste0(pattern, ".+", rds_extension))

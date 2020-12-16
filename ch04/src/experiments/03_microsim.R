@@ -20,8 +20,10 @@ path = "models/MobHealthRecycling/output/verification/microsimulation/"
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 
+nrow(p)
 nrow(e)
 
+e
 # create plots of differences
 iterations = list(c(1,2), c(3,4), c(5,6), c(7,8), c(9,10), c(11,12))
 title = c("No residential mobility and no uncertainty", 
@@ -40,14 +42,17 @@ for (i in seq_along(iterations)) {
     nsi = mean(t$nsi) 
     replicates = max(t$replicate)
     rank_slope = mean(t$rank_slope)
+    rank_slope_sd = mean(t$county_rank_slope_sd)
     
     v = t[iteration == iter[2], le] - t[iteration == iter[1], le]
     plots[[i]] = ggplot(data.frame(v), aes(x=v)) + geom_histogram(bins = 10, color="black", fill="white") +
         labs(x = "Difference LE", y  = "Frequency",
             title = paste0(title[i]),
             subtitle = paste0("Mean = ", round(mean(v), 2), ",  CI = [", round(quantile(v, 0.025), 2), ";", round(quantile(v, 0.975), 2), "]"), 
-            caption = paste0("Rank-rank slope = ", round(rank_slope, 2), ", NSI = ", round(nsi, 2), ", Replicates = ", replicates)) +
-        theme_minimal() + theme(plot.margin = margin(0.1, 0.5, 0.5, 0.7, "cm"))
+            caption = paste0("Rank-rank slope = ", round(rank_slope, 2), " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Replicates = ", replicates)) +
+        theme_minimal() + theme(plot.margin = margin(0.1, 0.5, 0.5, 0.7, "cm")) + 
+        geom_vline(xintercept = 0.0, linetype = "dotted", 
+                color = "red", size = 1)
 }
 
 savepdf("output/plots/microsimulation", 25, 30)

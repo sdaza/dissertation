@@ -8,28 +8,35 @@
 library(data.table)
 library(ggplot2)
 
-path = "models/MobHealthRecycling/output/verification/testing/"
-m = fread(paste0(path, "mortality.csv"))
+source("src/utils.R")
+
+path = "models/MobHealthRecycling/output/verification/smoking/"
+m = readMultipleFiles("mortality", path)
 
 # duplicates
 anyDuplicated(m$id)
 prop.table(table(m[, smoker]))
-
 table(m$generation)
 
-# age average by group
-m[, mean(age), income_type]
-m[, mean(age), .(smoker)]
+# smoking status by income
+tab = m[age >= 30, mean(smoker), income_type]
+setorder(tab, income_type)
+tab
+
+mean(m[age >= 30, smoker])
+
+m[age >= 30, mean(age), .(smoker)]
+
+test = m[age>=30, .(age = mean(age)), .(income_type, smoker)]
+setorder(test, smoker, income_type)
+test[, diff(age), income_type]
 
 
-test = m[, .(age = mean(age)), .(income_type, smoker)]
-setorder(test,  income_type)
-
-prop.table(table(m[,.(parent_income_type, income_type)]), 1)
 
 # exposure association with smoking
-summary(m[exposure_relative_income_mob == 0, age])
-hist(m[age > 17, exposure_relative_income_mob])
+names(m)
+summary(m[rank_slope_exposure18 == 0, age])
+hist(m[age > 17, rank_slope_exposure18])
 
 table(m$smoker)
 
@@ -37,7 +44,7 @@ names(m)
 hist(m$county_relative_income_mob)
 hist(m$exposure_relative_income_mob)
 
-ggplot(m[age >= 30], aes(exposure_relative_income_mob, county_relative_income_mob)) +
+ggplot(m[age >= 30], aes(rank_slope_exposure18, county_rank_slope)) +
     geom_point(alpha = 0.3) +
     theme_minimal()
 
@@ -66,3 +73,4 @@ hist(cty$relative_income_mob)
 
 # pretty high NSI
 summary(cty$nsi)
+

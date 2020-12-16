@@ -41,6 +41,7 @@ im = fread("data/cz_income_mobility.csv")
 im = im[, lapply(.SD, correct_decimals)]
 im = im[complete.cases(im)]
 
+
 # transition matrices
 t = fread("data/cz_transition_matrix.csv")
 n = names(t)
@@ -73,6 +74,10 @@ dim(tt)
 tt = merge(tt, covs, by = "cz", all.x = TRUE)
 tt = merge(tt, im, by = "cz", all.x = TRUE)
 dim(tt)
+
+tt = tt[!is.na(am)]
+summary(tt$rm)
+
 tt[, lincome := log(hhincome)]
 
 # create stratum
@@ -85,11 +90,17 @@ table(ss$groups)
 s = ss[,.SD[sample(.N, min(20,.N))],by = groups]
 s[, s := 1:.N, groups]
 setorder(s, s)
-#s$cz
 
+# get cz identifiers in order
+write.xlsx(s[, .(cz)], "data/cz_sample.xlsx", row.names = FALSE)
+
+# full dataset
 tp = melt(tt, id.vars = c("cz", "pop", "rm", "am", "parent", "black", "income_seg", "seg_pov", "lincome"),
     measure = patterns("^q[1-5]"), value.name = "prop", variable.name = "child")
 tp[, child := as.numeric(gsub("q", "", child))]
+
+table(tp$parent)
+table(tp$child)
 write.xlsx(tp, "data/cz_long_format_transition_matrices.xlsx", row.names = FALSE)
 
 # testing
