@@ -6,8 +6,6 @@
 
 
 library(data.table)
-library(metafor)
-library(texreg)
 library(ggplot2)
 library(patchwork)
 
@@ -23,7 +21,6 @@ e = readMultipleFiles("environment", path, remove_files = TRUE)
 nrow(p)
 nrow(e)
 
-e
 # create plots of differences
 iterations = list(c(1,2), c(3,4), c(5,6), c(7,8), c(9,10), c(11,12))
 title = c("No residential mobility and no uncertainty", 
@@ -41,7 +38,7 @@ for (i in seq_along(iterations)) {
     
     nsi = mean(t$nsi) 
     replicates = max(t$replicate)
-    rank_slope = mean(t$rank_slope)
+    rank_slope = mean(t$county_rank_slope_avg)
     rank_slope_sd = mean(t$county_rank_slope_sd)
     
     v = t[iteration == iter[2], le] - t[iteration == iter[1], le]
@@ -56,6 +53,5 @@ for (i in seq_along(iterations)) {
 }
 
 savepdf("output/plots/microsimulation", 25, 30)
-wrap_plots(plots, ncol = 2)
+    wrap_plots(plots, ncol = 2)
 dev.off()
- 
