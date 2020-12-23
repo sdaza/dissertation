@@ -18,8 +18,8 @@ logIncome = function(x, center = TRUE) {
     return(a)
 }
 
-readMultipleFiles = function(pattern, path, remove_files = FALSE,
-    save_rds = TRUE, extension = "csv", rds_extension = "rds") {
+readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = FALSE, 
+    extension = "csv", rds_extension = "rds") {
     files = list.files(path, paste0(pattern, ".+", extension))
     files_rds = list.files(path, paste0(pattern, ".+", rds_extension))
     if (length(files) == 0) {
@@ -29,7 +29,7 @@ readMultipleFiles = function(pattern, path, remove_files = FALSE,
             r = lapply(files_rds, readRDS)
             if (remove_files)  { sapply(files_rds, unlink, recursive = TRUE) }
             m = rbindlist(r)
-            if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds"))
+            if (save_rds) { saveRDS(m, paste0(path, pattern, ".rds")) }
             return(m)
         } else { return(readRDS(paste0(path, pattern, ".rds"))) }
     } else {

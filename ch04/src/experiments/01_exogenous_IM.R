@@ -9,21 +9,20 @@ library(data.table)
 library(metafor)
 library(texreg)
 library(survival)
-# libraries for mixed models
-# library(lme4)
-# library(coxme)
-# library(AICcmodavg)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/verification/exogenous-experiment-income/"
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment/"
 
-p = readMultipleFiles("parameters", path, remove_files = FALSE)
-c = readMultipleFiles("county", path, remove_files = TRUE)
-m = readMultipleFiles("mortality", path, remove_files = FALSE)
+p = readMultipleFiles("parameters", path, remove_files = TRUE)
+cty = readMultipleFiles("county", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = TRUE)
+
+
+m
 
 # check number of replicates by county
-test = unique(c[, .(iteration, replicate)])
+test = unique(cty[, .(iteration, replicate)])
 table(test[, .(iteration, replicate)])
 
 nrow(cty)
@@ -89,14 +88,13 @@ for (h in seq_along(experiment_names)) {
     # individual mortality
     cox_models = list()
     #f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure")
+    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_zincome_exposure")
     for (j in seq_along(iter)) {
         print(paste0("Iteration group: ", iter[j]))
         d = copy(m[iteration %in% iter[j]])
         d[, `:=`
             (status = 1,
-            lincome = logIncome(income),
-            county_lincome = logIncome(county_mean_income)
+            lincome = logIncome(income)
             )]
         replicates = sort(unique(d$replicate))
         cox_models[[j]] = coxModel(replicates, data = d, f = f, predictor = "total_rank_slope_exposure")
@@ -127,7 +125,6 @@ for (h in seq_along(experiment_names)) {
             lpopulation = logIncome(population)
             )]
         replicates = sort(unique(d$replicate))
-        print(replicates)
         county_models[[j]] = linearModel(replicates, data = d, f = f, predictor = "rank_slope")
     }
 
