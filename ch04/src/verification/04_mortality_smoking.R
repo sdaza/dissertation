@@ -14,6 +14,13 @@ source("src/utils.R")
 # when rank rank slope effect is in action
 v = exp(0.12/0.086)
 
+mean(c(0.10, 0.05, 0.0, -0.05, -0.10))
+mean(c(0.12, 0.05, 0.0, -0.05, -0.12))
+
+c(-1.502,-1.748,0 ,-2.526,-3.29)
+
+mean(c(0.35, 0.30, 0.20, -0.50, -0.70))
+
 coeff = c(-0.9103386 ,-1.2483597, -1.6892769, -2.1046334, -2.8605010)
 prop = NULL
 eprop = NULL
@@ -50,22 +57,31 @@ f = c(1.10, 1.67, 1.69, 1.72, 1.90)
 mean(f)
 
 # read data
-path = "models/MobHealthRecycling/output/verification/smoking/"
-#path = "models/MobHealthRecycling/output/verification/microsimulation/"
+#path = "models/MobHealthRecycling/output/verification/smoking/"
+path = "models/MobHealthRecycling/output/verification/microsimulation/"
 
 ind = readMultipleFiles("individuals", path)
 m = readMultipleFiles("mortality", path)
 e = readMultipleFiles("environment", path)
 p = readMultipleFiles("parameters", path)
 
+dim(p)
+setorder(e, iteration)
+e[, .(iteration, nsi, population, le)]
+
+e[iteration == 1]
+p[iteration == 1, .(iteration, smoking_rank_slope_exp_coeff, move_decision_rate, prob_move_random)]
+t = merge(p, e, all.y = TRUE, by = "iteration")
+
+t[, .(iteration, population, nsi, smokers, le,  smoking_rank_slope_exp_coeff, prob_move_random )]
 prop.table(table(ind[age >= 30, income_type]))
 prop.table(table(ind[, income_type]))
 prop.table(table(m[age >= 30, income_type]))
-
 prop.table(table(ind[age >= 30, smoker]))
 
 s = ind[iteration == 1 & age >= 30, mean(smoker), income_type]
 setorder(s, income_type)
+s
 
 
 s = ind[iteration == 2 & age >= 30 & age <=50, mean(smoker), income_type]
@@ -107,6 +123,10 @@ setorder(test, smoker, income_type)
 test[, diff(age), income_type]
 
 # logistic model on smoking 
+
+t = m[, mean(age), income_type]
+setorder(t, income_type)
+t
 
 names(m)
 summary(m$z_income_exposure30)

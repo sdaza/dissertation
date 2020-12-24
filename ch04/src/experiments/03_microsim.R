@@ -21,6 +21,11 @@ e = readMultipleFiles("environment", path, remove_files = TRUE)
 nrow(p)
 nrow(e)
 
+summary(e$population)
+
+setorder(e, iteration)
+e[, .(iteration, smokers, nsi, population)]
+
 # create plots of differences
 iterations = list(c(1,2), c(3,4), c(5,6), c(7,8), c(9,10), c(11,12))
 title = c("No residential mobility and no uncertainty", 

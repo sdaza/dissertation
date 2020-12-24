@@ -48,6 +48,8 @@ setorder(s, incomeType)
 
 weighted.mean(s[!is.na(smoking), smoking], s[!is.na(smoking), wt])
 
+s[, incomeType := relevel(incomeType, 3)]
+
 design = svydesign(ids= ~ hhx, weights = ~wt, data=s)
 tab = s[, .(smoking_prop = weighted.mean(smoking, wt, na.rm = TRUE)), incomeType][!is.na(incomeType)]
 setorder(tab, incomeType)
