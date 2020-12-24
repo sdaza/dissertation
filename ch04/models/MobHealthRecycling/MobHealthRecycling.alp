@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -502,7 +502,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1608291290042</Id>
 					<Name><![CDATA[v_proportionIncomeType]]></Name>
-					<X>420</X><Y>880</Y>
+					<X>650</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3327,7 +3327,7 @@ for (County c : counties) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602754587851</Id>
 					<Name><![CDATA[f_lastCompleteGeneration]]></Name>
-					<X>680</X><Y>1120</Y>
+					<X>680</X><Y>1110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3339,13 +3339,8 @@ for (County c : counties) {
 if (v_lastCompleteGeneration >= p_lastGeneration) {
 	traceln("Total population " + col_peopleAlive.size() + " by year " + round(time()));
 	if (f_textFileInclude("environment", p_fileNames)) f_writeEnvironmentData();
-	
-	for (County c : counties) {
-		
-		if (c.getIndex() == 10) { traceln("Iteration " + v_iteration);
-									 traceln(c.v_proportionIncomeType); }
-		if (c.getIndex() == 20) { traceln("Iteration " + v_iteration);  traceln(c.v_proportionIncomeType); }
-	}
+	traceln("Income groups: " + Arrays.toString(v_proportionIncomeType));
+	traceln("Smokers: " + v_smokers);
 	finishSimulation();
 }]]></Body>
 				</Function>
@@ -3378,7 +3373,7 @@ for (County c: counties) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602755283688</Id>
 					<Name><![CDATA[f_updatePlots]]></Name>
-					<X>680</X><Y>1150</Y>
+					<X>680</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3430,7 +3425,7 @@ if (v_incomeSD > 0) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1602755574312</Id>
 					<Name><![CDATA[f_dataExport]]></Name>
-					<X>680</X><Y>1170</Y>
+					<X>680</X><Y>1160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3964,7 +3959,7 @@ v_countyRankSlope = col_countyRankSlope.stream()
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1605386921383</Id>
 					<Name><![CDATA[f_lastCompleteMobilityCohort]]></Name>
-					<X>680</X><Y>1080</Y>
+					<X>680</X><Y>1070</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3992,7 +3987,7 @@ v_countyRankSlope = col_countyRankSlope.stream()
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1605686303267</Id>
 					<Name><![CDATA[f_lastCompleteMortalityCohort]]></Name>
-					<X>680</X><Y>1100</Y>
+					<X>680</X><Y>1090</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4799,7 +4794,7 @@ catch (IOException e) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1608291482397</Id>
 					<Name><![CDATA[f_countTypeIncomePeople]]></Name>
-					<X>680</X><Y>1190</Y>
+					<X>680</X><Y>1180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12574,21 +12569,6 @@ traceln(":::::: end simulation ::::::");]]></AfterSimulationRunCode>
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1597071281879</Id>
-					<Name><![CDATA[v_fertilityAdjustment]]></Name>
-					<X>510</X><Y>780</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[1.69]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1597658530008</Id>
 					<Name><![CDATA[v_maxGeneration]]></Name>
 					<X>510</X><Y>660</Y>
@@ -14028,6 +14008,9 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_fertilityAdjustment]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA[1.67]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_exportParameterData]]></ParameterName>
@@ -14203,7 +14186,8 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffIncType]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[{-0.9103386, -1.2483597, -1.6892769, -2.1046334, -2.8605010}]]></Code>
+						<Code><![CDATA[//{-0.9103386, -1.2483597, -1.6892769, -2.1046334, -2.8605010}
+{-1.274,-1.648,-2.128,-2.505,-3.29}]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -14215,7 +14199,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffRankSlope]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[0.0]]></Code>
+						<Code><![CDATA[0.00]]></Code>
 					</ParameterValue>
 				</Parameter>
 				<Parameter>
@@ -14266,7 +14250,7 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				<Parameter>
 					<ParameterName><![CDATA[p_fertilityCoeffIncType]]></ParameterName>
 					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[{0.3, -0.15, -0.15, -0.15, -0.15}]]></Code>
+						<Code><![CDATA[{0.3, -0.10, -0.10, -0.10, -0.10}]]></Code>
 					</ParameterValue>
 				</Parameter>
 			</Parameters>			
@@ -17142,8 +17126,6 @@ if (getCurrentIteration() <= v_smokingCoeffRankSlope.length) {
 	currentIteration = 	getCurrentIteration() -1; }
 else { currentIteration = getCurrentIteration() - v_smokingCoeffRankSlope.length - 1;}
 
-traceln("Index: " + currentIteration);
-
 root.p_smokingCoeffRankSlope = v_smokingCoeffRankSlope[currentIteration];
 root.p_endogenousIncomeMob = v_endogenousIncomeMob[currentIteration];
 root.p_movingDecisionRate = root.f_arrayRepeatedValues(v_movingDecisionRate[currentIteration],
@@ -17474,9 +17456,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<NumberOfRuns>18</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[125]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903257</Id>
@@ -17538,7 +17517,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1597044700978</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[1.57]]></Code>
+					<Code><![CDATA[1.67]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -17559,7 +17538,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1597523476580</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{-1.502,-1.748,-1.943,-2.526,-3.29}]]></Code>
+					<Code><![CDATA[{-1.274,-1.648,-2.128,-2.505,-3.29}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -17742,7 +17721,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1608212159308</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{0.25, 0.10, 0.0, -0.40, -0.60}]]></Code>
+					<Code><![CDATA[{0.3, -0.10, -0.10, -0.10, -0.10}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
@@ -19127,7 +19106,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[{"parameters", "mortality", "individuals", "environment"}]]></Code>
+							<Code><![CDATA[{"parameters", "environment"}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -19341,9 +19320,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<NumberOfRuns>3</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[125]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1516978903257</Id>
@@ -19363,7 +19339,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1517370041664</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{0.1, 0.1, 0.1, 0.1, 0.1}]]></Code>
+					<Code><![CDATA[{0.001, 0.001, 0.001, 0.001, 0.001}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19405,7 +19381,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1597044700978</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[1.56]]></Code>
+					<Code><![CDATA[1.67]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19425,9 +19401,15 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1597523476580</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[{-1.274,-1.648,-2.128,-2.505,-3.29}]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598619156839</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.0]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
@@ -19498,7 +19480,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1602756717096</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[0.01]]></Code>
+					<Code><![CDATA[1.0]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19536,6 +19518,9 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606149445574</Id>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.0]]></Code>
+				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1606207595951</Id>
@@ -19594,7 +19579,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1608212159308</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{0.25, 0.10, 0.0, -0.40, -0.60}]]></Code>
+					<Code><![CDATA[{0.3, -0.10, -0.10, -0.10, -0.10}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
