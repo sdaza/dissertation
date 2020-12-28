@@ -45,6 +45,14 @@ readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRU
 }
 
 
+extractColumns = function(data, variable, new_columns) {
+    data[, (variable)  := gsub("\\[|\\]", "", get(variable))]
+    data[, (new_columns) := tstrsplit(get(variable), ",", fixed = TRUE)]
+    data[, (new_columns) := lapply(.SD, as.numeric), .SDcols = new_columns]
+    return(data)
+}
+
+
 saveRDSFile = function(dt, path, overwrite = FALSE) {
     if (file.exists(path) & overwrite == FALSE) {
         warning("File already exist!")

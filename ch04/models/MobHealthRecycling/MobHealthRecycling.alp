@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -145,7 +145,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1516978903197</Id>
 					<Name><![CDATA[v_gini]]></Name>
-					<X>420</X><Y>760</Y>
+					<X>420</X><Y>750</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -160,7 +160,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1516978903199</Id>
 					<Name><![CDATA[v_rankCorrelation]]></Name>
-					<X>420</X><Y>800</Y>
+					<X>420</X><Y>790</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -173,7 +173,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1516978903203</Id>
 					<Name><![CDATA[v_NSI]]></Name>
 					<Description><![CDATA[Neighborhood. Sorting Index (NSI) ]]></Description>
-					<X>420</X><Y>1010</Y>
+					<X>420</X><Y>960</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -238,7 +238,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1568713978708</Id>
 					<Name><![CDATA[v_lastGeneration]]></Name>
-					<X>420</X><Y>1030</Y>
+					<X>420</X><Y>980</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -268,7 +268,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1597933160651</Id>
 					<Name><![CDATA[v_meanIncome]]></Name>
-					<X>420</X><Y>720</Y>
+					<X>420</X><Y>710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -281,7 +281,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1597954971894</Id>
 					<Name><![CDATA[v_incomeSD]]></Name>
 					<Description><![CDATA[SD = standard deviation]]></Description>
-					<X>420</X><Y>740</Y>
+					<X>420</X><Y>730</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -294,7 +294,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1597958930430</Id>
 					<Name><![CDATA[v_countyMeanIncomeSD]]></Name>
 					<Description><![CDATA[SD = standard deviation]]></Description>
-					<X>420</X><Y>920</Y>
+					<X>420</X><Y>870</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -306,7 +306,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1598043831735</Id>
 					<Name><![CDATA[v_countyRankSlope]]></Name>
-					<X>420</X><Y>980</Y>
+					<X>420</X><Y>930</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -318,7 +318,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1601387837399</Id>
 					<Name><![CDATA[v_lastCompleteGeneration]]></Name>
-					<X>420</X><Y>1050</Y>
+					<X>420</X><Y>1000</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -333,7 +333,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1601463482899</Id>
 					<Name><![CDATA[v_lifeExpectancy]]></Name>
-					<X>420</X><Y>1110</Y>
+					<X>420</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -345,7 +345,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1602228230458</Id>
 					<Name><![CDATA[v_absoluteIncomeMob]]></Name>
-					<X>420</X><Y>840</Y>
+					<X>420</X><Y>830</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -357,7 +357,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1602249961378</Id>
 					<Name><![CDATA[v_averageNumberMoves]]></Name>
-					<X>420</X><Y>1140</Y>
+					<X>420</X><Y>1100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -384,7 +384,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1602694195497</Id>
 					<Name><![CDATA[v_averageNumberMovesKid]]></Name>
-					<X>420</X><Y>1160</Y>
+					<X>420</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -399,7 +399,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1604922594607</Id>
 					<Name><![CDATA[v_countyMeanIncome]]></Name>
-					<X>420</X><Y>900</Y>
+					<X>420</X><Y>850</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -412,7 +412,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 					<Id>1605190888392</Id>
 					<Name><![CDATA[v_countyMedianIncomeSD]]></Name>
 					<Description><![CDATA[SD = standard deviation]]></Description>
-					<X>420</X><Y>940</Y>
+					<X>420</X><Y>890</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -424,7 +424,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605388243995</Id>
 					<Name><![CDATA[v_rankSlope]]></Name>
-					<X>420</X><Y>780</Y>
+					<X>420</X><Y>770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -436,7 +436,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605388256820</Id>
 					<Name><![CDATA[v_rankAbsoluteMob]]></Name>
-					<X>420</X><Y>820</Y>
+					<X>420</X><Y>810</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -448,7 +448,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605604598507</Id>
 					<Name><![CDATA[v_lastMobilityCohort]]></Name>
-					<X>420</X><Y>1070</Y>
+					<X>420</X><Y>1020</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -463,7 +463,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605686481678</Id>
 					<Name><![CDATA[v_lastMortalityCohort]]></Name>
-					<X>420</X><Y>1090</Y>
+					<X>420</X><Y>1040</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -478,7 +478,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605696760072</Id>
 					<Name><![CDATA[v_countyRankCorrelation]]></Name>
-					<X>420</X><Y>960</Y>
+					<X>420</X><Y>910</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -490,7 +490,7 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1605702157731</Id>
 					<Name><![CDATA[v_smokers]]></Name>
-					<X>420</X><Y>1180</Y>
+					<X>420</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -501,8 +501,8 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 				</Variable>
 				<Variable Class="PlainVariable">
 					<Id>1608291290042</Id>
-					<Name><![CDATA[v_proportionIncomeType]]></Name>
-					<X>650</X><Y>70</Y>
+					<Name><![CDATA[v_propIncType]]></Name>
+					<X>420</X><Y>1180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -511,6 +511,36 @@ import net.sf.jsqlparser.util.deparser.SelectDeParser;]]></Import>
 						<Type><![CDATA[double[]]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[f_arrayRepeatedValues(1.0/p_numIncomeTypes, p_numIncomeTypes)]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1609170666355</Id>
+					<Name><![CDATA[v_propSmokersIncType]]></Name>
+					<X>420</X><Y>1160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[{0.0, 0.0, 0.0, 0.0, 0.0}]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1609170671696</Id>
+					<Name><![CDATA[v_lifeExpectancyIncType]]></Name>
+					<X>420</X><Y>1080</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[{0.0, 0.0, 0.0, 0.0, 0.0}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -3334,13 +3364,22 @@ for (County c : counties) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[v_lastCompleteGeneration = col_peopleAlive.stream()
 	.mapToInt(p -> p.p_generation).min().getAsInt() - 1;
-	
+
+// smoking by income group
+for (int j=0; j < p_numIncomeTypes; j++) {
+	int incomeIndex = j; 
+	double num = col_peopleAlive.stream()
+		.filter(p -> p.p_incomeType == incomeIndex+1 && p.p_age >=30 && p.v_smoker).count();
+	double den = col_peopleAlive.stream().filter(p -> p.p_incomeType == incomeIndex+1 && p.p_age >= 30).count();	
+	if (den > 0) { v_propSmokersIncType[j] = num / den; }	
+}
+
 // stop simulation after N generation
 if (v_lastCompleteGeneration >= p_lastGeneration) {
 	traceln("Total population " + col_peopleAlive.size() + " by year " + round(time()));
 	if (f_textFileInclude("environment", p_fileNames)) f_writeEnvironmentData();
-	traceln("Income groups: " + Arrays.toString(v_proportionIncomeType));
-	traceln("Smokers: " + v_smokers);
+	//traceln("Income groups: " + Arrays.toString(v_proportionIncomeType));
+	//traceln("Smokers: " + v_smokers);
 	finishSimulation();
 }]]></Body>
 				</Function>
@@ -4011,6 +4050,14 @@ if (peopleInCohort == 0 & col_deaths.size() > 100) {
 	
 	v_lifeExpectancy = f_lifeExpectancy(deaths);
 	col_countyLE.clear();
+
+	/// life expectancy by income group
+	for (int j=0; j < p_numIncomeTypes; j++) {
+		int incomeIndex = j; 
+		v_lifeExpectancyIncType[j] = deaths.stream()
+			.filter(p -> p.incomeType == incomeIndex+1)
+			.mapToDouble(p -> p.age).average().orElse(0.0);	
+	}
 	
 	ArrayList<Double> avgRankSlopeExp = new ArrayList<Double>();
 	ArrayList<Double> avgRankCorrelationExp = new ArrayList<Double>();
@@ -4096,7 +4143,7 @@ double total = 0.0;
 
 for (Person p : peopleAlive) {
 	if (p.v_smoker  & p.p_age>=30) smokers++;
-	if (p.p_age>=30) total++;
+	if (p.p_age >=30 ) total++;
 }
 return total > 0 ?  smokers / total : 0.0;]]></Body>
 				</Function>
@@ -4388,7 +4435,8 @@ if (f_textFileInclude("environment", p_fileNames)) {
 	col = new String[]{"iteration", "replicate", "model_time", "gini", "rank_slope", "county_rank_slope_avg", 
 		"county_rank_slope_sd", "rank_correlation", "income_mean", "le", "nsi", 
 		"moves", "moves_kid",  "last_generation", 
-		"population", "smokers"};
+		"population", "smokers", "prop_income_type", "le_income_type", 
+		"smoking_income_type"};
 	col_fileColumns.put("environment", col);
 }
 
@@ -4716,7 +4764,10 @@ try {
  	v_averageNumberMovesKid + s + 
  	v_lastGeneration + s +
  	col_peopleAlive.size() + s +
- 	v_smokers + "\n");
+ 	v_smokers + s + 
+ 	Arrays.toString(v_propIncType) + s +
+ 	Arrays.toString(v_lifeExpectancyIncType) + s + 
+ 	Arrays.toString(v_propSmokersIncType) + "\n");
 	}
 catch (IOException e) {
 	e.printStackTrace();
@@ -4825,7 +4876,7 @@ catch (IOException e) {
 
 if (v_activePeople > 0) {
 	for (int i = 0; i < p_numIncomeTypes; i++) {
-			v_proportionIncomeType[i] =  f_countTypeIncomePeople(i+1, col_peopleAlive) / v_activePeople;
+			v_propIncType[i] =  f_countTypeIncomePeople(i+1, col_peopleAlive) / v_activePeople;
    }
 }]]></Body>
 				</Function>
@@ -10577,8 +10628,8 @@ if (col_kids.size() > 0) f_moveKids();]]></Body>
 					<Body><![CDATA[// test deaths
 // update collections
 main.col_deadPeople.add(this);
-main.col_deaths.add(new Deaths(this.p_id, this.county.getIndex(), this.p_generation, 
-	this.p_birthTime, this.p_age, f_estimateExposureValues(col_countyRankSlopeExp), 
+main.col_deaths.add(new Deaths(this.p_id, this.county.getIndex(), this.p_generation,
+	this.p_incomeType, this.p_birthTime, this.p_age, f_estimateExposureValues(col_countyRankSlopeExp), 
 	f_estimateExposureValues(col_countyRankCorrelationExp)));
 	
 //county.col_deaths.add(new Deaths(this.p_id, this.county.getIndex(), this.p_generation, 
@@ -14198,9 +14249,6 @@ getExperimentHost().setPresentable( getEngine().getRoot() );]]></ActionCode>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffRankSlope]]></ParameterName>
-					<ParameterValue Class="CodeValue">
-						<Code><![CDATA[0.00]]></Code>
-					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_smokingCoeffRankSlopeSE]]></ParameterName>
@@ -17084,27 +17132,27 @@ import com.slack.api.model.Message;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
 			<InitialSetupCode><![CDATA[// create parameters
 v_smokingCoeffRankSlope = new double[] {
-	0.0, 0.12, 0.12, 
-	0.0, 0.12, 0.12,
-	0.0, 0.12, 0.12
+	0.0, 0.12, 
+	0.0, 0.12,
+	0.0, 0.12,
 };
 
 v_endogenousIncomeMob = new boolean[] {
-	false, true, false, 
-	false, true, false,
-	false, true, false,
+	false, false, 
+	false, false,
+	false, false,
 };
 
 v_movingDecisionRate = new double[] {
-	0.001, 0.001, 0.001,
-	0.1, 0.1, 0.1,
-	0.1, 0.1, 0.1
+	0.001, 0.001,
+	0.1, 0.1,
+	0.1, 0.1
 };
 
 v_propMovingRandom = new double[] {
-	1.0, 1.0, 1.0,
-	1.0, 1.0, 1.0,
-	0.01, 0.01, 0.01
+	1.0, 1.0,
+	1.0, 1.0,
+	0.01, 0.01
 };
 ]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
@@ -17121,10 +17169,17 @@ root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
 root.v_iteration = getCurrentIteration();
 root.v_replicate = getCurrentReplication();
 
-int currentIteration = 0;
-if (getCurrentIteration() <= v_smokingCoeffRankSlope.length) {
-	currentIteration = 	getCurrentIteration() -1; }
-else { currentIteration = getCurrentIteration() - v_smokingCoeffRankSlope.length - 1;}
+int[] v_index = new int[] {
+	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5,
+};
+
+int currentIteration = v_index[getCurrentIteration()];
+traceln("current iteration " + currentIteration);
 
 root.p_smokingCoeffRankSlope = v_smokingCoeffRankSlope[currentIteration];
 root.p_endogenousIncomeMob = v_endogenousIncomeMob[currentIteration];
@@ -17230,7 +17285,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[{"parameters", "individuals", "environment"}]]></Code>
+							<Code><![CDATA[{"parameters", "environment"}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -17453,7 +17508,7 @@ return array;]]></Body>
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>18</NumberOfRuns>
+			<NumberOfRuns>24</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -20048,16 +20103,18 @@ class Deaths {
 	int id;
 	int county;
 	int generation;
+	int incomeType;
 	double birthdate;
 	double age;
 	double totalRankSlopeExp;
 	double totalRankCorrelationExp;
 
-	public Deaths(int id, int county, int generation, double birthdate, double age, 
+	public Deaths(int id, int county, int generation, int incomeType, double birthdate, double age, 
 			double totalRankSlopeExp, double totalRankCorrelationExp) {
 		this.id = id;
 		this.county = county;
 		this.generation = generation;
+		this.incomeType = incomeType;
 		this.birthdate = birthdate;
 		this.age = age;
 		this.totalRankSlopeExp = totalRankSlopeExp;
