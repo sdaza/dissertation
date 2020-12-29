@@ -36,6 +36,8 @@ h[, age_group := ifelse(agep_a >= 30 & agep_a <= 50, 1, 0)]
 h[age_group == 1, incomeType:= cut(faminctc_a, breaks = quantile(faminctc_a,
     probs = 0:5/5),
     labels = 1:5, right = TRUE, include.lowest = TRUE)]
+h[, incomeType := as.numeric(as.character(incomeType))]
+table(h$incomeType)
 
 hist(h[faminctc_a < quantile(h$faminctc_a, 0.33), faminctc_a])
 gini(h$faminctc_a)
@@ -46,24 +48,18 @@ s = h[age_group == 1]
 dim(s)
 setorder(s, incomeType)
 
-weighted.mean(s[!is.na(smoking), smoking], s[!is.na(smoking), wt])
-
-s[, incomeType := relevel(incomeType, 3)]
+total_smoking = weighted.mean(s[!is.na(smoking), smoking], s[!is.na(smoking), wt])
+total_smoking
 
 design = svydesign(ids= ~ hhx, weights = ~wt, data=s)
 tab = s[, .(smoking_prop = weighted.mean(smoking, wt, na.rm = TRUE)), incomeType][!is.na(incomeType)]
+total = data.table(incomeType  = 9,  smoking_prop = total_smoking)
+tab = rbind(tab, total)
 setorder(tab, incomeType)
-setnames(tab, names(tab), c("Income quintile", "Smoking proportion"))
 
-sample_size = nrow(s)
+saveRDS(tab, "output/data/smoking_dist_nhis2019.rds")
 
-# create table
-print(xtable(tab,
-    caption = paste0("Proportion smoking by income quintile respondents 30-50 years old, NHIS 2019, N = ", sample_size)),
-    table.placement = "htp",
-    caption.placement = "top",
-    include.rownames  = FALSE
-)
+
 
 # logistic model to get baseline income coefficients
 m = svyglm(smoking ~ -1 + as.factor(incomeType), design = design, family = quasibinomial)
@@ -90,7 +86,6 @@ eprop
 adj =  c(1.40, 1.35, 1.10, 1.15, 1.15)
 wadj = adj/max(adj)
 wadj
-
 
 ncoeff = coeff * c(1.4, 1.32, 1.26, 1.19, 1.15)
 ncoeff

@@ -17178,8 +17178,7 @@ int[] v_index = new int[] {
 	0, 1, 2, 3, 4, 5,
 };
 
-int currentIteration = v_index[getCurrentIteration()];
-traceln("current iteration " + currentIteration);
+int currentIteration = v_index[getCurrentIteration()-1];
 
 root.p_smokingCoeffRankSlope = v_smokingCoeffRankSlope[currentIteration];
 root.p_endogenousIncomeMob = v_endogenousIncomeMob[currentIteration];
@@ -19097,7 +19096,17 @@ root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
 root.v_iteration = getCurrentIteration();
 root.v_replicate = getCurrentReplication();
 
-int currentIteration = getCurrentIteration()-1;]]></BeforeSimulationRunCode>
+int[] v_index = new int[] {
+	0, 1, 
+	0, 1, 
+	0, 1, 
+	0, 1,
+	0, 1,
+	0, 1
+};
+
+int currentIteration = v_index[getCurrentIteration()-1];
+root.p_smokingCoeffRankSlope = v_smokingCoeffRankSlope[currentIteration];]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -19161,7 +19170,22 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[{"parameters", "environment"}]]></Code>
+							<Code><![CDATA[{"parameters", "mortality", "environment"}]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1609175663365</Id>
+					<Name><![CDATA[v_smokingCoeffRankSlope]]></Name>
+					<X>60</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[{0.0, 0.12}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -19197,7 +19221,7 @@ MethodsClient methods = slack.methods(token);
 try {
   ChatPostMessageResponse response = slack.methods(token).chatPostMessage(req -> req
     .channel("#slack-from-simulations")
-    .text("Anylogic simulation experiment finished at " + f_systemDate() + " :wink:"));
+    .text("Anylogic simulation experiment " + vr_replicates + " replicates, finished at " + f_systemDate() + " :wink:"));
   if (response.isOk()) {
     Message postedMessage = response.getMessage();
   } else {
@@ -19372,7 +19396,7 @@ return array;]]></Body>
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>3</NumberOfRuns>
+			<NumberOfRuns>12</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -19394,7 +19418,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1517370041664</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[{0.001, 0.001, 0.001, 0.001, 0.001}]]></Code>
+					<Code><![CDATA[{0.10, 0.10, 0.10, 0.10, 0.10}]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19462,9 +19486,6 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598619156839</Id>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[0.0]]></Code>
-				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
 				<Id>1598693562391</Id>
@@ -19535,7 +19556,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<FreeformParamValue>	
 				<Id>1602756717096</Id>
 				<Expression Class="CodeValue">
-					<Code><![CDATA[1.0]]></Code>
+					<Code><![CDATA[0.01]]></Code>
 				</Expression>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -19954,7 +19975,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>1</ReplicationPerIteration>
+				<ReplicationPerIteration>5</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
