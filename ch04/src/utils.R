@@ -9,8 +9,20 @@ library(texreg)
 
 table = function (...) base::table(..., useNA = 'ifany')
 cor = function(...) stats::cor(..., use = "complete.obs")
-perc.rank = function(x) trunc(rank(x))/length(x)
+perc.rank = function(x) trunc(rank(x)) / length(x)
 
+reg = function(kid_income, parent_income, relative = TRUE) {
+    m = lm(kid_income ~ parent_income)
+    c = coef(m)
+    if (relative) { return(c[2])}
+    else {
+        return (c[1]  + 0.25 * c[2])
+    }
+}
+
+addDiagonalProbs = function(parent_type, kid_type, index = 1) {
+    diag(prop.table(table(parent_type, kid_type), 1))[index]
+}
 
 logIncome = function(x, center = TRUE) {
     a = ifelse(x == 0, log(1), log(x))
@@ -42,6 +54,14 @@ readMultipleFiles = function(pattern, path, remove_files = FALSE, save_rds = TRU
         if (remove_files)  { sapply(files, unlink, recursive = TRUE) }
         return(m)
     }
+}
+
+
+extractColumns = function(data, variable, new_columns) {
+    data[, (variable)  := gsub("\\[|\\]", "", get(variable))]
+    data[, (new_columns) := tstrsplit(get(variable), ",", fixed = TRUE)]
+    data[, (new_columns) := lapply(.SD, as.numeric), .SDcols = new_columns]
+    return(data)
 }
 
 
