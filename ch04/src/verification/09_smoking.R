@@ -10,8 +10,9 @@ source("src/utils.R")
 path = "models/MobHealthRecycling/output/verification/smoking/"
 
 # read files
-p = readMultipleFiles("parameters", path, remove_files = FALSE)
-e = readMultipleFiles("environment", path, remove_files = FALSE)
+p = readMultipleFiles("parameters", path, remove_files = TRUE)
+e = readMultipleFiles("environment", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = TRUE)
 
 parameters = c("smoking_rank_slope_exp_coeff")
 setorderv(p, parameters)
@@ -29,7 +30,6 @@ vars = paste0("le", 1:5)
 e = extractColumns(e, "le_income_type",  vars)
 vars = paste0("smoking",  1:5)
 e = extractColumns(e, "smoking_income_type",  vars)
-
 
 # merge files
 e = merge(e, np, by = c("iteration", "replicate"))
@@ -64,6 +64,12 @@ print(xtable(tab,
     include.rownames  = FALSE
 )
 
+# le by smoking 
+names(m)
+l = m[, .(le = mean(age)), .(smoker, income_type)]
+setorder(l, income_type, smoker)
+l[, diff(le), income_type]
+diff(m[, .(le = mean(age)), .(smoker)]$le)
 
 # exploring some values
 a = mean(e[niteration == 1, le5])

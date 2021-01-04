@@ -61,7 +61,6 @@ cor(covs$absolute_income_mob, covs$income)
 odds = exp(-1.04287 + 0.6 + 2.5 * 0.0)
 odds / (1.0 + odds);
 
-
 cor(covs$relative_income_mob, covs$absolute_income_mob)
 
 # read data
@@ -80,7 +79,8 @@ names(cty)
 summary(cty$nsi)
 
 cor(cty[, .(income, median_income)])
-c = cty[relative_income_mob > 0.3, .(county, model_time, relative_income_mob, le, median_income, income, population)]
+c = cty[relative_income_mob > 0.3, .(county, model_time, relative_income_mob, 
+    le, median_income, income, population)]
 setorder(c, -median_income)
 head(c)
 
@@ -94,8 +94,10 @@ mean(s[active == TRUE, income])
 median(s[active == TRUE, income])
 
 t = cty[county == 1, .(county, model_time, relative_income_mob)]
-ggplot(cty, aes(model_time, relative_income_mob, group = county, color = income))  + geom_line() + scale_color_gradient(low="blue", high="red")  + theme_minimal()
-ggplot(cty, aes(model_time, le, group = county, color = income))  + geom_line() + scale_color_gradient(low="blue", high="red") + theme_minimal()
+ggplot(cty, aes(model_time, relative_income_mob, group = county, color = income)) +
+    geom_line() + scale_color_gradient(low="blue", high="red")  + theme_minimal()
+ggplot(cty, aes(model_time, le, group = county, color = income)) +
+    geom_line() + scale_color_gradient(low="blue", high="red") + theme_minimal()
 
 mean(cty$income)
 sd(cty$income)
