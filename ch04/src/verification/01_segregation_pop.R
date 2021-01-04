@@ -1,124 +1,166 @@
-# ##############################
-# # generative model income mobility and mortality
-# # verify segregation and population dynamic
-# # author: sebastian daza
-# ##############################
+##############################
+# generative model income mobility and mortality
+# verify segregation and population dynamic
+# author: sebastian daza
+##############################
 
 
-# library(data.table)
-# library(ggplot2)
-# source("src/utils.R")
+library(data.table)
+library(ggplot2)
+source("src/utils.R")
 
-# sim_path = "models/MobHealthRecycling/output/verification/segregation/"
-# data_path = "output/data/verification/segregation/"
-# plots_path = "output/plots/verification/segregation/"
+path = "models/MobHealthRecycling/output/verification/segregation/"
+plots_path = "output/plots/verification/segregation/"
 
-# # read excel file
-# m = fread(paste0(sim_path, "mortality.csv"))
-# dim(m)
+# read data
+m = readMultipleFiles("mortality", path, remove_files = TRUE)
+p = readMultipleFiles("parameter", path, remove_files = TRUE)
+e = readMultipleFiles("environ", path, remove_files = TRUE)
 
-# e = fread(paste0(sim_path, "environment.csv"))
-# p = fread(paste0(sim_path, "model_parameters.csv"))
+nrow(p)
+nrow(m)
+nrow(e)
 
-# anyDuplicated(m[, al_id])
-# anyDuplicated(m[, .(iteration, replicate,id)])
+# parameters 
+names(p)
+parameters = c("prob_move_random", "move_threshold")
+setorderv(p, parameters)
 
-# # create data tables
-# # m = readMultipleFiles("mortality", sim_path)
-# # p = readMultipleFiles("parameter", sim_path)
-# # e = readMultipleFiles("environ", sim_path)
+p[, niteration := .GRP, by = parameters]
+p[, nreplicate := 1:.N, by = niteration]
+np = p[, c("iteration", "replicate", "niteration", "nreplicate", parameters), with = FALSE]
 
-# nrow(p)
-# nrow(unique(m[, .(iteration, replicate)]))
-# nrow(unique(e[, .(iteration, replicate)]))
+unique(np[, c("niteration", parameters), with = FALSE])
 
-# # save files
-# overwrite = FALSE
-# saveRDSFile(m, paste0(data_path, "mortality.rds"), overwrite)
-# saveRDSFile(p, paste0(data_path, "parameter.rds"), overwrite)
-# saveRDSFile(e, paste0(data_path, "environment.rds"), overwrite)
+e = merge(e, np, by = c("iteration", "replicate"))
+m = merge(m, np, by = c("iteration", "replicate"))
+setorderv(e, parameters)
 
-# # remove csv files
-# files = list.files(sim_path)
-# sapply(paste0(sim_path, files), unlink)
-#  
-# # initial processing
-# sel = p[, .(iteration, replicate, counties, people_per_county, move_random,
-#     move_rate, move_threshold, max_generation)]
-# dat = merge(e[!is.na(nsi)], sel, by = c("iteration", "replicate"))
+# segregation
+tab = e[!is.na(nsi), .(nsi = mean(nsi), .N,  sd = sd(nsi)), c("niteration", parameters)]
+tab[, prop := sd / nsi]
+tab
 
+# number of moves
+m[, .(moves = mean(nmoves), moves_kid = mean(nmoves_kid)), 
+    c("niteration", parameters)]
 
-# # segregation
-# tab = dat[!is.na(nsi), .(nsi = mean(nsi), threshold = max(move_threshold),
-#     sd = sd(nsi)), iteration]
-# tab[, prop := sd / nsi]
+# create plots
+iterations = c(4, 1, 2, 3)
+titles = c("Random", "Threshold = 0.15", "Threshold = 0.22", "Threshold = 0.28")
 
-# # number of moves
-# m[, .(moves = mean(nmoves), moves_kid = mean(nmoves_kid)), iteration]
+for (i in seq_along(iterations)) {
+    savepdf(paste0(plots_path, "nsi_", iterations[i]))
 
-# # parameters
-# sp = unique(dat[, .(iteration, move_threshold)])
-# v = as.character(round(sort(sp[move_threshold > 0, move_threshold]) * 100))
+    t = e[!is.na(nsi) & model_time > 18 & niteration == iterations[i]]
 
-# # create plots
-# plot_names = c("random", v)
-
-# nsi_plots = list.files(plots_path, pattern = "+.pdf")
-# sapply(paste0(plots_path, nsi_plots), unlink)
-
-# for (i in seq_along(plot_names)) {
-#     savepdf(paste0(plots_path, "nsi_", plot_names[i]))
-#     print(
-#     ggplot(e[!is.na(nsi) & time > 18 & iteration == i], aes(time, nsi, group = replicate)) + geom_line( alpha = 0.25, size = 0.1) +
-#         labs(x = "\nYear", y = "NSI\n")  +
-#         scale_y_continuous(limits = c(0, 1), breaks = scales::pretty_breaks(n = 6)) +
-#         scale_x_continuous(limits = c(0, 1550), breaks = scales::pretty_breaks(n = 8)) +
-#         theme_minimal()
-#     )
-#     dev.off()
-# }
+    nsi = mean(t$nsi)
+    replicates = max(t$nreplicate)
+    rank_slope = mean(t$county_rank_slope_avg)
+    rank_slope_sd = mean(t$county_rank_slope_sd)
+    smokers = mean(t$smokers)
+    
+    print(
+    ggplot(t, aes(model_time, nsi, group = nreplicate)) + 
+        geom_line( alpha = 0.25, size = 0.1) +
+        labs(
+            caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
+                " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
+            title = titles[i], 
+            x = "\nTime (years)\n", 
+            y = "NSI\n") +
+        scale_y_continuous(limits = c(0, 1), breaks = scales::pretty_breaks(n = 6)) +
+        scale_x_continuous(limits = c(0, 1100), breaks = scales::pretty_breaks(n = 8)) +
+        theme_minimal()
+    )
+    dev.off()
+}
 
 
-# # population
-# e[, group := iteration * 100 + replicate]
-# savepdf(paste0(plots_path, "population"))
-# ggplot(e[iteration == 6], aes(time, population, group = group)) + geom_line( alpha = 0.3, size = 0.1) +
-#     labs(x = "\nYear", y = "Population\n")  +
-#     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
-#     scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
-#     theme_minimal()
-# dev.off()
+# population
+plots_path = "output/plots/verification/population/"
+savepdf(paste0(plots_path, "population"))
 
-# # age of death distribution
+t = e[niteration == 3]
+nsi = mean(t$nsi)
+replicates = max(t$nreplicate)
+rank_slope = mean(t$county_rank_slope_avg)
+rank_slope_sd = mean(t$county_rank_slope_sd)
+smokers = mean(t$smokers)
 
-# savepdf(paste0(plots_path, "age_death"))
-# ggplot(m, aes(x = age)) + geom_histogram(binwidth = 1.2, color = "black", fill="white") +
-#     labs(x = "\nAge of death", y = "Frequency\n") +
-#     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
-#     scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
-# theme_minimal()
-# dev.off()
+ggplot(t, aes(model_time, population, group = nreplicate)) + geom_line( alpha = 0.3, size = 0.1) +
+    labs(
+        caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
+            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
+        title = "Population", 
+            x = "\nTime (years)\n", 
+            y = "Number of alive agents\n") +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    theme_minimal()
+dev.off()
 
-# # average number of kids
-# summary(m$nkids)
+# age of death distribution
+savepdf(paste0(plots_path, "age_death"))
 
-# savepdf(paste0(plots_path, "num_kids"))
-# ggplot(m[iteration == 6], aes(x = nkids)) + geom_histogram(binwidth = 1, color = "black", fill="white") +
-#     labs(x = "\nNumber of kids", y = "Frequency\n") +
-#     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
-#     scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
-#     geom_vline(aes(xintercept=mean(nkids)),
-#             color="gray", linetype="dashed", size = 0.4) +
-# theme_minimal()
-# dev.off()
+t = e[niteration == 3]
+mt = m[niteration == 3]
+agents = nrow(mt)
+nsi = mean(t$nsi)
+replicates = max(t$nreplicate)
+rank_slope = mean(t$county_rank_slope_avg)
+rank_slope_sd = mean(t$county_rank_slope_sd)
+smokers = mean(t$smokers)
 
-# # life expectancy
-# savepdf(paste0(plots_path, "le"))
-# ggplot(unique(dat[le > 0, .(le)]), aes(x = le)) + geom_histogram(color = "black", fill="white") +
-#     labs(x = "\nLife expectancy", y = "Frequency\n") +
-#     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
-#     scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
-#     geom_vline(aes(xintercept=mean(le)),
-#             color="gray", linetype="dashed", size = 0.4) +
-# theme_minimal()
-# dev.off()
+ggplot(mt, aes(x = age)) + geom_histogram(binwidth = 1.2, color = "black", fill="white") +
+    labs(
+        caption = paste0("Agents = ", agents, "  Rank-rank slope = ", round(rank_slope, 2),
+            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
+            round(smokers, 2), ", Replicates = ", replicates),
+        title = "Population", 
+        x = "\nAge of death\n", y = "Frequency\n") +
+     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+     scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
+     theme_minimal()
+dev.off()
+
+# average number of kids
+savepdf(paste0(plots_path, "num_kids"))
+ggplot(mt, aes(x = nkids)) + geom_histogram(binwidth = 1, color = "black", fill="white") +
+    labs(
+        caption = paste0("Agents = ", agents, "  Rank-rank slope = ", round(rank_slope, 2),
+            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
+            round(smokers, 2), ", Replicates = ", replicates),
+        title = "Population", 
+        x = "\nNumber of kids\n", y = "Frequency\n") +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+    geom_vline(aes(xintercept=mean(nkids)),
+            color="gray", linetype="dashed", size = 0.4) +
+theme_minimal()
+dev.off()
+
+# life expectancy
+savepdf(paste0(plots_path, "le"))
+
+t = e[le > 0 & niteration == 4]
+nsi = mean(t$nsi)
+replicates = max(t$nreplicate)
+rank_slope = mean(t$county_rank_slope_avg)
+rank_slope_sd = mean(t$county_rank_slope_sd)
+smokers = mean(t$smokers)
+
+ggplot(t, aes(x = le)) + geom_histogram(color = "black", fill="white") +
+    labs(x = "\nLife expectancy", y = "Frequency\n") +
+    labs(
+        caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
+            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
+            round(smokers, 2), ", Replicates = ", replicates),
+        title = "Population", 
+        x = "\nNumber of kids\n", y = "Frequency\n") +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
+    geom_vline(aes(xintercept=mean(le)),
+            color="gray", linetype="dashed", size = 0.4) +
+theme_minimal()
+dev.off()
