@@ -1,0 +1,34 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Posterior Distribution of $exp(\beta _{\text {Mob}})$ and $exp(\beta _{\text {Gini}})$ by Gender \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{30}{figure.caption.3}% 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces 95\% Credibility Interval Posterior Distribution of \newline $exp(\beta _m)$ and $exp(\beta _g)$ (Equation \ref {eq:model_age}) by Age Group \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{31}{figure.caption.4}% 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces 95\% Credibility Interval of Predicted LE Differences \newline by Age Group, Increase in One Standard Deviation \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{32}{figure.caption.5}% 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces 95\% Credibility Interval of Predicted Relative LE Differences \newline by Age Group, Increase in One Standard Deviation \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{33}{figure.caption.6}% 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Posterior Distribution $exp(\beta _{\text {Mob}})$ and $exp(\beta _{\text {Gini}})$ (Equation \ref {eq:model_age}) \newline by Race/Ethnicity and Gender\relax }}{34}{figure.caption.7}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces 95\% Credibility Interval of Predicted LE Differences \newline by Age Group and Race/Ethnicity, Increase in One Standard Deviation\relax }}{35}{figure.caption.8}% 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces 95\% Credibility Interval of Predicted LE Relative Differences \newline by Age Group and Race/Ethnicity, Increase in One Standard Deviation\relax }}{36}{figure.caption.9}% 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Posterior Distribution $exp(\beta _{\text {Mob}})$ and $exp(\beta {\text {Gini}})$ \newline by Cause of Death and Gender\relax }}{37}{figure.caption.10}% 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces County Coverage Income Mobility Measures (Colored) \newline 2867 counties (91\%)\relax }}{38}{figure.caption.11}% 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Income Mobility and Inequality, 2867 counties\relax }}{40}{figure.caption.13}% 
+\contentsline {figure}{\numberline {3.11}{\ignorespaces PIT Distribution \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{42}{figure.caption.14}% 
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Q-Q Plot PIT \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10} and \ref {tbl:m_age_pcprior_1_10}\relax }}{43}{figure.caption.15}% 
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Posterior Distribution of $exp(\beta _{\text {Mob}})$ and $exp(\beta _{\text {Gini}})$ by Gender \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10_abs} and \ref {tbl:m_age_pcprior_1_10_abs}\relax }}{47}{figure.caption.18}% 
+\contentsline {figure}{\numberline {3.14}{\ignorespaces 95\% Credibility Interval Posterior Distribution of \newline $exp(\beta _m)$ and $exp(\beta _g)$ (see Equation \ref {eq:model_age}) by Age Group \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10_abs} and \ref {tbl:m_age_pcprior_1_10_abs}\relax }}{50}{figure.caption.21}% 
+\contentsline {figure}{\numberline {3.15}{\ignorespaces 95\% Credibility Interval of Predicted LE Differences \newline by Age Group, Increase in One Standard Deviation \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10_abs} and \ref {tbl:m_age_pcprior_1_10_abs}\relax }}{51}{figure.caption.22}% 
+\contentsline {figure}{\numberline {3.16}{\ignorespaces 95\% Credibility Interval of Predicted Relative LE Differences \newline by Age Group, Increase in One Standard Deviation \newline Model \textit {Covariates} in Tables \ref {tbl:w_age_pcprior_1_10_abs} and \ref {tbl:m_age_pcprior_1_10}\relax }}{52}{figure.caption.23}% 
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Posterior Distribution $exp(\beta _m)$ and $exp(\beta _g)$ \newline Model \textit {Covariates}\relax }}{53}{figure.caption.24}% 
+\contentsline {figure}{\numberline {3.18}{\ignorespaces 95\% Credibility Interval of Predicted LE Differences \newline by Age Group and Race/Ethnicity, Increase in One Standard Deviation\relax }}{54}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.19}{\ignorespaces 95\% Credibility Interval of Predicted LE Relative Differences \newline by Age Group and Race/Ethnicity, Increase in One Standard Deviation\relax }}{55}{figure.caption.26}% 
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Posterior Distribution $exp(\beta _{\text {Mob}})$ and $exp(\beta {\text {Gini}})$ \newline by Cause of Death and Gender\relax }}{56}{figure.caption.27}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces County income mobility and inequality over population \newline by NLSY97 sample coverage\relax }}{78}{figure.caption.36}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces NLSY97 Imputation plots with relative mobility as exposure, 20 iterations\relax }}{82}{figure.caption.41}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces PSID Imputation plots with relative mobility as exposure, 20 iterations\relax }}{83}{figure.caption.42}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Agent's attributes and relationships\relax }}{98}{figure.caption.59}% 
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Person State Chart\relax }}{105}{figure.caption.60}% 
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Population Dynamics (30 replicates)\relax }}{112}{figure.caption.63}% 
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Neighborhood sorting index (NSI) by year (30 replicates)\relax }}{113}{figure.caption.64}% 
+\addvspace {10\p@ }

@@ -1,8 +1,8 @@
 ﻿
 # latex
-dissertation.*
-!dissertation.tex
-!dissertation.bib
+# dissertation.*
+# !dissertation.tex
+# !dissertation.bib
 
 # licenses and notes
 .vscode
