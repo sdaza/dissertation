@@ -12,7 +12,7 @@ library(patchwork)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/verification/microsimulation/"
+path = "models/MobHealthRecycling/output/experiments/microsimulation/"
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 setorder(p, iteration)
@@ -67,8 +67,8 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0("output/plots/microsimulation_", i))
-        print(plots)
+    savepdf(paste0("output/plots/experiments/microsimulation/microsimulation_", i))
+        print(plot)
     dev.off()
 }
 
@@ -103,7 +103,7 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
     
     # save plot
-    savepdf(paste0("output/plots/microsimulation_", i, "_", j))
+    savepdf(paste0("output/plots/experiments/microsimulation/microsimulation_", i, "_", j))
         print(plot)
     dev.off()
     }

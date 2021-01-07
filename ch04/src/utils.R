@@ -73,6 +73,7 @@ saveRDSFile = function(dt, path, overwrite = FALSE) {
     }
 }
 
+
 savepdf = function(file, width = 16, height = 10) {
   fname = paste0(file, ".pdf")
   pdf(fname, width = width / 2.54, height = height / 2.54,
@@ -103,6 +104,7 @@ coxModel = function(replicates, data,
 
     return(output)
 }
+
 
 linearModel = function(replicates, data,
     f = formula("le ~ rank_slope + gini + lincome + lpopulation"),

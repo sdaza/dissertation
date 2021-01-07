@@ -12,14 +12,11 @@ library(survival)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/verification/exogenous-experiment/"
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment-all/"
 
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
-
-
-m
 
 # check number of replicates by county
 test = unique(cty[, .(iteration, replicate)])
@@ -38,7 +35,7 @@ table(p$iteration)
 
 # iterations
 iterations = list(1:3, 4:6, 7:9)
-experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
+experiment_names = c("exogenous-IM-NoMob-all", "exogenous-IM-Mob-all", "exogenous-IM-Seg-all")
 
 #iterations = list(1:5)
 mtime = 900

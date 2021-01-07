@@ -12,7 +12,7 @@ library(survival)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/verification/exogenous-experiment-all/"
+path = "models/MobHealthRecycling/output/verification/exogenous-experiment/"
 
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
@@ -35,11 +35,10 @@ table(p$iteration)
 
 # iterations
 iterations = list(1:3, 4:6, 7:9)
-experiment_names = c("exogenous-IM-NoMob-all", "exogenous-IM-Mob-all", "exogenous-IM-Seg-all")
+experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
 
 #iterations = list(1:5)
 mtime = 900
-
 name_of_models = c("$\\beta$ = 0.0", "$\\beta$ = 0.3", "$\\beta$ = 0.5")
 
 # tables header and bottom

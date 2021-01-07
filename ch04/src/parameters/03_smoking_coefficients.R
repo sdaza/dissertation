@@ -59,8 +59,6 @@ setorder(tab, incomeType)
 
 saveRDS(tab, "output/data/smoking_dist_nhis2019.rds")
 
-
-
 # logistic model to get baseline income coefficients
 m = svyglm(smoking ~ -1 + as.factor(incomeType), design = design, family = quasibinomial)
 summary(m)

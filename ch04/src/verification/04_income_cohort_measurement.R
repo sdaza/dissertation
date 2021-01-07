@@ -8,15 +8,31 @@
 library(data.table)
 source("src/utils.R")
 
-path = "models/MobHealthRecycling/output/verification/income/"
+path = "models/MobHealthRecycling/output/verification/measurement/"
 income = readMultipleFiles("income", path, remove_files = FALSE)
 strat = readMultipleFiles("stratification", path, remove_files = FALSE)
 m = readMultipleFiles("mortality", path, remove_files = FALSE)
 cty = readMultipleFiles("county", path, remove_files = FALSE)
 
+# distribution of cohort size
+savepdf("output/plots/verification/measurement/im_cohort_size")
+print(
+ggplot(strat, aes(x = size_cohort_im)) +
+    geom_histogram(color = "black", fill="white") + 
+    theme_minimal()
+)
+dev.off()
+
+savepdf("output/plots/verification/measurement/mortality_cohort_size")
+print(
+ggplot(strat[le > 0], aes(x = size_cohort_im)) +
+    geom_histogram(color = "black", fill="white") + 
+    theme_minimal()
+)
+dev.off()
 
 # simulated transition matrix
-prop.table(table(m[age>=18, .(parent_income_type, income_type)]), 1)
+prop.table(table(m[age >= 18, .(parent_income_type, income_type)]), 1)
 prop.table(table(income[, .(parent_type, kid_type)]), 1)
 
 # cohorts
@@ -46,6 +62,7 @@ summary(a$rank_slope_c)
 
 b = ct10[, .(county, rank_slope, rank_correlation, rank_absolute_mob, mean_income)]
 test = merge(a, b, by = "county")
+
 cor(test[ , .(rank_slope_t, rank_slope)])
 cor(test[ , .(rank_correlation_c, rank_correlation)])
 cor(test[ , .(rank_absolute_mob_t, rank_absolute_mob)])
@@ -56,7 +73,7 @@ cor(test[, .(mean_income, kid_income)])
 # income, transition matrix relationship
 table(income$cohort)
 prop.table(table(income[, .(parent_type, kid_type)]), 1)
-test = income[cohort > 200]
+test = income[niteration == 3 & cohort > 800]
 
 test[, rank_parent := perc.rank(parent_income)]
 test[, rank_kid := perc.rank(kid_income)]
@@ -69,8 +86,6 @@ test[, p4 := addDiagonalProbs(parent_type, kid_type, 4), county]
 test[, p5 := addDiagonalProbs(parent_type, kid_type, 5), county]
 test[, N := 1:.N, county]
 ct = test[N == 1]
-#dim(ct)
-#hist(ct$rm)
 
 cor(ct[, .(p1, rm)])
 cor(ct[, .(p2, rm)])

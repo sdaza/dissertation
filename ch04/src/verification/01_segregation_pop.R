@@ -45,6 +45,11 @@ tab
 m[, .(moves = mean(nmoves), moves_kid = mean(nmoves_kid)), 
     c("niteration", parameters)]
 
+# life expectanctcy by income group
+le = m[, .(le = mean(age)), income_type]
+setorder(le, income_type)
+le[5, le] - le[1, le]
+
 # create plots
 iterations = c(4, 1, 2, 3)
 titles = c("Random", "Threshold = 0.15", "Threshold = 0.22", "Threshold = 0.28")
@@ -65,7 +70,8 @@ for (i in seq_along(iterations)) {
         geom_line( alpha = 0.25, size = 0.1) +
         labs(
             caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
-                " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
+                " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), 
+                ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
             title = titles[i], 
             x = "\nTime (years)\n", 
             y = "NSI\n") +
@@ -91,7 +97,8 @@ smokers = mean(t$smokers)
 ggplot(t, aes(model_time, population, group = nreplicate)) + geom_line( alpha = 0.3, size = 0.1) +
     labs(
         caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
-            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
+            " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), 
+            ", Smokers = ", round(smokers, 2), ", Replicates = ", replicates),
         title = "Population", 
             x = "\nTime (years)\n", 
             y = "Number of alive agents\n") +
@@ -117,7 +124,7 @@ ggplot(mt, aes(x = age)) + geom_histogram(binwidth = 1.2, color = "black", fill=
         caption = paste0("Agents = ", agents, "  Rank-rank slope = ", round(rank_slope, 2),
             " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
             round(smokers, 2), ", Replicates = ", replicates),
-        title = "Population", 
+        title = "Age of death", 
         x = "\nAge of death\n", y = "Frequency\n") +
      scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
      scale_x_continuous(breaks = scales::pretty_breaks(n = 8)) +
@@ -131,7 +138,7 @@ ggplot(mt, aes(x = nkids)) + geom_histogram(binwidth = 1, color = "black", fill=
         caption = paste0("Agents = ", agents, "  Rank-rank slope = ", round(rank_slope, 2),
             " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
             round(smokers, 2), ", Replicates = ", replicates),
-        title = "Population", 
+        title = "Number of kids", 
         x = "\nNumber of kids\n", y = "Frequency\n") +
     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
     scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
@@ -143,7 +150,7 @@ dev.off()
 # life expectancy
 savepdf(paste0(plots_path, "le"))
 
-t = e[le > 0 & niteration == 4]
+t = e[le > 0 & niteration == 3]
 nsi = mean(t$nsi)
 replicates = max(t$nreplicate)
 rank_slope = mean(t$county_rank_slope_avg)
@@ -156,7 +163,7 @@ ggplot(t, aes(x = le)) + geom_histogram(color = "black", fill="white") +
         caption = paste0("Rank-rank slope = ", round(rank_slope, 2),
             " (SD = ", round(rank_slope_sd, 2), "), NSI = ", round(nsi, 2), ", Smokers = ", 
             round(smokers, 2), ", Replicates = ", replicates),
-        title = "Population", 
+        title = "Life expectancy", 
         x = "\nNumber of kids\n", y = "Frequency\n") +
     scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +
     scale_x_continuous(breaks = scales::pretty_breaks(n = 6)) +
@@ -164,3 +171,5 @@ ggplot(t, aes(x = le)) + geom_histogram(color = "black", fill="white") +
             color="gray", linetype="dashed", size = 0.4) +
 theme_minimal()
 dev.off()
+
+
