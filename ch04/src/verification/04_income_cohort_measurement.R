@@ -18,7 +18,8 @@ cty = readMultipleFiles("county", path, remove_files = FALSE)
 savepdf("output/plots/verification/measurement/im_cohort_size")
 print(
 ggplot(strat, aes(x = size_cohort_im)) +
-    labs(title = "Rank-rank slope") + 
+    labs(title = "Rank-rank slope",
+        x = "\nSize", y = "Frequency\n") +
     geom_histogram(color = "black", fill="white") + 
     theme_minimal()
 )
@@ -27,7 +28,8 @@ dev.off()
 savepdf("output/plots/verification/measurement/mortality_cohort_size")
 print(
 ggplot(strat[le > 0], aes(x = size_cohort_mortality)) +
-    labs(title = "Life expectancy") + 
+    labs(title = "Life expectancy", 
+        x = "\nSize",  y = "Frequency\n") + 
     geom_histogram(color = "black", fill="white") + 
     theme_minimal()
 )
