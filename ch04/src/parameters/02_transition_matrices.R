@@ -7,6 +7,7 @@
 
 library(data.table)
 library(xlsx)
+library(ggplot2)
 source("src/utils.R")
 
 table = function (...) base::table(..., useNA = 'ifany')
@@ -24,7 +25,6 @@ values = c(0.337,	0.280,	0.184,	0.123,	0.075,
     0.109,	0.119, 0.170,	0.236,	0.365)
 
 t = matrix(values, 5, 5, byrow =  TRUE)
-
 diag(t) = 0
 
 v = apply(t, 1, sum)
@@ -120,8 +120,6 @@ stp
 stp[parent == 1]
 
 setorder(s, parent)
-
-
 cor(tp[parent == child, .(lincome, income_seg, black, prop, rm)])
 tp[parent == child, .(mean(prop)), parent]
 plot(tp[parent == child, .(log_prop_black = log(black),
@@ -147,14 +145,14 @@ cor(tp[parent == 1 & parent == child, .(lincome, rm)])
 
 
 # descriptive plots
-savepdf("output/plots/cz_rrs_race_q1")
+savepdf("output/plots/rank-rank/cz_rrs_race_q1")
 v = cor(tp[parent == 1 & parent == child, .(prop, rm)])[1, 2]
 ggplot(tp[parent == 1 & parent == child, .(prop, rm, black)], aes(prop, rm, color = black))  + geom_point(alpha = 0.7) +
     labs(title = paste0("CZ Rank-rank slope and P(Kid Q1| Parent Q1), Corr = ", round(v, 2)),
     y = "Rank-rank slope", x = "P(Kid Q1| Parent Q1)") + theme_minimal() + scale_colour_gradient(low = "grey", high = "black")
 dev.off()
 
-savepdf("output/plots/cz_rrs_race_q5")
+savepdf("output/plots/rank-rank/cz_rrs_race_q5")
 v = cor(tp[parent == 5 & parent == child, .(prop, rm)])[1, 2]
 ggplot(tp[parent == 5 & parent == child, .(prop, rm, black)], aes(prop, rm, color = black))  + geom_point(alpha = 0.7) +
     labs(title = paste0("CZ Rank-rank slope  and P(Kid Q1| Parent Q1), Corr = ", round(v, 2)),
@@ -166,22 +164,26 @@ dev.off()
 covs = data.table(haven::read_dta('data/cty_full_covariates.dta'))
 covs[, relative_income_mob := s_rank / 100]
 covs[, absolute_income_mob := e_rank_b / 100]
-covs[, frac_black := cs_frac_black / 100]
+covs[, black := cs_frac_black / 100]
 
 cor(covs[, .(relative_income_mob, absolute_income_mob)])
-cor(covs[, .(relative_income_mob, frac_black)])
+cor(covs[, .(relative_income_mob, black)])
 covs[, lincome := logIncome(hhinc00, center = FALSE)]
 
-savepdf("output/plots/cty_rrs_income")
-v = cor(covs[, .(relative_income_mob, lincome)])[1, 2]
-ggplot(covs, aes(lincome, relative_income_mob, color = frac_black))  + geom_point(alpha = 0.6) +
+names(covs)
+
+savepdf("output/plots/rank-rank/cty_rrs_income")
+v = cor(covs[, .(relative_income_mob, lincome, black)])[1, 2]
+ggplot(covs, aes(lincome, relative_income_mob, color = black))  + geom_point(alpha = 0.6) +
     labs(title = paste0("County Rank-rank slope and income, Corr = ", round(v, 2)),
     y = "Rank-rank slope", x = "Log income") + theme_minimal() + scale_colour_gradient(low = "grey", high = "black")
 dev.off()
 
-savepdf("output/plots/cty_rrs_hist")
-ggplot(covs, aes(relative_income_mob)) + geom_histogram(colour="black", fill="white") +
+savepdf("output/plots/rank-rank/cty_rrs_hist")
+ggplot(covs, aes(relative_income_mob)) + geom_histogram(colour= "black", fill= "white") +
     labs(title = paste("County Rank-rank slope distribution, Average = ",
-        round(mean(covs$relative_income_mob, na.rm = TRUE), 2)), x = "Rank-rank slope", y = "Frequency") +
+        round(mean(covs$relative_income_mob, na.rm = TRUE), 2),
+        ", SD = ", round(sd(covs$relative_income_mob, na.rm = TRUE), 3)),
+        x = "Rank-rank slope", y = "Frequency") +
     theme_minimal()
 dev.off()
