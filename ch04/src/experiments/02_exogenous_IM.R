@@ -12,29 +12,34 @@ library(survival)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/verification/exogenous-experiment/"
+path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
 
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
+m = readMultipleFiles("mortality", path, remove_files = TRUE)
 
-# check number of replicates by county
-test = unique(cty[, .(iteration, replicate)])
-table(test[, .(iteration, replicate)])
 
-nrow(cty)
-nrow(m)
-nrow(p)
+m
 
-table(cty$iteration)
+# redefine iterations and replicates
+dim(p)
+parameters = c("mortality_fake_exp_coeff", "prob_move_random", "smoking_rank_slope_exp_coeff", "move_decision_rate")
+setorderv(p, c("move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff"))
+
+p[, niteration := .GRP, by = parameters]
+p[, nreplicate := 1:.N, by = niteration]
+
+np = p[, c("iteration", "replicate", "niteration", "nreplicate", parameters), with = FALSE]
+unique(np[, c("niteration", parameters), with = FALSE])
 
 # parameters
-min(p$replicate)
-max(p$replicate)
-table(p$iteration)
+min(np$nreplicate)
+max(np$nreplicate)
+table(np$niteration)
 
 # iterations
-iterations = list(1:3, 4:6, 7:9)
+iterations = list(1:3, 7:9, 4:6)
 experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
 
 #iterations = list(1:5)
@@ -64,6 +69,7 @@ bottom = "
 \\end{table}
 "
 
+names(m)
 
 # iterate through each experiment
 for (h in seq_along(experiment_names)) {
@@ -84,7 +90,7 @@ for (h in seq_along(experiment_names)) {
     # individual mortality
     cox_models = list()
     #f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_zincome_exposure")
+    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_z_income_exposure")
     for (j in seq_along(iter)) {
         print(paste0("Iteration group: ", iter[j]))
         d = copy(m[iteration %in% iter[j]])
