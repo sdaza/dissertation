@@ -17,13 +17,10 @@ path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
-m = readMultipleFiles("mortality", path, remove_files = TRUE)
-
-
-m
 
 # redefine iterations and replicates
 dim(p)
+
 parameters = c("mortality_fake_exp_coeff", "prob_move_random", "smoking_rank_slope_exp_coeff", "move_decision_rate")
 setorderv(p, c("move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff"))
 
@@ -38,12 +35,22 @@ min(np$nreplicate)
 max(np$nreplicate)
 table(np$niteration)
 
+# merge values
+cty = merge(np, cty, by = c("iteration", "replicate"))
+m = merge(np, m, by = c("iteration", "replicate"))
+
+setnames(cty, c("iteration", "replicate", "niteration", "nreplicate"),
+    c("old_iteration", "old_replicate", "iteration", "replicate")
+
+setnames(m, c("iteration", "replicate", "niteration", "nreplicate"),
+    c("old_iteration", "old_replicate", "iteration", "replicate"))
+
 # iterations
 iterations = list(1:3, 7:9, 4:6)
 experiment_names = c("exogenous-IM-NoMob", "exogenous-IM-Mob", "exogenous-IM-Seg")
 
 #iterations = list(1:5)
-mtime = 900
+mtime = 800
 name_of_models = c("$\\beta$ = 0.0", "$\\beta$ = 0.3", "$\\beta$ = 0.5")
 
 # tables header and bottom
@@ -68,8 +75,6 @@ bottom = "
 \\end{center}
 \\end{table}
 "
-
-names(m)
 
 # iterate through each experiment
 for (h in seq_along(experiment_names)) {

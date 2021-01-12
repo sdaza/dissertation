@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201438" AlpVersion="8.5.7">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.6.0.202008201451" AlpVersion="8.5.7">
 <Model>
 	<Id>1516978677334</Id>
 	<Name><![CDATA[MobHealthRecycling]]></Name>
@@ -3499,7 +3499,7 @@ if (v_lastGeneration >= p_exportSinceGeneration & (round(time()) % p_recurrentTi
 	if (f_textFileInclude("individuals", p_fileNames)) f_writeIndividualData();
 }
 
-if (f_textFileInclude("environment", p_fileNames)) f_writeEnvironmentData();]]></Body>
+//if (f_textFileInclude("environment", p_fileNames)) f_writeEnvironmentData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -18231,7 +18231,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>1</ReplicationPerIteration>
+				<ReplicationPerIteration>25</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
@@ -21946,10 +21946,26 @@ v_baselineSameIncomeProb = new double[] {
 	0.2, 0.32, 
 	0.2, 0.32,
 	0.2, 0.32,
+	0.2, 0.32, 
+	0.2, 0.32, 
+	0.2, 0.32
 };
+
+v_smokingCoeffRankSlope = new double[] {
+	0.12, 0.12, 
+	0.12, 0.12,
+	0.12, 0.12,
+	0.0, 0.0, 
+	0.0, 0.0, 
+	0.0, 0.0
+};
+
 
 v_empiricalTransProb = new boolean[] {
 	false, true, 
+	false, true,
+	false, true,
+    false, true, 
 	false, true,
 	false, true,
 };
@@ -21957,10 +21973,16 @@ v_empiricalTransProb = new boolean[] {
 v_movingDecisionRate = new double[] {
 	0.001, 0.001,
 	0.1, 0.1,
+	0.1, 0.1,
+	0.001, 0.001,
+	0.1, 0.1,
 	0.1, 0.1
 };
 
 v_propMovingRandom = new double[] {
+	1.0, 1.0,
+	1.0, 1.0,
+	0.01, 0.01,
 	1.0, 1.0,
 	1.0, 1.0,
 	0.01, 0.01
@@ -21981,18 +22003,16 @@ root.v_iteration = getCurrentIteration();
 root.v_replicate = getCurrentReplication();
 
 int[] v_index = new int[] {
-	0, 1, 2, 3, 4, 5,
-	0, 1, 2, 3, 4, 5,
-	0, 1, 2, 3, 4, 5,
-	0, 1, 2, 3, 4, 5,
-	0, 1, 2, 3, 4, 5,
-	0, 1, 2, 3, 4, 5,
+	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 };
 
 int currentIteration = v_index[getCurrentIteration()-1];
 
 root.p_baselineSameIncomeProb = v_baselineSameIncomeProb[currentIteration];
 root.p_empiricalDistributionTransMob = v_empiricalTransProb[currentIteration];
+root.p_smokingCoeffRankSlope = v_smokingCoeffRankSlope[currentIteration];
 root.p_movingDecisionRate = root.f_arrayRepeatedValues(v_movingDecisionRate[currentIteration],
 	root.p_numIncomeTypes);
 root.p_randomMobilityProb = v_propMovingRandom[currentIteration];]]></BeforeSimulationRunCode>
@@ -22017,7 +22037,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA["output/verification/microsimulation-transmob/"]]></Code>
+							<Code><![CDATA["output/experiments/microsimulation-transmob/"]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -22090,7 +22110,7 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1610105075143</Id>
 					<Name><![CDATA[v_movingDecisionRate]]></Name>
-					<X>60</X><Y>210</Y>
+					<X>60</X><Y>220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -22102,7 +22122,19 @@ if (vr_replicates % 10 == 0) {
 				<Variable Class="PlainVariable">
 					<Id>1610105155179</Id>
 					<Name><![CDATA[v_propMovingRandom]]></Name>
-					<X>60</X><Y>230</Y>
+					<X>60</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1610391150563</Id>
+					<Name><![CDATA[v_smokingCoeffRankSlope]]></Name>
+					<X>60</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -22777,7 +22809,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>1</ReplicationPerIteration>
+				<ReplicationPerIteration>15</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
