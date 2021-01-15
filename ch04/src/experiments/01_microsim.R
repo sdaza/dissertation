@@ -1,29 +1,25 @@
 ##############################
 # generative model income mobility and mortality
-# microsim
+# microsimulation with coefficient rank-rank on smoking
 # author: sebastian daza
 ##############################
 
 
 library(data.table)
 library(ggplot2)
-library(patchwork)
-
 source("src/utils.R")
 
 # read data
 path = "models/MobHealthRecycling/output/experiments/microsimulation/"
+plot_path = "output/plots/experiments/microsimulation/"
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 setorder(p, iteration)
 
-dim(p)
-dim(e)
 parameters = c("move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff")
 setorderv(p, parameters)
 p[, niteration := .GRP, by = parameters]
 p[, nreplicate := 1:.N, by = niteration]
-
 table(p$niteration)
 # table(p$nreplicate)
 
@@ -35,9 +31,6 @@ setorder(e, iteration)
 
 # unique values
 unique(e[, c("niteration", parameters), with = FALSE])
-summary(e[niteration %in% (c(1,2)), smokers])
-summary(e[niteration %in% (c(5,6)), smokers])
-summary(e[niteration %in% (c(3,4)), smokers])
 
 # create plots of differences
 iterations = list(c(1,2), c(5,6), c(3,4))
@@ -67,7 +60,7 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0("output/plots/experiments/microsimulation/microsimulation_", i))
+    savepdf(paste0(plot_path, "microsimulation_", i))
         print(plot)
     dev.off()
 }
@@ -77,8 +70,6 @@ vars = paste0("le", 1:5)
 e = extractColumns(e, "le_income_type",  vars)
 vars = paste0("smoking", 1:5)
 e = extractColumns(e, "smoking_income_type",  vars)
-
-e
 
 for (i in seq_along(iterations)) {
     for (j in 1:5) {
@@ -103,7 +94,7 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0("output/plots/experiments/microsimulation/microsimulation_", i, "_", j))
+    savepdf(paste0(plot_path, "microsimulation_", i, "_", j))
         print(plot)
     dev.off()
     }

@@ -8,21 +8,21 @@
 \begin{center}
 \begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
 \toprule
- & \multicolumn{1}{c}{Scenario 1} & \multicolumn{1}{c}{Scenario 2} & \multicolumn{1}{c}{Scenario 3} \\
+& \multicolumn{1}{c}{$w_k = 0.0$} & \multicolumn{1}{c}{$w_k = 0.5$} & \multicolumn{1}{c}{$w_k$} \\
 \midrule
 
-Individual Mortaltiy on total IM exposure (Cox) & -0.07         & 0.01          & 0.13^{*}     \\
-                                                & [-0.16; 0.02] & [-0.06; 0.09] & [0.05; 0.21] \\
+Individual Mortaltiy on total IM exposure (Cox) & -0.06^{*}      & 0.05          & 0.15^{*}     \\
+                                                & [-0.11; -0.01] & [-0.01; 0.10] & [0.11; 0.19] \\
 \addlinespace[10pt]
 
-Individual Mortality on county IM (Cox) & -0.00         & 0.01          & 0.01          \\
-                                        & [-0.06; 0.05] & [-0.07; 0.08] & [-0.05; 0.07] \\
+Individual Mortality on county IM (Cox) & -0.01         & 0.01          & 0.06^{*}     \\
+                                        & [-0.05; 0.03] & [-0.04; 0.06] & [0.02; 0.09] \\
 \addlinespace[10pt]
 
-Aggregate county LE on IM (GLM) & -0.08         & 0.20          & -1.33^{*}      \\
-                                & [-0.39; 0.22] & [-0.12; 0.52] & [-1.57; -1.09] \\
+Aggregate county LE on IM (GLM) & -0.17         & 0.13          & -1.54^{*}      \\
+                                & [-0.35; 0.01] & [-0.03; 0.30] & [-1.70; -1.38] \\
 \midrule
-Replicates                      & 30            & 30            & 30             \\
+Replicates                      & 100           & 100           & 100            \\
 
 \bottomrule
 \multicolumn{4}{l}{\tiny{$^*$ Null hypothesis value outside the confidence interval.}}

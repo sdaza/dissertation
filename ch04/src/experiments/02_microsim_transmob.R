@@ -1,6 +1,6 @@
 ##############################
 # generative model income mobility and mortality
-# microsim
+# microsimulation with transition matrix as a counterfactual
 # author: sebastian daza
 ##############################
 
@@ -11,60 +11,71 @@ source("src/utils.R")
 
 # read data
 path = "models/MobHealthRecycling/output/experiments/microsimulation-transmob/"
+plot_path = "output/plots/experiments/microsimulation-transmob/"
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 setorder(p, iteration)
 
 table(p$iteration)
-names(p)
 
-names(p)
 parameters = c("base_prob_same_income", "empirical_trans_mob",
     "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff")
 setorderv(p, parameters)
+
 p[, niteration := .GRP, by = parameters]
 p[, nreplicate := 1:.N, by = niteration]
 
 table(p$niteration)
 
 # table(p$nreplicate)
-
 np = p[, c("iteration", "replicate", "niteration", "nreplicate", parameters), with = FALSE]
+names(np)
+sp = unique(np[, c("niteration", parameters), with = FALSE])
+
 e = merge(e, np, by = c("iteration", "replicate"))
 
 summary(e$population)
 setorder(e, iteration)
 
-setorder(e, iteration, replicate, model_time)
-e[, seq := 1:.N, by = c("iteration", "replicate")]
-e[, N := .N, by = c("iteration", "replicate")]
-e = e[seq == N]
-dim(e)
+# estimate fraction attributable to income and rank-rank slope
+sp[smoking_rank_slope_exp_coeff == 0]
 
-summary(e)
-mean(e[niteration == 1, county_rank_slope_avg])
-mean(e[niteration == 4, county_rank_slope_avg])
+# average income by iteration
+e[niteration %in% c(1, 7, 5, 11, 3, 9), mean(income_mean), niteration]
+e[niteration %in% c(2, 8, 6, 12, 4, 10), mean(income_mean), niteration]
 
-mean(e[niteration == 3, income_mean])
-mean(e[niteration == 6, income_mean])
+iterations = list(c(1,7),  c(5,11), c(3,9))
+income_diff = list()
 
-mean(e[niteration == 2, income_mean])
-mean(e[niteration == 5, income_mean])
+for (i in seq_along(iterations)) {
+    iter = iterations[[i]]
+    v = e[niteration == iter[2], le] - e[niteration == iter[1], le]
+    income_diff[[i]] = v
+}
 
-mean(e[niteration == 1, smokers])
-mean(e[niteration == 4, smokers])
+savepdf(paste0(plot_path, "histogram_income"))
+hist(income_diff[[1]])
+hist(income_diff[[2]])
+hist(income_diff[[3]])
+dev.off()
 
+sp[smoking_rank_slope_exp_coeff > 0]
+iterations = list(c(2,8),  c(6, 12), c(4,10))
+im_diff = list()
 
-mean(e[niteration == 4, le])
+for (i in seq_along(iterations)) {
+    iter = iterations[[i]]
+    v = e[niteration == iter[2], le] - e[niteration == iter[1], le]
+    im_diff[[i]] = v
+}
 
-# unique values
-unique(e[, c("niteration", parameters), with = FALSE])
-summary(e[niteration %in% (c(1,2)), smokers])
-summary(e[niteration %in% (c(5,6)), smokers])
-summary(e[niteration %in% (c(3,4)), smokers])
+savepdf(paste0(plot_path, "histogram_rank_rank"))
+hist(im_diff[[1]])
+hist(im_diff[[2]])
+hist(im_diff[[3]])
+dev.off()
 
-# create plots of differences
-iterations = list(c(1,4),  c(3,6), c(2,5))
+# plots of the difference
 title = c("No residential mobility",
     "Random residential mobility",
     "Segregation")
@@ -91,7 +102,7 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0("output/plots/experiments/microsimulation-transmob/microsimulation_transmob_", i))
+    savepdf(paste0(plot_path, "microsimulation_transmob_", i))
         print(plot)
     dev.off()
 }
@@ -125,13 +136,11 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0("output/plots/experiments/microsimulation-transmob/microsimulation_transmob_", i, "_", j))
+    savepdf(paste0(plot_path, "microsimulation_transmob_", i, "_", j))
         print(plot)
     dev.off()
     }
 }
-
-
 
 
 
