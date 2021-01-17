@@ -23,7 +23,7 @@ e = readMultipleFiles("environment", path, remove_files = TRUE)
 names(p)
 
 parameters = c("base_prob_same_income", "empirical_trans_mob", "weight_income_exp",
-    "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff", 
+    "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff",
     "mortality_fake_exp_coeff")
 
 p[, niteration := .GRP, by = parameters]
@@ -68,7 +68,7 @@ header = "
 \\begin{center}
 \\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
 \\toprule
- & \\multicolumn{1}{c}{Scenario 1} & \\multicolumn{1}{c}{Scenario 2} & \\multicolumn{1}{c}{Scenario 3} \\\\
+ & \\multicolumn{1}{c}{$} & \\multicolumn{1}{c}{Scenario 2} & \\multicolumn{1}{c}{Scenario 3} \\\\
 \\midrule
 "
 
@@ -105,7 +105,7 @@ for (h in seq_along(experiment_names)) {
         d = copy(m[iteration %in% iter[j]])
         d[, `:=`
             (status = 1,
-            lincome = logIncome(income), 
+            lincome = logIncome(income),
             county_lincome = logIncome(county_mean_income)
             )]
         replicates = sort(unique(d$replicate))
