@@ -20,11 +20,9 @@ m = readMultipleFiles("mortality", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 
 # redefine iterations and replicates
-names(p)
-
 parameters = c("base_prob_same_income", "empirical_trans_mob", "weight_income_exp",
     "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff",
-    "mortality_fake_exp_coeff")
+    "smoking_rank_slope_exp_coeff_se", "mortality_fake_exp_coeff")
 
 p[, niteration := .GRP, by = parameters]
 p[, nreplicate := 1:.N, by = niteration]
@@ -38,6 +36,12 @@ unique(np[, c("niteration", parameters), with = FALSE])
 # merge values
 cty = merge(np, cty, by = c("iteration", "replicate"))
 m = merge(np, m, by = c("iteration", "replicate"))
+e = merge(np, e, by = c("iteration", "replicate"))
+
+names(e)
+e[, mean(nsi), niteration]
+e[, mean(smokers), niteration]
+e[, mean(county_rank_slope_avg), niteration]
 
 setnames(cty, c("iteration", "replicate", "niteration", "nreplicate"),
     c("old_iteration", "old_replicate", "iteration", "replicate"))
@@ -49,7 +53,6 @@ setnames(m, c("iteration", "replicate", "niteration", "nreplicate"),
 table(cty$iteration)
 table(m$iteration)
 
-names(m)
 # iterations
 iterations = list(1:3)
 experiment_names = c("endogenous-mob")
@@ -68,7 +71,7 @@ header = "
 \\begin{center}
 \\begin{tabular}{l D{.}{.}{3.9} D{.}{.}{3.9} D{.}{.}{3.8}}
 \\toprule
- & \\multicolumn{1}{c}{$} & \\multicolumn{1}{c}{Scenario 2} & \\multicolumn{1}{c}{Scenario 3} \\\\
+ & \\multicolumn{1}{c}{$w_k = 0.0$} & \\multicolumn{1}{c}{$w_k = 0.5$} & \\multicolumn{1}{c}{$w_k$} \\\\
 \\midrule
 "
 

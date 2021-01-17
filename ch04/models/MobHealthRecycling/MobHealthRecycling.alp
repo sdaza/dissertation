@@ -16180,9 +16180,6 @@ int[] v_index = new int[] {
 
 int currentIteration = v_index[getCurrentIteration()-1];
 
-root.v_iteration = getCurrentIteration();
-root.v_replicate = getCurrentReplication();
-
 root.p_mortalityFakeCoeffRankSlope = v_mortalityFakeCoeffRankSlope[currentIteration];
 root.p_movingDecisionRate = root.f_arrayRepeatedValues(v_movingDecisionRate[currentIteration],
 	root.p_numIncomeTypes);
@@ -18136,10 +18133,9 @@ import com.slack.api.methods.response.chat.ChatPostMessageResponse;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.Message;]]></Import>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<InitialSetupCode><![CDATA[//col_weightingFactor.add(new double[]{0.0, 0.0, 0.0, 0.0, 0.0});
-//col_weightingFactor.add(new double[]{0.4, 0.4, 0.4, 0.4, 0.4});
-//col_weightingFactor.add(new double[]{0.6, 0.6, 0.3, 0.3, 0.05});
-//col_weightingFactor.add(new double[]{0.7, 0.7, 0.3, 0.3, 0.01});]]></InitialSetupCode>
+			<InitialSetupCode><![CDATA[col_weightingFactor.add(new double[]{0.0, 0.0, 0.0, 0.0, 0.0});
+col_weightingFactor.add(new double[]{0.5, 0.5, 0.5, 0.5, 0.5});
+col_weightingFactor.add(new double[]{0.8, 0.7, 0.5, 0.1, 0.05});]]></InitialSetupCode>
 			<MaximumMemory>16384</MaximumMemory>
 			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
@@ -18152,8 +18148,14 @@ root.p_countyPopLimit = root.p_populationMaxRatio * root.p_peoplePerCounty;
 root.v_iteration = getCurrentIteration();
 root.v_replicate = getCurrentReplication();
 
-//int currentIteration = getCurrentIteration()-1;
-//root.p_weightVectorCountyIncExp = col_weightingFactor.get(currentIteration);]]></BeforeSimulationRunCode>
+int[] v_index = new int[] {
+	0, 1, 2,
+	0, 1, 2,
+	0, 1, 2
+};
+
+int currentIteration = v_index[getCurrentIteration()-1];
+root.p_weightVectorCountyIncExp = col_weightingFactor.get(currentIteration);]]></BeforeSimulationRunCode>
 			<AfterSimulationRunCode><![CDATA[vr_replicates++;
 
 if (vr_replicates % 10 == 0) {
@@ -18330,7 +18332,7 @@ return array;]]></Body>
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>5</NumberOfRuns>
+			<NumberOfRuns>9</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 			</FreeformParamValue>
@@ -18931,7 +18933,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>6</ReplicationPerIteration>
+				<ReplicationPerIteration>20</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>
