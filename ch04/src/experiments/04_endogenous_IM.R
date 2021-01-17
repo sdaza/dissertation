@@ -108,7 +108,7 @@ for (h in seq_along(experiment_names)) {
         d = copy(m[iteration %in% iter[j]])
         d[, `:=`
             (status = 1,
-            lincome = logIncome(income), 
+            lincome = logIncome(income),
             county_lincome = logIncome(county_mean_income)
             )]
         replicates = sort(unique(d$replicate))
