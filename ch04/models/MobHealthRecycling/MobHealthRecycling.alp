@@ -2519,7 +2519,7 @@ for (County c : counties) {
 	}
 	
 	for (Person p : c.people) {	
-		// initial type of income mobility (random)
+		// initial  income type (random)
 		p.p_incomeType = uniform_discr(1, p_numIncomeTypes);
 		// other variables 
 		p.p_parentAlive = false;
@@ -10768,6 +10768,7 @@ v_rankSlopeExp18 = 0.0;
 v_rankCorrelationExp = 0.0;
 v_incomeExposure = 0.0;
 v_incomeExposureZ = 0.0;
+v_incomeExposureZ30 = 0.0;
 v_absoluteMobClass = 0;
 
 v_incomeExposureYears = main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes);
@@ -10775,6 +10776,7 @@ v_incomeTypeYears = main.f_arrayRepeatedValues(0.0, main.p_numIncomeTypes);
 v_initialIncomeTransitionProbs = main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes);
 v_incomeTransitionProbs = main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes);
 v_incomeExposureType = main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes);
+v_incomeExposureType18 = main.f_arrayRepeatedValues(1.0/main.p_numIncomeTypes, main.p_numIncomeTypes);
 
 // other variables
 v_numberKids = 0;
@@ -10800,7 +10802,6 @@ p_age = 0.0;
 p_birthTime = 0.0;
 p_generation = 0;
 p_parentGeneration = 0;
-
 
 oval.setVisible(false);
 
@@ -11052,7 +11053,6 @@ return destination;]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// probability smoking
-
 v_incomeExposureZ30 = v_incomeExposureZ;
 
 double rankSlopeCoeff = main.f_getCoefficient(
@@ -11123,6 +11123,7 @@ if (!main.f_allEqual(county.v_proportionIncomeType)) {
 	//traceln(incomeTypeMax);
 	v_incomeTypeYears[incomeTypeMax] = v_incomeTypeYears[incomeTypeMax] + timediff;
 }
+
 v_timeCounty = thistime;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -16509,7 +16510,7 @@ return array;]]></Body>
 traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<AllowParallelEvaluations>true</AllowParallelEvaluations>
 			<UseFreeformParameters>true</UseFreeformParameters>
-			<NumberOfRuns>18</NumberOfRuns>
+			<NumberOfRuns>36</NumberOfRuns>
 			<FreeformParamValue>	
 				<Id>1516978903254</Id>
 				<Expression Class="CodeValue">
@@ -17104,7 +17105,7 @@ traceln(":::::: end simulation ::::::");]]></AfterExperimentCode>
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>15</ReplicationPerIteration>
+				<ReplicationPerIteration>25</ReplicationPerIteration>
 				<MinimumReplication>2</MinimumReplication>
 				<MaximumReplication>10</MaximumReplication>
 				<ConfidenceLevel>LEVEL_80</ConfidenceLevel>

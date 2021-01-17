@@ -13,15 +13,13 @@ source("src/utils.R")
 
 # read data
 path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
-
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
 
 # redefine iterations and replicates
-dim(p)
-
-parameters = c("mortality_fake_exp_coeff", "prob_move_random", "smoking_rank_slope_exp_coeff", "move_decision_rate")
+parameters = c("endogenous_income_generation", "mortality_fake_exp_coeff", "prob_move_random", 
+    "smoking_rank_slope_exp_coeff", "move_decision_rate")
 setorderv(p, c("move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff"))
 
 p[, niteration := .GRP, by = parameters]
@@ -40,7 +38,7 @@ cty = merge(np, cty, by = c("iteration", "replicate"))
 m = merge(np, m, by = c("iteration", "replicate"))
 
 setnames(cty, c("iteration", "replicate", "niteration", "nreplicate"),
-    c("old_iteration", "old_replicate", "iteration", "replicate")
+    c("old_iteration", "old_replicate", "iteration", "replicate"))
 
 setnames(m, c("iteration", "replicate", "niteration", "nreplicate"),
     c("old_iteration", "old_replicate", "iteration", "replicate"))
