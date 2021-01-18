@@ -2356,9 +2356,6 @@ if (p_updateStats) {
 	// life expectancy
 	if (time() > 20) f_lastCompleteMortalityCohort();
 }
-
-
-
 ]]></Action>
 				</Event>
 				<Event>
@@ -2541,7 +2538,6 @@ for (County c : counties) {
 	col_countyMedianIncome.add(c.v_medianIncome);
 }
 
-//if (p_exportModelData) f_exportParameterData();
 if (f_textFileInclude("parameters", p_fileNames)) f_writeParameterData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -3499,6 +3495,7 @@ if (v_lastGeneration >= p_exportSinceGeneration & (round(time()) % p_recurrentTi
 	if (f_textFileInclude("individuals", p_fileNames)) f_writeIndividualData();
 }
 
+// export environment data every year (only for verification)
 //if (f_textFileInclude("environment", p_fileNames)) f_writeEnvironmentData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -16176,8 +16173,11 @@ root.v_replicate = getCurrentReplication();
 
 int[] v_index = new int[] {
 	0, 1, 2, 3, 4, 5, 6, 7, 8,
+	0, 1, 2, 3, 4, 5, 6, 7, 8,
+	0, 1, 2, 3, 4, 5, 6, 7, 8,
 	0, 1, 2, 3, 4, 5, 6, 7, 8
 };
+
 
 int currentIteration = v_index[getCurrentIteration()-1];
 
@@ -16209,7 +16209,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA["output/experiments/exogenous-experiment/"]]></Code>
+							<Code><![CDATA["output/experiments/exogenous-experiment-check/"]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -16299,7 +16299,7 @@ if (vr_replicates % 10 == 0) {
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[String[]]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[{"parameters", "county", "mortality"}]]></Code>
+							<Code><![CDATA[{"parameters", "environment", "county", "mortality"}]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
