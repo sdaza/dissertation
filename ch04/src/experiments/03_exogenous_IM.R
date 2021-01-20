@@ -13,15 +13,19 @@ source("src/utils.R")
 
 # read data
 path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
+path = "models/MobHealthRecycling/output/experiments/exogenous-experiment-check/"
 
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
 cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
+e = readMultipleFiles("environment", path, remove_files = TRUE)
 
 # redefine iterations and replicates
 dim(p)
-
-parameters = c("mortality_fake_exp_coeff", "prob_move_random", "smoking_rank_slope_exp_coeff", "move_decision_rate")
+names(p)
+parameters = c("endogenous_income_generation", "mortality_fake_exp_coeff",
+    "move_decision_rate", "prob_move_random",
+    "smoking_rank_slope_exp_coeff", "smoking_rank_slope_exp_coeff_se")
 setorderv(p, c("move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff"))
 
 p[, niteration := .GRP, by = parameters]
@@ -40,7 +44,7 @@ cty = merge(np, cty, by = c("iteration", "replicate"))
 m = merge(np, m, by = c("iteration", "replicate"))
 
 setnames(cty, c("iteration", "replicate", "niteration", "nreplicate"),
-    c("old_iteration", "old_replicate", "iteration", "replicate")
+    c("old_iteration", "old_replicate", "iteration", "replicate"))
 
 setnames(m, c("iteration", "replicate", "niteration", "nreplicate"),
     c("old_iteration", "old_replicate", "iteration", "replicate"))
@@ -101,7 +105,8 @@ for (h in seq_along(experiment_names)) {
         d = copy(m[iteration %in% iter[j]])
         d[, `:=`
             (status = 1,
-            lincome = logIncome(income)
+            lincome = logIncome(income),
+            county_lincome = logIncome(county_mean_income)
             )]
         replicates = sort(unique(d$replicate))
         cox_models[[j]] = coxModel(replicates, data = d, f = f, predictor = "total_rank_slope_exposure")
@@ -136,7 +141,7 @@ for (h in seq_along(experiment_names)) {
     }
 
     models = list(cox_models, cox_models_c, county_models)
-    coeff_names = c("Individual Mortaltiy on total IM exposure (Cox)",
+    coeff_names = c("Individual Mortality on total IM exposure (Cox)",
         "Individual Mortality on county IM (Cox)",
         "Aggregate county LE on IM (GLM)")
 

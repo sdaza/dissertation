@@ -19,8 +19,10 @@ cty = readMultipleFiles("county", path, remove_files = TRUE)
 m = readMultipleFiles("mortality", path, remove_files = TRUE)
 e = readMultipleFiles("environment", path, remove_files = TRUE)
 
+names(p)
 # redefine iterations and replicates
-parameters = c("base_prob_same_income", "empirical_trans_mob", "weight_income_exp",
+parameters = c("endogenous_income_generation", "base_prob_same_income",
+    "empirical_trans_mob", "weight_income_exp",
     "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff",
     "smoking_rank_slope_exp_coeff_se", "mortality_fake_exp_coeff")
 
@@ -38,7 +40,6 @@ cty = merge(np, cty, by = c("iteration", "replicate"))
 m = merge(np, m, by = c("iteration", "replicate"))
 e = merge(np, e, by = c("iteration", "replicate"))
 
-names(e)
 e[, mean(nsi), niteration]
 e[, mean(smokers), niteration]
 e[, mean(county_rank_slope_avg), niteration]
@@ -102,7 +103,7 @@ for (h in seq_along(experiment_names)) {
     # individual mortality
     cox_models = list()
     #f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_z_income_exposure + county_lincome")
+    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_z_income_exposure")
     for (j in seq_along(iter)) {
         print(paste0("Iteration group: ", iter[j]))
         d = copy(m[iteration %in% iter[j]])

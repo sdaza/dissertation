@@ -18,6 +18,7 @@ setorder(p, iteration)
 
 table(p$iteration)
 
+
 parameters = c("base_prob_same_income", "empirical_trans_mob",
     "move_decision_rate", "prob_move_random", "smoking_rank_slope_exp_coeff")
 setorderv(p, parameters)
@@ -31,7 +32,7 @@ table(p$niteration)
 np = p[, c("iteration", "replicate", "niteration", "nreplicate", parameters), with = FALSE]
 names(np)
 sp = unique(np[, c("niteration", parameters), with = FALSE])
-
+sp
 e = merge(e, np, by = c("iteration", "replicate"))
 
 summary(e$population)
@@ -53,6 +54,9 @@ for (i in seq_along(iterations)) {
     income_diff[[i]] = v
 }
 
+idiff = c(mean(income_diff[[1]]), mean(income_diff[[2]]), mean(income_diff[[3]]))
+mean(idiff)
+
 savepdf(paste0(plot_path, "histogram_income"))
 hist(income_diff[[1]])
 hist(income_diff[[2]])
@@ -69,11 +73,18 @@ for (i in seq_along(iterations)) {
     im_diff[[i]] = v
 }
 
+imdiff = c(mean(im_diff[[1]]), mean(im_diff[[2]]), mean(im_diff[[3]]))
+mean(idiff)/mean(imdiff)
+
 savepdf(paste0(plot_path, "histogram_rank_rank"))
 hist(im_diff[[1]])
 hist(im_diff[[2]])
 hist(im_diff[[3]])
 dev.off()
+
+mean(income_diff[[1]])/ mean(im_diff[[1]])
+mean(income_diff[[2]])/ mean(im_diff[[2]])
+mean(income_diff[[3]])/ mean(im_diff[[3]])
 
 # plots of the difference
 title = c("No residential mobility",

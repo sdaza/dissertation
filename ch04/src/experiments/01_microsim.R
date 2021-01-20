@@ -40,6 +40,7 @@ title = c("No residential mobility",
 
 for (i in seq_along(iterations)) {
     iter = iterations[[i]]
+    print(paste0("Iteration ", iter))
     t = copy(e[niteration %in% iter])
 
     nsi = mean(t$nsi)
@@ -49,6 +50,7 @@ for (i in seq_along(iterations)) {
     smokers = mean (t[niteration == iter[2], smokers])
 
     v = t[niteration == iter[2], le] - t[niteration == iter[1], le]
+    print(paste0("Proportion negative LE diff: ", sum(v<0)/length(v)))
     plot = ggplot(data.frame(v), aes(x=v)) + geom_histogram(bins = 10, color="black", fill="white") +
         labs(x = "Difference LE", y  = "Frequency",
             title = paste0(title[i]),
@@ -60,9 +62,9 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0(plot_path, "microsimulation_", i))
-        print(plot)
-    dev.off()
+    # savepdf(paste0(plot_path, "microsimulation_", i))
+        # print(plot)
+    # dev.off()
 }
 
 # create plots by income groups
@@ -72,8 +74,13 @@ vars = paste0("smoking", 1:5)
 e = extractColumns(e, "smoking_income_type",  vars)
 
 for (i in seq_along(iterations)) {
+
     for (j in 1:5) {
+
         iter = iterations[[i]]
+        print(paste0("Iteration ", iter))
+        print(paste0("Income quintile: ", j))
+
         t = copy(e[niteration %in% iter])
 
         nsi = mean(t$nsi)
@@ -83,6 +90,7 @@ for (i in seq_along(iterations)) {
         smokers = mean (t[niteration == iter[2], get(paste0("smoking" , j))])
 
         v = t[niteration == iter[2], get(paste0("le", j))] - t[niteration == iter[1], get(paste0("le", j))]
+        print(paste0("Proportion negative LE diff: ", sum(v<0)/length(v)))
         plot = ggplot(data.frame(v), aes(x=v)) + geom_histogram(bins = 10, color="black", fill="white") +
             labs(x = "Difference LE", y  = "Frequency",
                 title = paste0(title[i], " Income Q", j),
@@ -94,9 +102,9 @@ for (i in seq_along(iterations)) {
                 color = "red", size = 1)
 
     # save plot
-    savepdf(paste0(plot_path, "microsimulation_", i, "_", j))
-        print(plot)
-    dev.off()
+    # savepdf(paste0(plot_path, "microsimulation_", i, "_", j))
+    #     print(plot)
+    # dev.off()
     }
 }
 
