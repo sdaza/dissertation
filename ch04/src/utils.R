@@ -99,8 +99,7 @@ coxModel = function(replicates, data,
         #yi = c(yi, model$coefficients[predictor])
         #sei = c(sei, AICcmodavg::extractSE(model)[predictor])
     }
-    output = metafor::rma(yi = yi, sei = sei, method="EB",
-        control=list(stepadj=0.5, maxiter=1000))
+    output = metafor::rma(yi = yi, sei = sei, method="FE")
 
     return(output)
 }
@@ -120,8 +119,7 @@ linearModel = function(replicates, data,
         # yi = c(yi, fixef(model)[predictor])
         # sei = c(sei, AICcmodavg::extractSE(model)[predictor])
     }
-    output = metafor::rma(yi = yi, sei = sei, method="EB",
-        control=list(stepadj=0.5, maxiter=1000))
+    output = metafor::rma(yi = yi, sei = sei, method="FE")
     return(output)
 }
 
