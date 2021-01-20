@@ -12,7 +12,7 @@ library(survival)
 source("src/utils.R")
 
 # read data
-path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
+# path = "models/MobHealthRecycling/output/experiments/exogenous-experiment/"
 path = "models/MobHealthRecycling/output/experiments/exogenous-experiment-check/"
 
 p = readMultipleFiles("parameters", path, remove_files = TRUE)
