@@ -99,7 +99,7 @@ for (h in seq_along(experiment_names)) {
     # individual mortality
     cox_models = list()
     #f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + county_lincome")
-    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_z_income_exposure")
+    f = formula("Surv(age, status) ~ total_rank_slope_exposure + lincome + total_z_income_exposure + county_lincome")
     for (j in seq_along(iter)) {
         print(paste0("Iteration group: ", iter[j]))
         d = copy(m[iteration %in% iter[j]])
@@ -141,9 +141,9 @@ for (h in seq_along(experiment_names)) {
     }
 
     models = list(cox_models, cox_models_c, county_models)
-    coeff_names = c("Individual Mortality on total IM exposure (Cox)",
-        "Individual Mortality on county IM (Cox)",
-        "Aggregate county LE on IM (GLM)")
+    coeff_names = c("Individual mortality \\& Total IM exposure (Cox)",
+        "Individual mortality \\& County IM (Cox)",
+        "County LE \\& IM (GLM)")
 
     tab_list = list()
     for (i in seq_along(models)) {
