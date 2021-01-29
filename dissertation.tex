@@ -155,6 +155,8 @@
 % \titleformat*{\subparagraph}{\large\bfseries}
 % \renewcommand\bibname{\Large{References}}
 
+% quotes
+\newcommand{\chapquote}[3]{\begin{quotation} \textit{#1} \end{quotation} \begin{flushright} - #2, \textit{#3}\end{flushright}\vspace{2cm}}
 
 % tables
 \setlength{\tabcolsep}{10pt}
@@ -180,7 +182,6 @@
 \vspace*{24pt}
 
 % \section
-
 \end{center}
 
 \begin{center}
@@ -217,23 +218,34 @@ UNIVERSITY OF WISCONSIN‐MADISON \\
 \pagenumbering{roman}
 \setcounter{page}{1}
 
-\renewcommand{\abstractname}{Acknowledgements}
-\begin{abstract}
+\newpage
+\begin{center}
+\textbf{\large{Acknowledgements}}
+\end{center}
+
+
+% \renewcommand{\abstractname}{Acknowledgements}
+
+
+
+% \begin{abstract}
+\vspace{1cm}
+\chapquote{It remains only to say, as usual, that any remaining errors are chargeable to me - with the exception of errors in this sentence, obviously!}{Niklas Luhmann}{Science of Society}
 
 % \setlength\parskip{12pt}
 \begin{doublespace}
 
-\noindent Many helped me along the way on this very long journey. First, my dissertation hadn't been possible without Alberto Palloni. He not only sponsored me to get into the Ph.D. program at UW-Madison but patiently supported and motivated me to finish this project. He has always been there to give me advice and encourage my intellectual curiosity. There are no words that can express my gratitude for all his help and patience.
+\noindent Many helped me along the way on this very long journey. First, my dissertation hadn't been possible without the help and support of Alberto Palloni. He not only sponsored me to get into the Ph.D. program at UW-Madison, but patiently supported and motivated me to finish this project. He has always been there to give me advice and encourage my intellectual curiosity. There are no words that can express my gratitude for all his help and patience.
 
 To my wise committee for their patience and insightful suggestions to my work. Also, to Eric Grodsky and Jason Fletcher for allowing me to work with them and get funding as a research assistant during my years in Madison, Wisconsin. This dissertation would not have been possible without the Chilean Government's support and its fellowship program, BecasChile, and the Catholic University of Chile.
 
 Many have contributed to my work directly or indirectly. I wish to thank Kurt Krueger, Nate Osgood,  Steve Railsback, Volker Grimm, and Uta Berger for expanding my ideas on modeling. To the Anylogic, Stan, and INLA user community to answer my questions and help me optimize my code. Thanks to the Social Science Computing Cooperative (SSCC) at UW-Madison, especially Doug Hemken and Dan Bongert, for helping me install the software to run my models. I also thank Dante Cassalengo, CTO and co-founder of the company Juntos Global, for allowing me to take days off to work on my dissertation.
 
-To my friends and colleagues: Jerret Jones, Jinho Kim, Sarah Lessem, Heidi Jackson, Christina Diaz, Pilar Larroulet, and the Chilean community at UW-Madison who were my family during these long and cold years. I am forever grateful for your patience and understanding.
+To my friends and colleagues: Jerret Jones, Jinho Kim, Sarah Lessem, Heidi Jackson, Christina Diaz, Pilar Larroulet, and the Chilean community at UW-Madison who were my family during these long and cold years. I am forever grateful for your support, patience and understanding.
 
 Finally, to my wife, Angelina, and our kids, Francisco and Catalina: your love, patience, and understanding helped me through the dark and busy times. My wife spent many weekends taking care of the kids so I could work on this project. She also listened to my repetitive and boring discussions and gave me insightful comments. You earned this degree right along with me.
 \end{doublespace}
-\end{abstract}
+% \end{abstract}
 
 \newpage
 \tableofcontents

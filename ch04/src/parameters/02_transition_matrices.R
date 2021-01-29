@@ -155,7 +155,7 @@ dev.off()
 savepdf("output/plots/rank-rank/cz_rrs_race_q5")
 v = cor(tp[parent == 5 & parent == child, .(prop, rm)])[1, 2]
 ggplot(tp[parent == 5 & parent == child, .(prop, rm, black)], aes(prop, rm, color = black))  + geom_point(alpha = 0.7) +
-    labs(title = paste0("CZ Rank-rank slope  and P(Kid Q1| Parent Q1), Corr = ", round(v, 2)),
+    labs(title = paste0("CZ Rank-rank slope  and P(Kid Q5| Parent Q5), Corr = ", round(v, 2)),
     y = "Rank-rank slope", x = "P(Kid Q5| Parent Q5)") + theme_minimal() + scale_colour_gradient(low = "grey", high = "black")
 dev.off()
 
