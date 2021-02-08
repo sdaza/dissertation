@@ -3,6 +3,7 @@
 dissertation.*
 !dissertation.tex
 !dissertation.bib
+!dissertation.pdf
 
 # licenses and notes
 .vscode
